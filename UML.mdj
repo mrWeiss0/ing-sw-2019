@@ -404,13 +404,30 @@
 											"height": 13,
 											"text": "-spawn: boolean",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAFp2YGyXUx1ybQ=",
+											"_parent": {
+												"$ref": "AAAAAAFpvvrOnU79grE="
+											},
+											"model": {
+												"$ref": "AAAAAAFp2YGx7ExvYc8="
+											},
+											"font": "Arial;13;0",
+											"left": 373,
+											"top": 125,
+											"width": 186.80517578125,
+											"height": 13,
+											"text": "-room: int",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 368,
 									"top": 105,
 									"width": 196.80517578125,
-									"height": 23
+									"height": 38
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -433,7 +450,7 @@
 											},
 											"font": "Arial;13;2",
 											"left": 373,
-											"top": 133,
+											"top": 148,
 											"width": 186.80517578125,
 											"height": 13,
 											"text": "+refill(Grabbable)",
@@ -450,7 +467,7 @@
 											},
 											"font": "Arial;13;2",
 											"left": 373,
-											"top": 148,
+											"top": 163,
 											"width": 186.80517578125,
 											"height": 13,
 											"text": "+grab(): Grabbable",
@@ -467,7 +484,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 373,
-											"top": 163,
+											"top": 178,
 											"width": 186.80517578125,
 											"height": 13,
 											"text": "+sees(Room): boolean",
@@ -484,7 +501,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 373,
-											"top": 178,
+											"top": 193,
 											"width": 186.80517578125,
 											"height": 13,
 											"text": "+sees(AbstractSquare): boolean",
@@ -501,7 +518,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 373,
-											"top": 193,
+											"top": 208,
 											"width": 186.80517578125,
 											"height": 13,
 											"text": "+sees(Figure): boolean",
@@ -510,7 +527,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 368,
-									"top": 128,
+									"top": 143,
 									"width": 196.80517578125,
 									"height": 83
 								},
@@ -3694,7 +3711,7 @@
 											"font": "Arial;13;1",
 											"left": 421,
 											"top": 734,
-											"width": 64.29541015625,
+											"width": 80.57080078125,
 											"height": 13,
 											"text": "Grabbable"
 										},
@@ -3727,7 +3744,7 @@
 									"font": "Arial;13;0",
 									"left": 416,
 									"top": 727,
-									"width": 74.29541015625,
+									"width": 90.57080078125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAFp2R++ExPPj6s="
@@ -3753,7 +3770,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -64,
+									"top": 8,
 									"width": 10,
 									"height": 10
 								},
@@ -3766,11 +3784,30 @@
 									"model": {
 										"$ref": "AAAAAAFp2R++EBPLhvA="
 									},
-									"visible": false,
+									"subViews": [
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAFp2YdwiGdFtOU=",
+											"_parent": {
+												"$ref": "AAAAAAFp2R++FBPU10k="
+											},
+											"model": {
+												"$ref": "AAAAAAFp2YdwU2cwjBY="
+											},
+											"font": "Arial;13;0",
+											"left": 421,
+											"top": 757,
+											"width": 80.57080078125,
+											"height": 13,
+											"text": "+Operation1()",
+											"horizontalAlignment": 0
+										}
+									],
 									"font": "Arial;13;0",
-									"left": -48,
-									"width": 10,
-									"height": 10
+									"left": 416,
+									"top": 752,
+									"width": 90.57080078125,
+									"height": 23
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -3783,7 +3820,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -64,
+									"top": 8,
 									"width": 10,
 									"height": 10
 								},
@@ -3798,7 +3836,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": -48,
+									"left": -64,
+									"top": 8,
 									"width": 10,
 									"height": 10
 								}
@@ -3807,14 +3846,13 @@
 							"containerChangeable": true,
 							"left": 416,
 							"top": 704,
-							"width": 74.29541015625,
-							"height": 49,
+							"width": 90.57080078125,
+							"height": 72,
 							"stereotypeDisplay": "icon",
 							"nameCompartment": {
 								"$ref": "AAAAAAFp2R++ExPOBDc="
 							},
 							"suppressAttributes": true,
-							"suppressOperations": true,
 							"attributeCompartment": {
 								"$ref": "AAAAAAFp2R++ExPT4IY="
 							},
@@ -3849,7 +3887,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 402,
+									"left": 404,
 									"top": 653,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -3870,7 +3908,7 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 411,
+									"left": 413,
 									"top": 641,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -3891,8 +3929,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 383,
-									"top": 676,
+									"left": 387,
+									"top": 678,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -3910,7 +3948,7 @@
 								"$ref": "AAAAAAFpv2jy2HeaE7U="
 							},
 							"lineStyle": 1,
-							"points": "345:633;441.147705078125:710.3490164620536",
+							"points": "344:633;449.285400390625:711.7032001201923",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFp2SAgyBVzSVk="
@@ -3943,7 +3981,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 523,
+									"left": 529,
 									"top": 674,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -3964,8 +4002,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 532,
-									"top": 686,
+									"left": 539,
+									"top": 685,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -3985,7 +4023,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 504,
+									"left": 510,
 									"top": 651,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -4004,7 +4042,7 @@
 								"$ref": "AAAAAAFpv1wqUVjXe18="
 							},
 							"lineStyle": 1,
-							"points": "564:629;464.147705078125:709.7938406808036",
+							"points": "569:629;472.285400390625:710.9048665364584",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFp2SBoAxXevEc="
@@ -4037,7 +4075,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 471,
+									"left": 476,
 									"top": 476,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -4058,7 +4096,7 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 486,
+									"left": 491,
 									"top": 476,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -4079,7 +4117,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 442,
+									"left": 447,
 									"top": 475,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -4098,7 +4136,7 @@
 								"$ref": "AAAAAAFpvvrOm073Fn4="
 							},
 							"lineStyle": 1,
-							"points": "463:261;452.9166666666667:704",
+							"points": "464:261;460:704",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFp2SCoJBZK75I="
@@ -5663,6 +5701,17 @@
 							"documentation": "è necessario che la casella sappia di essere spawn? \nFNO, perché si può avere una lista di spawn che linca le casella. \nPerò all'inzio del gioco e ogni turno devo mettere munizioni su ogni casella che non sia uno spawn e mi toccherebbe checkare.",
 							"visibility": "private",
 							"type": "boolean"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAFp2YGx7ExvYc8=",
+							"_parent": {
+								"$ref": "AAAAAAFpvvrOl071bBY="
+							},
+							"name": "room",
+							"documentation": "al posto di Room",
+							"visibility": "private",
+							"type": "int"
 						}
 					],
 					"operations": [
@@ -6071,7 +6120,8 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Room"
+					"name": "Room",
+					"documentation": "Luca dice di tagliare\n\n"
 				},
 				{
 					"_type": "UMLClass",
@@ -6242,7 +6292,17 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Grabbable"
+					"name": "Grabbable",
+					"operations": [
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAFp2YdwU2cwjBY=",
+							"_parent": {
+								"$ref": "AAAAAAFp2R++EBPLhvA="
+							},
+							"name": "Operation1"
+						}
+					]
 				},
 				{
 					"_type": "UMLClass",
@@ -6386,7 +6446,8 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "FigureState"
+					"name": "FigureState",
+					"documentation": "capire implementare le cose con che pattern: state or strategy\n"
 				}
 			]
 		}
