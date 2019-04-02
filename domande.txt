@@ -1,0 +1,8 @@
+-Command per le azioni del giocatore, ho dei metodi molto vaghi su Figure, come moveTo, doDamage, putMark che vengono chiamati da una classe Command che in base allo stato della figure sa cosa fare(Per stato intendiamo i danni sulla figure, e il turno (per la frenesia finale)) || SI, fat model da implementare
+-Interfaccia Grabbable: problema di riuscire a passare i grabbale || da implementare
+-Interfaccia Targettable: Chain of responsability per i danni per le armi || da implementare
+-Observer per i powerup, quando subisco danno o ci sono momenti interessanti, creo il notify per gli osservatori, che chiedono al giocatore se vuole giocare uno dei suoi powerup (ovviamente viene notificato solo se ha un powerup ce può essere giocato in quel momento)
+
+--> bersaglio una figure, chiamo getDamage sulla figure 
+--> bersaglio casella, chiamo getDamage su tutte le figure sulla casella
+--> bersaglio una stanza

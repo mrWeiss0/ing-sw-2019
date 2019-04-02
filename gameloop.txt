@@ -1,0 +1,113 @@
+costruisco il match
+	setto remainingKills massime (8 o 5), setto killCount vuoto
+	creo powerUpDeck(leggo da file!), ammoTileDeck(leggo da file!), weaponDeck(leggo da file!)
+	costruisco la mappa
+		refillMap(), tutte le tile, SquareSpawn e SquareAmmo usando i deck
+			//TODO 
+			//itero su tutte le caselle, usando il visitor
+	assegno ai Player(non la Figure!) il loro ordine, selezionando il loro ordine
+	
+primo turno
+	per ciascun player
+		creo la Figure
+			setto ammoCube a [1,1,1]
+			setto damages, marks, deaths, weapons, powerUps a 0 o vuoto
+			pesco due PowerUp dal powerUpDeck e li aggiungo a powerUps; chiamo spawn (chiedo all'utente per lo scarto)
+		FAI "TURNO NORMALE"
+		
+turno normale
+	chiedo all'utente un Command
+	controllo lo stato del match e delle figure e decido se il Command è valido
+		MoveCommand_Base()
+			moveTo(...)
+			distance(...)
+	 	GrabCommand_Base()
+	 		moveTo(...)
+	 		distance(...)
+	 		grab(...) ...
+				gestisco il Grabbable
+		ShootCommand_Base
+			chiedo all'utente l'arma e la modalità 
+				chiedo i Targettable
+					//TODO della weapon
+					//controllo se arma e carica
+					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
+					//controllo se posso muovermi
+					//controllo se i Targettable sono validi
+					//chiama i damages e marks sul Targettable			
+					//scarico l'arma
+			setto l'arma scarica
+	 	GrabCommand_Adrenaline()
+	 		moveTo(...)
+	 		distance(...)
+	 		grab(...) ...
+				gestisco il Grabbable
+		ShootCommand_Adrenaline
+			moveTo(...)
+			distance(...)
+			chiedo all'utente l'arma e la modalità 
+				chiedo i Targettable
+					//TODO della weapon
+					//controllo se arma e carica
+					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
+					//controllo se posso muovermi
+					//controllo se i Targettable sono validi
+					//chiama i damages e marks sul Targettable			
+					//scarico l'arma
+			setto l'arma scarica
+	entro nell'end turn, handleEndTurn()
+		chiedo all'utente quali armi vuole Reload, controllo i costi e posso chiedere lo scarto di un PowerUp
+		controllo i giocatori morti, handleDeath()
+			//TODO 
+			//Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
+			//spawn i giocatori morti
+		refillMap()
+			//TODO
+	check su remaningkills se entrare in frenesia (altimenti nuovo turno)
+
+turno frenesia
+	assegno nuove azioni alle Figure in base all'ordine dei Player
+		MoveCommand_Frenzy()
+			moveTo(...)
+			distance(...)
+		GrabCommand_Frenzy2()
+			moveTo(...)
+	 		distance(...)
+	 		grab(...) ...
+				gestisco il Grabbable
+		ShootCommand_Frenzy2()
+			moveTo(...)
+			distance(...)
+			reload(...)
+				//TODO
+			chiedo all'utente l'arma e la modalità 
+				chiedo i Targettable
+					//TODO della weapon
+					//controllo se arma e carica
+					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
+					//controllo se posso muovermi
+					//controllo se i Targettable sono validi
+					//chiama i damages e marks sul Targettable			
+					//scarico l'arma
+			setto l'arma scarica
+		GrabCommand_Frenzy1()
+			moveTo(...)
+	 		distance(...)
+	 		grab(...) ...
+				gestisco il Grabbable
+		ShootCommand_Frenzy2()
+			moveTo(...)
+			distance(...)
+			reload(...)
+				//TODO
+			chiedo all'utente l'arma e la modalità 
+				chiedo i Targettable
+					//TODO della weapon
+					//controllo se arma e carica
+					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
+					//controllo se posso muovermi
+					//controllo se i Targettable sono validi
+					//chiama i damages e marks sul Targettable			
+					//scarico l'arma
+			setto l'arma scarica
+
