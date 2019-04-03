@@ -1,10 +1,9 @@
 costruisco il match
 	setto remainingKills massime (8 o 5), setto killCount vuoto
 	creo powerUpDeck(leggo da file!), ammoTileDeck(leggo da file!), weaponDeck(leggo da file!)
-	costruisco la mappa
-		refillMap(), tutte le tile, SquareSpawn e SquareAmmo usando i deck
-			//TODO 
-			//itero su tutte le caselle, usando il visitor
+	costruisco la mappa e la riempio con map.refillMap(this)
+		refillMap(Match) visita tutte le tile, chiamando accept(Match) per ognuna
+			accept(Match) controlla cosa serve e chiama Match.getGrabbable(this) che restituisce l'arma o l'ammo 
 	assegno ai Player(non la Figure!) il loro ordine, selezionando il loro ordine
 	
 primo turno
@@ -58,14 +57,12 @@ turno normale
 	entro nell'end turn, handleEndTurn()
 		chiedo all'utente quali armi vuole Reload, controllo i costi e posso chiedere lo scarto di un PowerUp
 		controllo i giocatori morti, handleDeath()
-			//TODO 
-			//Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
-			//spawn i giocatori morti
+			Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
+			spawn() i giocatori morti 
 		refillMap()
-			//TODO
 	check su remaningkills se entrare in frenesia (altimenti nuovo turno)
 
-turno frenesia
+turno frenzy
 	assegno nuove azioni alle Figure in base all'ordine dei Player
 		MoveCommand_Frenzy()
 			moveTo(...)
@@ -95,7 +92,7 @@ turno frenesia
 	 		distance(...)
 	 		grab(...) ...
 				gestisco il Grabbable
-		ShootCommand_Frenzy2()
+		ShootCommand_Frenzy1()
 			moveTo(...)
 			distance(...)
 			reload(...)
@@ -110,4 +107,10 @@ turno frenesia
 					//chiama i damages e marks sul Targettable			
 					//scarico l'arma
 			setto l'arma scarica
+	gestisco i turni dei player in ordine, normalmente ma con le regole Frenzy
+	alla fine incasso tutte le plance, usando le regole Frenzy
+calcolo della classifica
+	incasso punti delle killCount
+	calcolo punteggi totali
+	gestisco le parità
 
