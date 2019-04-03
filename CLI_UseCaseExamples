@@ -1,0 +1,36 @@
+Turn Example
+
+>>Insert a command
+utente digita comando
+-move
+-grab
+-shoot
+Ci possono essere delle move (o delle reload nei frenzy turn) all'interno di un comando
+
+Se non è l'ultima azione, rifà Insert a command(2 azioni in un turno normale, 1 nel frenzy se si è dopo il 1 giocatore)
+
+Base_Move
+*chiamata:
+	>>move
+	--Where?
+*normale:
+	>>01
+	--Moved to 01
+*errore:
+	>>00
+	--Invalid destination, please insert a new one
+
+Base_Grab
+*chiamata:
+	>>grab
+	--move First?
+*chiamata con mossa
+	>>yes
+	Base_Move
+*chiamata senza mossa
+	>>no
+*scelta del grab
+	*caso SpawnSquare
+		--choose weapon
+		>>
+
