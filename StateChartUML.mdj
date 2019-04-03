@@ -5357,7 +5357,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": -360,
-													"top": -176,
+													"top": -192,
 													"height": 13
 												},
 												{
@@ -5368,7 +5368,7 @@
 													},
 													"font": "Arial;13;1",
 													"left": 1221,
-													"top": 599,
+													"top": 591,
 													"width": 74.40087890625,
 													"height": 13,
 													"text": "Grab Ammo"
@@ -5382,7 +5382,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": -360,
-													"top": -176,
+													"top": -192,
 													"width": 38.27001953125,
 													"height": 13,
 													"text": "(from )"
@@ -5396,14 +5396,14 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": -360,
-													"top": -176,
+													"top": -192,
 													"height": 13,
 													"horizontalAlignment": 1
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 1216,
-											"top": 592,
+											"top": 584,
 											"width": 84.40087890625,
 											"height": 25,
 											"stereotypeLabel": {
@@ -5431,7 +5431,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": -216,
-											"top": -88,
+											"top": -96,
 											"width": 10,
 											"height": 10
 										},
@@ -5447,7 +5447,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": -216,
-											"top": -88,
+											"top": -96,
 											"width": 10,
 											"height": 10
 										},
@@ -5462,7 +5462,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1216,
-											"top": 617,
+											"top": 609,
 											"width": 84.40087890625
 										}
 									],
@@ -5472,7 +5472,7 @@
 									"font": "Arial;13;0",
 									"containerChangeable": true,
 									"left": 1216,
-									"top": 592,
+									"top": 584,
 									"width": 84.40087890625,
 									"height": 40,
 									"nameCompartment": {
@@ -5587,9 +5587,9 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 216,
-											"top": 8,
-											"width": 10,
+											"left": 1432,
+											"top": 609,
+											"width": 94.271484375,
 											"height": 10
 										},
 										{
@@ -5666,7 +5666,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1207,
-											"top": 647,
+											"top": 643,
 											"width": 79.47900390625,
 											"height": 13,
 											"alpha": -0.8193533896075539,
@@ -5688,8 +5688,8 @@
 											},
 											"visible": null,
 											"font": "Arial;13;0",
-											"left": 1196,
-											"top": 629,
+											"left": 1195,
+											"top": 626,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 30,
@@ -5710,7 +5710,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 1230,
-											"top": 658,
+											"top": 654,
 											"height": 13,
 											"alpha": -1.5707963267948966,
 											"distance": 15,
@@ -5728,7 +5728,7 @@
 										"$ref": "AAAAAAFp44Rfqn+mQZ4="
 									},
 									"lineStyle": 1,
-									"points": "1200:679;1239:632",
+									"points": "1198:679;1241:624",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAFp45hErYFxa/Q="
@@ -5910,6 +5910,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFp4weGRnip45Y="
 											},
+											"documentation": "incapsuare questo in spawn\n",
 											"vertices": [
 												{
 													"_type": "UMLState",
