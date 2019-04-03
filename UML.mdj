@@ -832,23 +832,6 @@
 									"subViews": [
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAFp2TfwGXTTRGE=",
-											"_parent": {
-												"$ref": "AAAAAAFpv0gv+k+j2N8="
-											},
-											"model": {
-												"$ref": "AAAAAAFp2TfvwHTNqeo="
-											},
-											"font": "Arial;13;0",
-											"left": 749,
-											"top": 592,
-											"width": 195.12060546875,
-											"height": 13,
-											"text": "+spawn()",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
 											"_id": "AAAAAAFp3nMX5YACqa8=",
 											"_parent": {
 												"$ref": "AAAAAAFpv0gv+k+j2N8="
@@ -858,7 +841,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 749,
-											"top": 607,
+											"top": 592,
 											"width": 195.12060546875,
 											"height": 13,
 											"text": "+sees(Targetable): boolean",
@@ -875,7 +858,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 749,
-											"top": 622,
+											"top": 607,
 											"width": 195.12060546875,
 											"height": 13,
 											"text": "+moveTo(AbstractSquare)",
@@ -892,7 +875,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 749,
-											"top": 637,
+											"top": 622,
 											"width": 195.12060546875,
 											"height": 13,
 											"text": "+getDamage(Figure)",
@@ -909,7 +892,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 749,
-											"top": 652,
+											"top": 637,
 											"width": 195.12060546875,
 											"height": 13,
 											"text": "+getMark(Figure)",
@@ -920,7 +903,7 @@
 									"left": 744,
 									"top": 587,
 									"width": 205.12060546875,
-									"height": 83
+									"height": 68
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -3245,23 +3228,6 @@
 									"subViews": [
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAFp3bF1V6F9C8E=",
-											"_parent": {
-												"$ref": "AAAAAAFp2SIpoy6Brwc="
-											},
-											"model": {
-												"$ref": "AAAAAAFp3bF1DqFoCiY="
-											},
-											"font": "Arial;13;0",
-											"left": 1165,
-											"top": 788,
-											"width": 311,
-											"height": 13,
-											"text": "+handleEndTurn()",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
 											"_id": "AAAAAAFp3bBqlp5JHWU=",
 											"_parent": {
 												"$ref": "AAAAAAFp2SIpoy6Brwc="
@@ -3271,10 +3237,10 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1165,
-											"top": 803,
+											"top": 788,
 											"width": 311,
 											"height": 13,
-											"text": "-handleDeath(Player)",
+											"text": "+handleDeath(Player)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3288,7 +3254,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1165,
-											"top": 818,
+											"top": 803,
 											"width": 311,
 											"height": 13,
 											"text": "+getGrabbable(SquareSpawn): Weapon",
@@ -3305,7 +3271,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1165,
-											"top": 833,
+											"top": 818,
 											"width": 311,
 											"height": 13,
 											"text": "+getGrabbable(SquareAmmo): AmmoTile",
@@ -3316,7 +3282,7 @@
 									"left": 1160,
 									"top": 783,
 									"width": 321,
-									"height": 68
+									"height": 53
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -7442,15 +7408,6 @@
 					"operations": [
 						{
 							"_type": "UMLOperation",
-							"_id": "AAAAAAFp2TfvwHTNqeo=",
-							"_parent": {
-								"$ref": "AAAAAAFpv0gv+E+akDQ="
-							},
-							"name": "spawn",
-							"documentation": "interrompe il flusso per chiedere al controller (quindi al giocatore dove deve spawnare, poi lui chiama la moveTo())"
-						},
-						{
-							"_type": "UMLOperation",
 							"_id": "AAAAAAFp3nMXj3/8r28=",
 							"_parent": {
 								"$ref": "AAAAAAFpv0gv+E+akDQ="
@@ -8109,22 +8066,12 @@
 					"operations": [
 						{
 							"_type": "UMLOperation",
-							"_id": "AAAAAAFp3bF1DqFoCiY=",
-							"_parent": {
-								"$ref": "AAAAAAFp2SIpoC546eg="
-							},
-							"name": "handleEndTurn",
-							"documentation": "Chiamato dal controller, chiama i metodi privati di mappa da fine turno: handleDeath, refillMap"
-						},
-						{
-							"_type": "UMLOperation",
 							"_id": "AAAAAAFp3bBqTZ408xY=",
 							"_parent": {
 								"$ref": "AAAAAAFp2SIpoC546eg="
 							},
 							"name": "handleDeath",
-							"documentation": "private perché chiamata da handleEndTurn()\n",
-							"visibility": "private",
+							"documentation": "\n",
 							"parameters": [
 								{
 									"_type": "UMLParameter",

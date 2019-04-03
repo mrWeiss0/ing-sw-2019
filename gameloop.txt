@@ -54,11 +54,16 @@ turno normale
 					//chiama i damages e marks sul Targettable			
 					//scarico l'arma
 			setto l'arma scarica
-	entro nell'end turn, handleEndTurn()
-		chiedo all'utente quali armi vuole Reload, controllo i costi e posso chiedere lo scarto di un PowerUp
-		controllo i giocatori morti, handleDeath()
-			Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
-			spawn() i giocatori morti 
+	entro nell'end turn
+			realoadController()
+				chiedo all'utente quali armi vuole caricare, controllo i costi e posso chiedere lo scarto di un PowerUp
+				ordino al model di caricare l'arma
+				ordino al model di decrementare gli ammoCube della figure
+			checkko le figure morte e ordino al Model di handleDeath(Player)
+				Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
+			chiedo al giocatore dove vuole spawnare
+				ordino al Model di scartare il power up
+				moveTo() i giocatori morti nello spawnpoint corrispondente
 		refillMap()
 	check su remaningkills se entrare in frenesia (altimenti nuovo turno)
 
