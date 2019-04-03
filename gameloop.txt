@@ -1,21 +1,23 @@
-costruisco il match
+costruisco il match [Match è un nome un po' ambiguo...]
 	setto remainingKills massime (8 o 5), setto killCount vuoto
 	creo powerUpDeck(leggo da file!), ammoTileDeck(leggo da file!), weaponDeck(leggo da file!)
-	costruisco la mappa
+	costruisco la mappa(leggo da file!)
 		refillMap(), tutte le tile, SquareSpawn e SquareAmmo usando i deck
 			//TODO 
 			//itero su tutte le caselle, usando il visitor
+	[Bindare i powerup agli spawnpoint in base al colore abbinato nei file]
 	assegno ai Player(non la Figure!) il loro ordine, selezionando il loro ordine
 	
-primo turno
+primo turno [Probabilmente il primo turno non è diverso dagli altri]
 	per ciascun player
-		creo la Figure
+		creo la Figure [Meglio crearla a inizio partita, non allo spawn]
 			setto ammoCube a [1,1,1]
 			setto damages, marks, deaths, weapons, powerUps a 0 o vuoto
 			pesco due PowerUp dal powerUpDeck e li aggiungo a powerUps; chiamo spawn (chiedo all'utente per lo scarto)
 		FAI "TURNO NORMALE"
 		
 turno normale
+    [Remaining Actions = 2?]
 	chiedo all'utente un Command
 	controllo lo stato del match e delle figure e decido se il Command è valido
 		MoveCommand_Base()
