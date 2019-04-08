@@ -5703,7 +5703,7 @@
 											"top": 850,
 											"width": 231.2451171875,
 											"height": 13,
-											"text": "+refillBoard(Match)",
+											"text": "+refillBoard(Game)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5851,9 +5851,9 @@
 										"$ref": "AAAAAAFp3k+MaJRGr/0="
 									},
 									"font": "Arial;13;0",
-									"left": 1118,
+									"left": 1116,
 									"top": 829,
-									"width": 32.880859375,
+									"width": 37.578125,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -5861,7 +5861,7 @@
 										"$ref": "AAAAAAFp3k+MaZRJxzE="
 									},
 									"edgePosition": 2,
-									"text": "-map"
+									"text": "-board"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -6785,7 +6785,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp4muSkS0faXw="
 									},
-									"name": "Game"
+									"name": "Game",
+									"type": ""
 								}
 							],
 							"isAbstract": true
@@ -7309,7 +7310,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp4nYIgHNJGVg="
 									},
-									"name": "Game"
+									"name": "Game",
+									"type": ""
 								}
 							]
 						},
@@ -7346,6 +7348,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3eDFqSMs4yM="
 									},
+									"type": "",
 									"direction": "return"
 								}
 							]
@@ -7420,7 +7423,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp4nZ3uHYJupI="
 									},
-									"name": "Game"
+									"name": "Game",
+									"type": ""
 								}
 							]
 						},
@@ -7457,6 +7461,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3eCIbiGp4P4="
 									},
+									"type": "",
 									"direction": "return"
 								}
 							]
@@ -7611,7 +7616,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFp3k+MaJRFCTc="
 								},
-								"name": "map",
+								"name": "board",
 								"reference": {
 									"$ref": "AAAAAAFp2SIpoC546eg="
 								},
@@ -7930,7 +7935,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3lRxF6uJmDQ="
 									},
-									"name": "FILE JSON"
+									"name": "FILE JSON",
+									"type": ""
 								}
 							]
 						},
@@ -7948,7 +7954,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3lTnqa7DKVA="
 									},
-									"name": "Match"
+									"name": "Game"
 								}
 							]
 						}
