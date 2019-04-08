@@ -1,18 +1,27 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     private List<AbstractSquare> squares;
-    private List<SquareSpawn> spawnpoints;
+    private List<SquareSpawn> spawnpoints;//Probably not needed
+    private List<AbstractSquare> toRefill;
+    public Board(List<AbstractSquare> squares){ //TODO json library needed and how to create the board using JSON
+        this.squares=squares;
+        toRefill= new ArrayList<>();
+    }
 
-    public void initBoard(JSONObject BoardFile){
-
-    } //TODO json library needed and how to create the board using JSON
-
-    public void refillBoard(Game game){
-        for(AbstractSquare current : squares){
+    public void refill(Game game){
+        for(AbstractSquare current : toRefill){
             current.accept(game);
         }
+        toRefill.clear();
+    }
+
+    public void addToRefill(AbstractSquare a){
+        toRefill.add(a);
     }
 
 }
