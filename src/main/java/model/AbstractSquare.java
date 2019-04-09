@@ -83,15 +83,12 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     public void doDamage(Figure dealer) {
-        for (Figure s : occupants) {
-            s.doDamage(dealer);
-        }
+        for (Figure s : occupants) s.doDamage(dealer);
+
     }
 
     public void doMark(Figure dealer) {
-        for (Figure s : occupants) {
-            s.doMark(dealer);
-        }
+        for (Figure s : occupants) s.doMark(dealer);
     }
 
     public Set<AbstractSquare> getAdjacent() {
