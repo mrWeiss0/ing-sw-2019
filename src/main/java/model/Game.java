@@ -17,6 +17,10 @@ public class Game {
 
     private Board board;
 
+    public Game() {
+        this(0);
+    }
+
     public Game(int nKills) {
         remainingKills = nKills;
         players = new ArrayList<>();
