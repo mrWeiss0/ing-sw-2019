@@ -22,19 +22,19 @@ public class Room implements Targettable {
     /**
      * Adds the passed <code>AbstractSquare</code> to the squares of this room
      *
-     * @param square    the square to be added to this room
+     * @param square the square to be added to this room
      */
     public void addSquare(AbstractSquare square) {
         squares.add(square);
     }
 
-    public void doDamage(Player dealer) {
-        for (AbstractSquare s : squares) s.doDamage(dealer);
+    public void doDamage(Player dealer, int n) {
+        for (AbstractSquare s : squares) s.doDamage(dealer, n);
 
     }
 
-    public void doMark(Player dealer) {
-        for (AbstractSquare s : squares) s.doMark(dealer);
+    public void doMark(Player dealer, int n) {
+        for (AbstractSquare s : squares) s.doMark(dealer, n);
 
     }
 }

@@ -1,30 +1,40 @@
 package model;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
+import java.util.*;
+
 
 public class Figure implements Targettable {
     private AbstractSquare square;
-    private int[] ammocube= new int[3];
+    private int[] ammocube = new int[3];
     private List<Player> damages;
-    private List<Player> marks;
+    private HashMap<Player, Integer> marks;
     private int deaths;
     private Set<Weapon> weapons;
     private Set<PowerUp> powerUps;
 
-    public void doDamage(Player dealer) {
-        if(damages.size()<12) damages.add(dealer);
+    public Figure() {
+        damages = new ArrayList<>();
+        marks = new HashMap<>();
+        weapons = new HashSet<>();
+        powerUps = new HashSet<>();
+
     }
 
     @Override
-    public void doMark(Player dealer) {
-        if(marks.stream().filter(Predicate.isEqual(dealer)).count()<3) marks.add(dealer);
+    public void doDamage(Player dealer, int n) {
+        damages.addAll(Collections.nCopies(Integer.min(n + marks.getOrDefault(dealer, 0), 12 - damages.size()), dealer));
+        marks.put(dealer, 0);
+    }
+
+    @Override
+    public void doMark(Player dealer, int n) {
+        marks.put(dealer, Integer.min(marks.getOrDefault(dealer, 0) + n, 3));
     }
 
     public AbstractSquare getSquare() {
         return square;
     }
+
     public void moveTo(AbstractSquare square) {
         this.square = square;
     }
@@ -33,7 +43,7 @@ public class Figure implements Targettable {
         return damages;
     }
 
-    public List<Player> getMarks() {
+    public HashMap<Player, Integer> getMarks() {
         return marks;
     }
 }

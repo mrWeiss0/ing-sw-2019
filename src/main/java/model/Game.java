@@ -34,8 +34,8 @@ public class Game {
      * Constructor that initializes remaining kills, used for determine the game
      * length, and readies the game to accept players.
      *
-     * @param nKills    the number of kills needed to reach the end game or
-     *                  the frenzy turn.
+     * @param nKills the number of kills needed to reach the end game or
+     *               the frenzy turn.
      */
     public Game(int nKills) {
         remainingKills = nKills;
@@ -45,7 +45,7 @@ public class Game {
     /**
      * Adds a passed <code>Player</code> as the last to the player list.
      *
-     * @param player    the player to be added
+     * @param player the player to be added
      */
     public void addPlayer(Player player) {
         players.add(player);
@@ -55,7 +55,7 @@ public class Game {
      * Removes the passed <code>Player</code> from the player list. This
      * should be only done at the end of a game.
      *
-     * @param player    the player to be removed
+     * @param player the player to be removed
      */
     public void removePlayer(Player player) { // TODO throw Exception if game already started
         players.remove(player);
@@ -67,8 +67,8 @@ public class Game {
      * If the last player has completed its turn, the method cycles back to the
      * first player.
      *
-     * @return      the player that comes after the one that has completed
-     *              its turn
+     * @return the player that comes after the one that has completed
+     * its turn
      */
     public Player nextPlayer() { // TODO throw Exception if game not yet started
         currPlayer++;
@@ -79,7 +79,7 @@ public class Game {
     /**
      * Gets the player whose turn its taking place.
      *
-     * @return  the player whose turn its taking place.
+     * @return the player whose turn its taking place.
      */
     public Player currentPlayer() {
         return players.get(currPlayer);

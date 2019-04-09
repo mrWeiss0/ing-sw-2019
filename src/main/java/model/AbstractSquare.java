@@ -22,7 +22,7 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * sole constructor
      *
-     * @param room      the <code>Room</code> this square belongs to
+     * @param room the <code>Room</code> this square belongs to
      */
     public AbstractSquare(Room room) {
         this.room = room;
@@ -35,8 +35,8 @@ public abstract class AbstractSquare implements Targettable {
      * Adds the passed square to the set of adjacency and ensures that
      * the connection is mutual.
      *
-     * @param square    the square that is added and that this square
-     *                  will be added to.
+     * @param square the square that is added and that this square
+     *               will be added to.
      */
     public void connect(AbstractSquare square) {
         adjacent.add(square);
@@ -62,9 +62,9 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>Room</code> is seen by this square,
      * whether it's the one containing it or it's seen by it.
      *
-     * @param target    the room checked for visibility
-     * @return          <code>true</code> if the target is seen by this square;
-     *                  <code>false</code> otherwise.
+     * @param target the room checked for visibility
+     * @return <code>true</code> if the target is seen by this square;
+     * <code>false</code> otherwise.
      */
     public boolean sees(Room target) {
         return target == room || adjacent.stream().map(AbstractSquare::getRoom).anyMatch(Predicate.isEqual(target));
@@ -74,9 +74,9 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>AbstractSquare</code> is seen by this square,
      * whether it's in the same room or in a room seen by it.
      *
-     * @param target    the square checked for visibility
-     * @return          <code>true</code> if the target is seen by this square;
-     *                  <code>false</code> otherwise.
+     * @param target the square checked for visibility
+     * @return <code>true</code> if the target is seen by this square;
+     * <code>false</code> otherwise.
      */
     public boolean sees(AbstractSquare target) {
         return sees(target.getRoom());
@@ -86,27 +86,27 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>Figure</code> is seen by this square,
      * whether it's in the square itself or in a square seen by it.
      *
-     * @param target    the square checked for visibility
-     * @return          <code>true</code> if the target is seen by this square;
-     *                  <code>false</code> otherwise.
+     * @param target the square checked for visibility
+     * @return <code>true</code> if the target is seen by this square;
+     * <code>false</code> otherwise.
      */
     public boolean sees(Figure target) {
         return sees(target.getSquare());
     }
 
-    public void doDamage(Player dealer) {
-        for (Figure s : occupants) s.doDamage(dealer);
+    public void doDamage(Player dealer, int n) {
+        for (Figure s : occupants) s.doDamage(dealer, n);
 
     }
 
-    public void doMark(Player dealer) {
-        for (Figure s : occupants) s.doMark(dealer);
+    public void doMark(Player dealer, int n) {
+        for (Figure s : occupants) s.doMark(dealer, n);
     }
 
     /**
      * Gets the set of adjacency.
      *
-     * @return  the set of adjacency
+     * @return the set of adjacency
      */
     public Set<AbstractSquare> getAdjacent() {
         return adjacent;
@@ -115,9 +115,9 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * Calculates number of steps to get from this square to the one given.
      *
-     * @param target    the square whose distance from this has to be
-     *                  calculated.
-     * @return          the distance calculated
+     * @param target the square whose distance from this has to be
+     *               calculated.
+     * @return the distance calculated
      */
     public int distance(AbstractSquare target) {
         ArrayList<AbstractSquare> visited = new ArrayList<>();
