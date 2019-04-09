@@ -492,7 +492,7 @@
 											"top": 572,
 											"width": 186.80517578125,
 											"height": 13,
-											"text": "+distance(Figure): int",
+											"text": "+connect(AbstractSquare)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7071,7 +7071,8 @@
 							"_parent": {
 								"$ref": "AAAAAAFpvvrOl071bBY="
 							},
-							"name": "distance",
+							"name": "connect",
+							"documentation": "used to create the connection",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -7079,17 +7080,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3dGPml9vPbo="
 									},
-									"name": "Figure",
-									"type": ""
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFp3dHHamBPwV4=",
-									"_parent": {
-										"$ref": "AAAAAAFp3dGPml9vPbo="
-									},
-									"type": "int",
-									"direction": "return"
+									"name": "AbstractSquare"
 								}
 							]
 						},
@@ -7107,7 +7098,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3fJgkFzZncQ="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						},
@@ -7125,7 +7117,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3plSmOnPoAA="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						}
@@ -7294,7 +7287,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3fKyH15c2z4="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						},
@@ -7312,7 +7306,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3pmxyuwJees="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						}
@@ -8029,7 +8024,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3fHctlq0kLc="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						},
@@ -8047,7 +8043,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3pkAvef4Mg4="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						}
@@ -8127,7 +8124,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3lTnqa7DKVA="
 									},
-									"name": "Game"
+									"name": "Game",
+									"type": ""
 								}
 							]
 						}
@@ -8170,7 +8168,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3l93v+GlXwQ="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						},
@@ -8188,7 +8187,8 @@
 									"_parent": {
 										"$ref": "AAAAAAFp3poWYe6mb4g="
 									},
-									"name": "Figure"
+									"name": "Figure",
+									"type": ""
 								}
 							]
 						}
@@ -8239,7 +8239,8 @@
 								"$ref": "AAAAAAFp/XgyN9X+tZ8="
 							},
 							"name": "deck",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -8248,7 +8249,8 @@
 								"$ref": "AAAAAAFp/XgyN9X+tZ8="
 							},
 							"name": "discard",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					],
 					"operations": [

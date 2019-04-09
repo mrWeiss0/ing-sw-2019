@@ -1,7 +1,6 @@
 package model;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 public abstract class AbstractSquare implements Targettable {
@@ -37,5 +36,30 @@ public abstract class AbstractSquare implements Targettable {
     @Override
     public void doMark(Figure dealer) {
 
+    }
+
+    public List<AbstractSquare> getAdjacent() {
+        return adjacent;
+    }
+
+    public int distance(AbstractSquare target){
+        ArrayList<AbstractSquare> visited=new ArrayList<>();
+        ArrayDeque<AbstractSquare> toVisit= new ArrayDeque<>();
+        HashMap<AbstractSquare,Integer> distances= new HashMap<>();
+        toVisit.push(this);
+        distances.put(this,0);
+
+        while(!toVisit.isEmpty()){
+            AbstractSquare current=toVisit.pop();
+            if(current==target) return distances.get(current);
+            for(AbstractSquare square:current.getAdjacent())
+                if(!visited.contains(square)){
+                    distances.put(square,distances.get(current)+1);
+                    toVisit.add(square);
+                }
+
+            visited.add(current);
+        }
+        return -1;
     }
 }
