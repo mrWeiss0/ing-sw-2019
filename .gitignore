@@ -16,3 +16,4 @@ buildNumber.properties
 # Custom ignore
 .idea/
 ing-sw-2019-31.iml
+.attach_*

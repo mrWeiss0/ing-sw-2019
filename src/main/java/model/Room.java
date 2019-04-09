@@ -29,14 +29,12 @@ public class Room implements Targettable {
     }
 
     public void doDamage(Figure dealer) {
-        for (AbstractSquare s : squares) {
-            s.doDamage(dealer);
-        }
+        for (AbstractSquare s : squares) s.doDamage(dealer);
+
     }
 
     public void doMark(Figure dealer) {
-        for (AbstractSquare s : squares) {
-            s.doMark(dealer);
-        }
+        for (AbstractSquare s : squares) s.doMark(dealer);
+
     }
 }
