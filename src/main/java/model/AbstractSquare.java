@@ -64,18 +64,17 @@ public abstract class AbstractSquare implements Targettable {
         ArrayList<AbstractSquare> visited = new ArrayList<>();
         ArrayDeque<AbstractSquare> toVisit = new ArrayDeque<>();
         HashMap<AbstractSquare, Integer> distances = new HashMap<>();
-        toVisit.push(this);
+        toVisit.addFirst(this);
         distances.put(this, 0);
 
         while (!toVisit.isEmpty()) {
-            AbstractSquare current = toVisit.pop();
+            AbstractSquare current = toVisit.removeLast();
             if (current == target) return distances.get(current);
             for (AbstractSquare square : current.getAdjacent())
                 if (!visited.contains(square)) {
                     distances.put(square, distances.get(current) + 1);
-                    toVisit.add(square);
+                    toVisit.addFirst(square);
                 }
-
             visited.add(current);
         }
         return -1;
