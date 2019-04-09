@@ -15,7 +15,7 @@ import java.util.Collections;
  * @param <T>
  */
 public class Deck<T> {
-    private ArrayDeque<T> deck;
+    private ArrayDeque<T> cards;
     private ArrayList<T> discard;
 
     /**
@@ -33,7 +33,7 @@ public class Deck<T> {
      */
     private void shuffle() {
         Collections.shuffle(discard);
-        deck = new ArrayDeque<>(discard);
+        cards = new ArrayDeque<>(discard);
         discard.clear();
     }
 
@@ -44,8 +44,8 @@ public class Deck<T> {
      * @return the card drawn
      */
     public T draw() {
-        if (deck.isEmpty()) shuffle();
-        return deck.pop();
+        if (cards.isEmpty()) shuffle();
+        return cards.pop();
     }
 
     /**
