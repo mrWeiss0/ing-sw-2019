@@ -5,9 +5,9 @@ import java.util.*;
 
 public class Figure implements Targettable {
     private AbstractSquare square;
-    private int[] ammocube = new int[3];
-    private List<Player> damages;
-    private HashMap<Player, Integer> marks;
+    private int[] ammocube = new int[3];//TODO type ammo
+    private List<Figure> damages;
+    private HashMap<Figure, Integer> marks;
     private int deaths;
     private Set<Weapon> weapons;
     private Set<PowerUp> powerUps;
@@ -17,18 +17,25 @@ public class Figure implements Targettable {
         marks = new HashMap<>();
         weapons = new HashSet<>();
         powerUps = new HashSet<>();
-
+        square = null;
     }
 
     @Override
-    public void doDamage(Player dealer, int n) {
-        damages.addAll(Collections.nCopies(Integer.min(n + marks.getOrDefault(dealer, 0), 12 - damages.size()), dealer));
-        marks.put(dealer, 0);
+    public void damageFrom(Figure dealer, int n) {
+        if (dealer != this) {
+            damages.addAll(Collections.nCopies(
+                    Integer.min(n + marks.getOrDefault(dealer, 0), 12 - damages.size()),
+                    dealer));
+            marks.put(dealer, 0);
+        }
     }
 
     @Override
-    public void doMark(Player dealer, int n) {
-        marks.put(dealer, Integer.min(marks.getOrDefault(dealer, 0) + n, 3));
+    public void markFrom(Figure dealer, int n) {
+        if (dealer != this) {
+            marks.put(dealer,
+                    Integer.min(marks.getOrDefault(dealer, 0) + n, 3));
+        }
     }
 
     public AbstractSquare getSquare() {
@@ -36,14 +43,13 @@ public class Figure implements Targettable {
     }
 
     public void moveTo(AbstractSquare square) {
+        if (this.square != null) this.square.removeOccupant(this);
         this.square = square;
+        if (this.square != null) this.square.addOccupant(this);
     }
 
-    public List<Player> getDamages() {
+    public List<Figure> getDamages() {
         return damages;
     }
 
-    public HashMap<Player, Integer> getMarks() {
-        return marks;
-    }
 }

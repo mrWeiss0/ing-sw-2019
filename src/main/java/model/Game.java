@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Game {
     // Killshot Track
-    private List<Player> killCount; // Kills and overkills done by players
+    private List<Figure> killCount; // Kills and overkills done by players
     private int remainingKills;     // Kills to finish game
 
     private List<Player> players;
@@ -38,6 +38,7 @@ public class Game {
      *               the frenzy turn.
      */
     public Game(int nKills) {
+        killCount = new ArrayList<>();
         remainingKills = nKills;
         players = new ArrayList<>();
     }

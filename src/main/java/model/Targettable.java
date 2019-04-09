@@ -2,7 +2,7 @@ package model;
 
 public interface Targettable {
 
-    void doDamage(Player dealer, int n);
+    void damageFrom(Figure dealer, int n);
 
-    void doMark(Player dealer, int n);
+    void markFrom(Figure dealer, int n);
 }

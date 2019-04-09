@@ -28,13 +28,13 @@ public class Room implements Targettable {
         squares.add(square);
     }
 
-    public void doDamage(Player dealer, int n) {
-        for (AbstractSquare s : squares) s.doDamage(dealer, n);
+    public void damageFrom(Figure dealer, int n) {
+        for (AbstractSquare s : squares) s.damageFrom(dealer, n);
 
     }
 
-    public void doMark(Player dealer, int n) {
-        for (AbstractSquare s : squares) s.doMark(dealer, n);
+    public void markFrom(Figure dealer, int n) {
+        for (AbstractSquare s : squares) s.markFrom(dealer, n);
 
     }
 }
