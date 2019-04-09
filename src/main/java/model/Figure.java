@@ -1,7 +1,8 @@
 package model;
 
-public class Figure implements Targettable{
+public class Figure implements Targettable {
     private AbstractSquare square;
+
     @Override
     public void doDamage(Figure dealer) {
 

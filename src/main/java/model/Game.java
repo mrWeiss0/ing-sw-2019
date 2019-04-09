@@ -1,35 +1,43 @@
 package model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
+    // Killshot Track
     private List<Player> killCount; // Kills and overkills done by players
     private int remainingKills;     // Kills to finish game
-    private List<Player> players;   // TODO Circular list ?
-    private Board board;
-    private int currPlayer=-1;
+
+    private List<Player> players;
+    private int currPlayer = -1;
+
     private Deck<AmmoTile> ammoTileDeck;
     private Deck<Weapon> weaponDeck;
     private Deck<PowerUp> powerUpDeck;
 
-    public Game(int nKills){
+    private Board board;
+
+    public Game(int nKills) {
         remainingKills = nKills;
         players = new ArrayList<>();
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
-    public void removePlayer(Player player){
+    public void removePlayer(Player player) { // TODO throw Exception if game already started
         players.remove(player);
     }
 
-    public Player nextPlayer(){
+    public Player nextPlayer() { // TODO throw Exception if game not yet started
         currPlayer++;
-        currPlayer%=players.size();
-        return players.get(currPlayer);
+        currPlayer %= players.size();
+        return currentPlayer();
     }
 
+    public Player currentPlayer(){
+        return players.get(currPlayer);
+    }
 
 }
