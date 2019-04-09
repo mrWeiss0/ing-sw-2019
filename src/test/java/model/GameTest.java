@@ -9,7 +9,7 @@ public class GameTest {
     private Game game;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         game = new Game();
     }
 
@@ -55,7 +55,7 @@ public class GameTest {
     }
 
     @Test
-    public void testRemove(){
+    public void testRemove() {
         Player p1 = new Player();
         Player p2 = new Player();
         Player p3 = new Player();
