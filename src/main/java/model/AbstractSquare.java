@@ -104,17 +104,19 @@ public abstract class AbstractSquare implements Targettable {
         HashMap<AbstractSquare, Integer> distances = new HashMap<>();
         toVisit.addFirst(this);
         distances.put(this, 0);
-
         while (!toVisit.isEmpty()) {
             AbstractSquare current = toVisit.removeLast();
             if (current == target) return distances.get(current);
             for (AbstractSquare square : current.getAdjacent())
-                if (!visited.contains(square)) {
+                if (!visited.contains(square) && !toVisit.contains(square)) {
                     distances.put(square, distances.get(current) + 1);
                     toVisit.addFirst(square);
                 }
             visited.add(current);
+
         }
         return -1;
     }
+
+
 }
