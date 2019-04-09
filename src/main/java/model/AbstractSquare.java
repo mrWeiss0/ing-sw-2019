@@ -15,6 +15,7 @@ import java.util.function.Predicate;
  * with its <code>dealDamage</code> and <code>dealMark</code> methods.
  */
 public abstract class AbstractSquare implements Targettable{
+
     private List<AbstractSquare> adjacent;
     private Room room;
     private Set<Figure> occupants;

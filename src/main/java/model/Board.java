@@ -17,7 +17,7 @@ public class Board {
     /**
      * sole constructor
      *
-     * @param squares   the list of squares that constitute the board.
+     * @param squares   the list of squares constituting the board
      */
     public Board(List<AbstractSquare> squares){
         this.squares=squares;
@@ -28,7 +28,7 @@ public class Board {
      * Passes the <code>Game</code> to the squares that need refill, so they
      * may ask for a refill. It then cleans the refill list.
      *
-     * @param game  the game to which the board belongs
+     * @param game  the game the board belongs to
      */
     public void refill(Game game){
         for(AbstractSquare current : toRefill){
