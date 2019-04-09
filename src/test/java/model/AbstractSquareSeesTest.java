@@ -1,5 +1,6 @@
 package model;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -7,30 +8,69 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class AbstractSquareSeesTest {
+
+    public static Room[] rooms;
+    public static AbstractSquare[] squares;
+
+    @BeforeAll
+    public static void init() {
+        rooms = new Room[]{
+                new Room(),
+                new Room(),
+                new Room()
+        };
+        squares = new AbstractSquare[]{
+                new SquareSpawn(rooms[0]),
+                new SquareSpawn(rooms[0]),
+                new SquareSpawn(rooms[1]),
+                new SquareSpawn(rooms[2])
+        };
+        squares[0].connect(squares[1]);
+        squares[1].connect(squares[2]);
+        squares[2].connect(squares[3]);
+    }
+
     @Test
     void testSeesSameRoom() {
-        Room r1 = new Room();
-        AbstractSquare square = new SquareSpawn(r1);
-        assertTrue(square.sees(r1));
+        assertTrue(squares[0].sees(rooms[0]));
+    }
+
+    @Test
+    void testSeesSelf() {
+        assertTrue(squares[0].sees(squares[0]));
+    }
+
+    @Test
+    void testSeesSameRoomSquare() {
+        assertTrue(squares[0].sees(squares[1]));
     }
 
     @Test
     void testSeesConnectedRoom() {
-        Room r1 = new Room();
-        AbstractSquare s1 = new SquareSpawn(new Room());
-        AbstractSquare s2 = new SquareSpawn(r1);
-        s1.connect(s2);
-        assertTrue(s1.sees(r1));
+        assertTrue(squares[2].sees(rooms[0]));
+        assertTrue(squares[2].sees(rooms[1]));
     }
 
     @Test
-    void testNotSeesNotConnected() {
-        Room r1 = new Room();
-        AbstractSquare s1 = new SquareSpawn(new Room());
-        AbstractSquare s2 = new SquareSpawn(new Room());
-        AbstractSquare s3 = new SquareSpawn(r1);
-        s1.connect(s2);
-        s2.connect(s3);
-        assertFalse(s1.sees(s3));
+    void testSeesConnectedRoomSquares() {
+        assertTrue(squares[2].sees(squares[0]));
+        assertTrue(squares[2].sees(squares[1]));
+        assertTrue(squares[2].sees(squares[3]));
+        assertTrue(squares[3].sees(squares[2]));
+    }
+
+    @Test
+    void testNotSeesNotConnectedRoom() {
+        assertFalse(squares[0].sees(rooms[1]));
+        assertFalse(squares[0].sees(rooms[2]));
+        assertFalse(squares[3].sees(rooms[0]));
+    }
+
+    @Test
+    void testNotSeesNotConnectedRoomSquares() {
+        assertFalse(squares[0].sees(squares[2]));
+        assertFalse(squares[1].sees(squares[3]));
+        assertFalse(squares[3].sees(squares[1]));
+        assertFalse(squares[0].sees(squares[3]));
     }
 }
