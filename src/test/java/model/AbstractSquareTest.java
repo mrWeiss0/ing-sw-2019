@@ -101,4 +101,12 @@ class AbstractSquareTest {
         assertEquals(3, sq1.distance(sq6));
         assertNotEquals(4, sq1.distance(sq6));
     }
+
+    @Test
+    void TestDistanceNotConnected(){
+        AbstractSquare sq1 = new SquareSpawn(AbstractSquareTest.room);
+        AbstractSquare sq2 = new SquareSpawn(AbstractSquareTest.room);
+        assertEquals(-1,sq1.distance(sq2));
+    }
+
 }
