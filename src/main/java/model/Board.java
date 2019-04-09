@@ -38,7 +38,9 @@ public class Board {
     }
 
     /**
-     * Adds the square passed to the refill list.
+     * Adds the square passed to the refill list. The refill list
+     * is the list of squares that need refilling, usually after
+     * a <code>grab</code>.
      *
      * @param a the square to add. Should have
      *          been previously grabbed.

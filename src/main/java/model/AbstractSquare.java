@@ -19,6 +19,11 @@ public abstract class AbstractSquare implements Targettable {
     private Set<Figure> occupants;
     // TODO Add [ X, Y ] coordinates for both display and check cardinal?
 
+    /**
+     * sole constructor
+     *
+     * @param room      the room this square belongs
+     */
     public AbstractSquare(Room room) {
         this.room = room;
         room.addSquare(this);
@@ -26,6 +31,13 @@ public abstract class AbstractSquare implements Targettable {
         occupants = new HashSet<>();
     }
 
+    /**
+     * Adds the passed square to the set of adjacency and ensures that
+     * the connection is mutual.
+     *
+     * @param square    the square that is added and that this square
+     *                  will be added to.
+     */
     public void connect(AbstractSquare square) {
         adjacent.add(square);
         if (!square.getAdjacent().contains(this))
@@ -94,10 +106,22 @@ public abstract class AbstractSquare implements Targettable {
         }
     }
 
+    /**
+     * Gets the set of adjacency.
+     *
+     * @return  the set of adjacency
+     */
     public Set<AbstractSquare> getAdjacent() {
         return adjacent;
     }
 
+    /**
+     * Calculates number of steps to get from this square to the one given.
+     *
+     * @param target    the square whose distance from this has to be
+     *                  calculated.
+     * @return          the distance calculated
+     */
     public int distance(AbstractSquare target) {
         ArrayList<AbstractSquare> visited = new ArrayList<>();
         ArrayDeque<AbstractSquare> toVisit = new ArrayDeque<>();
