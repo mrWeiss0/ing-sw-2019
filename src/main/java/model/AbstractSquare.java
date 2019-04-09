@@ -94,12 +94,12 @@ public abstract class AbstractSquare implements Targettable {
         return sees(target.getSquare());
     }
 
-    public void doDamage(Figure dealer) {
+    public void doDamage(Player dealer) {
         for (Figure s : occupants) s.doDamage(dealer);
 
     }
 
-    public void doMark(Figure dealer) {
+    public void doMark(Player dealer) {
         for (Figure s : occupants) s.doMark(dealer);
     }
 
