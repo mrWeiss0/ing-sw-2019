@@ -147,4 +147,7 @@ public abstract class AbstractSquare implements Targettable {
         occupants.remove(figure);
     }
 
+    public Set<Figure> getOccupants() {
+        return occupants;
+    }
 }
