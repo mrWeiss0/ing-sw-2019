@@ -103,10 +103,10 @@ class AbstractSquareTest {
     }
 
     @Test
-    void TestDistanceNotConnected(){
+    void TestDistanceNotConnected() {
         AbstractSquare sq1 = new SquareSpawn(AbstractSquareTest.room);
         AbstractSquare sq2 = new SquareSpawn(AbstractSquareTest.room);
-        assertEquals(-1,sq1.distance(sq2));
+        assertEquals(-1, sq1.distance(sq2));
     }
 
 }
