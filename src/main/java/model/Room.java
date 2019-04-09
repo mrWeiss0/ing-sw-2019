@@ -10,8 +10,8 @@ public class Room implements Targettable {
         squares = new ArrayList<>();
     }
 
-    public void addSquare(AbstractSquare a) {
-        squares.add(a);
+    public void addSquare(AbstractSquare square) {
+        squares.add(square);
     }
 
     public void doDamage(Figure dealer) {

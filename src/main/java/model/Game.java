@@ -40,7 +40,7 @@ public class Game {
         return currentPlayer();
     }
 
-    public Player currentPlayer(){
+    public Player currentPlayer() {
         return players.get(currPlayer);
     }
 

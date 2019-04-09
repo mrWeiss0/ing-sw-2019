@@ -1,15 +1,29 @@
 package model;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
 public abstract class AbstractSquare implements Targettable {
-    private List<AbstractSquare> adjacent;
     private Room room;
+    private Set<AbstractSquare> adjacent;
     private Set<Figure> occupants;
+    // TODO Add [ X, Y ] coordinates for both display and check cardinal?
 
-    public abstract void accept(Game game);
+    public AbstractSquare(Room room) {
+        this.room = room;
+        room.addSquare(this);
+        adjacent = new HashSet<>();
+        occupants = new HashSet<>();
+    }
+
+    public void connect(AbstractSquare square) {
+        adjacent.add(square);
+        if (!square.getAdjacent().contains(this))
+            square.connect(this);
+    }
+
+    public abstract void accept(Game game); // TODO Rename accept () to fill()?
 
     public abstract void grab(Figure grabber);
 
@@ -29,13 +43,19 @@ public abstract class AbstractSquare implements Targettable {
         return sees(target.getSquare());
     }
 
-    @Override
     public void doDamage(Figure dealer) {
-
+        for (Figure s : occupants) {
+            s.doDamage(dealer);
+        }
     }
 
-    @Override
     public void doMark(Figure dealer) {
+        for (Figure s : occupants) {
+            s.doMark(dealer);
+        }
+    }
 
+    public Set<AbstractSquare> getAdjacent() {
+        return adjacent;
     }
 }
