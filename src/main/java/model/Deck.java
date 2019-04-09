@@ -19,7 +19,7 @@ public class Deck<T> {
     private ArrayList<T> discard;
 
     /**
-     * sole constructor. Automatically shuffles the given cards.
+     * sole constructor. Automatically shuffles the given cards into a deck.
      *
      * @param cards list of cards constituting the deck
      */
