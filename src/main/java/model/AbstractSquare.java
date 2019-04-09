@@ -22,7 +22,7 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * sole constructor
      *
-     * @param room      the room this square belongs
+     * @param room      the <code>Room</code> this square belongs to
      */
     public AbstractSquare(Room room) {
         this.room = room;
@@ -62,9 +62,9 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>Room</code> is seen by this square,
      * whether it's the one containing it or it's seen by it.
      *
-     * @param target the room checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
+     * @param target    the room checked for visibility
+     * @return          <code>true</code> if the target is seen by this square;
+     *                  <code>false</code> otherwise.
      */
     public boolean sees(Room target) {
         return target == room || adjacent.stream().map(AbstractSquare::getRoom).anyMatch(Predicate.isEqual(target));
@@ -74,9 +74,9 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>AbstractSquare</code> is seen by this square,
      * whether it's in the same room or in a room seen by it.
      *
-     * @param target the square checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
+     * @param target    the square checked for visibility
+     * @return          <code>true</code> if the target is seen by this square;
+     *                  <code>false</code> otherwise.
      */
     public boolean sees(AbstractSquare target) {
         return sees(target.getRoom());
@@ -86,9 +86,9 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the passed <code>Figure</code> is seen by this square,
      * whether it's in the square itself or in a square seen by it.
      *
-     * @param target the square checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
+     * @param target    the square checked for visibility
+     * @return          <code>true</code> if the target is seen by this square;
+     *                  <code>false</code> otherwise.
      */
     public boolean sees(Figure target) {
         return sees(target.getSquare());

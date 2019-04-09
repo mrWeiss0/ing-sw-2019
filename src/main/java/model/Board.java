@@ -19,7 +19,7 @@ public class Board {
      *
      * @param squares the list of squares constituting the board
      */
-    public Board(List<AbstractSquare> squares) { //TODO json library needed and how to create the board using JSON
+    public Board(List<AbstractSquare> squares) { //TODO should it take the entire list of squares?
         this.squares = squares;
         toRefill = new ArrayList<>();
     }
