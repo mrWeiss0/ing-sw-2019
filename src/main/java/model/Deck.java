@@ -49,9 +49,10 @@ public class Deck<T> {
     }
 
     /**
-     * Adds a card to the discard pile.
+     * Adds a card to the discard pile. The discard pile is used to
+     * keep cards that can be reshuffled when this deck is empty.
      *
-     * @param c the card to be discard
+     * @param c the card to discard
      */
     public void discard(T c) {
         discard.add(c);
