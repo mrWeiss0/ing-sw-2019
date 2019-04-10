@@ -1,11 +1,16 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public final class AmmoCube {
     private final List<Integer> ammos;
+
+    public AmmoCube() {
+        this.ammos = new ArrayList<>();
+    }
 
     public AmmoCube(List<Integer> ammos) {
         this.ammos = ammos;
@@ -25,8 +30,8 @@ public final class AmmoCube {
         return ammos;
     }
 
-    public AmmoCube cap() {
-        return new AmmoCube(ammos.stream().map(x -> Integer.min(3, x)).collect(Collectors.toList()));
+    public AmmoCube cap(int c) {
+        return new AmmoCube(ammos.stream().map(x -> Integer.min(c, x)).collect(Collectors.toList()));
     }
 
     public boolean greaterThan(AmmoCube other) {
