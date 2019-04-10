@@ -44,7 +44,7 @@ public abstract class AbstractSquare implements Targettable {
             square.connect(this);
     }
 
-    public abstract void accept(Game game); // TODO Rename accept () to fill()?
+    public abstract void accept(Game game);
 
     public abstract void refill(Grabbable o);
 

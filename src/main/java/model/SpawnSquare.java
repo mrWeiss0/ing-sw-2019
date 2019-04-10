@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class SpawnSquare extends AbstractSquare {
     private Set<Weapon> weapons;
@@ -13,18 +14,20 @@ public class SpawnSquare extends AbstractSquare {
 
     @Override
     public void accept(Game game) {
-
+        game.fillSquare(this);
     }
 
     @Override
     public void refill(Grabbable o) {
-
+        weapons.add((Weapon) o);
     }
 
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
-        if (weapons.contains(grabbed))
-            grabber.grab((Weapon) grabbed);
+        weapons.stream().filter(Predicate.isEqual(grabbed)).findFirst().ifPresent((g) -> {
+            grabber.grab(g);
+            weapons.remove(g);
+        });
     }
 
     @Override

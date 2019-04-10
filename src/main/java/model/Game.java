@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * <code>Game</code> is a class used for containing all of the major
@@ -86,4 +87,13 @@ public class Game {
         return players.get(currPlayer);
     }
 
+    public void fillSquare(AmmoSquare square) {
+        square.refill(ammoTileDeck.draw());
+    }
+
+    public void fillSquare(SpawnSquare square) {
+        try {
+            square.refill(weaponDeck.draw());
+        } catch (NoSuchElementException ignore) {} // If deck is empty do nothing
+    }
 }

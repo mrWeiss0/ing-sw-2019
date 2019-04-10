@@ -1,7 +1,10 @@
 package model;
 
-import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AmmoSquare extends AbstractSquare {
     private AmmoTile ammoTile;
@@ -13,22 +16,24 @@ public class AmmoSquare extends AbstractSquare {
 
     @Override
     public void accept(Game game) {
-
+        game.fillSquare(this);
     }
 
     @Override
     public void refill(Grabbable o) {
-
+        ammoTile = (AmmoTile) o;
     }
 
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
-        if (ammoTile == grabbed)
-            grabber.grab((AmmoTile) grabbed);
+        Optional.ofNullable(ammoTile).filter(Predicate.isEqual(grabbed)).ifPresent((g) -> {
+            grabber.grab(g);
+            ammoTile = null;
+        });
     }
 
     @Override
     public Set<Grabbable> peek() {
-        return Collections.singleton(ammoTile);
+        return Optional.ofNullable(ammoTile).map(Stream::of).orElseGet(Stream::empty).collect(Collectors.toSet());
     }
 }
