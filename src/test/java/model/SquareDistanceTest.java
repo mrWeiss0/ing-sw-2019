@@ -17,9 +17,9 @@ class SquareDistanceTest {
 
     @Test
     void TestDistance() {
-        AbstractSquare sq1 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq2 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq3 = new SquareSpawn(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquare(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq1);
         sq2.connect(sq3);
@@ -31,12 +31,12 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceRamified() {
-        AbstractSquare sq1 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq2 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq3 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq4 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq5 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq6 = new SquareSpawn(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq4 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq5 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq6 = new SpawnSquare(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq3);
         sq3.connect(sq4);
@@ -51,12 +51,12 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceMinPath() {
-        AbstractSquare sq1 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq2 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq3 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq4 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq5 = new SquareSpawn(SquareDistanceTest.room);
-        AbstractSquare sq6 = new SquareSpawn(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq4 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq5 = new SpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq6 = new SpawnSquare(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq3);
         sq2.connect(sq4);
@@ -72,8 +72,8 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceNotConnected() {
-        AbstractSquare sq1 = new SquareSpawn(AbstractSquareTest.room);
-        AbstractSquare sq2 = new SquareSpawn(AbstractSquareTest.room);
+        AbstractSquare sq1 = new SpawnSquare(AbstractSquareTest.room);
+        AbstractSquare sq2 = new SpawnSquare(AbstractSquareTest.room);
         assertEquals(-1, sq1.distance(sq2));
     }
 }

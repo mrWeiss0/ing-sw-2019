@@ -11,7 +11,7 @@ import java.util.List;
 public class Board {
 
     private List<AbstractSquare> squares;
-    private List<SquareSpawn> spawnpoints; //Probably not needed
+    private List<SpawnSquare> spawnpoints; //Probably not needed
     private List<AbstractSquare> toRefill;
 
     /**

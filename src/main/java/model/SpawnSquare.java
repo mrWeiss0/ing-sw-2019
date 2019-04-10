@@ -1,7 +1,7 @@
 package model;
 
-public class SquareSpawn extends AbstractSquare {
-    public SquareSpawn(Room room) {
+public class SpawnSquare extends AbstractSquare {
+    public SpawnSquare(Room room) {
         super(room);
     }
 
