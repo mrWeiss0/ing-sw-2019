@@ -38,4 +38,3 @@ public final class AmmoCube {
         return IntStream.range(0, Math.min(ammos.size(), other.getAmmos().size()));
     }
 }
-Operation1()
