@@ -1,0 +1,3 @@
+-inserire la tag @override sui metodi di targettable
+-ordinare i metodi (per esempio: prima i construtor, poi i getter e setter)
+-rinominare Deck.shuffle() in Deck.reshuffle()
