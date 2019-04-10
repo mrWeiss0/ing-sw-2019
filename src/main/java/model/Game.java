@@ -37,7 +37,7 @@ public class Game {
      * determining game length.
      *
      * @param nKills the number of kills needed to reach the end game or
-     *               the frenzy turn.
+     *               the frenzy turn
      */
     public Game(int nKills) {
         killCount = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Game {
      * Adds a specified player as the last to the player list. This should
      * be done only before the beginning of a game.
      *
-     * @param player the player to add.
+     * @param player the player to be added
      */
     public void addPlayer(Player player) {
         players.add(player);
@@ -59,7 +59,7 @@ public class Game {
      * Removes the specified player from the player list. This should
      * be done only at the end of a game.
      *
-     * @param player the player to be remove.
+     * @param player the player to be removed
      */
     public void removePlayer(Player player) { // TODO throw Exception if game already started
         players.remove(player);
@@ -72,7 +72,7 @@ public class Game {
      * first player.
      *
      * @return the player that comes after the one that has completed
-     * its turn.
+     * its turn
      */
     public Player nextPlayer() { // TODO throw Exception if game not yet started
         currPlayer++;
@@ -83,7 +83,7 @@ public class Game {
     /**
      * Returns the player whose turn its taking place.
      *
-     * @return the player whose turn its taking place.
+     * @return the player whose turn its taking place
      */
     public Player currentPlayer() {
         return players.get(currPlayer);

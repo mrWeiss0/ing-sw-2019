@@ -13,14 +13,14 @@ public class Room implements Targettable {
     private List<AbstractSquare> squares;
 
     /**
-     * sole constructor. Readies the room to accept its squares.
+     * Constructs the room with an empty square list
      */
     public Room() {
         squares = new ArrayList<>();
     }
 
     /**
-     * Adds the passed <code>AbstractSquare</code> to the squares of this room
+     * Adds the passed square to this room's squares
      *
      * @param square the square to be added to this room
      */

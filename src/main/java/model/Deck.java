@@ -22,7 +22,7 @@ public class Deck<T> {
      * Constructs a deck with the given collection of cards, automatically
      * shuffling it.
      *
-     * @param cards list of cards constituting the deck.
+     * @param cards list of cards constituting the deck
      */
     public Deck(Collection<? extends T> cards) {
         discard = new ArrayList<>(cards);
@@ -42,7 +42,7 @@ public class Deck<T> {
      * Draws a card and removes it from the deck. If the deck is empty it's
      * reshuffled using <code>shuffle</code>.
      *
-     * @return the card drawn.
+     * @return the card drawn
      */
     public T draw() {
         if (cards.isEmpty()) shuffle();
@@ -53,7 +53,7 @@ public class Deck<T> {
      * Adds a card to the discard pile, that can be can be reshuffled into
      * the deck once it is emptied.
      *
-     * @param c the card to discard
+     * @param c the card to be discarded
      */
     public void discard(T c) {
         discard.add(c);
