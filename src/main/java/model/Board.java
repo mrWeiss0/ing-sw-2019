@@ -17,7 +17,7 @@ public class Board {
     /**
      * Constructs a board filled with specified list of squares.
      *
-     * @param   squares the list of squares constituting the board.
+     * @param squares the list of squares constituting the board.
      */
     public Board(List<AbstractSquare> squares) { //TODO should it take the entire list of squares?
         this.squares = squares;
@@ -28,7 +28,7 @@ public class Board {
      * Passes the <code>Game</code> to the squares that need refill, so they
      * may ask for it using the game's decks. It then cleans the refill list.
      *
-     * @param game  the game the board belongs to.
+     * @param game the game the board belongs to.
      */
     public void refill(Game game) {
         for (AbstractSquare current : toRefill) {

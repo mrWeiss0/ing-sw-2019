@@ -16,8 +16,8 @@ public interface Targettable {
      * Delegates damage dealing from this target to all smaller targets
      * contained within this.
      *
-     * @param dealer    the figure that has dealt the damage.
-     * @param n         the amount of damage given.
+     * @param dealer the figure that has dealt the damage.
+     * @param n      the amount of damage given.
      */
     void damageFrom(Figure dealer, int n);
 
@@ -25,8 +25,8 @@ public interface Targettable {
      * Delegates marks assigning from this target to all smaller targets
      * contained within this.
      *
-     * @param dealer    the figure that has dealt the damage.
-     * @param n         the amount of damage given.
+     * @param dealer the figure that has dealt the damage.
+     * @param n      the amount of damage given.
      */
     void markFrom(Figure dealer, int n);
 }

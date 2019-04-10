@@ -78,7 +78,7 @@ public class AbstractSquareSeesTest {
     }
 
     @Test
-    void testSeesFigure(){
+    void testSeesFigure() {
         assertFalse(squares[0].sees(figure));
         assertTrue(squares[1].sees(figure));
         assertTrue(squares[2].sees(figure));

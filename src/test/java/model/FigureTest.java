@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.beans.Transient;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FigureTest {
@@ -21,22 +19,25 @@ class FigureTest {
                 new SquareSpawn(room)
         };
     }
+
     @BeforeEach
-    void initCase(){
-        figure= new Figure();
+    void initCase() {
+        figure = new Figure();
     }
+
     @Test
-    void testMove(){
+    void testMove() {
         figure.moveTo(squares[0]);
-        assertEquals(squares[0],figure.getSquare());
+        assertEquals(squares[0], figure.getSquare());
         figure.moveTo(squares[1]);
-        assertEquals(squares[1],figure.getSquare());
-        assertNotEquals(squares[0],figure.getSquare());
+        assertEquals(squares[1], figure.getSquare());
+        assertNotEquals(squares[0], figure.getSquare());
         figure.moveTo(null);
         assertNull(figure.getSquare());
     }
+
     @Test
-    void testContains(){
+    void testContains() {
         assertFalse(squares[0].getOccupants().contains(figure));
         figure.moveTo(squares[0]);
         assertTrue(squares[0].getOccupants().contains(figure));
@@ -48,9 +49,6 @@ class FigureTest {
         assertFalse(squares[0].getOccupants().contains(figure));
         assertFalse(squares[1].getOccupants().contains(figure));
     }
-
-
-
 
 
 }
