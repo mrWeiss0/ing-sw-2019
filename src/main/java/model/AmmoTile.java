@@ -1,5 +1,5 @@
 package model;
 
-public class AmmoTile {
+public class AmmoTile implements Grabbable {
 
 }

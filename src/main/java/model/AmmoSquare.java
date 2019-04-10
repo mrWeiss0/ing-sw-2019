@@ -1,15 +1,14 @@
 package model;
 
-public class AmmoSquare extends AbstractSquare {
+import java.util.Collections;
+import java.util.Set;
 
-    /**
-     * sole constructor
-     *
-     * @param room the <code>Room</code> this square belongs to
-     */
+public class AmmoSquare extends AbstractSquare {
     private AmmoTile ammoTile;
+
     public AmmoSquare(Room room) {
         super(room);
+        ammoTile = null;
     }
 
     @Override
@@ -18,7 +17,18 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     @Override
-    public void grab(Figure grabber) {
+    public void refill(Grabbable o) {
 
+    }
+
+    @Override
+    public void grab(Figure grabber, Grabbable grabbed) {
+        if (ammoTile == grabbed)
+            grabber.grab((AmmoTile) grabbed);
+    }
+
+    @Override
+    public Set<Grabbable> peek() {
+        return Collections.singleton(ammoTile);
     }
 }

@@ -46,7 +46,11 @@ public abstract class AbstractSquare implements Targettable {
 
     public abstract void accept(Game game); // TODO Rename accept () to fill()?
 
-    public abstract void grab(Figure grabber);
+    public abstract void refill(Grabbable o);
+
+    public abstract void grab(Figure grabber, Grabbable grabbed);
+
+    public abstract Set<Grabbable> peek();
 
     /**
      * Gets the <code>Room</code> this square is part of.

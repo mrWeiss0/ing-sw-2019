@@ -55,4 +55,11 @@ public class Figure implements Targettable {
         powerUps.add(toAdd);
     }
 
+    public void grab(Weapon grabbed) {
+        weapons.add(grabbed);
+    }
+
+    public void grab(AmmoTile grabbed) {
+        // TODO
+    }
 }
