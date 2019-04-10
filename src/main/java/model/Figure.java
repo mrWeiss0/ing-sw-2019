@@ -20,6 +20,10 @@ public class Figure implements Targettable {
         square = null;
     }
 
+    public Set<Weapon> getWeapons() {
+        return weapons;
+    }
+
     @Override
     public void damageFrom(Figure dealer, int n) {
         if (dealer != this) {
