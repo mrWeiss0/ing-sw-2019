@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>Room</code> aggregates all <code>AbstractSquare</code> belonging
- * to a single room.
+ * <code>Room</code> aggregates all squares belonging to a single room.
+ * <p>
  * It implements the <code>Targettable</code> and its chain of responsibility,
  * with its <code>dealDamage</code> and <code>dealMark</code> methods.
  */

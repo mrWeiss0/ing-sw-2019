@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>Game</code> is a class used for containing all of the major
- * elements of a game.
- * It also keeps track of <code>Player</code>s and their order, as well as containing methods to
- * manage them.
+ * <code>Game</code> is a class containing all of the major elements of a game
+ * such as the <code>Board</code>, card <code>Deck</code>s and
+ * <code>Figure</code>s, as well as the players.
+ * <p>
+ * It keeps track of <code>Player</code>s and their order, as well
+ * as provides methods to manage them.
  */
 public class Game {
     // Killshot Track
@@ -31,8 +33,8 @@ public class Game {
     }
 
     /**
-     * Constructor that initializes remaining kills, used for determine the game
-     * length, and readies the game to accept players.
+     * Constructor that initializes remaining kills with given value,
+     * determining game length.
      *
      * @param nKills the number of kills needed to reach the end game or
      *               the frenzy turn.
@@ -44,19 +46,20 @@ public class Game {
     }
 
     /**
-     * Adds a passed <code>Player</code> as the last to the player list.
+     * Adds a specified player as the last to the player list. This should
+     * be done only before the beginning of a game.
      *
-     * @param player the player to be added
+     * @param player the player to add.
      */
     public void addPlayer(Player player) {
         players.add(player);
     }
 
     /**
-     * Removes the passed <code>Player</code> from the player list. This
-     * should be only done at the end of a game.
+     * Removes the specified player from the player list. This should
+     * be done only at the end of a game.
      *
-     * @param player the player to be removed
+     * @param player the player to be remove.
      */
     public void removePlayer(Player player) { // TODO throw Exception if game already started
         players.remove(player);
@@ -69,7 +72,7 @@ public class Game {
      * first player.
      *
      * @return the player that comes after the one that has completed
-     * its turn
+     * its turn.
      */
     public Player nextPlayer() { // TODO throw Exception if game not yet started
         currPlayer++;
@@ -78,7 +81,7 @@ public class Game {
     }
 
     /**
-     * Gets the player whose turn its taking place.
+     * Returns the player whose turn its taking place.
      *
      * @return the player whose turn its taking place.
      */

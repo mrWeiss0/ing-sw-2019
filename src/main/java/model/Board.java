@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <code>Board</code> represents the game board and its <code>AbstractSquares</code>.
- * It contains a list of squares and methods to refill the board using the
- * visitor pattern.
+ * <code>Board</code> represents the game board and its square.
+ * <p>
+ * It provides methods to allow refilling using the visitor pattern.
  */
 public class Board {
 
@@ -15,9 +15,9 @@ public class Board {
     private List<AbstractSquare> toRefill;
 
     /**
-     * sole constructor
+     * Constructs a board filled with specified list of squares.
      *
-     * @param squares the list of squares constituting the board
+     * @param   squares the list of squares constituting the board.
      */
     public Board(List<AbstractSquare> squares) { //TODO should it take the entire list of squares?
         this.squares = squares;
@@ -26,9 +26,9 @@ public class Board {
 
     /**
      * Passes the <code>Game</code> to the squares that need refill, so they
-     * may ask for a refill. It then cleans the refill list.
+     * may ask for it using the game's decks. It then cleans the refill list.
      *
-     * @param game the game the board belongs to
+     * @param game  the game the board belongs to.
      */
     public void refill(Game game) {
         for (AbstractSquare current : toRefill) {
@@ -38,12 +38,10 @@ public class Board {
     }
 
     /**
-     * Adds the square passed to the refill list. The refill list
-     * is the list of squares that need refilling, usually after
-     * a <code>grab</code>.
+     * Adds the specified square to the refill list. Should be called once a
+     * the content of a square has been grabbed.
      *
-     * @param a the square to add. Should have
-     *          been previously grabbed.
+     * @param a the square to add.
      */
     public void addToRefill(AbstractSquare a) {
         toRefill.add(a);
