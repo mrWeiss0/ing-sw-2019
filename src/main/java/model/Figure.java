@@ -51,5 +51,8 @@ public class Figure implements Targettable {
     public List<Figure> getDamages() {
         return damages;
     }
+    public void addPowerUp(PowerUp toAdd){
+        powerUps.add(toAdd);
+    }
 
 }
