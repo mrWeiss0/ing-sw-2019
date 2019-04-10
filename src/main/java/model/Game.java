@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -28,7 +29,7 @@ public class Game {
      * Constructor used for testing purposes
      */
     public Game() {
-        this(0);
+        this(new ArrayList<>(), new ArrayList<>(), 0);
     }
 
     /**
@@ -38,10 +39,16 @@ public class Game {
      * @param nKills the number of kills needed to reach the end game or
      *               the frenzy turn.
      */
-    public Game(int nKills) {
+    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles, int nKills) {
         killCount = new ArrayList<>();
         remainingKills = nKills;
         players = new ArrayList<>();
+        weaponDeck = new Deck<>(weapons);
+        ammoTileDeck = new Deck<>(ammoTiles);
+    }
+
+    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles) {
+        this(weapons, ammoTiles, 0);
     }
 
     /**
@@ -94,6 +101,7 @@ public class Game {
     public void fillSquare(SpawnSquare square) {
         try {
             square.refill(weaponDeck.draw());
-        } catch (NoSuchElementException ignore) {} // If deck is empty do nothing
+        } catch (NoSuchElementException ignore) {
+        } // If deck is empty do nothing
     }
 }
