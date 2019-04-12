@@ -1,4 +1,4 @@
 package model;
 
-public class Weapon {
+public class Weapon implements Grabbable {
 }

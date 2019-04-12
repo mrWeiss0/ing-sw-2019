@@ -18,8 +18,8 @@ public class FigureDamageTest {
     static void init() {
         room = new Room();
         squares = new AbstractSquare[]{
-                new SquareSpawn(room),
-                new SquareSpawn(room)
+                new SpawnSquare(room),
+                new SpawnSquare(room)
         };
     }
 

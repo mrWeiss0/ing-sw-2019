@@ -50,9 +50,13 @@ public abstract class AbstractSquare implements Targettable {
             square.connect(this);
     }
 
-    public abstract void accept(Game game); // TODO Rename accept () to fill()?
+    public abstract void accept(Game game);
 
-    public abstract void grab(Figure grabber);
+    public abstract void refill(Grabbable o);
+
+    public abstract void grab(Figure grabber, Grabbable grabbed);
+
+    public abstract Set<Grabbable> peek();
 
     /**
      * Returns the <code>Room</code> this square is part of.

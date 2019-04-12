@@ -24,7 +24,7 @@ public class Deck<T> {
      *
      * @param cards list of cards constituting the deck.
      */
-    public Deck(Collection<? extends T> cards) {
+    public Deck(Collection<T> cards) {
         discard = new ArrayList<>(cards);
         shuffle();
     }

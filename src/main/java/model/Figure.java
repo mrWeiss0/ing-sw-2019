@@ -20,6 +20,10 @@ public class Figure implements Targettable {
         square = null;
     }
 
+    public Set<Weapon> getWeapons() {
+        return weapons;
+    }
+
     /**
      * Adds the given amount of damage to this figure and setting the specified
      * figure. It also clears the dealer's marks, adding them as damage.
@@ -84,4 +88,11 @@ public class Figure implements Targettable {
         return damages;
     }
 
+    public void grab(Weapon grabbed) {
+        weapons.add(grabbed);
+    }
+
+    public void grab(AmmoTile grabbed) {
+        // TODO
+    }
 }
