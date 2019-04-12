@@ -25,10 +25,10 @@ public abstract class AbstractSquare implements Targettable {
     // TODO Add [ X, Y ] coordinates for both display and check cardinal?
 
     /**
-     * Constructs an empty square belonging to the passed <code>Room</code>,
-     * automatically adding this square to it.
+     * Constructs an empty square belonging to the specified room, automatically
+     * adding this to its square set.
      *
-     * @param room the <code>Room</code> this square belongs to.
+     * @param room the room this square belongs to
      */
     public AbstractSquare(Room room) {
         this.room = room;
@@ -38,11 +38,10 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Adds the passed square to the set of adjacency and ensures that
+     * Adds the specified square to the set of adjacency and ensures that
      * the connection is mutual.
      *
-     * @param square the square that is added and that this square is
-     *               added to.
+     * @param square the square adjacent to this
      */
     public void connect(AbstractSquare square) {
         adjacent.add(square);
@@ -59,31 +58,31 @@ public abstract class AbstractSquare implements Targettable {
     public abstract Set<Grabbable> peek();
 
     /**
-     * Returns the <code>Room</code> this square is part of.
+     * Returns the room this square is part of.
      *
-     * @return the room the square is in.
+     * @return the room this square is part of
      */
     public Room getRoom() {
         return room;
     }
 
     /**
-     * Checks if the specified <code>Room</code> is seen by this square,
-     * whether it's the one containing it or it's seen by it.
+     * Checks if the specified room is seen by this square, whether it's the
+     * one containing it or it's seen by it.
      *
-     * @param target the room checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
+     * @param target the room to be checked for visibility
+     * @return  <code>true</code> if the target is seen by this square;
+     *          <code>false</code> otherwise
      */
     public boolean sees(Room target) {
         return target == room || adjacent.stream().map(AbstractSquare::getRoom).anyMatch(Predicate.isEqual(target));
     }
 
     /**
-     * Checks if the specified <code>AbstractSquare</code> is seen by this square,
-     * whether it's in the same room or in a room seen by it.
+     * Checks if the specified square is seen by this square, whether
+     * it's in the same room or in a room seen by it.
      *
-     * @param target the square checked for visibility
+     * @param target the square to be checked for visibility
      * @return <code>true</code> if the target is seen by this square;
      * <code>false</code> otherwise.
      */
@@ -95,7 +94,7 @@ public abstract class AbstractSquare implements Targettable {
      * Checks if the specified <code>Figure</code> is seen by this square,
      * whether it's in the square itself or in a square seen by it.
      *
-     * @param target the square checked for visibility
+     * @param target the square to checked for visibility
      * @return <code>true</code> if the target is seen by this square;
      * <code>false</code> otherwise.
      */
@@ -123,10 +122,9 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Calculates number of steps to get from this square to the one given.
+     * Calculates number of steps to get from this square to the one specified.
      *
-     * @param target the square whose distance from this has to be
-     *               calculated.
+     * @param target the square whose distance from this is to be calculated
      * @return the distance calculated
      */
     public int distance(AbstractSquare target) {
@@ -153,7 +151,7 @@ public abstract class AbstractSquare implements Targettable {
      * Adds the specified figure to the list of occupants. Should be called
      * only when a figure is moved to this square.
      *
-     * @param figure the figure who has moved to this square.
+     * @param figure the figure to be moved to this square
      */
     public void addOccupant(Figure figure) {
         occupants.add(figure);
@@ -163,7 +161,7 @@ public abstract class AbstractSquare implements Targettable {
      * Removes the specified figure to the list of occupants. Should be called
      * only when a figure is moved from this square.
      *
-     * @param figure the figure who has moved from this square.
+     * @param figure the figure to be moved from this square
      */
     public void removeOccupant(Figure figure) {
         occupants.remove(figure);
@@ -172,7 +170,7 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * Returns the set of figures that are currently on this square.
      *
-     * @return the set of figure on the square.
+     * @return the set of figure on the square
      */
     public Set<Figure> getOccupants() {
         return occupants;
