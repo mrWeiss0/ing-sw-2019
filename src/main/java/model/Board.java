@@ -15,13 +15,15 @@ public class Board {
     private List<AbstractSquare> toRefill;
 
     /**
-     * Constructs a board filled with specified list of squares.
+     * Constructs a board.
      *
-     * @param squares the list of squares constituting the board
      */
-    public Board(List<AbstractSquare> squares) { //TODO should it take the entire list of squares?
-        this.squares = squares;
+    public Board() {
         toRefill = new ArrayList<>();
+    }
+
+    public void addSquare(AbstractSquare square){
+        squares.add(square);
     }
 
     /**
