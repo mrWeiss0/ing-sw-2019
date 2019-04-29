@@ -5,19 +5,22 @@ import java.util.*;
 
 public class Figure implements Targettable {
     private AbstractSquare square;
-    private AmmoCube ammo = new AmmoCube();
+    private AmmoCube ammo;
     private List<Figure> damages;
     private HashMap<Figure, Integer> marks;
     private int deaths;
+    private int maxDamage;
     private Set<Weapon> weapons;
     private Set<PowerUp> powerUps;
 
-    public Figure() {
+    public Figure(int maxDamage) {
         damages = new ArrayList<>();
         marks = new HashMap<>();
         weapons = new HashSet<>();
         powerUps = new HashSet<>();
         square = null;
+        this.maxDamage = maxDamage;
+        ammo = new AmmoCube(Arrays.asList(1, 1, 1));
     }
 
     /**
@@ -76,7 +79,7 @@ public class Figure implements Targettable {
     public void damageFrom(Figure dealer, int n) {
         if (dealer != this) {
             damages.addAll(Collections.nCopies(
-                    Integer.min(n + marks.getOrDefault(dealer, 0), 12 - damages.size()),
+                    Integer.min(n + marks.getOrDefault(dealer, 0), maxDamage - damages.size()),
                     dealer));
             marks.put(dealer, 0);
         }

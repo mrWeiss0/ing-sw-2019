@@ -18,7 +18,7 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new Figure();
+        f = new Figure(12);
         squares = new AbstractSquare[]{new AmmoSquare(new Room()), new SpawnSquare(new Room())};
         items = new Grabbable[]{new Weapon(), new Weapon(), new Weapon(), new Weapon(), new AmmoTile(), new AmmoTile()};
     }
