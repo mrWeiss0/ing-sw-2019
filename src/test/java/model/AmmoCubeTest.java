@@ -14,7 +14,7 @@ class AmmoCubeTest {
         AmmoCube b = new AmmoCube(new ArrayList<>(Arrays.asList(2, 0, 0)));
         AmmoCube c = a.add(b);
         ArrayList<Integer> r = new ArrayList<>(Arrays.asList(3, 2, 3));
-        assertEquals(r, c.getAmmos());
+        assertEquals(r, c.getAmmo());
     }
 
     @Test
@@ -23,7 +23,7 @@ class AmmoCubeTest {
         AmmoCube b = new AmmoCube(new ArrayList<>(Arrays.asList(3, 0, 0)));
         AmmoCube c = a.add(b);
         ArrayList<Integer> r = new ArrayList<>(Arrays.asList(4, 2, 3));
-        assertEquals(r, c.getAmmos());
+        assertEquals(r, c.getAmmo());
     }
 
     @Test
@@ -32,7 +32,7 @@ class AmmoCubeTest {
         AmmoCube b = new AmmoCube(new ArrayList<>(Arrays.asList(1, 0, 0)));
         AmmoCube c = a.sub(b);
         ArrayList<Integer> r = new ArrayList<>(Arrays.asList(0, 2, 3));
-        assertEquals(r, c.getAmmos());
+        assertEquals(r, c.getAmmo());
     }
 
     @Test
@@ -41,7 +41,7 @@ class AmmoCubeTest {
         AmmoCube b = new AmmoCube(new ArrayList<>(Arrays.asList(3, 0, 0)));
         AmmoCube c = a.sub(b);
         ArrayList<Integer> r = new ArrayList<>(Arrays.asList(-2, 2, 3));
-        assertEquals(r, c.getAmmos());
+        assertEquals(r, c.getAmmo());
     }
 
     @Test
@@ -51,7 +51,7 @@ class AmmoCubeTest {
         AmmoCube c = a.add(b);
         c = c.cap(3);
         ArrayList<Integer> r = new ArrayList<>(Arrays.asList(3, 2, 3));
-        assertEquals(r, c.getAmmos());
+        assertEquals(r, c.getAmmo());
     }
 
     @Test
