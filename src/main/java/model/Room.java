@@ -30,11 +30,9 @@ public class Room implements Targettable {
 
     public void damageFrom(Figure dealer, int n) {
         for (AbstractSquare s : squares) s.damageFrom(dealer, n);
-
     }
 
     public void markFrom(Figure dealer, int n) {
         for (AbstractSquare s : squares) s.markFrom(dealer, n);
-
     }
 }
