@@ -34,6 +34,10 @@ public class Game {
         this(new ArrayList<>(), new ArrayList<>(), 0);
     }
 
+    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles) {
+        this(weapons, ammoTiles, 0);
+    }
+
     /**
      * Constructor that initializes remaining kills with given value,
      * determining game length.
@@ -47,10 +51,6 @@ public class Game {
         players = new ArrayList<>();
         weaponDeck = new Deck<>(weapons);
         ammoTileDeck = new Deck<>(ammoTiles);
-    }
-
-    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles) {
-        this(weapons, ammoTiles, 0);
     }
 
     /**
@@ -74,6 +74,15 @@ public class Game {
     }
 
     /**
+     * Returns the player whose turn its taking place.
+     *
+     * @return the player whose turn its taking place
+     */
+    public Player currentPlayer() {
+        return players.get(currPlayer);
+    }
+
+    /**
      * Indicates that a player's turn has passed by updating the current player
      * and returning it.
      * If the last player has completed its turn, the method cycles back to the
@@ -86,15 +95,6 @@ public class Game {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
-    }
-
-    /**
-     * Returns the player whose turn its taking place.
-     *
-     * @return the player whose turn its taking place
-     */
-    public Player currentPlayer() {
-        return players.get(currPlayer);
     }
 
     public void fillSquare(AmmoSquare square) {
