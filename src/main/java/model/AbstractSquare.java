@@ -49,13 +49,32 @@ public abstract class AbstractSquare implements Targettable {
             square.connect(this);
     }
 
-    public abstract void accept(Game game);
 
-    public abstract void refill(Grabbable o);
+    /**
+     * Calculates number of steps to get from this square to the one specified.
+     *
+     * @param target the square whose distance from this is to be calculated
+     * @return the distance calculated
+     */
+    public int distance(AbstractSquare target) {
+        ArrayList<AbstractSquare> visited = new ArrayList<>();
+        ArrayDeque<AbstractSquare> toVisit = new ArrayDeque<>();
+        HashMap<AbstractSquare, Integer> distances = new HashMap<>();
+        toVisit.addFirst(this);
+        distances.put(this, 0);
+        while (!toVisit.isEmpty()) {
+            AbstractSquare current = toVisit.removeLast();
+            if (current == target) return distances.get(current);
+            for (AbstractSquare square : current.getAdjacent())
+                if (!visited.contains(square) && !toVisit.contains(square)) {
+                    distances.put(square, distances.get(current) + 1);
+                    toVisit.addFirst(square);
+                }
+            visited.add(current);
 
-    public abstract void grab(Figure grabber, Grabbable grabbed);
-
-    public abstract Set<Grabbable> peek();
+        }
+        return -1;
+    }
 
     /**
      * Returns the room this square is part of.
@@ -67,12 +86,50 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
+     * Returns the set of squares adjacent to this one.
+     *
+     * @return the set of adjacency
+     */
+    public Set<AbstractSquare> getAdjacent() {
+        return adjacent;
+    }
+
+    /**
+     * Returns the set of figures that are currently on this square.
+     *
+     * @return the set of figure on the square
+     */
+    public Set<Figure> getOccupants() {
+        return occupants;
+    }
+
+    /**
+     * Adds the specified figure to the list of occupants. Should be called
+     * only when a figure is moved to this square.
+     *
+     * @param figure the figure to be moved to this square
+     */
+    public void addOccupant(Figure figure) {
+        occupants.add(figure);
+    }
+
+    /**
+     * Removes the specified figure to the list of occupants. Should be called
+     * only when a figure is moved from this square.
+     *
+     * @param figure the figure to be moved from this square
+     */
+    public void removeOccupant(Figure figure) {
+        occupants.remove(figure);
+    }
+
+    /**
      * Checks if the specified room is seen by this square, whether it's the
      * one containing it or it's seen by it.
      *
      * @param target the room to be checked for visibility
-     * @return  <code>true</code> if the target is seen by this square;
-     *          <code>false</code> otherwise
+     * @return <code>true</code> if the target is seen by this square;
+     * <code>false</code> otherwise
      */
     public boolean sees(Room target) {
         return target == room || adjacent.stream().map(AbstractSquare::getRoom).anyMatch(Predicate.isEqual(target));
@@ -102,77 +159,19 @@ public abstract class AbstractSquare implements Targettable {
         return sees(target.getSquare());
     }
 
-
     public void damageFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.damageFrom(dealer, n);
-
     }
 
     public void markFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.markFrom(dealer, n);
     }
 
-    /**
-     * Returns the set of squares adjacent to this one.
-     *
-     * @return the set of adjacency
-     */
-    public Set<AbstractSquare> getAdjacent() {
-        return adjacent;
-    }
+    public abstract void accept(Game game);
 
-    /**
-     * Calculates number of steps to get from this square to the one specified.
-     *
-     * @param target the square whose distance from this is to be calculated
-     * @return the distance calculated
-     */
-    public int distance(AbstractSquare target) {
-        ArrayList<AbstractSquare> visited = new ArrayList<>();
-        ArrayDeque<AbstractSquare> toVisit = new ArrayDeque<>();
-        HashMap<AbstractSquare, Integer> distances = new HashMap<>();
-        toVisit.addFirst(this);
-        distances.put(this, 0);
-        while (!toVisit.isEmpty()) {
-            AbstractSquare current = toVisit.removeLast();
-            if (current == target) return distances.get(current);
-            for (AbstractSquare square : current.getAdjacent())
-                if (!visited.contains(square) && !toVisit.contains(square)) {
-                    distances.put(square, distances.get(current) + 1);
-                    toVisit.addFirst(square);
-                }
-            visited.add(current);
+    public abstract void refill(Grabbable o);
 
-        }
-        return -1;
-    }
+    public abstract void grab(Figure grabber, Grabbable grabbed);
 
-    /**
-     * Adds the specified figure to the list of occupants. Should be called
-     * only when a figure is moved to this square.
-     *
-     * @param figure the figure to be moved to this square
-     */
-    public void addOccupant(Figure figure) {
-        occupants.add(figure);
-    }
-
-    /**
-     * Removes the specified figure to the list of occupants. Should be called
-     * only when a figure is moved from this square.
-     *
-     * @param figure the figure to be moved from this square
-     */
-    public void removeOccupant(Figure figure) {
-        occupants.remove(figure);
-    }
-
-    /**
-     * Returns the set of figures that are currently on this square.
-     *
-     * @return the set of figure on the square
-     */
-    public Set<Figure> getOccupants() {
-        return occupants;
-    }
+    public abstract Set<Grabbable> peek();
 }
