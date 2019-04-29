@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Figure implements Targettable {
     private AbstractSquare square;
-    private int[] ammocube = new int[3];//TODO type ammo
+    private AmmoCube ammo = new AmmoCube();
     private List<Figure> damages;
     private HashMap<Figure, Integer> marks;
     private int deaths;
@@ -20,8 +20,48 @@ public class Figure implements Targettable {
         square = null;
     }
 
+    /**
+     * Returns the square this figure is on.
+     *
+     * @return the square this figure is on
+     */
+    public AbstractSquare getSquare() {
+        return square;
+    }
+
     public Set<Weapon> getWeapons() {
         return weapons;
+    }
+
+
+    /**
+     * Returns the list in which each element represent a single point of
+     * damage this figure has taken, where the figure pointed is the dealer.
+     *
+     * @return the list of damages the figure has taken
+     */
+    public List<Figure> getDamages() {
+        return damages;
+    }
+
+    /**
+     * Sets the current square to the one given and takes care of removing
+     * and adding this figure from the occupants list of the respective squares.
+     *
+     * @param square the square the figure is to be moved to
+     */
+    public void moveTo(AbstractSquare square) {
+        if (this.square != null) this.square.removeOccupant(this);
+        this.square = square;
+        if (this.square != null) this.square.addOccupant(this);
+    }
+
+    public void grab(Weapon grabbed) {
+        weapons.add(grabbed);
+    }
+
+    public void grab(AmmoTile grabbed) {
+        // TODO
     }
 
     /**
@@ -57,42 +97,4 @@ public class Figure implements Targettable {
         }
     }
 
-    /**
-     * Returns the square this figure is on.
-     *
-     * @return the square this figure is on
-     */
-    public AbstractSquare getSquare() {
-        return square;
-    }
-
-    /**
-     * Sets the current square to the one given and takes care of removing
-     * and adding this figure from the occupants list of the respective squares.
-     *
-     * @param square the square the figure is to be moved to
-     */
-    public void moveTo(AbstractSquare square) {
-        if (this.square != null) this.square.removeOccupant(this);
-        this.square = square;
-        if (this.square != null) this.square.addOccupant(this);
-    }
-
-    /**
-     * Returns the list in which each element represent a single point of
-     * damage this figure has taken, where the figure pointed is the dealer.
-     *
-     * @return the list of damages the figure has taken
-     */
-    public List<Figure> getDamages() {
-        return damages;
-    }
-
-    public void grab(Weapon grabbed) {
-        weapons.add(grabbed);
-    }
-
-    public void grab(AmmoTile grabbed) {
-        // TODO
-    }
 }
