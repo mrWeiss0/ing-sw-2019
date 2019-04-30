@@ -25,7 +25,7 @@ public class RefillTest {
 
     @Test
     void testRefill() {
-        squares = new AbstractSquare[]{new AmmoSquare(new Room()), new SpawnSquare(new Room()), new AmmoSquare(new Room()), new SpawnSquare(new Room())};
+        squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0}), new AmmoSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0})};
         Arrays.stream(squares).forEach(s -> s.accept(g));
         Arrays.stream(squares).forEach(s -> {
             Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
@@ -39,9 +39,9 @@ public class RefillTest {
 
     @Test
     void testRefillEmpty() {
-        squares = new AbstractSquare[]{new SpawnSquare(new Room()), new SpawnSquare(new Room()),
-                new SpawnSquare(new Room()), new SpawnSquare(new Room()),
-                new SpawnSquare(new Room()), new SpawnSquare(new Room())};
+        squares = new AbstractSquare[]{new SpawnSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0}),
+                new SpawnSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0}),
+                new SpawnSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0})};
         Arrays.stream(squares).forEach(s -> s.accept(g));
         assertTrue(Arrays.asList(weapons).contains(squares[0].peek().toArray()[0]));
         assertTrue(Arrays.asList(weapons).contains(squares[1].peek().toArray()[0]));
@@ -53,7 +53,7 @@ public class RefillTest {
 
     @Test
     void testRefillMany() {
-        AbstractSquare square = new SpawnSquare(new Room());
+        AbstractSquare square = new SpawnSquare(new Room(), new int[]{0,0});
         square.accept(g);
         square.accept(g);
         square.accept(g);

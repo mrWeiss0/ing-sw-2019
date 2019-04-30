@@ -22,19 +22,20 @@ public abstract class AbstractSquare implements Targettable {
     private Room room;
     private Set<AbstractSquare> adjacent;
     private Set<Figure> occupants;
-    // TODO Add [ X, Y ] coordinates for both display and check cardinal?
-
+    private int[] coordinates;
     /**
      * Constructs an empty square belonging to the specified room, automatically
      * adding this to its square set.
      *
      * @param room the room this square belongs to
+     * @param coordinates
      */
-    public AbstractSquare(Room room) {
+    public AbstractSquare(Room room, int[] coordinates) {
         this.room = room;
         room.addSquare(this);
         adjacent = new HashSet<>();
         occupants = new HashSet<>();
+        this.coordinates=coordinates;
     }
 
     /**

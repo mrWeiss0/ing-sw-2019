@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 public class SpawnSquare extends AbstractSquare {
     private Set<Weapon> weapons;
 
-    public SpawnSquare(Room room) {
-        super(room);
+    public SpawnSquare(Room room, int[] coordinates) {
+        super(room,coordinates);
         weapons = new HashSet<>();
     }
 

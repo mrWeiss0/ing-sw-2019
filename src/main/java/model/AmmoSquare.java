@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 public class AmmoSquare extends AbstractSquare {
     private AmmoTile ammoTile;
 
-    public AmmoSquare(Room room) {
-        super(room);
+    public AmmoSquare(Room room, int[] coordinates) {
+        super(room, coordinates);
         ammoTile = null;
     }
 
