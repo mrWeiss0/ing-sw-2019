@@ -1,0 +1,37 @@
+MOVE:
+# Generate targets where is possible to move
+S >> *List of square where to move*
+C >> *Send square*
+#Validate move
+S >> *Player moved to*
+
+GRAB:
+# Handle Figure.getSquare().grab()
+S >> *List of weapons on spawnSquare*
+C >> *Select weapon*
+#Check if valid
+#Check if player is full
+S >> *List of player's weapons*
+C >> *Weapon to drop*
+#Validate weapon
+#Handle grab and refill
+S >> *You have grabbed*
+
+SHOOT:
+#Handle player's weapon list
+S >> *List of possible weapons*
+C >> *Weapon to shoot with*
+#Validate weapon
+#Start fire cycle
+...
+
+RELOAD:
+#Check if player has weapons to reload
+S >> *List possible weapons*
+C >> *List of weapon to reload*
+#Check if player has enough Ammo/PowerUps
+S >> *List of possible PowerUps to discard*
+C >> *List of PowerUps to discard*
+#Validate list of PowerUp
+#Handle discard
+S >> *You have reloaded*
