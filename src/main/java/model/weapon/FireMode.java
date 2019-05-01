@@ -9,6 +9,10 @@ public class FireMode {
     private List<FireStep> steps;
     private AmmoCube cost;
 
+    public FireMode() {
+        this(new AmmoCube());
+    }
+
     public FireMode(AmmoCube cost) {
         this.cost = cost;
         steps = new ArrayList<>();

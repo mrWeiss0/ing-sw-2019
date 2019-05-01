@@ -47,6 +47,10 @@ public class Weapon implements Grabbable {
         loaded = false;
     }
 
+    public boolean isLoaded() {
+        return loaded;
+    }
+
     public boolean validateFireModes(List<FireMode> selectedModes) {
         return selectedModes.size() == 1 && fireModes.contains(selectedModes.get(0));
     }
