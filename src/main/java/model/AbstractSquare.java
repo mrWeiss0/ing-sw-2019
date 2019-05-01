@@ -160,12 +160,19 @@ public abstract class AbstractSquare implements Targettable {
         return sees(target.getSquare());
     }
 
+    @Override
     public void damageFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.damageFrom(dealer, n);
     }
 
+    @Override
     public void markFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.markFrom(dealer, n);
+    }
+
+    @Override
+    public void applyMarks() {
+        for (Figure s : occupants) s.applyMarks();
     }
 
     public abstract void accept(Game game);

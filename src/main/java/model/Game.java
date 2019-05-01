@@ -1,9 +1,12 @@
 package model;
 
+import model.weapon.Weapon;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 /**
  * <code>Game</code> is a class containing all of the major elements of a game
@@ -19,6 +22,7 @@ public class Game {
     private int remainingKills;     // Kills to finish game
 
     private List<Player> players;
+    private List<Figure> figures;
     private int currPlayer = -1;
 
     private Deck<AmmoTile> ammoTileDeck;
@@ -95,6 +99,10 @@ public class Game {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
+    }
+
+    public List<Figure> getFigures() {
+        return figures.stream().filter(f -> f.getSquare() != null).collect(Collectors.toList());
     }
 
     public void fillSquare(AmmoSquare square) {

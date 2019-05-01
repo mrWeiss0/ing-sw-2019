@@ -22,7 +22,7 @@ class FigureTest {
 
     @BeforeEach
     void initCase() {
-        figure = new Figure(12);
+        figure = new Figure(12, 3);
     }
 
     @Test

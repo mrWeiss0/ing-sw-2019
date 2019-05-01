@@ -26,11 +26,11 @@ public class FigureDamageTest {
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new Figure(12),
-                new Figure(12),
-                new Figure(12),
-                new Figure(12),
-                new Figure(12)
+                new Figure(12, 3),
+                new Figure(12, 3),
+                new Figure(12, 3),
+                new Figure(12, 3),
+                new Figure(12, 3)
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);
@@ -87,6 +87,7 @@ public class FigureDamageTest {
     @Test
     void testSimpleMark() {
         figures[0].markFrom(figures[1], 1);
+        figures[0].applyMarks();
         figures[0].damageFrom(figures[1], 1);
         assertEquals(2, figures[0].getDamages().size());
     }
@@ -94,6 +95,7 @@ public class FigureDamageTest {
     @Test
     void testNotPopMark() {
         figures[0].markFrom(figures[2], 1);
+        figures[0].applyMarks();
         figures[0].damageFrom(figures[1], 1);
         assertEquals(1, figures[0].getDamages().size());
     }
@@ -103,6 +105,7 @@ public class FigureDamageTest {
         figures[0].markFrom(figures[1], 2);
         figures[0].markFrom(figures[2], 4);
         figures[0].markFrom(figures[3], 1);
+        figures[0].applyMarks();
         figures[0].damageFrom(figures[2], 1);
         assertEquals(4, figures[0].getDamages().size());
         figures[0].damageFrom(figures[2], 1);
@@ -114,6 +117,7 @@ public class FigureDamageTest {
     @Test
     void testLimitDamageWithMarks() {
         figures[0].markFrom(figures[1], 3);
+        figures[0].applyMarks();
         figures[0].damageFrom(figures[1], 10);
         assertEquals(12, figures[0].getDamages().size());
     }
@@ -121,6 +125,7 @@ public class FigureDamageTest {
     @Test
     void testRoomMark() {
         room.markFrom(figures[0], 3);
+        room.applyMarks();
         room.damageFrom(figures[0], 1);
         assertEquals(0, figures[0].getDamages().size());
         assertEquals(4, figures[1].getDamages().size());

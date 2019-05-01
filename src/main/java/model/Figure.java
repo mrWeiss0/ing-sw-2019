@@ -1,5 +1,7 @@
 package model;
 
+import model.weapon.Weapon;
+
 import java.util.*;
 
 
@@ -7,19 +9,21 @@ public class Figure implements Targettable {
     private AbstractSquare square;
     private AmmoCube ammo;
     private List<Figure> damages;
-    private HashMap<Figure, Integer> marks;
+    private HashMap<Figure, Integer> marks, newMarks;
     private int deaths;
-    private int maxDamage;
+    private int maxDamage, maxMarks;
     private Set<Weapon> weapons;
     private Set<PowerUp> powerUps;
 
-    public Figure(int maxDamage) {
+    public Figure(int maxDamage, int maxMarks) {
         damages = new ArrayList<>();
         marks = new HashMap<>();
+        newMarks = new HashMap<>();
         weapons = new HashSet<>();
         powerUps = new HashSet<>();
         square = null;
         this.maxDamage = maxDamage;
+        this.maxMarks = maxMarks;
         ammo = new AmmoCube(Arrays.asList(1, 1, 1));
     }
 
@@ -95,9 +99,16 @@ public class Figure implements Targettable {
     @Override
     public void markFrom(Figure dealer, int n) {
         if (dealer != this) {
-            marks.put(dealer,
-                    Integer.min(marks.getOrDefault(dealer, 0) + n, 3));
+            newMarks.put(dealer, n);
         }
+    }
+
+    public void applyMarks() {
+        newMarks.forEach((dealer, n) -> {
+            marks.put(dealer,
+                    Integer.min(marks.getOrDefault(dealer, 0) + n, maxMarks));
+        });
+        newMarks.clear();
     }
 
 }

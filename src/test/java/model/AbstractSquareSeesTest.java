@@ -29,7 +29,7 @@ public class AbstractSquareSeesTest {
         squares[0].connect(squares[1]);
         squares[1].connect(squares[2]);
         squares[2].connect(squares[3]);
-        figure = new Figure(12);
+        figure = new Figure(12, 3);
         figure.moveTo(squares[2]);
     }
 

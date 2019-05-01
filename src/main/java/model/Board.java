@@ -16,13 +16,12 @@ public class Board {
 
     /**
      * Constructs a board.
-     *
      */
     public Board() {
         toRefill = new ArrayList<>();
     }
 
-    public void addSquare(AbstractSquare square){
+    public void addSquare(AbstractSquare square) {
         squares.add(square);
     }
 

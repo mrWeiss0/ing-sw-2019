@@ -1,5 +1,7 @@
 package model;
 
+import model.weapon.Weapon;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
