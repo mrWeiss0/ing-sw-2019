@@ -26,7 +26,7 @@ public class AmmoSquare extends AbstractSquare {
 
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
-        Optional.ofNullable(ammoTile).filter(Predicate.isEqual(grabbed)).ifPresent((g) -> {
+        Optional.ofNullable(ammoTile).filter(Predicate.isEqual(grabbed)).ifPresent(g -> {
             grabber.grab(g);
             ammoTile = null;
         });

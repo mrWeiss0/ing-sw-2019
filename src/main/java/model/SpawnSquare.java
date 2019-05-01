@@ -26,7 +26,7 @@ public class SpawnSquare extends AbstractSquare {
 
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
-        weapons.stream().filter(Predicate.isEqual(grabbed)).findFirst().ifPresent((g) -> {
+        weapons.stream().filter(Predicate.isEqual(grabbed)).findFirst().ifPresent(g -> {
             grabber.grab(g);
             weapons.remove(g);
         });

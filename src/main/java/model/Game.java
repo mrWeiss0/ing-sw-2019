@@ -113,6 +113,7 @@ public class Game {
         try {
             square.refill(weaponDeck.draw());
         } catch (NoSuchElementException ignore) {
-        } // If deck is empty do nothing
+            // If deck is empty do nothing
+        }
     }
 }

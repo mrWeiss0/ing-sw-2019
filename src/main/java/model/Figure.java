@@ -104,10 +104,10 @@ public class Figure implements Targettable {
     }
 
     public void applyMarks() {
-        newMarks.forEach((dealer, n) -> {
-            marks.put(dealer,
-                    Integer.min(marks.getOrDefault(dealer, 0) + n, maxMarks));
-        });
+        newMarks.forEach((dealer, n) ->
+                marks.put(dealer,
+                        Integer.min(marks.getOrDefault(dealer, 0) + n, maxMarks))
+        );
         newMarks.clear();
     }
 
