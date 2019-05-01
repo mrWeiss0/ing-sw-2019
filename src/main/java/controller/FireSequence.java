@@ -11,7 +11,7 @@ public class FireSequence {
     private List<FireStep> steps;
     private List<Targettable> lastTargets;
 
-    public FireSequence(List<FireStep> steps){
+    public FireSequence(List<FireStep> steps) {
         this.steps = steps;
     }
 }

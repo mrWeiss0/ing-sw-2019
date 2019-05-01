@@ -48,8 +48,8 @@ public class RefillTest {
         assertTrue(Arrays.asList(weapons).contains(squares[1].peek().toArray()[0]));
         assertTrue(Arrays.asList(weapons).contains(squares[2].peek().toArray()[0]));
         assertTrue(Arrays.asList(weapons).contains(squares[3].peek().toArray()[0]));
-        assertEquals(Stream.of().collect(Collectors.toSet()),squares[4].peek());
-        assertEquals(Stream.of().collect(Collectors.toSet()),squares[5].peek());
+        assertEquals(Stream.of().collect(Collectors.toSet()), squares[4].peek());
+        assertEquals(Stream.of().collect(Collectors.toSet()), squares[5].peek());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class RefillTest {
         square.accept(g);
         square.accept(g);
         square.accept(g);
-        assertEquals(Arrays.stream(weapons).collect(Collectors.toSet()),square.peek());
+        assertEquals(Arrays.stream(weapons).collect(Collectors.toSet()), square.peek());
     }
 }
