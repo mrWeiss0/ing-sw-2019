@@ -24,7 +24,7 @@ public class Figure implements Targettable {
         square = null;
         this.maxDamage = maxDamage;
         this.maxMarks = maxMarks;
-        ammo = new AmmoCube(Arrays.asList(1, 1, 1));
+        ammo = new AmmoCube(1, 1, 1);
     }
 
     /**
