@@ -16,20 +16,20 @@ public class AmmoCube {
 
     public AmmoCube add(AmmoCube toAdd) {
         return new AmmoCube(this.rangeAmmo(toAdd).
-                map(i -> ammo[i] + toAdd.value(i)).toArray());
+                map(i -> value(i) + toAdd.value(i)).toArray());
     }
 
     public AmmoCube sub(AmmoCube toSub) {
         return new AmmoCube(this.rangeAmmo(toSub).
-                map(i -> ammo[i] - toSub.value(i)).toArray());
+                map(i -> value(i) - toSub.value(i)).toArray());
     }
 
     public AmmoCube cap(int c) {
-        return new AmmoCube(Arrays.stream(ammo).map(x -> Integer.min(c, x)).toArray());
+        return new AmmoCube(Arrays.stream(ammo).map(x -> Math.min(c, x)).toArray());
     }
 
     public boolean greaterThan(AmmoCube other) {
-        return this.rangeAmmo(other).filter(i -> ammo[i] < other.value(i)).count() == 0;
+        return this.rangeAmmo(other).filter(i -> value(i) < other.value(i)).count() == 0;
 
     }
 
@@ -38,10 +38,10 @@ public class AmmoCube {
     }
 
     public int value(int i) {
-        return ammo[i];
+        return i < ammo.length ? ammo[i] : 0;
     }
 
     private IntStream rangeAmmo(AmmoCube other) {
-        return IntStream.range(0, Math.min(ammo.length, other.value().length));
+        return IntStream.range(0, Math.max(ammo.length, other.value().length));
     }
 }

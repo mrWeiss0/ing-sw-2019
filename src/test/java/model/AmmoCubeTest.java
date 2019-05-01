@@ -58,4 +58,13 @@ class AmmoCubeTest {
         assertTrue(a.greaterThan(b));
     }
 
+    @Test
+    void testZero() {
+        AmmoCube a = new AmmoCube(1, 2, 3);
+        AmmoCube b = new AmmoCube(2);
+        AmmoCube c = b.add(a);
+        assertEquals(0, b.value(1));
+        assertArrayEquals(new int[]{3, 2, 3}, c.value());
+    }
+
 }
