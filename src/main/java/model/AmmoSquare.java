@@ -7,11 +7,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AmmoSquare extends AbstractSquare {
-    private AmmoTile ammoTile;
+    private AmmoTile ammoTile = null;
 
     public AmmoSquare(Room room, int[] coordinates) {
         super(room, coordinates);
-        ammoTile = null;
     }
 
     @Override

@@ -20,9 +20,10 @@ import java.util.function.Predicate;
  */
 public abstract class AbstractSquare implements Targettable {
     private Room room;
-    private Set<AbstractSquare> adjacent;
-    private Set<Figure> occupants;
+    private Set<AbstractSquare> adjacent = new HashSet<>();
+    private Set<Figure> occupants = new HashSet<>();
     private int[] coordinates;
+
     /**
      * Constructs an empty square belonging to the specified room, automatically
      * adding this to its square set.
@@ -33,8 +34,6 @@ public abstract class AbstractSquare implements Targettable {
     public AbstractSquare(Room room, int[] coordinates) {
         this.room = room;
         room.addSquare(this);
-        adjacent = new HashSet<>();
-        occupants = new HashSet<>();
         this.coordinates=coordinates;
     }
 

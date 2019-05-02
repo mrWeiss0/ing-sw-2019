@@ -6,25 +6,20 @@ import java.util.*;
 
 
 public class Figure implements Targettable {
-    private AbstractSquare square;
+    private AbstractSquare square = null;
+    private List<Figure> damages = new ArrayList<>();
+    private HashMap<Figure, Integer> marks = new HashMap<>();
+    private HashMap<Figure, Integer> newMarks = new HashMap<>();
+    private int deaths = 0;
+    private Set<Weapon> weapons = new HashSet<>();
+    private Set<PowerUp> powerUps = new HashSet<>();
     private AmmoCube ammo;
-    private List<Figure> damages;
-    private HashMap<Figure, Integer> marks, newMarks;
-    private int deaths;
-    private int maxDamage, maxMarks;
-    private Set<Weapon> weapons;
-    private Set<PowerUp> powerUps;
+    private int maxDamages, maxMarks;
 
-    public Figure(int maxDamage, int maxMarks) {
-        damages = new ArrayList<>();
-        marks = new HashMap<>();
-        newMarks = new HashMap<>();
-        weapons = new HashSet<>();
-        powerUps = new HashSet<>();
-        square = null;
-        this.maxDamage = maxDamage;
+    public Figure(int maxDamages, int maxMarks, AmmoCube ammo) {
+        this.ammo = ammo;
+        this.maxDamages = maxDamages;
         this.maxMarks = maxMarks;
-        ammo = new AmmoCube(1, 1, 1);
     }
 
     /**
@@ -83,7 +78,7 @@ public class Figure implements Targettable {
     public void damageFrom(Figure dealer, int n) {
         if (dealer != this) {
             damages.addAll(Collections.nCopies(
-                    Integer.min(n + marks.getOrDefault(dealer, 0), maxDamage - damages.size()),
+                    Integer.min(n + marks.getOrDefault(dealer, 0), maxDamages - damages.size()),
                     dealer));
             marks.put(dealer, 0);
         }

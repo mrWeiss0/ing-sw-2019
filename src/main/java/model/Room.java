@@ -10,14 +10,7 @@ import java.util.List;
  * with its <code>dealDamage</code> and <code>dealMark</code> methods.
  */
 public class Room implements Targettable {
-    private List<AbstractSquare> squares;
-
-    /**
-     * Constructs the room with an empty square list
-     */
-    public Room() {
-        squares = new ArrayList<>();
-    }
+    private List<AbstractSquare> squares = new ArrayList<>();
 
     /**
      * Adds the passed square to this room's squares

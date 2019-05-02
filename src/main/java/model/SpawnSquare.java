@@ -7,11 +7,10 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 public class SpawnSquare extends AbstractSquare {
-    private Set<Weapon> weapons;
+    private Set<Weapon> weapons = new HashSet<>();
 
     public SpawnSquare(Room room, int[] coordinates) {
         super(room,coordinates);
-        weapons = new HashSet<>();
     }
 
     @Override

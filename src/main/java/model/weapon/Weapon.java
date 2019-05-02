@@ -9,8 +9,8 @@ import java.util.List;
 public class Weapon implements Grabbable {
     private AmmoCube pickupCost;
     private AmmoCube reloadCost;
-    private boolean loaded;
-    private List<FireMode> fireModes;
+    private boolean loaded = false;
+    private List<FireMode> fireModes = new ArrayList<>();
 
     public Weapon() {
         this(new AmmoCube(), new AmmoCube());
@@ -19,8 +19,6 @@ public class Weapon implements Grabbable {
     public Weapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         this.pickupCost = pickupCost;
         this.reloadCost = reloadCost;
-        loaded = false;
-        fireModes = new ArrayList<>();
     }
 
     public void addFireMode(FireMode fireMode) {

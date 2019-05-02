@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FireMode {
-    private List<FireStep> steps;
+    private List<FireStep> steps = new ArrayList<>();
     private AmmoCube cost;
 
     public FireMode() {
@@ -15,7 +15,6 @@ public class FireMode {
 
     public FireMode(AmmoCube cost) {
         this.cost = cost;
-        steps = new ArrayList<>();
     }
 
     public void addStep(FireStep step) {

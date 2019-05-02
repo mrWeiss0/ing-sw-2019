@@ -15,8 +15,11 @@ import java.util.Collections;
  * @param <T>
  */
 public class Deck<T> {
-    private ArrayDeque<T> cards;
-    private ArrayList<T> discard;
+    private ArrayDeque<T> cards = new ArrayDeque<>();
+    private ArrayList<T> discard = new ArrayList<>();
+
+    public Deck() {
+    }
 
     /**
      * Constructs a deck with the given collection of cards, automatically
@@ -25,7 +28,7 @@ public class Deck<T> {
      * @param cards list of cards constituting the deck
      */
     public Deck(Collection<T> cards) {
-        discard = new ArrayList<>(cards);
+        discard.addAll(cards);
         shuffle();
     }
 

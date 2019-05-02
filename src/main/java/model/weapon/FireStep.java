@@ -4,17 +4,18 @@ import model.Figure;
 import model.Game;
 import model.Targettable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class FireStep {
-    private List<TargetGen> targetGens;
-    private List<Effect> effects;
-    private int max;
+    private List<TargetGen> targetGens = new ArrayList<>();
+    private List<Effect> effects = new ArrayList<>();
+    private int maxTargets;
 
-    public FireStep(int max) {
-        this.max = max;
+    public FireStep(int maxTargets) {
+        this.maxTargets = maxTargets;
     }
 
     public void addEffect(Effect effect) {
@@ -25,8 +26,8 @@ public class FireStep {
         targetGens.add(targetGen);
     }
 
-    public int getMax() {
-        return max;
+    public int getMaxTargets() {
+        return maxTargets;
     }
 
     public Set<Targettable> getTargets(Figure shooter, Game game, List<Targettable> lastTargets) {
@@ -36,8 +37,10 @@ public class FireStep {
         }).orElseGet(HashSet::new);
     }
 
-    public void effect(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
+    public List<Targettable> effect(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
+        List<Targettable> nextTargets = new ArrayList<>();
         for (Effect e : effects)
-            e.run(shooter, currentTargets, lastTargets);
+            nextTargets.addAll(e.run(shooter, currentTargets, lastTargets));
+        return nextTargets;
     }
 }

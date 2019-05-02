@@ -5,11 +5,10 @@ import model.AmmoCube;
 import java.util.*;
 
 public class OptionalWeapon extends Weapon {
-    private Map<FireMode, FireMode> dependency;
+    private Map<FireMode, FireMode> dependency = new HashMap<>();
 
     public OptionalWeapon() {
-        super();
-        dependency = new HashMap<>();
+        this(new AmmoCube(), new AmmoCube());
     }
 
     public OptionalWeapon(AmmoCube pickupCost, AmmoCube reloadCost) {

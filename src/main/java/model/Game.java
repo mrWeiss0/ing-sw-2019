@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
  */
 public class Game {
     // Killshot Track
-    private List<Figure> killCount; // Kills and overkills done by players
+    private List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
     private int remainingKills;     // Kills to finish game
 
-    private List<Player> players;
-    private List<Figure> figures;
+    private List<Player> players = new ArrayList<>();
+    private List<Figure> figures = new ArrayList<>();
     private int currPlayer = -1;
 
     private Deck<AmmoTile> ammoTileDeck;
@@ -50,9 +50,7 @@ public class Game {
      *               the frenzy turn
      */
     public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles, int nKills) {
-        killCount = new ArrayList<>();
         remainingKills = nKills;
-        players = new ArrayList<>();
         weaponDeck = new Deck<>(weapons);
         ammoTileDeck = new Deck<>(ammoTiles);
     }
@@ -73,7 +71,7 @@ public class Game {
      *
      * @param player the player to be removed
      */
-    public void removePlayer(Player player) { // TODO throw Exception if game already started
+    public void removePlayer(Player player) {
         players.remove(player);
     }
 
@@ -95,7 +93,7 @@ public class Game {
      * @return the player that comes after the one that has completed
      * its turn
      */
-    public Player nextPlayer() { // TODO throw Exception if game not yet started
+    public Player nextPlayer() {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
