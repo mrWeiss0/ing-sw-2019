@@ -12,10 +12,6 @@ public class Weapon implements Grabbable {
     private boolean loaded = false;
     private List<FireMode> fireModes = new ArrayList<>();
 
-    public Weapon() {
-        this(new AmmoCube(), new AmmoCube());
-    }
-
     public Weapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         this.pickupCost = pickupCost;
         this.reloadCost = reloadCost;

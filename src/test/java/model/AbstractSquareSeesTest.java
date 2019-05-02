@@ -1,5 +1,6 @@
 package model;
 
+import model.mock.MockFigure;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ public class AbstractSquareSeesTest {
         squares[0].connect(squares[1]);
         squares[1].connect(squares[2]);
         squares[2].connect(squares[3]);
-        figure = new Figure(12, 3, new AmmoCube());
+        figure = new MockFigure();
         figure.moveTo(squares[2]);
     }
 

@@ -1,5 +1,7 @@
 package model;
 
+import model.mock.MockOptionalWeapon;
+import model.mock.MockWeapon;
 import model.weapon.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,7 @@ public class RefillTest {
 
     @BeforeEach
     void init() {
-        weapons = new Weapon[]{new Weapon(), new Weapon(), new Weapon(), new Weapon()};
+        weapons = new Weapon[]{new MockWeapon(), new MockOptionalWeapon(), new MockWeapon(), new MockWeapon()};
         ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
         g = new Game(Arrays.asList(weapons), Arrays.asList(ammoTiles));
     }

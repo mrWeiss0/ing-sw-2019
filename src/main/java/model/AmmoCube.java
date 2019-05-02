@@ -11,7 +11,9 @@ public class AmmoCube {
     }
 
     public AmmoCube(int... ammo) {
-        this.ammo = Arrays.copyOf(ammo, ammo.length);
+        int len = ammo.length;
+        while(len > 0 && ammo[len - 1] == 0) --len;
+        this.ammo = Arrays.copyOf(ammo, len);
     }
 
     public AmmoCube add(AmmoCube toAdd) {
@@ -28,13 +30,28 @@ public class AmmoCube {
         return new AmmoCube(Arrays.stream(ammo).map(x -> Math.min(c, x)).toArray());
     }
 
-    public boolean greaterThan(AmmoCube other) {
-        return this.rangeAmmo(other).filter(i -> value(i) < other.value(i)).count() == 0;
-
+    public boolean greaterEqThan(AmmoCube other) {
+        return this.rangeAmmo(other).allMatch(i -> value(i) >= other.value(i));
     }
 
-    public int[] value() {
-        return ammo;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (!(obj instanceof AmmoCube))
+            return false;
+        AmmoCube other = (AmmoCube) obj;
+        return this.rangeAmmo(other).
+                allMatch(i -> value(i) == other.value(i));
+    }
+
+    @Override
+    public int hashCode(){
+        return Arrays.hashCode(ammo);
+    }
+
+    public int length() {
+        return ammo.length;
     }
 
     public int value(int i) {
@@ -42,6 +59,6 @@ public class AmmoCube {
     }
 
     private IntStream rangeAmmo(AmmoCube other) {
-        return IntStream.range(0, Math.max(ammo.length, other.value().length));
+        return IntStream.range(0, Math.max(length(), other.length()));
     }
 }

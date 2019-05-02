@@ -1,6 +1,7 @@
 package model;
 
 
+import model.mock.MockFigure;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,11 @@ public class FigureDamageTest {
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new Figure(12, 3, new AmmoCube()),
-                new Figure(12, 3, new AmmoCube()),
-                new Figure(12, 3, new AmmoCube()),
-                new Figure(12, 3, new AmmoCube()),
-                new Figure(12, 3, new AmmoCube())
+                new MockFigure(),
+                new MockFigure(),
+                new MockFigure(),
+                new MockFigure(),
+                new MockFigure()
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);

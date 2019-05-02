@@ -1,5 +1,6 @@
 package model;
 
+import model.mock.MockFigure;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class FigureTest {
 
     @BeforeEach
     void initCase() {
-        figure = new Figure(12, 3, new AmmoCube());
+        figure = new MockFigure();
     }
 
     @Test

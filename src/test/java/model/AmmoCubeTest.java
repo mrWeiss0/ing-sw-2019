@@ -1,70 +1,53 @@
 package model;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoCubeTest {
-    @Test
-    void testSimpleSum() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(2, 0, 0);
-        AmmoCube c = a.add(b);
-        assertArrayEquals(new int[]{3, 2, 3}, c.value());
+    public static AmmoCube a, b;
+
+    @BeforeAll
+    static void init() {
+        a = new AmmoCube(1, 2, 3);
+        b = new AmmoCube(2, 0, 0);
     }
 
     @Test
-    void testSumLimit() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(3, 0, 0);
-        AmmoCube c = a.add(b);
-        assertArrayEquals(new int[]{4, 2, 3}, c.value());
+    void testSimpleSum() {
+        assertEquals(new AmmoCube(3, 2, 3), a.add(b));
     }
 
     @Test
     void testSimpleSub() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(1, 0, 0);
-        AmmoCube c = a.sub(b);
-        assertArrayEquals(new int[]{0, 2, 3}, c.value());
-    }
-
-    @Test
-    void testSubLimit() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(3, 0, 0);
-        AmmoCube c = a.sub(b);
-        assertArrayEquals(new int[]{-2, 2, 3}, c.value());
+        assertEquals(new AmmoCube(-1, 2, 3), a.sub(b));
     }
 
     @Test
     void testCap() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(3, 0, 0);
-        AmmoCube c = a.add(b);
-        c = c.cap(3);
-        assertArrayEquals(new int[]{3, 2, 3}, c.value());
+        assertEquals(new AmmoCube(2, 2, 2), a.add(b).cap(2));
     }
 
     @Test
     void testGreater() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(3, 0, 0);
-        assertFalse(b.greaterThan(a));
-        assertFalse(a.greaterThan(b));
-        a = new AmmoCube(1, 2, 3);
-        b = new AmmoCube(1, 0, 0);
-        assertFalse(b.greaterThan(a));
-        assertTrue(a.greaterThan(b));
+        assertFalse(b.greaterEqThan(a));
+        assertFalse(a.greaterEqThan(b));
+        AmmoCube c = new AmmoCube(1);
+        assertFalse(c.greaterEqThan(a));
+        assertTrue(a.greaterEqThan(c));
     }
 
     @Test
-    void testZero() {
-        AmmoCube a = new AmmoCube(1, 2, 3);
-        AmmoCube b = new AmmoCube(2);
-        AmmoCube c = b.add(a);
-        assertEquals(0, b.value(1));
-        assertArrayEquals(new int[]{3, 2, 3}, c.value());
+    void testEquals() {
+        assertNotEquals(a, new Object());
+        assertNotEquals(a, b);
+        assertEquals(a, a);
+        assertEquals(a, new AmmoCube(1, 2, 3));
+        assertEquals(a.hashCode(), new AmmoCube(1, 2, 3).hashCode());
+        assertEquals(new AmmoCube(1), new AmmoCube(1, 0, 0));
+        assertEquals(new AmmoCube(), new AmmoCube(0, 0));
+        assertEquals(new AmmoCube(1).hashCode(), new AmmoCube(1, 0, 0).hashCode());
     }
 
 }

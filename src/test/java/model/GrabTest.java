@@ -1,6 +1,8 @@
 package model;
 
-import model.weapon.Weapon;
+import model.mock.MockFigure;
+import model.mock.MockOptionalWeapon;
+import model.mock.MockWeapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +21,9 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new Figure(12, 3, new AmmoCube());
+        f = new MockFigure();
         squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{0,0}), new SpawnSquare(new Room(), new int[]{0,0})};
-        items = new Grabbable[]{new Weapon(), new Weapon(), new Weapon(), new Weapon(), new AmmoTile(), new AmmoTile()};
+        items = new Grabbable[]{new MockWeapon(), new MockOptionalWeapon(), new MockWeapon(), new MockOptionalWeapon(), new AmmoTile(), new AmmoTile()};
     }
 
     @Test

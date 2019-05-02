@@ -7,10 +7,6 @@ import java.util.*;
 public class OptionalWeapon extends Weapon {
     private Map<FireMode, FireMode> dependency = new HashMap<>();
 
-    public OptionalWeapon() {
-        this(new AmmoCube(), new AmmoCube());
-    }
-
     public OptionalWeapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         super(pickupCost, reloadCost);
     }

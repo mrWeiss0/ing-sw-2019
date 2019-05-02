@@ -1,5 +1,6 @@
 package model.weapon;
 
+import model.mock.MockOptionalWeapon;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +25,10 @@ class OptionalWeaponTest {
                 new FireMode()
         };
         OptionalWeapon[] wp = new OptionalWeapon[]{
-                new OptionalWeapon(), // No dependencies
-                new OptionalWeapon(), // Depend on base
-                new OptionalWeapon(), // Chain dependency
-                new OptionalWeapon()  // Not depend on base
+                new MockOptionalWeapon(), // No dependencies
+                new MockOptionalWeapon(), // Depend on base
+                new MockOptionalWeapon(), // Chain dependency
+                new MockOptionalWeapon()  // Not depend on base
         };
         for (Weapon w : wp)
             for (FireMode f : fm)
@@ -37,6 +38,15 @@ class OptionalWeaponTest {
         wp[2].addDependency(fm[1], fm[0]);
         wp[2].addDependency(fm[2], fm[1]);
         wp[3].addDependency(fm[2], fm[0]);
+        // Wrong dep ignored
+        wp[0].addDependency(fm[0], new FireMode());
+        wp[1].addDependency(fm[0], new FireMode());
+        wp[2].addDependency(fm[0], new FireMode());
+        wp[3].addDependency(fm[0], new FireMode());
+        wp[0].addDependency(new FireMode(), fm[0]);
+        wp[1].addDependency(new FireMode(), fm[0]);
+        wp[2].addDependency(new FireMode(), fm[0]);
+        wp[3].addDependency(new FireMode(), fm[0]);
         weapons = Arrays.copyOf(wp, wp.length, Weapon[].class);
     }
 
@@ -65,6 +75,16 @@ class OptionalWeaponTest {
         assertTrue(w.validateFireModes(Stream.of(fm[2], fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[2], fm[1], fm[0]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[1], fm[2], fm[0]).collect(Collectors.toList())));
+    }
+
+    @Test
+    void validateRepeating() {
+        Weapon w = weapons[0];
+        assertFalse(w.validateFireModes(Stream.of(fm[0], fm[0]).collect(Collectors.toList())));
+        assertFalse(w.validateFireModes(Stream.of(fm[1], fm[1]).collect(Collectors.toList())));
+        assertFalse(w.validateFireModes(Stream.of(fm[0], fm[1], fm[1]).collect(Collectors.toList())));
+        assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0], fm[1]).collect(Collectors.toList())));
+        assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0], fm[0]).collect(Collectors.toList())));
     }
 
     @Test

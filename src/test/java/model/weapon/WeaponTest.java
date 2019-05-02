@@ -14,26 +14,23 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponTest {
-    public static AmmoCube pc, lc;
     public static FireMode[] fm;
-    private Weapon weapon;
+    public static Weapon weapon;
 
     @BeforeAll
     static void ba() {
-        pc = new AmmoCube(1, 2);
-        lc = new AmmoCube(2);
         fm = new FireMode[]{
                 new FireMode(),
                 new FireMode(),
                 new FireMode()
         };
+        weapon = new Weapon(new AmmoCube(1, 2), new AmmoCube(2));
+        for (FireMode f : fm)
+            weapon.addFireMode(f);
     }
 
     @BeforeEach
     void init() {
-        weapon = new Weapon(pc, lc);
-        for (FireMode f : fm)
-            weapon.addFireMode(f);
     }
 
     @Test
@@ -42,8 +39,8 @@ class WeaponTest {
         assertTrue(weapon.isLoaded());
         weapon.unload();
         assertFalse(weapon.isLoaded());
-        assertEquals(weapon.getPickupCost(), pc);
-        assertEquals(weapon.getReloadCost(), lc);
+        assertEquals(weapon.getPickupCost(), new AmmoCube(1, 2));
+        assertEquals(weapon.getReloadCost(), new AmmoCube(2));
     }
 
     @Test
