@@ -98,6 +98,7 @@ public class Figure implements Targettable {
         }
     }
 
+    @Override
     public void applyMarks() {
         newMarks.forEach((dealer, n) ->
                 marks.put(dealer,

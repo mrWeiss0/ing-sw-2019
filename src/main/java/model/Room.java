@@ -21,10 +21,12 @@ public class Room implements Targettable {
         squares.add(square);
     }
 
+    @Override
     public void damageFrom(Figure dealer, int n) {
         for (AbstractSquare s : squares) s.damageFrom(dealer, n);
     }
 
+    @Override
     public void markFrom(Figure dealer, int n) {
         for (AbstractSquare s : squares) s.markFrom(dealer, n);
     }

@@ -17,13 +17,18 @@ public class OptionalWeapon extends Weapon {
         boolean baseMode = false;
         for (FireMode f : selectedModes) {
             // Must contain base mode
-            if (f == getFireModes().get(0))
-                baseMode = true;
-            // Must not contain duplicates
-            if (!set.add(f)) return false;
-            // Dependencies must be respected
             FireMode depend = dependency.get(f);
-            if (depend != null && !set.contains(depend)) return false;
+            if (
+                // Must be in this weapon
+                !getFireModes().contains(f) ||
+                // Must not contain duplicates
+                !set.add(f) ||
+                // Dependencies must be respected
+                (depend != null && !set.contains(depend))
+            )
+                return false;
+            if (!baseMode && f == getFireModes().get(0))
+                baseMode = true;
         }
         return baseMode;
     }

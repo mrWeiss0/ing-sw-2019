@@ -11,15 +11,12 @@ import java.util.Set;
 
 public class FireStep {
     private List<TargetGen> targetGens = new ArrayList<>();
-    private List<Effect> effects = new ArrayList<>();
+    private Effect effect;
     private int maxTargets;
 
-    public FireStep(int maxTargets) {
+    public FireStep(int maxTargets, Effect effect) {
         this.maxTargets = maxTargets;
-    }
-
-    public void addEffect(Effect effect) {
-        effects.add(effect);
+        this.effect = effect;
     }
 
     public void addTargetGen(TargetGen targetGen) {
@@ -37,10 +34,7 @@ public class FireStep {
         }).orElseGet(HashSet::new);
     }
 
-    public List<Targettable> effect(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
-        List<Targettable> nextTargets = new ArrayList<>();
-        for (Effect e : effects)
-            nextTargets.addAll(e.run(shooter, currentTargets, lastTargets));
-        return nextTargets;
+    public List<Targettable> exec(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
+        return effect.run(shooter, currentTargets, lastTargets);
     }
 }

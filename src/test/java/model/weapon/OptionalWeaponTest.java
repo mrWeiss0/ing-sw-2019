@@ -141,4 +141,10 @@ class OptionalWeaponTest {
             assertFalse(w.validateFireModes(Stream.of(fm[2], fm[1]).collect(Collectors.toList())));
         }
     }
+
+    @Test
+    void validateNotPresent() {
+        for (Weapon w : weapons)
+            assertFalse(w.validateFireModes(Stream.of(fm[0], new FireMode()).collect(Collectors.toList())));
+    }
 }
