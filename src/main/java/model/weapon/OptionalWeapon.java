@@ -20,11 +20,11 @@ public class OptionalWeapon extends Weapon {
             FireMode depend = dependency.get(f);
             if (
                 // Must be in this weapon
-                !getFireModes().contains(f) ||
-                // Must not contain duplicates
-                !set.add(f) ||
-                // Dependencies must be respected
-                (depend != null && !set.contains(depend))
+                    !getFireModes().contains(f) ||
+                            // Must not contain duplicates
+                            !set.add(f) ||
+                            // Dependencies must be respected
+                            (depend != null && !set.contains(depend))
             )
                 return false;
             if (!baseMode && f == getFireModes().get(0))

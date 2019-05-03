@@ -10,7 +10,7 @@ public class SpawnSquare extends AbstractSquare {
     private Set<Weapon> weapons = new HashSet<>();
 
     public SpawnSquare(Room room, int[] coordinates) {
-        super(room,coordinates);
+        super(room, coordinates);
     }
 
     @Override

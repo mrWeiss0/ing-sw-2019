@@ -28,13 +28,13 @@ public abstract class AbstractSquare implements Targettable {
      * Constructs an empty square belonging to the specified room, automatically
      * adding this to its square set.
      *
-     * @param room the room this square belongs to
+     * @param room        the room this square belongs to
      * @param coordinates
      */
     public AbstractSquare(Room room, int[] coordinates) {
         this.room = room;
         room.addSquare(this);
-        this.coordinates=coordinates;
+        this.coordinates = coordinates;
     }
 
     /**

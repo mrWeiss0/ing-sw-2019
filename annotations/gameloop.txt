@@ -29,7 +29,7 @@ turno normale
 		ShootCommand_Base
 			chiedo all'utente l'arma e la modalità 
 				chiedo i Targettable
-					//TODO della weapon
+					//TO DO della weapon
 					//controllo se arma e carica
 					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
 					//controllo se posso muovermi
@@ -47,7 +47,7 @@ turno normale
 			distance(...)
 			chiedo all'utente l'arma e la modalità 
 				chiedo i Targettable
-					//TODO della weapon
+					//TO DO della weapon
 					//controllo se arma e carica
 					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
 					//controllo se posso muovermi
@@ -82,10 +82,10 @@ turno frenzy
 			moveTo(...)
 			distance(...)
 			reload(...)
-				//TODO
+				// TO DO
 			chiedo all'utente l'arma e la modalità 
 				chiedo i Targettable
-					//TODO della weapon
+					//TO DO della weapon
 					//controllo se arma e carica
 					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
 					//controllo se posso muovermi
@@ -102,10 +102,10 @@ turno frenzy
 			moveTo(...)
 			distance(...)
 			reload(...)
-				//TODO
+				//TO DO
 			chiedo all'utente l'arma e la modalità 
 				chiedo i Targettable
-					//TODO della weapon
+					// TO DO della weapon
 					//controllo se arma e carica
 					//controllo se le ammo sono sufficienti (posso chiedere lo scarto di un PowerUp)
 					//controllo se posso muovermi

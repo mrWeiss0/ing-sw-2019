@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileParser {
-
-
     public List<AbstractSquare> initBoard(String filename) {
         JsonReader json;
         BoardCreator bc;

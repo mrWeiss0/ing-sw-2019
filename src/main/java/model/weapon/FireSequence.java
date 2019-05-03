@@ -2,7 +2,6 @@ package model.weapon;
 
 import model.Figure;
 import model.Targettable;
-import model.weapon.FireStep;
 
 import java.util.List;
 

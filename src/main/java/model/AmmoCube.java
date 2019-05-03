@@ -12,7 +12,7 @@ public class AmmoCube {
 
     public AmmoCube(int... ammo) {
         int len = ammo.length;
-        while(len > 0 && ammo[len - 1] == 0) --len;
+        while (len > 0 && ammo[len - 1] == 0) --len;
         this.ammo = Arrays.copyOf(ammo, len);
     }
 
@@ -46,7 +46,7 @@ public class AmmoCube {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Arrays.hashCode(ammo);
     }
 
