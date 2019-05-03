@@ -14,12 +14,6 @@ public class Board {
     private List<SpawnSquare> spawnpoints; //Probably not needed
     private List<AbstractSquare> toRefill = new ArrayList<>();
 
-    /**
-     * Constructs a board.
-     */
-    public Board() {
-    }
-
     public void addSquare(AbstractSquare square) {
         squares.add(square);
     }

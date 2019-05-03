@@ -14,7 +14,8 @@ public class Figure implements Targettable {
     private Set<Weapon> weapons = new HashSet<>();
     private Set<PowerUp> powerUps = new HashSet<>();
     private AmmoCube ammo;
-    private int maxDamages, maxMarks;
+    private int maxDamages;
+    private int maxMarks;
 
     public Figure(int maxDamages, int maxMarks, AmmoCube ammo) {
         this.ammo = ammo;
