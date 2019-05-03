@@ -16,7 +16,6 @@ public class OptionalWeapon extends Weapon {
         Set<FireMode> set = new HashSet<>();
         boolean baseMode = false;
         for (FireMode f : selectedModes) {
-            // Must contain base mode
             FireMode depend = dependency.get(f);
             if (
                 // Must be in this weapon
@@ -27,6 +26,7 @@ public class OptionalWeapon extends Weapon {
                             (depend != null && !set.contains(depend))
             )
                 return false;
+            // Must contain base mode
             if (!baseMode && f == getFireModes().get(0))
                 baseMode = true;
         }

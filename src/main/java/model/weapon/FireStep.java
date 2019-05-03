@@ -34,7 +34,7 @@ public class FireStep {
         }).orElseGet(HashSet::new);
     }
 
-    public List<Targettable> exec(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
+    public List<Targettable> run(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
         return effect.run(shooter, currentTargets, lastTargets);
     }
 }
