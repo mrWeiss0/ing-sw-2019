@@ -1,4 +1,4 @@
-package controller;
+package model.weapon;
 
 import model.Figure;
 import model.Targettable;
