@@ -1,6 +1,7 @@
 package model;
 
 import model.mock.MockFigure;
+import model.mock.MockSpawnSquare;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,8 @@ class FigureTest {
     static void init() {
         room = new Room();
         squares = new AbstractSquare[]{
-                new SpawnSquare(room, new int[]{0,0}),
-                new SpawnSquare(room, new int[]{0,0})
+                new MockSpawnSquare(room),
+                new MockSpawnSquare(room)
         };
     }
 
