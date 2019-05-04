@@ -19,9 +19,9 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new MockFigure();
-        squares = new AbstractSquare[]{new MockAmmoSquare(new Room()), new MockSpawnSquare(new Room())};
-        items = new Grabbable[]{new MockWeapon(), new MockOptionalWeapon(), new MockWeapon(), new MockOptionalWeapon(), new AmmoTile(), new AmmoTile()};
+        f = new FigureMock();
+        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
+        items = new Grabbable[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new OptionalWeaponMock(), new AmmoTile(), new AmmoTile()};
     }
 
     @Test

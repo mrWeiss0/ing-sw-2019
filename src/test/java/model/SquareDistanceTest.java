@@ -1,6 +1,6 @@
 package model;
 
-import model.mock.MockSpawnSquare;
+import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,9 +18,9 @@ class SquareDistanceTest {
 
     @Test
     void TestDistance() {
-        AbstractSquare sq1 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq2 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq3 = new MockSpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquareMock(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq1);
         sq2.connect(sq3);
@@ -32,12 +32,12 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceRamified() {
-        AbstractSquare sq1 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq2 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq3 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq4 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq5 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq6 = new MockSpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq4 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq5 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq6 = new SpawnSquareMock(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq3);
         sq3.connect(sq4);
@@ -52,12 +52,12 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceMinPath() {
-        AbstractSquare sq1 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq2 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq3 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq4 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq5 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq6 = new MockSpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq3 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq4 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq5 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq6 = new SpawnSquareMock(SquareDistanceTest.room);
         sq1.connect(sq2);
         sq2.connect(sq3);
         sq2.connect(sq4);
@@ -73,8 +73,8 @@ class SquareDistanceTest {
 
     @Test
     void TestDistanceNotConnected() {
-        AbstractSquare sq1 = new MockSpawnSquare(SquareDistanceTest.room);
-        AbstractSquare sq2 = new MockSpawnSquare(SquareDistanceTest.room);
+        AbstractSquare sq1 = new SpawnSquareMock(SquareDistanceTest.room);
+        AbstractSquare sq2 = new SpawnSquareMock(SquareDistanceTest.room);
         assertEquals(-1, sq1.distance(sq2));
     }
 }

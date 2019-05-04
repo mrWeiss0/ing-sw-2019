@@ -1,8 +1,8 @@
 package model;
 
 
-import model.mock.MockFigure;
-import model.mock.MockSpawnSquare;
+import model.mock.FigureMock;
+import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,19 +20,19 @@ public class FigureDamageTest {
     static void init() {
         room = new Room();
         squares = new AbstractSquare[]{
-                new MockSpawnSquare(room),
-                new MockSpawnSquare(room)
+                new SpawnSquareMock(room),
+                new SpawnSquareMock(room)
         };
     }
 
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new MockFigure(),
-                new MockFigure(),
-                new MockFigure(),
-                new MockFigure(),
-                new MockFigure()
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock()
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);

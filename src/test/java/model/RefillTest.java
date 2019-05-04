@@ -1,9 +1,9 @@
 package model;
 
-import model.mock.MockAmmoSquare;
-import model.mock.MockOptionalWeapon;
-import model.mock.MockSpawnSquare;
-import model.mock.MockWeapon;
+import model.mock.AmmoSquareMock;
+import model.mock.OptionalWeaponMock;
+import model.mock.SpawnSquareMock;
+import model.mock.WeaponMock;
 import model.weapon.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,14 +23,14 @@ public class RefillTest {
 
     @BeforeEach
     void init() {
-        weapons = new Weapon[]{new MockWeapon(), new MockOptionalWeapon(), new MockWeapon(), new MockWeapon()};
+        weapons = new Weapon[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new WeaponMock()};
         ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
         g = new Game(Arrays.asList(weapons), Arrays.asList(ammoTiles));
     }
 
     @Test
     void testRefill() {
-        squares = new AbstractSquare[]{new MockAmmoSquare(new Room()), new MockSpawnSquare(new Room()), new MockAmmoSquare(new Room()), new MockSpawnSquare(new Room())};
+        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room()), new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
         Arrays.stream(squares).forEach(s -> s.accept(g));
         Arrays.stream(squares).forEach(s -> {
             Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
@@ -44,9 +44,9 @@ public class RefillTest {
 
     @Test
     void testRefillEmpty() {
-        squares = new AbstractSquare[]{new MockSpawnSquare(new Room()), new MockSpawnSquare(new Room()),
-                new MockSpawnSquare(new Room()), new MockSpawnSquare(new Room()),
-                new MockSpawnSquare(new Room()), new MockSpawnSquare(new Room())};
+        squares = new AbstractSquare[]{new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room()),
+                new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room()),
+                new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room())};
         Arrays.stream(squares).forEach(s -> s.accept(g));
         assertTrue(Arrays.asList(weapons).contains(squares[0].peek().toArray()[0]));
         assertTrue(Arrays.asList(weapons).contains(squares[1].peek().toArray()[0]));
@@ -58,7 +58,7 @@ public class RefillTest {
 
     @Test
     void testRefillMany() {
-        AbstractSquare square = new MockSpawnSquare(new Room());
+        AbstractSquare square = new SpawnSquareMock(new Room());
         square.accept(g);
         square.accept(g);
         square.accept(g);

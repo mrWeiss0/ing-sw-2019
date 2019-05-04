@@ -1,6 +1,6 @@
 package model.weapon;
 
-import model.mock.MockOptionalWeapon;
+import model.mock.OptionalWeaponMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +25,10 @@ class OptionalWeaponTest {
                 new FireMode()
         };
         OptionalWeapon[] wp = new OptionalWeapon[]{
-                new MockOptionalWeapon(), // No dependencies
-                new MockOptionalWeapon(), // Depend on base
-                new MockOptionalWeapon(), // Chain dependency
-                new MockOptionalWeapon()  // Not depend on base
+                new OptionalWeaponMock(), // No dependencies
+                new OptionalWeaponMock(), // Depend on base
+                new OptionalWeaponMock(), // Chain dependency
+                new OptionalWeaponMock()  // Not depend on base
         };
         for (Weapon w : wp)
             for (FireMode f : fm)

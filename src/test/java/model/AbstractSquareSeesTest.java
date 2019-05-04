@@ -1,7 +1,7 @@
 package model;
 
-import model.mock.MockFigure;
-import model.mock.MockSpawnSquare;
+import model.mock.FigureMock;
+import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +23,15 @@ public class AbstractSquareSeesTest {
                 new Room()
         };
         squares = new AbstractSquare[]{
-                new MockSpawnSquare(rooms[0]),
-                new MockSpawnSquare(rooms[0]),
-                new MockSpawnSquare(rooms[1]),
-                new MockSpawnSquare(rooms[2])
+                new SpawnSquareMock(rooms[0]),
+                new SpawnSquareMock(rooms[0]),
+                new SpawnSquareMock(rooms[1]),
+                new SpawnSquareMock(rooms[2])
         };
         squares[0].connect(squares[1]);
         squares[1].connect(squares[2]);
         squares[2].connect(squares[3]);
-        figure = new MockFigure();
+        figure = new FigureMock();
         figure.moveTo(squares[2]);
     }
 
