@@ -1,6 +1,6 @@
 package tools;
 
-import model.*;
+import model.board.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

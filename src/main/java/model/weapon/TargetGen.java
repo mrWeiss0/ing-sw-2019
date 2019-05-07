@@ -1,8 +1,8 @@
 package model.weapon;
 
-import model.Board;
-import model.Figure;
-import model.Targettable;
+import model.board.Board;
+import model.board.Figure;
+import model.board.Targettable;
 
 import java.util.List;
 import java.util.Set;

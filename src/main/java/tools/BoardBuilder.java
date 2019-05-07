@@ -1,6 +1,6 @@
 package tools;
 
-import model.*;
+import model.board.*;
 
 import java.util.*;
 

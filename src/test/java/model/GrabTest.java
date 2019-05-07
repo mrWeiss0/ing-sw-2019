@@ -1,5 +1,8 @@
 package model;
 
+import model.board.AbstractSquare;
+import model.board.Figure;
+import model.board.Room;
 import model.mock.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

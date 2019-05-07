@@ -1,7 +1,7 @@
 package tools;
 
 import com.google.gson.Gson;
-import model.Board;
+import model.board.Board;
 
 import java.io.Reader;
 

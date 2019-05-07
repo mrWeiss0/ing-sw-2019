@@ -1,5 +1,8 @@
-package model;
+package model.board;
 
+import model.AmmoCube;
+import model.AmmoTile;
+import model.PowerUp;
 import model.weapon.Weapon;
 
 import java.util.*;

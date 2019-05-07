@@ -1,7 +1,7 @@
 package model.weapon;
 
-import model.Figure;
-import model.Targettable;
+import model.board.Figure;
+import model.board.Targettable;
 
 import java.util.List;
 

@@ -1,4 +1,7 @@
-package model;
+package model.board;
+
+import model.Game;
+import model.Grabbable;
 
 import java.util.*;
 import java.util.function.Predicate;

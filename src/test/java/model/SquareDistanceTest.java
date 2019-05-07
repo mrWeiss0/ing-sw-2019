@@ -1,5 +1,7 @@
 package model;
 
+import model.board.AbstractSquare;
+import model.board.Room;
 import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

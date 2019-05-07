@@ -1,4 +1,8 @@
-package model;
+package model.board;
+
+import model.AmmoTile;
+import model.Game;
+import model.Grabbable;
 
 import java.util.Optional;
 import java.util.Set;

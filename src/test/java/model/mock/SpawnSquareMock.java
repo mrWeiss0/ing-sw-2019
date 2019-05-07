@@ -1,7 +1,7 @@
 package model.mock;
 
-import model.Room;
-import model.SpawnSquare;
+import model.board.Room;
+import model.board.SpawnSquare;
 
 public class SpawnSquareMock extends SpawnSquare {
     public SpawnSquareMock(Room room) {

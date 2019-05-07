@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 /**
  * The <code>Targettable</code> interface ensures that the correct damages and

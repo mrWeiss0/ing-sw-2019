@@ -1,5 +1,6 @@
 package model;
 
+import model.board.*;
 import model.weapon.Weapon;
 
 import java.util.ArrayList;

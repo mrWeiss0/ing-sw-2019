@@ -1,5 +1,7 @@
 package model;
 
+import model.board.Board;
+import model.board.Figure;
 import model.mock.GameMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

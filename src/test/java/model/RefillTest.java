@@ -1,5 +1,9 @@
 package model;
 
+import model.board.AbstractSquare;
+import model.board.AmmoSquare;
+import model.board.Room;
+import model.board.SpawnSquare;
 import model.mock.*;
 import model.weapon.Weapon;
 import org.junit.jupiter.api.BeforeEach;

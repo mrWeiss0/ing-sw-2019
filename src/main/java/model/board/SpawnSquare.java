@@ -1,5 +1,7 @@
-package model;
+package model.board;
 
+import model.Game;
+import model.Grabbable;
 import model.weapon.Weapon;
 
 import java.util.HashSet;
