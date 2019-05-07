@@ -49,7 +49,6 @@ public abstract class AbstractSquare implements Targettable {
             square.connect(this);
     }
 
-
     /**
      * Calculates number of steps to get from this square to the one specified.
      *
@@ -65,7 +64,7 @@ public abstract class AbstractSquare implements Targettable {
         while (!toVisit.isEmpty()) {
             AbstractSquare current = toVisit.removeLast();
             if (current == target) return distances.get(current);
-            for (AbstractSquare square : current.getAdjacent())
+            for (AbstractSquare square : current.adjacent)
                 if (!visited.contains(square) && !toVisit.contains(square)) {
                     distances.put(square, distances.get(current) + 1);
                     toVisit.addFirst(square);
@@ -83,6 +82,10 @@ public abstract class AbstractSquare implements Targettable {
      */
     public Room getRoom() {
         return room;
+    }
+
+    public int[] getCoordinates() {
+        return coordinates;
     }
 
     /**
@@ -167,11 +170,6 @@ public abstract class AbstractSquare implements Targettable {
     @Override
     public void markFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.markFrom(dealer, n);
-    }
-
-    @Override
-    public void applyMarks() {
-        for (Figure s : occupants) s.applyMarks();
     }
 
     public abstract void accept(Game game);

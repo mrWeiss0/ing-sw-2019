@@ -29,6 +29,4 @@ public interface Targettable {
      * @param n      the amount of damage given
      */
     void markFrom(Figure dealer, int n);
-
-    void applyMarks();
 }

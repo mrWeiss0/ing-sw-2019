@@ -30,9 +30,4 @@ public class Room implements Targettable {
     public void markFrom(Figure dealer, int n) {
         for (AbstractSquare s : squares) s.markFrom(dealer, n);
     }
-
-    @Override
-    public void applyMarks() {
-        for (AbstractSquare s : squares) s.applyMarks();
-    }
 }
