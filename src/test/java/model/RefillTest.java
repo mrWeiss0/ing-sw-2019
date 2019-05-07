@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("SuspiciousMethodCalls")
 class RefillTest {
@@ -60,9 +59,18 @@ class RefillTest {
     @Test
     void testRefillMany() {
         AbstractSquare square = new SpawnSquareMock(new Room());
-        square.accept(g);
-        square.accept(g);
-        square.accept(g);
-        assertTrue(Arrays.asList(weapons).containsAll(square.peek()));
+        assertTrue(square.refill(weapons[2]));
+        assertTrue(square.refill(weapons[1]));
+        assertTrue(square.refill(weapons[3]));
+        assertFalse(square.refill(weapons[0]));
+        assertEquals(Stream.of(weapons[2], weapons[1], weapons[3]).collect(Collectors.toSet()), square.peek());
+    }
+
+    @Test
+    void testWrong() {
+        AbstractSquare square = new AmmoSquareMock(new Room());
+        assertTrue(square.refill(ammoTiles[1]));
+        assertFalse(square.refill(ammoTiles[0]));
+        assertEquals(ammoTiles[1], square.peek().toArray()[0]);
     }
 }

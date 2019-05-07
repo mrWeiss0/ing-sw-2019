@@ -31,16 +31,16 @@ public class Board {
         return figures;
     }
 
-    public Set<Figure> getDamaged(){
+    public Set<Figure> getDamaged() {
         return figures.stream().filter(Figure::isDamaged).collect(Collectors.toSet());
     }
 
-    public void clearDamaged(){
-        figures.stream().forEach(Figure::clearDamaged);
+    public void clearDamaged() {
+        figures.forEach(Figure::clearDamaged);
     }
 
-    public void applyMarks(){
-        figures.stream().forEach(Figure::applyMarks);
+    public void applyMarks() {
+        figures.forEach(Figure::applyMarks);
     }
 
 }

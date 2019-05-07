@@ -108,7 +108,7 @@ public class Figure implements Targettable {
         return damaged;
     }
 
-    public void clearDamaged(){
+    public void clearDamaged() {
         damaged = false;
     }
 
