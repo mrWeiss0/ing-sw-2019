@@ -32,17 +32,17 @@ class FileParserTest {
              * +-----------+---+
              */
             board = FileParser.buildBoard(new StringReader("[" +
-                    "{\"ID\":8,\"coords\":[2,1],\"roomID\":4,\"adjacent\":[4,7]}," +
-                    "{\"ID\":1,\"coords\":[0,1],\"roomID\":1,\"adjacent\":[0,2]}," +
-                    "{\"ID\":6,\"coords\":[1,3],\"roomID\":5,\"adjacent\":[5,10]}," +
-                    "{\"ID\":9,\"coords\":[2,2],\"roomID\":4,\"adjacent\":[8,5]}," +
-                    "{\"ID\":4,\"coords\":[1,1],\"roomID\":2,\"adjacent\":[5]}," +
-                    "{\"ID\":0,\"coords\":[0,0],\"roomID\":0}," +
-                    "{\"ID\":5,\"coords\":[1,2],\"roomID\":2}," +
-                    "{\"ID\":7,\"coords\":[2,0],\"roomID\":4,\"adjacent\":[3]}," +
-                    "{\"ID\":2,\"coords\":[0,2],\"roomID\":1,\"adjacent\":[5,1],\"spawn\":true}," +
-                    "{\"ID\":3,\"coords\":[1,0],\"roomID\":0,\"adjacent\":[0],\"spawn\":true}," +
-                    "{\"ID\":10,\"coords\":[2,3],\"roomID\":5,\"adjacent\":[9,6],\"spawn\":true}]"));
+                    "{\"id\":8,\"coords\":[2,1],\"roomId\":4,\"adjacent\":[4,7]}," +
+                    "{\"id\":1,\"coords\":[0,1],\"roomId\":1,\"adjacent\":[0,2]}," +
+                    "{\"id\":6,\"coords\":[1,3],\"roomId\":5,\"adjacent\":[5,10]}," +
+                    "{\"id\":9,\"coords\":[2,2],\"roomId\":4,\"adjacent\":[8,5]}," +
+                    "{\"id\":4,\"coords\":[1,1],\"roomId\":2,\"adjacent\":[5]}," +
+                    "{\"id\":0,\"coords\":[0,0],\"roomId\":0}," +
+                    "{\"id\":5,\"coords\":[1,2],\"roomId\":2}," +
+                    "{\"id\":7,\"coords\":[2,0],\"roomId\":4,\"adjacent\":[3]}," +
+                    "{\"id\":2,\"coords\":[0,2],\"roomId\":1,\"adjacent\":[5,1],\"spawn\":true}," +
+                    "{\"id\":3,\"coords\":[1,0],\"roomId\":0,\"adjacent\":[0],\"spawn\":true}," +
+                    "{\"id\":10,\"coords\":[2,3],\"roomId\":5,\"adjacent\":[9,6],\"spawn\":true}]"));
         } catch (MalformedDataException e) {
             fail(e);
             return;
@@ -62,10 +62,10 @@ class FileParserTest {
 
     @Test
     void testExceptions() {
-        assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"roomID\":0,\"adjacent\":[0],\"spawn\":true}]")));
+        assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"roomId\":0,\"adjacent\":[0],\"spawn\":true}]")));
         assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"coords\":[1]}]")));
         assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"coords\":[1,2,3]}]")));
-        assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"ID\":1,\"coords\":[0,1]},{\"ID\":1,\"coords\":[0,1]}]")));
+        assertThrows(MalformedDataException.class, () -> FileParser.buildBoard(new StringReader("[{\"id\":1,\"coords\":[0,1]},{\"id\":1,\"coords\":[0,1]}]")));
     }
 
     @Test

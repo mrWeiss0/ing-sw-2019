@@ -16,11 +16,11 @@ class BoardBuilder {
 
     Room getRoom(int i) {
         Room roomObj;
-        if (i >= rooms.size()) {
+        if (i >= rooms.size())
             rooms.addAll(Collections.nCopies(i - rooms.size() + 1, null));
-        }
         if ((roomObj = rooms.get(i)) == null) {
-            rooms.set(i, roomObj = new Room());
+            roomObj = new Room();
+            rooms.set(i, roomObj);
         }
         return roomObj;
     }
@@ -29,9 +29,9 @@ class BoardBuilder {
         return squaresMap.get(i);
     }
 
-    void addSquare(int ID, AbstractSquare square) throws MalformedDataException {
-        if (squaresMap.containsKey(ID)) throw new MalformedDataException("Duplicate cell ID " + ID);
-        squaresMap.put(ID, square);
+    void addSquare(int id, AbstractSquare square) throws MalformedDataException {
+        if (squaresMap.containsKey(id)) throw new MalformedDataException("Duplicate cell ID " + id);
+        squaresMap.put(id, square);
         board.addSquare(square);
     }
 
@@ -44,11 +44,12 @@ class BoardBuilder {
     }
 }
 
+@SuppressWarnings("unused")
 class JsonSquare {
-    private int ID;
+    private int id;
     private boolean spawn;
     private int[] coords;
-    private int roomID;
+    private int roomId;
     private int[] adjacent;
     private AbstractSquare squareObj;
 
@@ -56,18 +57,20 @@ class JsonSquare {
     }
 
     void build(BoardBuilder boardBuilder) throws MalformedDataException {
-        Room room = boardBuilder.getRoom(roomID);
-        if (coords == null) throw new MalformedDataException("Missing coordinates in square " + ID);
+        Room room = boardBuilder.getRoom(roomId);
+        if (coords == null)
+            throw new MalformedDataException("Missing coordinates in square " + id);
         if (coords.length != 2)
-            throw new MalformedDataException("Cell " + ID + " has " + coords.length + " coordinate");
+            throw new MalformedDataException("Cell " + id + " has " + coords.length + " coordinate");
         squareObj = spawn ?
                 new SpawnSquare(room, coords) :
                 new AmmoSquare(room, coords);
-        boardBuilder.addSquare(ID, squareObj);
+        boardBuilder.addSquare(id, squareObj);
     }
 
     void connect(BoardBuilder boardBuilder) {
-        if (adjacent != null) for (int i : adjacent)
-            boardBuilder.getSquare(i).connect(squareObj);
+        if (adjacent != null)
+            for (int i : adjacent)
+                boardBuilder.getSquare(i).connect(squareObj);
     }
 }
