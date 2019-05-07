@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 /**
  * <code>Game</code> is a class containing all of the major elements of a game
@@ -17,12 +16,14 @@ import java.util.stream.Collectors;
  * as provides methods to manage them.
  */
 public class Game {
+    private final int maxDamages;
+    private final int maxMarks;
+    private final AmmoCube defaultAmmo;
+    private final int maxAmmo;
     // Killshot Track
     private List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
-    private int remainingKills;     // Kills to finish game
-
-    private List<Player> players = new ArrayList<>();
-    private List<Figure> figures = new ArrayList<>();
+    private int remainingKills; // Kills to finish game
+    private List<Figure> players = new ArrayList<>();
     private int currPlayer = -1;
 
     private Deck<AmmoTile> ammoTileDeck;
@@ -32,37 +33,45 @@ public class Game {
     private Board board;
 
     /**
-     * Constructor used for testing purposes
-     */
-    public Game() {
-        this(new ArrayList<>(), new ArrayList<>(), 0);
-    }
-
-    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles) {
-        this(weapons, ammoTiles, 0);
-    }
-
-    /**
      * Constructor that initializes remaining kills with given value,
      * determining game length.
      *
      * @param nKills the number of kills needed to reach the end game or
      *               the frenzy turn
      */
-    public Game(Collection<Weapon> weapons, Collection<AmmoTile> ammoTiles, int nKills) {
+    public Game(int nKills, int maxDamages, int maxMarks, AmmoCube defaultAmmo, int maxAmmo) {
         remainingKills = nKills;
-        weaponDeck = new Deck<>(weapons);
-        ammoTileDeck = new Deck<>(ammoTiles);
+        this.maxDamages = maxDamages;
+        this.maxMarks = maxMarks;
+        this.defaultAmmo = defaultAmmo;
+        this.maxAmmo = maxAmmo;
     }
 
-    /**
-     * Adds a specified player as the last to the player list. This should
-     * be done only before the beginning of a game.
-     *
-     * @param player the player to be added
-     */
-    public void addPlayer(Player player) {
+    public Game setAmmoTiles(Collection<AmmoTile> c) {
+        ammoTileDeck = new Deck<>(c);
+        return this;
+    }
+
+    public Game setWeapons(Collection<Weapon> c) {
+        weaponDeck = new Deck<>(c);
+        return this;
+    }
+
+    public Game setPowerUps(Collection<PowerUp> c) {
+        powerUpDeck = new Deck<>(c);
+        return this;
+    }
+
+    public Game setBoard(Board b) {
+        board = b;
+        return this;
+    }
+
+    public Figure newPlayer() {
+        Figure player = new Figure(maxDamages, maxMarks, defaultAmmo);
         players.add(player);
+        board.getFigures().add(player);
+        return player;
     }
 
     /**
@@ -71,8 +80,9 @@ public class Game {
      *
      * @param player the player to be removed
      */
-    public void removePlayer(Player player) {
+    public void removePlayer(Figure player) {
         players.remove(player);
+        board.getFigures().remove(player);
     }
 
     /**
@@ -80,7 +90,7 @@ public class Game {
      *
      * @return the player whose turn its taking place
      */
-    public Player currentPlayer() {
+    public Figure currentPlayer() {
         return players.get(currPlayer);
     }
 
@@ -93,25 +103,26 @@ public class Game {
      * @return the player that comes after the one that has completed
      * its turn
      */
-    public Player nextPlayer() {
+    public Figure nextPlayer() {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
     }
 
-    public List<Figure> getFigures() {
-        return figures.stream().filter(f -> f.getSquare() != null).collect(Collectors.toList());
+    public void fillBoard() {
+        for (AbstractSquare current : board.getSquares())
+            while (current.accept(this)) ;
     }
 
-    public void fillSquare(AmmoSquare square) {
-        square.refill(ammoTileDeck.draw());
+    public boolean fillSquare(AmmoSquare square) {
+        return square.refill(ammoTileDeck.draw());
     }
 
-    public void fillSquare(SpawnSquare square) {
+    public boolean fillSquare(SpawnSquare square) {
         try {
-            square.refill(weaponDeck.draw());
+            return square.refill(weaponDeck.draw());
         } catch (NoSuchElementException ignore) {
-            // If deck is empty do nothing
+            return false; // If deck is empty do nothing
         }
     }
 }

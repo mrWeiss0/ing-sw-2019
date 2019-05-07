@@ -1,7 +1,7 @@
 package model.weapon;
 
+import model.Board;
 import model.Figure;
-import model.Game;
 import model.Targettable;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class FireStep {
         return maxTargets;
     }
 
-    public Set<Targettable> getTargets(Figure shooter, Game game, List<Targettable> lastTargets) {
-        return targetGens.stream().map(t -> t.get(shooter, game, lastTargets)).reduce((a, b) -> {
+    public Set<Targettable> getTargets(Figure shooter, Board board, List<Targettable> lastTargets) {
+        return targetGens.stream().map(t -> t.get(shooter, board, lastTargets)).reduce((a, b) -> {
             a.retainAll(b);
             return a;
         }).orElseGet(HashSet::new);

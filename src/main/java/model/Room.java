@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <code>Room</code> aggregates all squares belonging to a single room.
@@ -10,7 +10,7 @@ import java.util.List;
  * with its <code>dealDamage</code> and <code>dealMark</code> methods.
  */
 public class Room implements Targettable {
-    private List<AbstractSquare> squares = new ArrayList<>();
+    private Set<AbstractSquare> squares = new HashSet<>();
 
     /**
      * Adds the passed square to this room's squares
@@ -19,6 +19,10 @@ public class Room implements Targettable {
      */
     public void addSquare(AbstractSquare square) {
         squares.add(square);
+    }
+
+    public Set<AbstractSquare> getSquares() {
+        return squares;
     }
 
     @Override

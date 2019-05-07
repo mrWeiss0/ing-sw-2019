@@ -1,23 +1,23 @@
 package model.weapon;
 
+import model.Board;
 import model.Figure;
-import model.Game;
 import model.Targettable;
 
 import java.util.*;
 
 public class FireSequence {
     private Figure shooter;
-    private Game game;
+    private Board board;
     private Iterator<FireStep> steps;
     private FireStep currentStep;
     private Set<Targettable> validTargets = new HashSet<>();
     private List<Targettable> lastTargets = new ArrayList<>();
     private boolean hasNext = true;
 
-    public FireSequence(Figure shooter, Game game, List<FireStep> stepList) {
+    public FireSequence(Figure shooter, Board board, List<FireStep> stepList) {
         this.shooter = shooter;
-        this.game = game;
+        this.board = board;
         steps = stepList.iterator();
         next();
     }
@@ -40,7 +40,7 @@ public class FireSequence {
     private void next() {
         if (steps.hasNext()) {
             currentStep = steps.next();
-            validTargets = currentStep.getTargets(shooter, game, lastTargets);
+            validTargets = currentStep.getTargets(shooter, board, lastTargets);
         } else
             hasNext = false;
     }

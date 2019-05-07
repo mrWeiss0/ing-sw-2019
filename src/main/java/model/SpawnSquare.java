@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 public class SpawnSquare extends AbstractSquare {
+    private final int capacity = 3;
     private Set<Weapon> weapons = new HashSet<>();
 
     public SpawnSquare(Room room, int[] coordinates) {
@@ -14,13 +15,15 @@ public class SpawnSquare extends AbstractSquare {
     }
 
     @Override
-    public void accept(Game game) {
-        game.fillSquare(this);
+    public boolean accept(Game game) {
+        return game.fillSquare(this);
     }
 
     @Override
-    public void refill(Grabbable o) {
-        weapons.add((Weapon) o);
+    public boolean refill(Grabbable o) {
+        if (weapons.size() < capacity)
+            return weapons.add((Weapon) o);
+        return false;
     }
 
     @Override

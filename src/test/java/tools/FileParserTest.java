@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,7 +15,7 @@ import static java.lang.Math.min;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileParserTest {
-    private static List<Room> rooms;
+    private static Set<Room> rooms;
     private static List<AbstractSquare> squares;
 
     @BeforeAll
@@ -46,7 +48,7 @@ class FileParserTest {
             return;
         }
         rooms = board.getRooms();
-        squares = board.getSquares();
+        squares = new ArrayList<>(board.getSquares());
         squares.sort((a, b) -> {
             int[] ca = a.getCoordinates();
             int[] cb = b.getCoordinates();

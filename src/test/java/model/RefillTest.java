@@ -1,9 +1,6 @@
 package model;
 
-import model.mock.AmmoSquareMock;
-import model.mock.OptionalWeaponMock;
-import model.mock.SpawnSquareMock;
-import model.mock.WeaponMock;
+import model.mock.*;
 import model.weapon.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +22,7 @@ public class RefillTest {
     void init() {
         weapons = new Weapon[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new WeaponMock()};
         ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
-        g = new Game(Arrays.asList(weapons), Arrays.asList(ammoTiles));
+        g = new GameMock().setWeapons(Arrays.asList(weapons)).setAmmoTiles(Arrays.asList(ammoTiles));
     }
 
     @Test
@@ -62,7 +59,6 @@ public class RefillTest {
         square.accept(g);
         square.accept(g);
         square.accept(g);
-        square.accept(g);
-        assertEquals(Arrays.stream(weapons).collect(Collectors.toSet()), square.peek());
+        assertTrue(Arrays.asList(weapons).containsAll(square.peek()));
     }
 }

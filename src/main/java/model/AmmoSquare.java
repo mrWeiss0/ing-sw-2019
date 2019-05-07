@@ -14,13 +14,17 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     @Override
-    public void accept(Game game) {
-        game.fillSquare(this);
+    public boolean accept(Game game) {
+        return game.fillSquare(this);
     }
 
     @Override
-    public void refill(Grabbable o) {
-        ammoTile = (AmmoTile) o;
+    public boolean refill(Grabbable o) {
+        if (ammoTile == null) {
+            ammoTile = (AmmoTile) o;
+            return true;
+        }
+        return false;
     }
 
     @Override

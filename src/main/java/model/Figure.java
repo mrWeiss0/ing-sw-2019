@@ -8,6 +8,7 @@ import java.util.*;
 public class Figure implements Targettable {
     private AbstractSquare square = null;
     private List<Figure> damages = new ArrayList<>();
+    private boolean damaged = false;
     private HashMap<Figure, Integer> marks = new HashMap<>();
     private HashMap<Figure, Integer> newMarks = new HashMap<>();
     private int deaths = 0;
@@ -82,6 +83,7 @@ public class Figure implements Targettable {
                     Integer.min(n + marks.getOrDefault(dealer, 0), maxDamages - damages.size()),
                     dealer));
             marks.put(dealer, 0);
+            damaged = true;
         }
     }
 
@@ -97,6 +99,12 @@ public class Figure implements Targettable {
         if (dealer != this) {
             newMarks.put(dealer, n);
         }
+    }
+
+    public boolean isDamagedAndClear() {
+        boolean d = damaged;
+        damaged = false;
+        return d;
     }
 
     public void applyMarks() {
