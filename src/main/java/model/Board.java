@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <code>Board</code> represents the game board and its square.
@@ -9,13 +11,21 @@ import java.util.List;
  * It provides methods to allow refilling using the visitor pattern.
  */
 public class Board {
-
-    private List<AbstractSquare> squares;
-    private List<SpawnSquare> spawnpoints; //Probably not needed
+    private Set<Room> rooms = new HashSet<>();
+    private Set<AbstractSquare> squares = new HashSet<>();
     private List<AbstractSquare> toRefill = new ArrayList<>();
 
     public void addSquare(AbstractSquare square) {
+        rooms.add(square.getRoom());
         squares.add(square);
+    }
+
+    public List<Room> getRooms() {
+        return new ArrayList<>(rooms);
+    }
+
+    public List<AbstractSquare> getSquares() {
+        return new ArrayList<>(squares);
     }
 
     /**

@@ -1,27 +1,16 @@
 package tools;
 
-import com.google.gson.stream.JsonReader;
-import model.AbstractSquare;
+import com.google.gson.Gson;
+import model.Board;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Reader;
+
 
 public class FileParser {
-    public List<AbstractSquare> initBoard(String filename) {
-        JsonReader json;
-        BoardCreator bc;
-        try {
-            json = new JsonReader(new InputStreamReader(new FileInputStream(new File("src/main/resources/maps/" + filename))));
-            bc = new BoardCreator(json);
-        } catch (FileNotFoundException e) {
-            return new ArrayList<>();
-        }
-        try {
-            return bc.readSquares();
-        } catch (IOException e) {
-            return new ArrayList<>();
-        }
-    }
+    private static Gson gson = new Gson();
 
+    public static Board buildBoard(Reader mapFile) throws MalformedDataException {
+        return new BoardBuilder(gson.fromJson(mapFile, JsonSquare[].class)).build();
+    }
 }
+
