@@ -8,40 +8,40 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameTest {
+class GameTest {
     private Game game;
 
     @BeforeEach
-    public void init() {
+    void init() {
         game = new GameMock().setBoard(new Board());
     }
 
     @Test
-    public void test1Player() {
+    void test1Player() {
         Figure p1 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
     }
 
     @Test
-    public void test2Player() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p2);
-    }
-
-    @Test
-    public void testCycling() {
+    void test2Player() {
         Figure p1 = game.newPlayer();
         Figure p2 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
+    }
+
+    @Test
+    void testCycling() {
+        Figure p1 = game.newPlayer();
+        Figure p2 = game.newPlayer();
+        assertEquals(game.nextPlayer(), p1);
+        assertEquals(game.nextPlayer(), p2);
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
     }
 
     @Test
-    public void test5Players() {
+    void test5Players() {
         Figure[] players = new Figure[5];
         for (int i = 0; i < 5; i++) {
             players[i] = game.newPlayer();
@@ -52,7 +52,7 @@ public class GameTest {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         Figure p1 = game.newPlayer();
         Figure p2 = game.newPlayer();
         Figure p3 = game.newPlayer();

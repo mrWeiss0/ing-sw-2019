@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OptionalWeaponTest {
-    public static FireMode[] fm;
-    public static Weapon[] weapons;
+    private static FireMode[] fm;
+    private static Weapon[] weapons;
 
     @BeforeAll
     static void ba() {

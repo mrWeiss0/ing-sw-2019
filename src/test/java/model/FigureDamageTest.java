@@ -14,9 +14,9 @@ import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FigureDamageTest {
-    public static Room room;
-    public static AbstractSquare[] squares;
+class FigureDamageTest {
+    private static Room room;
+    private static AbstractSquare[] squares;
     private Figure[] figures;
 
     @BeforeAll

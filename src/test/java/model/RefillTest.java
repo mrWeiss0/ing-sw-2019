@@ -16,7 +16,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RefillTest {
+@SuppressWarnings("SuspiciousMethodCalls")
+class RefillTest {
     private Game g;
     private AbstractSquare[] squares;
     private Weapon[] weapons;
@@ -35,11 +36,10 @@ public class RefillTest {
         Arrays.stream(squares).forEach(s -> s.accept(g));
         Arrays.stream(squares).forEach(s -> {
             Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
-            if (s instanceof AmmoSquare) {
+            if (s instanceof AmmoSquare)
                 assertTrue(Arrays.asList(ammoTiles).contains(grabbed));
-            } else if (s instanceof SpawnSquare) {
+            else if (s instanceof SpawnSquare)
                 assertTrue(Arrays.asList(weapons).contains(grabbed));
-            }
         });
     }
 

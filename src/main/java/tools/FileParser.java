@@ -13,4 +13,3 @@ public class FileParser {
         return new BoardBuilder(gson.fromJson(mapFile, JsonSquare[].class)).build();
     }
 }
-

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoCubeTest {
-    public static AmmoCube a, b;
+    private static AmmoCube a, b;
 
     @BeforeAll
     static void init() {

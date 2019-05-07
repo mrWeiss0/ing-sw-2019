@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractSquareTest {
 
-    public static Room room;
+    private static Room room;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         room = new Room();
     }
 

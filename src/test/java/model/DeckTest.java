@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
     @Test
-    public void testCreation() {
+    void testCreation() {
         Integer[] source = new Integer[]{1, 2, 5};
         Deck<Integer> deck = new Deck<>(Arrays.asList(source));
         assertTrue(Arrays.asList(source).contains(deck.draw()));
@@ -19,14 +19,14 @@ class DeckTest {
     }
 
     @Test
-    public void testDiscard() {
+    void testDiscard() {
         Deck<Integer> deck = new Deck<>();
         deck.discard(4);
         assertEquals(4, deck.draw());
     }
 
     @Test
-    public void testException() {
+    void testException() {
         Deck<Integer> deck = new Deck<>();
         assertThrows(NoSuchElementException.class, deck::draw);
     }

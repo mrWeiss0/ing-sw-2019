@@ -12,13 +12,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FigureTest {
-    public static Room room;
-    public static AbstractSquare[] squares;
+    private static AbstractSquare[] squares;
     private Figure figure;
 
     @BeforeAll
     static void init() {
-        room = new Room();
+        Room room = new Room();
         squares = new AbstractSquare[]{
                 new SpawnSquareMock(room),
                 new SpawnSquareMock(room)

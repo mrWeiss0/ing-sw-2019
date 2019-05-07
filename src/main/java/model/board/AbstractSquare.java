@@ -32,7 +32,7 @@ public abstract class AbstractSquare implements Targettable {
      * adding this to its square set.
      *
      * @param room        the room this square belongs to
-     * @param coordinates
+     * @param coordinates the square coordinates
      */
     public AbstractSquare(Room room, int[] coordinates) {
         this.room = room;
@@ -87,15 +87,15 @@ public abstract class AbstractSquare implements Targettable {
         return room;
     }
 
+    /**
+     * Returns the coordinates of this square.
+     *
+     * @return the coordinates of this square
+     */
     public int[] getCoordinates() {
         return coordinates;
     }
 
-    /**
-     * Returns the set of squares adjacent to this one.
-     *
-     * @return the set of adjacency
-     */
     public Set<AbstractSquare> getAdjacent() {
         return adjacent;
     }

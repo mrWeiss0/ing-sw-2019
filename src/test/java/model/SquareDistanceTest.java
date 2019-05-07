@@ -10,11 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SquareDistanceTest {
-
-    public static Room room;
+    private static Room room;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         room = new Room();
     }
 

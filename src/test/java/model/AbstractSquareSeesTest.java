@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class AbstractSquareSeesTest {
+class AbstractSquareSeesTest {
 
-    public static Room[] rooms;
-    public static AbstractSquare[] squares;
-    public static Figure figure;
+    private static Room[] rooms;
+    private static AbstractSquare[] squares;
+    private static Figure figure;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         rooms = new Room[]{
                 new Room(),
                 new Room(),

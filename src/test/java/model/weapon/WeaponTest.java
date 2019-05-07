@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponTest {
-    public static FireMode[] fm;
-    public static Weapon weapon;
+    private static FireMode[] fm;
+    private static Weapon weapon;
 
     @BeforeAll
     static void ba() {

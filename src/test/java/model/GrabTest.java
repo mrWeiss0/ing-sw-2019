@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class GrabTest {
     private Figure f;
     private AbstractSquare[] squares;
-    private Set<Grabbable> grabbed;
     private Grabbable[] items;
 
     @BeforeEach
@@ -29,7 +28,7 @@ class GrabTest {
 
     @Test
     void emptyTest() {
-        grabbed = squares[0].peek();
+        Set<Grabbable> grabbed = squares[0].peek();
         assertEquals(new HashSet<>(), grabbed);
     }
 
