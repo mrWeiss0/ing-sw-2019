@@ -104,10 +104,12 @@ public class Figure implements Targettable {
         }
     }
 
-    public boolean isDamagedAndClear() {
-        boolean d = damaged;
+    public boolean isDamaged() {
+        return damaged;
+    }
+
+    public void clearDamaged(){
         damaged = false;
-        return d;
     }
 
     public void applyMarks() {
