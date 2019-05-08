@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-class AbstractSquareSeesTest {
+class SquareVisibleTest {
 
     private static Room[] rooms;
     private static AbstractSquare[] squares;

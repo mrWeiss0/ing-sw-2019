@@ -104,20 +104,31 @@ public abstract class AbstractSquare implements Targettable {
         return occupants;
     }
 
-    public Set<AbstractSquare> atDistanceMax(int distance) {
+    private Map<AbstractSquare, Integer> distanceMap(int maxDistance) {
         Queue<AbstractSquare> queue = new LinkedList<>();
-        Set<AbstractSquare> visited = new HashSet<>();
+        Map<AbstractSquare, Integer> distances = new HashMap<>();
         AbstractSquare next;
         List<AbstractSquare> adj;
 
         queue.add(this);
-        visited.add(this);
-        while (distance-- > 0 && (next = queue.poll()) != null) {
-            adj = next.getAdjacent().stream().filter(s -> !visited.contains(s)).collect(Collectors.toList());
-            queue.addAll(adj);
-            visited.addAll(adj);
+        distances.put(this, 0);
+        while ((next = queue.poll()) != null) {
+            Integer dist = distances.get(next);
+            if (maxDistance < 0 || dist < maxDistance) {
+                adj = next.getAdjacent().stream().filter(s -> !distances.containsKey(s)).collect(Collectors.toList());
+                adj.forEach(s -> distances.put(s, dist + 1));
+                queue.addAll(adj);
+            }
         }
-        return visited;
+        return distances;
+    }
+
+    public Set<AbstractSquare> atDistance(int maxDistance) {
+        return distanceMap(maxDistance).keySet();
+    }
+
+    public Set<AbstractSquare> atDistance(int minDistance, int maxDistance) {
+        return distanceMap(maxDistance).entrySet().stream().filter(e -> e.getValue() >= minDistance).map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 
     private Stream<Room> visibleRoomsStream() {

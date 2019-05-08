@@ -8,13 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class machineGunTest {
+class FireSequenceTest {
     private static FireMode base, focus, tripod;
     private Board board = new Board();
     private Figure[] figures;
@@ -100,6 +101,8 @@ class machineGunTest {
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
+        board.clearDamaged();
+        assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
         assertEquals(Collections.singletonList(figures[0]), figures[2].getDamages());
     }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractSquareTest {
+class SquareTest {
 
     private static Room room;
 
@@ -16,14 +16,14 @@ class AbstractSquareTest {
 
     @Test
     void testGetRoom() {
-        final AbstractSquare square = new SpawnSquareMock(AbstractSquareTest.room);
-        assertEquals(square.getRoom(), AbstractSquareTest.room);
+        final AbstractSquare square = new SpawnSquareMock(SquareTest.room);
+        assertEquals(square.getRoom(), SquareTest.room);
     }
 
     @Test
     void TestConnect() {
-        final AbstractSquare square1 = new SpawnSquareMock(AbstractSquareTest.room);
-        final AbstractSquare square2 = new SpawnSquareMock(AbstractSquareTest.room);
+        final AbstractSquare square1 = new SpawnSquareMock(SquareTest.room);
+        final AbstractSquare square2 = new SpawnSquareMock(SquareTest.room);
         square1.connect(square2);
         assertTrue(square1.getAdjacent().contains(square2));
         assertTrue(square2.getAdjacent().contains(square1));
@@ -35,8 +35,8 @@ class AbstractSquareTest {
 
     @Test
     void TestConnectDup() {
-        final AbstractSquare square1 = new SpawnSquareMock(AbstractSquareTest.room);
-        final AbstractSquare square2 = new SpawnSquareMock(AbstractSquareTest.room);
+        final AbstractSquare square1 = new SpawnSquareMock(SquareTest.room);
+        final AbstractSquare square2 = new SpawnSquareMock(SquareTest.room);
         square1.connect(square2);
         square2.connect(square1);
         assertTrue(square1.getAdjacent().contains(square2));
