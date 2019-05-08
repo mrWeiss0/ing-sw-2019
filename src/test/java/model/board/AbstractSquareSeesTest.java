@@ -3,6 +3,8 @@ package model.board;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,53 +37,49 @@ class AbstractSquareSeesTest {
 
     @Test
     void testSeesSameRoom() {
-        assertTrue(squares[0].sees(rooms[0]));
+        assertTrue(squares[0].visibleRooms().contains(rooms[0]));
     }
 
     @Test
     void testSeesSelf() {
-        assertTrue(squares[0].sees(squares[0]));
+        assertTrue(squares[0].visibleSquares().contains(squares[0]));
     }
 
     @Test
     void testSeesSameRoomSquare() {
-        assertTrue(squares[0].sees(squares[1]));
+        assertTrue(squares[0].visibleSquares().contains(squares[1]));
     }
 
     @Test
     void testSeesConnectedRoom() {
-        assertTrue(squares[2].sees(rooms[0]));
-        assertTrue(squares[2].sees(rooms[1]));
+        assertTrue(squares[2].visibleRooms().containsAll(Arrays.asList(rooms[0], rooms[1])));
     }
 
     @Test
     void testSeesConnectedRoomSquares() {
-        assertTrue(squares[2].sees(squares[0]));
-        assertTrue(squares[2].sees(squares[1]));
-        assertTrue(squares[2].sees(squares[3]));
-        assertTrue(squares[3].sees(squares[2]));
+        assertTrue(squares[2].visibleSquares().containsAll(Arrays.asList(squares[0], squares[1], squares[2], squares[3])));
     }
 
     @Test
     void testNotSeesNotConnectedRoom() {
-        assertFalse(squares[0].sees(rooms[1]));
-        assertFalse(squares[0].sees(rooms[2]));
-        assertFalse(squares[3].sees(rooms[0]));
+        assertFalse(squares[0].visibleRooms().contains(rooms[1]));
+        assertFalse(squares[0].visibleRooms().contains(rooms[2]));
+        assertFalse(squares[3].visibleRooms().contains(rooms[0]));
     }
 
     @Test
     void testNotSeesNotConnectedRoomSquares() {
-        assertFalse(squares[0].sees(squares[2]));
-        assertFalse(squares[1].sees(squares[3]));
-        assertFalse(squares[3].sees(squares[1]));
-        assertFalse(squares[0].sees(squares[3]));
+        assertFalse(squares[0].visibleSquares().contains(squares[2]));
+        assertFalse(squares[1].visibleSquares().contains(squares[3]));
+        assertFalse(squares[3].visibleSquares().contains(squares[1]));
+        assertFalse(squares[0].visibleSquares().contains(squares[3]));
     }
 
     @Test
     void testSeesFigure() {
-        assertFalse(squares[0].sees(figure));
-        assertTrue(squares[1].sees(figure));
-        assertTrue(squares[2].sees(figure));
-        assertTrue(squares[3].sees(figure));
+        assertFalse(squares[0].visibleFigures().contains(figure));
+        assertTrue(squares[1].visibleFigures().contains(figure));
+        assertTrue(squares[2].visibleFigures().contains(figure));
+        assertTrue(squares[3].visibleFigures().contains(figure));
     }
 }

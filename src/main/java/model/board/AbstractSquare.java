@@ -4,7 +4,8 @@ import model.Game;
 import model.Grabbable;
 
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <code>AbstractSquares</code> is an abstract base class for any square on the
@@ -53,29 +54,23 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Calculates number of steps to get from this square to the one specified.
+     * Adds the specified figure to the list of occupants. Should be called
+     * only when a figure is moved to this square.
      *
-     * @param target the square whose distance from this is to be calculated
-     * @return the distance calculated
+     * @param figure the figure to be moved to this square
      */
-    public int distance(AbstractSquare target) {
-        ArrayList<AbstractSquare> visited = new ArrayList<>();
-        ArrayDeque<AbstractSquare> toVisit = new ArrayDeque<>();
-        HashMap<AbstractSquare, Integer> distances = new HashMap<>();
-        toVisit.addFirst(this);
-        distances.put(this, 0);
-        while (!toVisit.isEmpty()) {
-            AbstractSquare current = toVisit.removeLast();
-            if (current == target) return distances.get(current);
-            for (AbstractSquare square : current.adjacent)
-                if (!visited.contains(square) && !toVisit.contains(square)) {
-                    distances.put(square, distances.get(current) + 1);
-                    toVisit.addFirst(square);
-                }
-            visited.add(current);
+    public void addOccupant(Figure figure) {
+        occupants.add(figure);
+    }
 
-        }
-        return -1;
+    /**
+     * Removes the specified figure to the list of occupants. Should be called
+     * only when a figure is moved from this square.
+     *
+     * @param figure the figure to be moved from this square
+     */
+    public void removeOccupant(Figure figure) {
+        occupants.remove(figure);
     }
 
     /**
@@ -109,60 +104,40 @@ public abstract class AbstractSquare implements Targettable {
         return occupants;
     }
 
-    /**
-     * Adds the specified figure to the list of occupants. Should be called
-     * only when a figure is moved to this square.
-     *
-     * @param figure the figure to be moved to this square
-     */
-    public void addOccupant(Figure figure) {
-        occupants.add(figure);
+    public Set<AbstractSquare> atDistanceMax(int distance) {
+        Queue<AbstractSquare> queue = new LinkedList<>();
+        Set<AbstractSquare> visited = new HashSet<>();
+        AbstractSquare next;
+        List<AbstractSquare> adj;
+
+        queue.add(this);
+        visited.add(this);
+        while (distance-- > 0 && (next = queue.poll()) != null) {
+            adj = next.getAdjacent().stream().filter(s -> !visited.contains(s)).collect(Collectors.toList());
+            queue.addAll(adj);
+            visited.addAll(adj);
+        }
+        return visited;
     }
 
-    /**
-     * Removes the specified figure to the list of occupants. Should be called
-     * only when a figure is moved from this square.
-     *
-     * @param figure the figure to be moved from this square
-     */
-    public void removeOccupant(Figure figure) {
-        occupants.remove(figure);
+    private Stream<Room> visibleRoomsStream() {
+        return Stream.concat(adjacent.stream().map(AbstractSquare::getRoom), Stream.of(room));
     }
 
-    /**
-     * Checks if the specified room is seen by this square, whether it's the
-     * one containing it or it's seen by it.
-     *
-     * @param target the room to be checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise
-     */
-    public boolean sees(Room target) {
-        return target == room || adjacent.stream().map(AbstractSquare::getRoom).anyMatch(Predicate.isEqual(target));
+    private Stream<AbstractSquare> visibleSquaresStream() {
+        return visibleRoomsStream().map(Room::getSquares).flatMap(Set::stream);
     }
 
-    /**
-     * Checks if the specified square is seen by this square, whether
-     * it's in the same room or in a room seen by it.
-     *
-     * @param target the square to be checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
-     */
-    public boolean sees(AbstractSquare target) {
-        return sees(target.getRoom());
+    public Set<Room> visibleRooms() {
+        return visibleRoomsStream().collect(Collectors.toSet());
     }
 
-    /**
-     * Checks if the specified <code>Figure</code> is seen by this square,
-     * whether it's in the square itself or in a square seen by it.
-     *
-     * @param target the square to checked for visibility
-     * @return <code>true</code> if the target is seen by this square;
-     * <code>false</code> otherwise.
-     */
-    public boolean sees(Figure target) {
-        return sees(target.getSquare());
+    public Set<AbstractSquare> visibleSquares() {
+        return visibleSquaresStream().collect(Collectors.toSet());
+    }
+
+    public Set<Figure> visibleFigures() {
+        return visibleSquaresStream().map(AbstractSquare::getOccupants).flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
     @Override
