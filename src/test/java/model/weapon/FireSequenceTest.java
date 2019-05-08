@@ -1,6 +1,5 @@
 package model.weapon;
 
-import model.mock.OptionalWeaponMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

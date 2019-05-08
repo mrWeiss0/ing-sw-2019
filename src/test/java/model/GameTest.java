@@ -2,7 +2,6 @@ package model;
 
 import model.board.Board;
 import model.board.Figure;
-import model.mock.GameMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,22 +17,22 @@ class GameTest {
 
     @Test
     void test1Player() {
-        Figure p1 = game.newPlayer();
+        final Figure p1 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
     }
 
     @Test
     void test2Player() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
+        final Figure p1 = game.newPlayer();
+        final Figure p2 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
     }
 
     @Test
     void testCycling() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
+        final Figure p1 = game.newPlayer();
+        final Figure p2 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
         assertEquals(game.nextPlayer(), p1);
@@ -42,7 +41,7 @@ class GameTest {
 
     @Test
     void test5Players() {
-        Figure[] players = new Figure[5];
+        final Figure[] players = new Figure[5];
         for (int i = 0; i < 5; i++) {
             players[i] = game.newPlayer();
         }
@@ -53,9 +52,9 @@ class GameTest {
 
     @Test
     void testRemove() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
-        Figure p3 = game.newPlayer();
+        final Figure p1 = game.newPlayer();
+        final Figure p2 = game.newPlayer();
+        final Figure p3 = game.newPlayer();
         game.removePlayer(p2);
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p3);

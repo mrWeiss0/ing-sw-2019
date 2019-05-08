@@ -1,9 +1,8 @@
 package model;
 
-import model.board.AbstractSquare;
-import model.board.Figure;
-import model.board.Room;
-import model.mock.*;
+import model.board.*;
+import model.weapon.OptionalWeaponMock;
+import model.weapon.WeaponMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ class GrabTest {
 
     @Test
     void emptyTest() {
-        Set<Grabbable> grabbed = squares[0].peek();
+        final Set<Grabbable> grabbed = squares[0].peek();
         assertEquals(new HashSet<>(), grabbed);
     }
 

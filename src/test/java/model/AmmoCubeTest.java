@@ -33,7 +33,7 @@ class AmmoCubeTest {
     void testGreater() {
         assertFalse(b.greaterEqThan(a));
         assertFalse(a.greaterEqThan(b));
-        AmmoCube c = new AmmoCube(1);
+        final AmmoCube c = new AmmoCube(1);
         assertFalse(c.greaterEqThan(a));
         assertTrue(a.greaterEqThan(c));
     }

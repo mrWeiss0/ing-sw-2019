@@ -1,10 +1,5 @@
-package model;
+package model.board;
 
-import model.board.AbstractSquare;
-import model.board.Figure;
-import model.board.Room;
-import model.mock.FigureMock;
-import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

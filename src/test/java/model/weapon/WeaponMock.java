@@ -1,7 +1,6 @@
-package model.mock;
+package model.weapon;
 
 import model.AmmoCube;
-import model.weapon.Weapon;
 
 public class WeaponMock extends Weapon {
     public WeaponMock() {

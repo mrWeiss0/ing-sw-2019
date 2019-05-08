@@ -1,11 +1,9 @@
 package model;
 
-import model.board.AbstractSquare;
-import model.board.AmmoSquare;
-import model.board.Room;
-import model.board.SpawnSquare;
-import model.mock.*;
+import model.board.*;
+import model.weapon.OptionalWeaponMock;
 import model.weapon.Weapon;
+import model.weapon.WeaponMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +32,7 @@ class RefillTest {
         squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room()), new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
         Arrays.stream(squares).forEach(s -> s.accept(g));
         Arrays.stream(squares).forEach(s -> {
-            Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
+            final Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
             if (s instanceof AmmoSquare)
                 assertTrue(Arrays.asList(ammoTiles).contains(grabbed));
             else if (s instanceof SpawnSquare)
@@ -58,7 +56,7 @@ class RefillTest {
 
     @Test
     void testRefillMany() {
-        AbstractSquare square = new SpawnSquareMock(new Room());
+        final AbstractSquare square = new SpawnSquareMock(new Room());
         assertTrue(square.refill(weapons[2]));
         assertTrue(square.refill(weapons[1]));
         assertTrue(square.refill(weapons[3]));
@@ -68,7 +66,7 @@ class RefillTest {
 
     @Test
     void testWrong() {
-        AbstractSquare square = new AmmoSquareMock(new Room());
+        final AbstractSquare square = new AmmoSquareMock(new Room());
         assertTrue(square.refill(ammoTiles[1]));
         assertFalse(square.refill(ammoTiles[0]));
         assertEquals(ammoTiles[1], square.peek().toArray()[0]);

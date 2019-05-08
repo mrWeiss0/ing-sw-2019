@@ -1,10 +1,5 @@
-package model;
+package model.board;
 
-import model.board.AbstractSquare;
-import model.board.Figure;
-import model.board.Room;
-import model.mock.FigureMock;
-import model.mock.SpawnSquareMock;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +12,7 @@ class FigureTest {
 
     @BeforeAll
     static void init() {
-        Room room = new Room();
+        final Room room = new Room();
         squares = new AbstractSquare[]{
                 new SpawnSquareMock(room),
                 new SpawnSquareMock(room)

@@ -1,7 +1,6 @@
-package model.mock;
+package model.board;
 
 import model.AmmoCube;
-import model.board.Figure;
 
 public class FigureMock extends Figure {
     public FigureMock() {
