@@ -128,15 +128,15 @@ public abstract class AbstractSquare implements Targettable {
         return visibleRoomsStream().map(Room::getSquares).flatMap(Set::stream);
     }
 
-    public Set<Room> visibleRooms() {
+    public Set<Targettable> visibleRooms() {
         return visibleRoomsStream().collect(Collectors.toSet());
     }
 
-    public Set<AbstractSquare> visibleSquares() {
+    public Set<Targettable> visibleSquares() {
         return visibleSquaresStream().collect(Collectors.toSet());
     }
 
-    public Set<Figure> visibleFigures() {
+    public Set<Targettable> visibleFigures() {
         return visibleSquaresStream().map(AbstractSquare::getOccupants).flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
