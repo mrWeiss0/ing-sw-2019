@@ -47,7 +47,7 @@ public class FireSequence {
 
     private boolean validateTargets(List<Targettable> currentTargets) {
         Set<Targettable> set = new HashSet<>();
-        if (currentTargets.size() >= currentStep.getMaxTargets()) return false;
+        if (currentTargets.size() > currentStep.getMaxTargets()) return false;
         for (Targettable t : currentTargets)
             if (!validTargets.contains(t) || !set.add(t)) return false;
         return true;

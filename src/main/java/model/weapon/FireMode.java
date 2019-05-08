@@ -4,6 +4,7 @@ import model.AmmoCube;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FireMode {
     private List<FireStep> steps = new ArrayList<>();
@@ -25,7 +26,7 @@ public class FireMode {
         return cost;
     }
 
-    public List<FireStep> getSteps() {
-        return steps;
+    public Stream<FireStep> getStepsStream() {
+        return steps.stream();
     }
 }

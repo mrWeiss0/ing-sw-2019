@@ -1,35 +1,38 @@
 package model.weapon;
 
 import model.AmmoCube;
-import model.board.Targettable;
+import model.board.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class machineGunTest {
-    static OptionalWeapon machineGun;
-    static FireMode base, focus, tripod;
+    private static FireMode base, focus, tripod;
+    private Board board = new Board();
+    private Figure[] figures;
 
     @BeforeAll
     static void init() {
-        machineGun = new OptionalWeaponMock();
         base = new FireMode();
         base.addStep(new FireStep(2,
-                (shooter, board, last) -> shooter.getSquare().visibleFigures(),
+                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 1));
                     if (curr.size() < 2) curr.add(null);
                     return curr;
                 }));
-        machineGun.addFireMode(base);
 
         focus = new FireMode(new AmmoCube(0, 1));
         focus.addStep(new FireStep(1,
-                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet()),
+                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     Targettable current = curr.get(0);
                     current.damageFrom(shooter, 1);
@@ -37,11 +40,10 @@ class machineGunTest {
                     last.add(3, current);
                     return last;
                 }));
-        machineGun.addFireMode(focus);
 
         tripod = new FireMode(new AmmoCube(1));
         tripod.addStep(new FireStep(1,
-                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet()),
+                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     Targettable current = curr.get(0);
                     current.damageFrom(shooter, 1);
@@ -50,19 +52,46 @@ class machineGunTest {
                     return last;
                 }));
         tripod.addStep(new FireStep(1,
-                (shooter, board, last) -> board.getFigures().stream().filter(x -> !last.contains(x)).collect(Collectors.toSet()),
+                (shooter, board, last) -> board.getFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.get(0).damageFrom(shooter, 1);
                     return last;
                 }));
-        machineGun.addFireMode(tripod);
+    }
 
-        machineGun.addDependency(focus, base);
-        machineGun.addDependency(tripod, base);
+    @BeforeEach
+    void each() {
+        figures = new Figure[]{
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock(),
+                new FigureMock()
+        };
+        board.getFigures().addAll(Arrays.asList(figures));
+        board.getFigures().add(new FigureMock());
+        AbstractSquare square = new AmmoSquareMock(new Room());
+        for (Figure f : figures) f.moveTo(square);
+        board.addSquare(square);
     }
 
     @Test
     void testCost() {
-        assertEquals(new AmmoCube(1, 1), machineGun.getFireModes().stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new));
+        assertEquals(new AmmoCube(1, 1), Stream.of(base, focus, tripod).map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new));
+    }
+
+    @Test
+    void testBase() {
+        FireSequence fs = new FireSequence(figures[0], new Board(), Stream.of(base).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        assertTrue(fs.hasNext());
+        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertFalse(fs.run(Collections.singletonList(figures[0])));
+        assertFalse(fs.run(Arrays.asList(figures[1], figures[3], figures[2])));
+        assertFalse(fs.run(Arrays.asList(figures[1], figures[1])));
+        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertFalse(fs.hasNext());
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
+        assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
+        assertEquals(Collections.singletonList(figures[0]), figures[2].getDamages());
     }
 }
