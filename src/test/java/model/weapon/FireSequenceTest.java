@@ -26,33 +26,34 @@ class machineGunTest {
                 (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 1));
-                    if (curr.size() < 2) curr.add(null);
-                    return curr;
+                    last.addAll(curr);
+                    if (last.size() < 2) last.add(null);
+                    return last;
                 }));
 
         focus = new FireMode(new AmmoCube(0, 1));
         focus.addStep(new FireStep(1,
-                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).filter(t -> t != shooter).collect(Collectors.toSet()),
+                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     Targettable current = curr.get(0);
                     current.damageFrom(shooter, 1);
                     last.set(last.indexOf(current), null);
-                    last.add(3, current);
+                    last.add(current);
                     return last;
                 }));
 
         tripod = new FireMode(new AmmoCube(1));
         tripod.addStep(new FireStep(1,
-                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).filter(t -> t != shooter).collect(Collectors.toSet()),
+                (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     Targettable current = curr.get(0);
                     current.damageFrom(shooter, 1);
                     last.set(last.indexOf(current), null);
-                    last.add(3, current);
+                    last.add(current);
                     return last;
                 }));
         tripod.addStep(new FireStep(1,
-                (shooter, board, last) -> board.getFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
+                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.get(0).damageFrom(shooter, 1);
                     return last;
@@ -82,16 +83,66 @@ class machineGunTest {
 
     @Test
     void testBase() {
-        FireSequence fs = new FireSequence(figures[0], new Board(), Stream.of(base).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        // Base mode
         assertTrue(fs.hasNext());
+        // Target gen
         assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
         assertFalse(fs.run(Collections.singletonList(figures[0])));
         assertFalse(fs.run(Arrays.asList(figures[1], figures[3], figures[2])));
         assertFalse(fs.run(Arrays.asList(figures[1], figures[1])));
+        // Run
         assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
         assertFalse(fs.hasNext());
+        // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
         assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
         assertEquals(Collections.singletonList(figures[0]), figures[2].getDamages());
+    }
+
+    @Test
+    void testFocus() {
+        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, focus).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        // Base mode
+        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.hasNext());
+        // Target gen
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertFalse(fs.run(Collections.singletonList(figures[3])));
+        // Run
+        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertFalse(fs.hasNext());
+        // Check
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
+        assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
+        assertEquals(Arrays.asList(figures[0], figures[0]), figures[2].getDamages());
+    }
+
+    @Test
+    void testTripod() {
+        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        // Base mode
+        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.hasNext());
+        // Target gen
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertFalse(fs.run(Collections.singletonList(figures[3])));
+        // Run
+        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertTrue(fs.hasNext());
+        // Target gen
+        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertFalse(fs.run(Arrays.asList(figures[3], figures[4])));
+        assertFalse(fs.run(Collections.singletonList(figures[1])));
+        // Run
+        assertTrue(fs.run(Collections.singletonList(figures[4])));
+        assertFalse(fs.hasNext());
+        // Check
+        assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
+        assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
+        assertEquals(Collections.singletonList(figures[0]), figures[4].getDamages());
+        assertEquals(Arrays.asList(figures[0], figures[0]), figures[2].getDamages());
     }
 }
