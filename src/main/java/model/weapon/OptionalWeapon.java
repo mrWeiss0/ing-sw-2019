@@ -5,7 +5,7 @@ import model.AmmoCube;
 import java.util.*;
 
 public class OptionalWeapon extends Weapon {
-    private Map<FireMode, FireMode> dependency = new HashMap<>();
+    private final Map<FireMode, FireMode> dependency = new HashMap<>();
 
     public OptionalWeapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         super(pickupCost, reloadCost);
@@ -17,14 +17,9 @@ public class OptionalWeapon extends Weapon {
         boolean baseMode = false;
         for (FireMode f : selectedModes) {
             FireMode depend = dependency.get(f);
-            if (
-                // Must be in this weapon
-                    !getFireModes().contains(f) ||
-                            // Must not contain duplicates
-                            !set.add(f) ||
-                            // Dependencies must be respected
-                            (depend != null && !set.contains(depend))
-            )
+            if (!(getFireModes().contains(f) && // Must be in this weapon
+                    set.add(f) && // Must not contain duplicates
+                    (depend == null || set.contains(depend)))) // Dependencies must be respected
                 return false;
             // Must contain base mode
             if (!baseMode && f == getFireModes().get(0))

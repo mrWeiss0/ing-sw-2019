@@ -17,12 +17,12 @@ public class AmmoCube {
     }
 
     public AmmoCube add(AmmoCube toAdd) {
-        return new AmmoCube(this.rangeAmmo(toAdd).
+        return new AmmoCube(rangeAmmo(toAdd).
                 map(i -> value(i) + toAdd.value(i)).toArray());
     }
 
     public AmmoCube sub(AmmoCube toSub) {
-        return new AmmoCube(this.rangeAmmo(toSub).
+        return new AmmoCube(rangeAmmo(toSub).
                 map(i -> value(i) - toSub.value(i)).toArray());
     }
 

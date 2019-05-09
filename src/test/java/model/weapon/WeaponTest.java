@@ -25,7 +25,7 @@ class WeaponTest {
                 new FireMode()
         };
         weapon = new Weapon(new AmmoCube(1, 2), new AmmoCube(2));
-        for (final FireMode f : fm)
+        for (FireMode f : fm)
             weapon.addFireMode(f);
     }
 

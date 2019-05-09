@@ -10,7 +10,7 @@ import java.util.Set;
  * with its <code>dealDamage</code> and <code>dealMark</code> methods.
  */
 public class Room implements Targettable {
-    private Set<AbstractSquare> squares = new HashSet<>();
+    private final Set<AbstractSquare> squares = new HashSet<>();
 
     /**
      * Adds the passed square to this room's squares
@@ -27,11 +27,13 @@ public class Room implements Targettable {
 
     @Override
     public void damageFrom(Figure dealer, int n) {
-        for (AbstractSquare s : squares) s.damageFrom(dealer, n);
+        for (AbstractSquare s : squares)
+            s.damageFrom(dealer, n);
     }
 
     @Override
     public void markFrom(Figure dealer, int n) {
-        for (AbstractSquare s : squares) s.markFrom(dealer, n);
+        for (AbstractSquare s : squares)
+            s.markFrom(dealer, n);
     }
 }

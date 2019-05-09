@@ -6,8 +6,8 @@ import model.board.Board;
 import java.io.Reader;
 
 
-public class FileParser {
-    private static Gson gson = new Gson();
+public final class FileParser {
+    private static final Gson gson = new Gson();
 
     private FileParser() {
     }

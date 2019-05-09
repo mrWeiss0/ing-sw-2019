@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Weapon implements Grabbable {
-    private AmmoCube pickupCost;
-    private AmmoCube reloadCost;
+    private final AmmoCube pickupCost;
+    private final AmmoCube reloadCost;
+    private final List<FireMode> fireModes = new ArrayList<>();
     private boolean loaded = false;
-    private List<FireMode> fireModes = new ArrayList<>();
 
     public Weapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         this.pickupCost = pickupCost;

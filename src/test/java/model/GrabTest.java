@@ -27,7 +27,7 @@ class GrabTest {
 
     @Test
     void emptyTest() {
-        final Set<Grabbable> grabbed = squares[0].peek();
+        Set<Grabbable> grabbed = squares[0].peek();
         assertEquals(new HashSet<>(), grabbed);
     }
 
@@ -40,7 +40,8 @@ class GrabTest {
     @Test
     void ammoNotTest() {
         squares[0].refill(items[4]);
-        assertNotEquals(Stream.of(new AmmoTile()).collect(Collectors.toSet()), squares[0].peek());
+        assertNotEquals(Stream.of(items[5]).collect(Collectors.toSet()), squares[0].peek());
+        assertNotEquals(Stream.of(items[3]).collect(Collectors.toSet()), squares[0].peek());
     }
 
     @Test
@@ -63,7 +64,7 @@ class GrabTest {
     @Test
     void grabWeaponTest() {
         squares[1].refill(items[0]);
-        squares[1].grab(f, items[0]);
+        assertTrue(squares[1].grab(f, items[0]));
         assertEquals(Stream.of(items[0]).collect(Collectors.toSet()), f.getWeapons());
     }
 
@@ -71,15 +72,16 @@ class GrabTest {
     void grab2WeaponTest() {
         squares[1].refill(items[0]);
         squares[1].refill(items[1]);
-        squares[1].grab(f, items[1]);
-        squares[1].grab(f, items[0]);
+        assertTrue(squares[1].grab(f, items[1]));
+        assertTrue(squares[1].grab(f, items[0]));
         assertEquals(Stream.of(items[0], items[1]).collect(Collectors.toSet()), f.getWeapons());
     }
 
     @Test
     void grabNotWeaponTest() {
         squares[1].refill(items[0]);
-        squares[1].grab(f, items[1]);
+        assertFalse(squares[1].grab(f, items[1]));
+        assertFalse(squares[1].grab(f, items[4]));
         assertEquals(Stream.of().collect(Collectors.toSet()), f.getWeapons());
     }
 }

@@ -12,7 +12,7 @@ class FigureTest {
 
     @BeforeAll
     static void init() {
-        final Room room = new Room();
+        Room room = new Room();
         squares = new AbstractSquare[]{
                 new SpawnSquareMock(room),
                 new SpawnSquareMock(room)

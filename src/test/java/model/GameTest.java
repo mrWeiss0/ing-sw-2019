@@ -17,22 +17,22 @@ class GameTest {
 
     @Test
     void test1Player() {
-        final Figure p1 = game.newPlayer();
+        Figure p1 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
     }
 
     @Test
     void test2Player() {
-        final Figure p1 = game.newPlayer();
-        final Figure p2 = game.newPlayer();
+        Figure p1 = game.newPlayer();
+        Figure p2 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
     }
 
     @Test
     void testCycling() {
-        final Figure p1 = game.newPlayer();
-        final Figure p2 = game.newPlayer();
+        Figure p1 = game.newPlayer();
+        Figure p2 = game.newPlayer();
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p2);
         assertEquals(game.nextPlayer(), p1);
@@ -41,7 +41,7 @@ class GameTest {
 
     @Test
     void test5Players() {
-        final Figure[] players = new Figure[5];
+        Figure[] players = new Figure[5];
         for (int i = 0; i < 5; i++) {
             players[i] = game.newPlayer();
         }
@@ -52,9 +52,9 @@ class GameTest {
 
     @Test
     void testRemove() {
-        final Figure p1 = game.newPlayer();
-        final Figure p2 = game.newPlayer();
-        final Figure p3 = game.newPlayer();
+        Figure p1 = game.newPlayer();
+        Figure p2 = game.newPlayer();
+        Figure p3 = game.newPlayer();
         game.removePlayer(p2);
         assertEquals(game.nextPlayer(), p1);
         assertEquals(game.nextPlayer(), p3);

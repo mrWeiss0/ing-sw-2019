@@ -22,9 +22,9 @@ public class Game {
     private final AmmoCube defaultAmmo;
     private final int maxAmmo;
     // Killshot Track
-    private List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
+    private final List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
+    private final List<Figure> players = new ArrayList<>();
     private int remainingKills; // Kills to finish game
-    private List<Figure> players = new ArrayList<>();
     private int currPlayer = -1;
 
     private Deck<AmmoTile> ammoTileDeck;

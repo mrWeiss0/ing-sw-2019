@@ -6,10 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,51 +14,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FireSequenceTest {
     private static FireMode base, focus, tripod;
-    private Board board = new Board();
+    private final Board board = new Board();
     private Figure[] figures;
 
     @BeforeAll
     static void init() {
-        base = new FireMode();
-        base.addStep(new FireStep(1,
-                2,
+        base = new FireMode(new FireStep(1, 2,
+                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 1));
                     last.addAll(curr);
                     if (last.size() < 2) last.add(null);
-                    return last;
-                }, (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet())));
+                }));
 
-        focus = new FireMode(new AmmoCube(0, 1));
-        focus.addStep(new FireStep(1,
-                1,
-                (shooter, curr, last) -> {
-                    Targettable current = curr.get(0);
-                    current.damageFrom(shooter, 1);
-                    last.set(last.indexOf(current), null);
-                    last.add(current);
-                    return last;
-                }, (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet())));
+        TargetGen otherTG = (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
 
-        tripod = new FireMode(new AmmoCube(1));
-        tripod.addStep(new FireStep(0,
-                1,
+        Effect otherEff = (shooter, curr, last) -> {
+            try {
+                Targettable current = curr.iterator().next();
+                current.damageFrom(shooter, 1);
+                last.set(last.indexOf(current), null);
+                last.add(current);
+            } catch (NoSuchElementException ignore) {
+            }
+        };
+
+        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, otherTG, otherEff));
+
+        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, otherTG, otherEff), new FireStep(0, 1,
+                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
-                    if (curr.size() > 0) {
-                        Targettable current = curr.get(0);
-                        current.damageFrom(shooter, 1);
-                        last.set(last.indexOf(current), null);
-                        last.add(current);
+                    try {
+                        curr.iterator().next().damageFrom(shooter, 1);
+                    } catch (NoSuchElementException ignore) {
                     }
-                    return last;
-                }, (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet())));
-        tripod.addStep(new FireStep(0,
-                1,
-                (shooter, curr, last) -> {
-                    if (curr.size() > 0)
-                        curr.get(0).damageFrom(shooter, 1);
-                    return last;
-                }, (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet())));
+                }));
     }
 
     @BeforeEach
@@ -92,12 +79,11 @@ class FireSequenceTest {
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Collections.singletonList(figures[0])));
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[3], figures[2])));
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[1])));
-        assertFalse(fs.run(Collections.emptyList()));
+        assertFalse(fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1], figures[3], figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Collections.emptySet()));
         // Run
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
@@ -111,15 +97,15 @@ class FireSequenceTest {
     void testFocus() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, focus).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
-        assertFalse(fs.run(Collections.singletonList(figures[3])));
-        assertFalse(fs.run(Collections.emptyList()));
+        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Collections.emptySet()));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
@@ -131,21 +117,21 @@ class FireSequenceTest {
     void testTripod() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
-        assertFalse(fs.run(Collections.singletonList(figures[3])));
+        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[3], figures[4])));
-        assertFalse(fs.run(Collections.singletonList(figures[1])));
+        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[4])));
+        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -158,21 +144,21 @@ class FireSequenceTest {
     void testTripodOnlyOther() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
-        assertFalse(fs.run(Collections.singletonList(figures[3])));
+        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.emptyList()));
+        assertTrue(fs.run(Collections.emptySet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[3], figures[4])));
-        assertFalse(fs.run(Collections.singletonList(figures[1])));
+        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[4])));
+        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -185,21 +171,21 @@ class FireSequenceTest {
     void testTripodOnlyLast() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
-        assertFalse(fs.run(Collections.singletonList(figures[3])));
+        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[3], figures[4])));
-        assertFalse(fs.run(Collections.singletonList(figures[1])));
+        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.emptyList()));
+        assertTrue(fs.run(Collections.emptySet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
@@ -211,22 +197,22 @@ class FireSequenceTest {
     void testFocusTripod() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, focus, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         // Focus mode
-        assertTrue(fs.run(Collections.singletonList(figures[2])));
+        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Collections.singletonList(figures[2])));
+        assertFalse(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[1])));
+        assertTrue(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Arrays.asList(figures[3], figures[4])));
-        assertFalse(fs.run(Collections.singletonList(figures[1])));
+        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[4])));
+        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -239,19 +225,19 @@ class FireSequenceTest {
     void testTripodFocus() {
         FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod, focus).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
         // Base mode
-        assertTrue(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         // Tripod mode
-        assertTrue(fs.run(Collections.singletonList(figures[2])));
-        assertTrue(fs.run(Collections.singletonList(figures[4])));
+        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Collections.singletonList(figures[2])));
-        assertFalse(fs.run(Collections.singletonList(figures[3])));
-        assertFalse(fs.run(Collections.singletonList(figures[4])));
-        assertFalse(fs.run(Arrays.asList(figures[1], figures[2])));
+        assertFalse(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.singletonList(figures[1])));
+        assertTrue(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());

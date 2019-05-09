@@ -5,10 +5,10 @@ import model.board.*;
 import java.util.*;
 
 class BoardBuilder {
-    private List<Room> rooms = new ArrayList<>();
-    private JsonSquare[] jsonSquares;
-    private Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
-    private Board board = new Board();
+    private final List<Room> rooms = new ArrayList<>();
+    private final JsonSquare[] jsonSquares;
+    private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
+    private final Board board = new Board();
 
     BoardBuilder(JsonSquare[] jsonSquares) {
         this.jsonSquares = jsonSquares;
@@ -30,7 +30,8 @@ class BoardBuilder {
     }
 
     void addSquare(int id, AbstractSquare square) throws MalformedDataException {
-        if (squaresMap.containsKey(id)) throw new MalformedDataException("Duplicate cell ID " + id);
+        if (squaresMap.containsKey(id))
+            throw new MalformedDataException("Duplicate cell ID " + id);
         squaresMap.put(id, square);
         board.addSquare(square);
     }
@@ -63,7 +64,7 @@ class JsonSquare {
         if (coords.length != 2)
             throw new MalformedDataException("Cell " + id + " has " + coords.length + " coordinate");
         squareObj = spawn ?
-                new SpawnSquare(room, coords) :
+                new SpawnSquare(room, coords, 3) :
                 new AmmoSquare(room, coords);
         boardBuilder.addSquare(id, squareObj);
     }

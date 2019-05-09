@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
  * It provides methods to allow refilling using the visitor pattern.
  */
 public class Board {
-    private Set<Room> rooms = new HashSet<>();
-    private Set<AbstractSquare> squares = new HashSet<>();
-    private Set<Figure> figures = new HashSet<>();
+    private final Set<Room> rooms = new HashSet<>();
+    private final Set<AbstractSquare> squares = new HashSet<>();
+    private final Set<Figure> figures = new HashSet<>();
 
     public void addSquare(AbstractSquare square) {
         rooms.add(square.getRoom());

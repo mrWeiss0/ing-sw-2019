@@ -9,17 +9,17 @@ import java.util.*;
 
 
 public class Figure implements Targettable {
+    private final List<Figure> damages = new ArrayList<>();
+    private final HashMap<Figure, Integer> marks = new HashMap<>();
+    private final HashMap<Figure, Integer> newMarks = new HashMap<>();
+    private final Set<Weapon> weapons = new HashSet<>();
+    private final Set<PowerUp> powerUps = new HashSet<>();
+    private final int maxDamages;
+    private final int maxMarks;
     private AbstractSquare square = null;
-    private List<Figure> damages = new ArrayList<>();
     private boolean damaged = false;
-    private HashMap<Figure, Integer> marks = new HashMap<>();
-    private HashMap<Figure, Integer> newMarks = new HashMap<>();
     private int deaths = 0;
-    private Set<Weapon> weapons = new HashSet<>();
-    private Set<PowerUp> powerUps = new HashSet<>();
     private AmmoCube ammo;
-    private int maxDamages;
-    private int maxMarks;
 
     public Figure(int maxDamages, int maxMarks, AmmoCube ammo) {
         this.ammo = ammo;

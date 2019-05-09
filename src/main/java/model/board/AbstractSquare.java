@@ -23,10 +23,10 @@ import java.util.stream.Stream;
  * with its <code>damageFrom</code> and <code>markFrom</code> methods.
  */
 public abstract class AbstractSquare implements Targettable {
-    private Room room;
-    private Set<AbstractSquare> adjacent = new HashSet<>();
-    private Set<Figure> occupants = new HashSet<>();
-    private int[] coordinates;
+    private final Room room;
+    private final Set<AbstractSquare> adjacent = new HashSet<>();
+    private final Set<Figure> occupants = new HashSet<>();
+    private final int[] coordinates;
 
     /**
      * Constructs an empty square belonging to the specified room, automatically
@@ -49,8 +49,7 @@ public abstract class AbstractSquare implements Targettable {
      */
     public void connect(AbstractSquare square) {
         adjacent.add(square);
-        if (!square.getAdjacent().contains(this))
-            square.connect(this);
+        square.adjacent.add(this);
     }
 
     /**
@@ -165,7 +164,7 @@ public abstract class AbstractSquare implements Targettable {
 
     public abstract boolean refill(Grabbable o);
 
-    public abstract void grab(Figure grabber, Grabbable grabbed);
+    public abstract boolean grab(Figure grabber, Grabbable grabbed);
 
     public abstract Set<Grabbable> peek();
 }

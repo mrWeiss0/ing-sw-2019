@@ -4,7 +4,8 @@ import model.board.Figure;
 import model.board.Targettable;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Effect {
-    List<Targettable> run(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets);
+    void run(Figure shooter, Set<Targettable> currentTargets, List<Targettable> lastTargets);
 }

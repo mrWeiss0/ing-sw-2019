@@ -7,12 +7,12 @@ import model.board.Targettable;
 import java.util.*;
 
 public class FireSequence {
-    private Figure shooter;
-    private Board board;
-    private Iterator<FireStep> steps;
+    private final Figure shooter;
+    private final Board board;
+    private final Iterator<FireStep> steps;
+    private final List<Targettable> lastTargets = new ArrayList<>();
     private FireStep currentStep;
     private Set<Targettable> validTargets = new HashSet<>();
-    private List<Targettable> lastTargets = new ArrayList<>();
     private boolean hasNext = true;
 
     public FireSequence(Figure shooter, Board board, List<FireStep> stepList) {
@@ -26,9 +26,9 @@ public class FireSequence {
         return validTargets;
     }
 
-    public boolean run(List<Targettable> currentTargets) {
-        if (!validateTargets(currentTargets)) return false;
-        lastTargets = currentStep.run(shooter, currentTargets, lastTargets);
+    public boolean run(Set<Targettable> currentTargets) {
+        if (!(hasNext && validateTargets(currentTargets))) return false;
+        currentStep.run(shooter, currentTargets, lastTargets);
         next();
         return true;
     }
@@ -45,13 +45,10 @@ public class FireSequence {
             hasNext = false;
     }
 
-    private boolean validateTargets(List<Targettable> currentTargets) {
-        Set<Targettable> set = new HashSet<>();
+    private boolean validateTargets(Set<Targettable> currentTargets) {
         if (currentTargets.size() < currentStep.getMinTargets() ||
                 currentTargets.size() > currentStep.getMaxTargets())
             return false;
-        for (Targettable t : currentTargets)
-            if (!validTargets.contains(t) || !set.add(t)) return false;
-        return true;
+        return validTargets.containsAll(currentTargets);
     }
 }

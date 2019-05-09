@@ -2,24 +2,26 @@ package model.weapon;
 
 import model.AmmoCube;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FireMode {
-    private List<FireStep> steps = new ArrayList<>();
-    private AmmoCube cost;
+    private final List<FireStep> steps;
+    private final AmmoCube cost;
 
-    public FireMode() {
-        this(new AmmoCube());
+    public FireMode(FireStep... steps) {
+        this(new AmmoCube(), steps);
     }
 
-    public FireMode(AmmoCube cost) {
+    public FireMode(AmmoCube cost, FireStep... steps) {
         this.cost = cost;
+        this.steps = Arrays.asList(steps);
     }
 
-    public void addStep(FireStep step) {
-        steps.add(step);
+    public static List<FireStep> flatSteps(List<FireMode> fm) {
+        return fm.stream().flatMap(FireMode::getStepsStream).collect(Collectors.toList());
     }
 
     public AmmoCube getCost() {

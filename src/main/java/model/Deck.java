@@ -15,8 +15,8 @@ import java.util.Collections;
  * @param <T>
  */
 public class Deck<T> {
-    private ArrayDeque<T> cards = new ArrayDeque<>();
-    private ArrayList<T> discard = new ArrayList<>();
+    private final ArrayList<T> discard = new ArrayList<>();
+    private final ArrayDeque<T> cards = new ArrayDeque<>();
 
     public Deck() {
     }
@@ -37,7 +37,7 @@ public class Deck<T> {
      */
     private void shuffle() {
         Collections.shuffle(discard);
-        cards = new ArrayDeque<>(discard);
+        cards.addAll(discard);
         discard.clear();
     }
 

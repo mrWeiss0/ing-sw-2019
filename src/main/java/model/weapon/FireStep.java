@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 public class FireStep {
-    private TargetGen targetGen;
-    private Effect effect;
-    private int minTargets;
-    private int maxTargets;
+    private final TargetGen targetGen;
+    private final Effect effect;
+    private final int minTargets;
+    private final int maxTargets;
 
-    public FireStep(int minTargets, int maxTargets, Effect effect, TargetGen targetGen) {
+    public FireStep(int minTargets, int maxTargets, TargetGen targetGen, Effect effect) {
         this.minTargets = minTargets;
         this.maxTargets = maxTargets;
         this.effect = effect;
@@ -32,7 +32,7 @@ public class FireStep {
         return targetGen.get(shooter, board, lastTargets);
     }
 
-    public List<Targettable> run(Figure shooter, List<Targettable> currentTargets, List<Targettable> lastTargets) {
-        return effect.run(shooter, currentTargets, lastTargets);
+    public void run(Figure shooter, Set<Targettable> currentTargets, List<Targettable> lastTargets) {
+        effect.run(shooter, currentTargets, lastTargets);
     }
 }

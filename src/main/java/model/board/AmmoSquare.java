@@ -6,7 +6,6 @@ import model.Grabbable;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,11 +31,13 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     @Override
-    public void grab(Figure grabber, Grabbable grabbed) {
-        Optional.ofNullable(ammoTile).filter(Predicate.isEqual(grabbed)).ifPresent(g -> {
-            grabber.grab(g);
+    public boolean grab(Figure grabber, Grabbable grabbed) {
+        if (ammoTile == grabbed) {
+            grabber.grab(ammoTile);
             ammoTile = null;
-        });
+            return true;
+        }
+        return false;
     }
 
     @Override

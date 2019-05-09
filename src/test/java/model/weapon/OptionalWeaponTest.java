@@ -23,14 +23,14 @@ class OptionalWeaponTest {
                 new FireMode(),
                 new FireMode()
         };
-        final OptionalWeapon[] wp = new OptionalWeapon[]{
+        OptionalWeapon[] wp = new OptionalWeapon[]{
                 new OptionalWeaponMock(), // No dependencies
                 new OptionalWeaponMock(), // Depend on base
                 new OptionalWeaponMock(), // Chain dependency
                 new OptionalWeaponMock()  // Not depend on base
         };
-        for (final Weapon w : wp)
-            for (final FireMode f : fm)
+        for (Weapon w : wp)
+            for (FireMode f : fm)
                 w.addFireMode(f);
         wp[1].addDependency(fm[1], fm[0]);
         wp[1].addDependency(fm[2], fm[0]);
@@ -51,19 +51,19 @@ class OptionalWeaponTest {
 
     @Test
     void validateEmpty() {
-        for (final Weapon w : weapons)
+        for (Weapon w : weapons)
             assertFalse(w.validateFireModes(new ArrayList<>()));
     }
 
     @Test
     void validateBase() {
-        for (final Weapon w : weapons)
+        for (Weapon w : weapons)
             assertTrue(w.validateFireModes(Collections.singletonList(fm[0])));
     }
 
     @Test
     void validateMultiple() {
-        final Weapon w = weapons[0];
+        Weapon w = weapons[0];
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -78,7 +78,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateRepeating() {
-        final Weapon w = weapons[0];
+        Weapon w = weapons[0];
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[0]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[1]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[1], fm[1]).collect(Collectors.toList())));
@@ -88,7 +88,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateBaseDep() {
-        final Weapon w = weapons[1];
+        Weapon w = weapons[1];
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -103,7 +103,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateChainDep() {
-        final Weapon w = weapons[2];
+        Weapon w = weapons[2];
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -118,7 +118,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateNotBaseDep() {
-        final Weapon w = weapons[3];
+        Weapon w = weapons[3];
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -133,7 +133,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateNotBase() {
-        for (final Weapon w : weapons) {
+        for (Weapon w : weapons) {
             assertFalse(w.validateFireModes(Collections.singletonList(fm[1])));
             assertFalse(w.validateFireModes(Collections.singletonList(fm[2])));
             assertFalse(w.validateFireModes(Stream.of(fm[1], fm[2]).collect(Collectors.toList())));
@@ -143,7 +143,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateNotPresent() {
-        for (final Weapon w : weapons)
+        for (Weapon w : weapons)
             assertFalse(w.validateFireModes(Stream.of(fm[0], new FireMode()).collect(Collectors.toList())));
     }
 }
