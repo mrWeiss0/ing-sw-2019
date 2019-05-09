@@ -23,8 +23,6 @@ public class Client {
     private Scanner linein;
     private String name;
     private String id = "";
-    private TextView textView;
-    private ObjectOutputStream sout;
     private RemoteController controller;
     private LineHandler lineHandler;
 
@@ -36,7 +34,7 @@ public class Client {
     }
     public void connectRMI() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
-        textView = new ViewRMI(this);
+        TextView textView = new ViewRMI(this);
         controller = (RemoteController) registry.lookup("connection handler");
         lineHandler = new LineHandler(linein, textView, this);
         controller.notifyConnection((RemoteView) textView);
@@ -44,19 +42,22 @@ public class Client {
         controller.logout(id);
     }
 
-    public void connectSocket() throws IOException{
-        Socket socket = new Socket(destIp, destPort);
-        sout = new ObjectOutputStream(socket.getOutputStream());
-        controller = new VirtualController(this,sout);
-        ObjectInputStream sin = new ObjectInputStream(socket.getInputStream());
-        ViewSocket t = new ViewSocket(sin, this);
-        Thread thread = new Thread(t);
-        thread.start();
-        lineHandler = new LineHandler(linein, t, this);
-        lineHandler.run();
-        t.stop();
-        sin.close();
-        sout.close();
+    public void connectSocket(){
+        try ( Socket socket = new Socket(destIp, destPort)){
+            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+            controller = new VirtualController(this, outputStream);
+            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+            ViewSocket t = new ViewSocket(inputStream, this);
+            Thread thread = new Thread(t);
+            thread.start();
+            lineHandler = new LineHandler(linein, t, this);
+            lineHandler.run();
+            t.stop();
+            inputStream.close();
+            outputStream.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void saveUuid(String uuid) {

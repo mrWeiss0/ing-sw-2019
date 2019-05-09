@@ -3,6 +3,7 @@ package client;
 import connection.messages.responses.TextResponse;
 import view.TextView;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -33,12 +34,12 @@ public class LineHandler {
                 handleLineCommand(read);
             }
             view.handle(new TextResponse("Client disconnected"));
-        } catch (RemoteException | NotBoundException e) {
+        } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
     }
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
-    private void handleLineCommand(String line) throws RemoteException, NotBoundException {
+    private void handleLineCommand(String line) throws IOException, NotBoundException {
         if (line.startsWith("select:")) {
             client.getController().loginSelected(client.getName(),client.getID(),Integer.parseInt(line.substring(7)));
         } else if (line.startsWith("text:")) {
