@@ -24,7 +24,6 @@ public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHa
         controllers.add(c);
     }
 
-    //TODO AGGIUNGERE IL COMANDO ANCHE QUA
     @Override
     public RemoteController notifyConnection(RemoteView remoteView, String username) throws RemoteException {
         String id = UUID.randomUUID().toString();

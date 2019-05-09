@@ -20,7 +20,6 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     private transient HashMap<String, User> usersByID;
     private UUID name;
     private final int maxUsers = 5;
-    private int occupants = 0;
     private State state;
     private boolean canJoin;
 
@@ -46,19 +45,14 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
         remoteView.handle(
                 new TextResponse(">> You are now connected to "+this.name+", send message writing in the chat\n" +
                         ">> Other users:  "+usersByID.values().stream().map(User::getName).collect(Collectors.joining(" "))));
-        occupants = usersByID.values().size();
-        canJoin = (occupants<maxUsers);
-        System.out.println(">>users : " + usersByID);
+        canJoin = (usersByID.values().size()<maxUsers);
+        state.login();
     }
 
+    //TODO IMPLEMENT CONTROLLER METHOD AS state.method()
     @Override
     public void sendText(String text, String id) throws RemoteException{
-        if (!usersByID.keySet().contains(id)) return;
-        System.out.println("Received " + text);
-        System.out.println("...Sending everyone the message");
-        Response toSend = new TextResponse(">> " + usersByID.get(id).getName() +" : "+ text);
-        for(User usr:usersByID.values())
-            usr.getView().handle(toSend);
+        state.sendText(text,id);
     }
 
 
@@ -67,7 +61,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
         if (!usersByID.keySet().contains(id)) return;
         System.out.println("Logout by : "+usersByID.get(id).getName());
         usersByID.remove(id);
-        this.occupants=usersByID.values().size();
+        canJoin = (usersByID.values().size()<maxUsers);
         state.logout(id);
     }
 

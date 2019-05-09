@@ -22,6 +22,10 @@ public class State {
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
     }
 
+    public void login(){
+
+    }
+
     public Controller getController() {
         return controller;
     }
