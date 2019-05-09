@@ -30,11 +30,9 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
 
     public void run() {
         try {
-            referenceController = lobbyList;
             while (socket.isConnected()) {
                 try {
                     Request received = (Request) sin.readObject();
-                    System.out.println(received.prompt());
                     received.handle(this);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -65,7 +63,7 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
     @Override
     public void handle(LoginRequest request){
         try {
-            referenceController.notifyConnection(connectionVirtualView, request.getUsername());
+            lobbyList.notifyConnection(connectionVirtualView, request.getUsername());
         }catch(RemoteException e){
             e.printStackTrace();
         }

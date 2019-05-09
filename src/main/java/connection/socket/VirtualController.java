@@ -17,7 +17,7 @@ public class VirtualController implements RemoteController {
         this.client=client;
     }
     //TODO IMPLEMENTARE L'INVIO DEL COMANDO
-    @Override
+
     public void notifyConnection(RemoteView remoteView, String username){
         send(new LoginRequest(username));
     }

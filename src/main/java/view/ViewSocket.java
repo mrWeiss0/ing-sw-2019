@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
 
-public class ViewSocket implements Runnable, TextView, RemoteView {
+public class ViewSocket implements Runnable, TextView {
     private ObjectInputStream sin;
     private boolean stop = false;
     private ViewResponseDisplay messageHandler;
@@ -39,7 +39,4 @@ public class ViewSocket implements Runnable, TextView, RemoteView {
         m.handle(messageHandler);
     }
 
-    @Override
-    public void setController(RemoteController remoteController) throws RemoteException {
-    }
 }

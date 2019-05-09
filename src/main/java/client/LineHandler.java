@@ -18,9 +18,7 @@ public class LineHandler {
         this.view = view;
         this.client = client;
         try {
-            view.handle(new TextResponse("Welcome!\n" +
-                    "Use select:*integer* to choose a chat\n" +
-                    "Use text:*message* to send a text message\n"));
+            view.handle(new TextResponse("Welcome!"));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -34,21 +32,17 @@ public class LineHandler {
                 handleLineCommand(read);
             }
             view.handle(new TextResponse("Client disconnected"));
-        } catch (IOException | NotBoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
-    private void handleLineCommand(String line) throws IOException, NotBoundException {
-
-        if (line.startsWith("text:")) {
-            client.getController().sendText(line.substring(5),client.getID());
-        } else if (line.startsWith("logout")){
+    private void handleLineCommand(String line) throws IOException {
+        if (line.startsWith("logout")) {
             client.getController().logout(client.getID());
-        } else if (line.startsWith("connect:RMI")){
-            client.connectRMI();
-        } else if(line.startsWith("connect:socket")){
-            client.connectSocket();
+            view.handle(new TextResponse("Logout"));
+        } else {
+            client.getController().sendText(line,client.getID());
         }
     }
 }

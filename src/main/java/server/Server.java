@@ -47,6 +47,7 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println("Server Stopped");
     }
 
     public void close() throws IOException {

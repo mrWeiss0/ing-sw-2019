@@ -7,24 +7,17 @@ import controller.Controller;
 
 import java.rmi.RemoteException;
 //TODO PUOI EREDITARE PER CREARE NUOVI STATE
-public class State implements RemoteController {
+public class State {
     private Controller controller;
 
     public State(Controller controller){
         this.controller=controller;
     }
 
-    @Override
-    public void notifyConnection(RemoteView remoteView, String name) throws RemoteException {
-        remoteView.handle(new TextResponse("You are already connected"));
-    }
-
-    @Override
     public void logout(String id) throws RemoteException {
-        controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
+        controller.getUsersByID().get(id).getView().handle(new TextResponse("Logout by "+controller.getUsersByID().get(id).getName()));
     }
 
-    @Override
     public void sendText(String text, String id) throws RemoteException {
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
     }

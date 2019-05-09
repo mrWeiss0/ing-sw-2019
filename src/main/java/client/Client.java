@@ -1,5 +1,6 @@
 package client;
 
+import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import connection.socket.VirtualController;
@@ -23,6 +24,7 @@ public class Client {
     private Scanner linein;
     private String name;
     private String id = "";
+    private RemoteConnectionHandler connectionHandler;
     private RemoteController controller;
     private LineHandler lineHandler;
 
@@ -35,9 +37,9 @@ public class Client {
     public void connectRMI() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
         TextView textView = new ViewRMI(this);
-        controller = (RemoteController) registry.lookup("connection handler");
+        connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
+        controller = connectionHandler.notifyConnection((RemoteView) textView,name);
         lineHandler = new LineHandler(linein, textView, this);
-        controller.notifyConnection((RemoteView) textView,name);
         lineHandler.run();
         controller.logout(id);
     }
@@ -51,7 +53,7 @@ public class Client {
             Thread thread = new Thread(t);
             thread.start();
             lineHandler = new LineHandler(linein, t, this);
-            controller.notifyConnection(t,name);
+            ((VirtualController)controller).notifyConnection(null,name);
             lineHandler.run();
             t.stop();
             inputStream.close();
@@ -83,7 +85,7 @@ public class Client {
         this.controller=remoteController;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NotBoundException, RemoteException {
         Client c = new Client("localhost",9900,"miki1");
         c.connectSocket();
     }
