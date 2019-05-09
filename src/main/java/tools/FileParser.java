@@ -1,7 +1,7 @@
 package tools;
 
 import com.google.gson.Gson;
-import model.board.Board;
+import model.board.SquareImage;
 
 import java.io.Reader;
 
@@ -12,7 +12,7 @@ public final class FileParser {
     private FileParser() {
     }
 
-    public static Board buildBoard(Reader mapFile) throws MalformedDataException {
-        return new BoardBuilder(gson.fromJson(mapFile, JsonSquare[].class)).build();
+    public static SquareImage[] readSquares(Reader mapReader) {
+        return gson.fromJson(mapReader, SquareImage[].class);
     }
 }

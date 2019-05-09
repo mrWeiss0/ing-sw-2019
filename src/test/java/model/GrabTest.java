@@ -21,7 +21,7 @@ class GrabTest {
     @BeforeEach
     void init() {
         f = new FigureMock();
-        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
+        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room(), 3)};
         items = new Grabbable[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new OptionalWeaponMock(), new AmmoTile(), new AmmoTile()};
     }
 
@@ -64,7 +64,7 @@ class GrabTest {
     @Test
     void grabWeaponTest() {
         squares[1].refill(items[0]);
-        assertTrue(squares[1].grab(f, items[0]));
+        squares[1].grab(f, items[0]);
         assertEquals(Stream.of(items[0]).collect(Collectors.toSet()), f.getWeapons());
     }
 
@@ -72,16 +72,16 @@ class GrabTest {
     void grab2WeaponTest() {
         squares[1].refill(items[0]);
         squares[1].refill(items[1]);
-        assertTrue(squares[1].grab(f, items[1]));
-        assertTrue(squares[1].grab(f, items[0]));
+        squares[1].grab(f, items[1]);
+        squares[1].grab(f, items[0]);
         assertEquals(Stream.of(items[0], items[1]).collect(Collectors.toSet()), f.getWeapons());
     }
 
     @Test
     void grabNotWeaponTest() {
         squares[1].refill(items[0]);
-        assertFalse(squares[1].grab(f, items[1]));
-        assertFalse(squares[1].grab(f, items[4]));
+        assertThrows(IllegalStateException.class, () -> squares[1].grab(f, items[1]));
+        assertThrows(ClassCastException.class, () -> squares[1].grab(f, items[4]));
         assertEquals(Stream.of().collect(Collectors.toSet()), f.getWeapons());
     }
 }

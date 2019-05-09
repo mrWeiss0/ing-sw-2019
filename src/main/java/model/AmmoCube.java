@@ -34,22 +34,6 @@ public class AmmoCube {
         return this.rangeAmmo(other).allMatch(i -> value(i) >= other.value(i));
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof AmmoCube))
-            return false;
-        AmmoCube other = (AmmoCube) obj;
-        return this.rangeAmmo(other).
-                allMatch(i -> value(i) == other.value(i));
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(ammo);
-    }
-
     public int length() {
         return ammo.length;
     }

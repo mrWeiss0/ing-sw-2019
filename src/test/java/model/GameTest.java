@@ -12,7 +12,7 @@ class GameTest {
 
     @BeforeEach
     void init() {
-        game = new GameMock().setBoard(new Board());
+        game = new GameMock().setBoard(new Board.Builder().build());
     }
 
     @Test

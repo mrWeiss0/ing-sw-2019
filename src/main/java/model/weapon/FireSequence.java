@@ -26,11 +26,20 @@ public class FireSequence {
         return validTargets;
     }
 
-    public boolean run(Set<Targettable> currentTargets) {
-        if (!(hasNext && validateTargets(currentTargets))) return false;
+    public void run(Set<Targettable> currentTargets) {
+        if (!hasNext)
+            throw new NoSuchElementException("No more steps to execute");
+        if (!validateTargets(currentTargets))
+            throw new IllegalArgumentException("Invalid targets selected");
         currentStep.run(shooter, currentTargets, lastTargets);
         next();
-        return true;
+    }
+
+    public boolean validateTargets(Set<Targettable> currentTargets) {
+        if (currentTargets.size() < currentStep.getMinTargets() ||
+                currentTargets.size() > currentStep.getMaxTargets())
+            return false;
+        return validTargets.containsAll(currentTargets);
     }
 
     public boolean hasNext() {
@@ -43,12 +52,5 @@ public class FireSequence {
             validTargets = currentStep.getTargets(shooter, board, lastTargets);
         } else
             hasNext = false;
-    }
-
-    private boolean validateTargets(Set<Targettable> currentTargets) {
-        if (currentTargets.size() < currentStep.getMinTargets() ||
-                currentTargets.size() > currentStep.getMaxTargets())
-            return false;
-        return validTargets.containsAll(currentTargets);
     }
 }

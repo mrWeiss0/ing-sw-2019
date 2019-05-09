@@ -6,7 +6,6 @@ import model.weapon.Weapon;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * <code>Game</code> is a class containing all of the major elements of a game
@@ -71,7 +70,6 @@ public class Game {
     public Figure newPlayer() {
         Figure player = new Figure(maxDamages, maxMarks, defaultAmmo);
         players.add(player);
-        board.getFigures().add(player);
         return player;
     }
 
@@ -83,7 +81,6 @@ public class Game {
      */
     public void removePlayer(Figure player) {
         players.remove(player);
-        board.getFigures().remove(player);
     }
 
     /**
@@ -112,18 +109,14 @@ public class Game {
 
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
-            while (current.accept(this)) ;
+            current.accept(this);
     }
 
-    public boolean fillSquare(AmmoSquare square) {
-        return square.refill(ammoTileDeck.draw());
+    public void fillSquare(AmmoSquare square) {
+        square.refill(ammoTileDeck.draw());
     }
 
-    public boolean fillSquare(SpawnSquare square) {
-        try {
-            return square.refill(weaponDeck.draw());
-        } catch (NoSuchElementException ignore) {
-            return false; // If deck is empty do nothing
-        }
+    public void fillSquare(SpawnSquare square) {
+        square.refill(weaponDeck.draw());
     }
 }

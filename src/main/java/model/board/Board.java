@@ -1,7 +1,6 @@
 package model.board;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -10,13 +9,14 @@ import java.util.stream.Collectors;
  * It provides methods to allow refilling using the visitor pattern.
  */
 public class Board {
-    private final Set<Room> rooms = new HashSet<>();
-    private final Set<AbstractSquare> squares = new HashSet<>();
-    private final Set<Figure> figures = new HashSet<>();
+    private final Set<Room> rooms;
+    private final Set<AbstractSquare> squares;
+    private final Set<Figure> figures;
 
-    public void addSquare(AbstractSquare square) {
-        rooms.add(square.getRoom());
-        squares.add(square);
+    private Board(Builder builder) {
+        this.rooms = Collections.unmodifiableSet(builder.rooms.stream().filter(Objects::nonNull).collect(Collectors.toSet()));
+        this.squares = Collections.unmodifiableSet(new HashSet<>(builder.squaresMap.values()));
+        this.figures = Collections.unmodifiableSet(builder.figures);
     }
 
     public Set<Room> getRooms() {
@@ -43,4 +43,68 @@ public class Board {
         figures.forEach(Figure::applyMarks);
     }
 
+    public static class Builder {
+        private final List<Room> rooms = new ArrayList<>();
+        private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
+        private final Set<Figure> figures = new HashSet<>();
+        private SquareImage[] squareImages;
+        private int capacity = 1;
+
+        public Builder() {
+            this.squareImages = new SquareImage[]{};
+        }
+
+        public Builder squares(SquareImage... squareImages) {
+            this.squareImages = squareImages;
+            return this;
+        }
+
+        public Builder spawnCapacity(int capacity) {
+            this.capacity = capacity;
+            return this;
+        }
+
+        public Builder figure(Figure figure) {
+            figures.add(figure);
+            return this;
+        }
+
+        public Builder figure(Collection<Figure> figures) {
+            this.figures.addAll(figures);
+            return this;
+        }
+
+        public Board build() {
+            for (SquareImage s : squareImages)
+                s.build(this);
+            for (SquareImage s : squareImages)
+                s.connect(this);
+            return new Board(this);
+        }
+
+        Room getRoom(int i) {
+            Room roomObj;
+            if (i >= rooms.size())
+                rooms.addAll(Collections.nCopies(i - rooms.size() + 1, null));
+            if ((roomObj = rooms.get(i)) == null) {
+                roomObj = new Room();
+                rooms.set(i, roomObj);
+            }
+            return roomObj;
+        }
+
+        int getCapacity() {
+            return capacity;
+        }
+
+        AbstractSquare getSquare(int i) {
+            return squaresMap.get(i);
+        }
+
+        void addSquare(int id, AbstractSquare square) {
+            if (squaresMap.containsKey(id))
+                throw new IllegalArgumentException("Duplicate cell ID " + id);
+            squaresMap.put(id, square);
+        }
+    }
 }

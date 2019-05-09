@@ -5,6 +5,7 @@ import model.Grabbable;
 import model.weapon.Weapon;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class SpawnSquare extends AbstractSquare {
@@ -21,29 +22,29 @@ public class SpawnSquare extends AbstractSquare {
     }
 
     @Override
-    public boolean accept(Game game) {
-        return game.fillSquare(this);
-    }
-
-    @Override
-    public boolean refill(Grabbable o) {
-        if (weapons.size() < capacity)
-            return weapons.add((Weapon) o);
-        return false;
-    }
-
-    @Override
-    public boolean grab(Figure grabber, Grabbable grabbed) {
+    public void accept(Game game) {
         try {
-            //noinspection SuspiciousMethodCalls
-            if (weapons.remove(grabbed)) {
-                grabber.grab((Weapon) grabbed);
-                return true;
-            }
-        } catch (ClassCastException ignore) {
-            // grabbed was not a weapon
+            while (weapons.size() < capacity)
+                game.fillSquare(this);
+        } catch (NoSuchElementException ignore) {
+            // Weapon dek is empty
         }
-        return false;
+    }
+
+    @Override
+    public void refill(Grabbable o) {
+        Weapon w = (Weapon) o;
+        if (weapons.size() >= capacity)
+            throw new IllegalStateException("Square is already filled");
+        weapons.add(w);
+    }
+
+    @Override
+    public void grab(Figure grabber, Grabbable grabbed) {
+        Weapon w = (Weapon) grabbed;
+        if (!weapons.remove(w))
+            throw new IllegalStateException("Square " + this + " does not contain item " + w);
+        grabber.grab(w);
     }
 
     @Override

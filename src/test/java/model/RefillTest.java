@@ -31,8 +31,9 @@ class RefillTest {
     void testRefill() {
         squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room()), new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
         Arrays.stream(squares).forEach(s -> s.accept(g));
+        Arrays.stream(squares).forEach(s -> s.accept(g));
         Arrays.stream(squares).forEach(s -> {
-            Grabbable grabbed = (Grabbable) s.peek().toArray()[0];
+            Grabbable grabbed = s.peek().iterator().next();
             if (s instanceof AmmoSquare)
                 assertTrue(Arrays.asList(ammoTiles).contains(grabbed));
             else if (s instanceof SpawnSquare)
@@ -42,33 +43,41 @@ class RefillTest {
 
     @Test
     void testRefillEmpty() {
-        squares = new AbstractSquare[]{new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room()),
-                new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room()),
-                new SpawnSquareMock(new Room()), new SpawnSquareMock(new Room())};
+        squares = new AbstractSquare[]{
+                new SpawnSquareMock(new Room(), 3),
+                new SpawnSquareMock(new Room(), 3),
+                new SpawnSquareMock(new Room(), 3)
+        };
         Arrays.stream(squares).forEach(s -> s.accept(g));
-        assertTrue(Arrays.asList(weapons).contains(squares[0].peek().toArray()[0]));
-        assertTrue(Arrays.asList(weapons).contains(squares[1].peek().toArray()[0]));
-        assertTrue(Arrays.asList(weapons).contains(squares[2].peek().toArray()[0]));
-        assertTrue(Arrays.asList(weapons).contains(squares[3].peek().toArray()[0]));
-        assertEquals(Stream.of().collect(Collectors.toSet()), squares[4].peek());
-        assertEquals(Stream.of().collect(Collectors.toSet()), squares[5].peek());
+        assertEquals(3, squares[0].peek().size());
+        assertEquals(1, squares[1].peek().size());
+        assertEquals(0, squares[2].peek().size());
     }
 
     @Test
     void testRefillMany() {
-        AbstractSquare square = new SpawnSquareMock(new Room());
-        assertTrue(square.refill(weapons[2]));
-        assertTrue(square.refill(weapons[1]));
-        assertTrue(square.refill(weapons[3]));
-        assertFalse(square.refill(weapons[0]));
+        AbstractSquare square = new SpawnSquareMock(new Room(), 3);
+        square.refill(weapons[2]);
+        square.refill(weapons[1]);
+        square.refill(weapons[3]);
+        assertThrows(IllegalStateException.class, () -> square.refill(weapons[0]));
         assertEquals(Stream.of(weapons[2], weapons[1], weapons[3]).collect(Collectors.toSet()), square.peek());
     }
 
     @Test
-    void testWrong() {
+    void testWrongAmmo() {
         AbstractSquare square = new AmmoSquareMock(new Room());
-        assertTrue(square.refill(ammoTiles[1]));
-        assertFalse(square.refill(ammoTiles[0]));
-        assertEquals(ammoTiles[1], square.peek().toArray()[0]);
+        square.refill(ammoTiles[1]);
+        assertThrows(IllegalStateException.class, () -> square.refill(ammoTiles[0]));
+        assertThrows(ClassCastException.class, () -> square.refill(weapons[0]));
+        assertEquals(ammoTiles[1], square.peek().iterator().next());
+    }
+
+    @Test
+    void testWrongWeapon() {
+        AbstractSquare square = new SpawnSquareMock(new Room(), 3);
+        square.refill(weapons[1]);
+        assertThrows(ClassCastException.class, () -> square.refill(ammoTiles[0]));
+        assertEquals(weapons[1], square.peek().iterator().next());
     }
 }

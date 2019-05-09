@@ -17,27 +17,26 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     @Override
-    public boolean accept(Game game) {
-        return game.fillSquare(this);
+    public void accept(Game game) {
+        if (ammoTile == null)
+            game.fillSquare(this);
     }
 
     @Override
-    public boolean refill(Grabbable o) {
-        if (ammoTile == null) {
-            ammoTile = (AmmoTile) o;
-            return true;
-        }
-        return false;
+    public void refill(Grabbable o) {
+        AmmoTile t = (AmmoTile) o;
+        if (ammoTile != null)
+            throw new IllegalStateException("Square is already filled");
+        ammoTile = t;
     }
 
     @Override
-    public boolean grab(Figure grabber, Grabbable grabbed) {
-        if (ammoTile == grabbed) {
-            grabber.grab(ammoTile);
-            ammoTile = null;
-            return true;
-        }
-        return false;
+    public void grab(Figure grabber, Grabbable grabbed) {
+        AmmoTile t = (AmmoTile) grabbed;
+        if (ammoTile != t)
+            throw new IllegalStateException("Square " + this + " does not contain item " + t);
+        grabber.grab(t);
+        ammoTile = null;
     }
 
     @Override

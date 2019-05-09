@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,8 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FireSequenceTest {
     private static FireMode base, focus, tripod;
-    private final Board board = new Board();
+    private final Board.Builder boardBuilder = new Board.Builder();
+    private Board board;
     private Figure[] figures;
+
+    private static boolean ammoCubeEquals(AmmoCube a, AmmoCube b) {
+        try {
+            Field f = AmmoCube.class.getDeclaredField("ammo");
+            f.setAccessible(true);
+            return Objects.deepEquals(f.get(a), f.get(b));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return false;
+        }
+    }
 
     @BeforeAll
     static void init() {
@@ -60,31 +72,33 @@ class FireSequenceTest {
                 new FigureMock(),
                 new FigureMock()
         };
-        board.getFigures().addAll(Arrays.asList(figures));
-        board.getFigures().add(new FigureMock());
-        AbstractSquare square = new AmmoSquareMock(new Room());
-        for (Figure f : figures) f.moveTo(square);
-        board.addSquare(square);
+        board = boardBuilder
+                .figure(Arrays.asList(figures))
+                .figure(new FigureMock())
+                .squares(new SquareImage().coords(new int[]{0, 0}))
+                .build();
+        for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());
     }
 
     @Test
     void testCost() {
-        assertEquals(new AmmoCube(1, 1), Stream.of(base, focus, tripod).map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new));
+        assertTrue(ammoCubeEquals(new AmmoCube(1, 1), Stream.of(base, focus, tripod).map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new)));
     }
 
     @Test
     void testBase() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Collections.singletonList(base)));
         // Base mode
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1], figures[3], figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Collections.emptySet()));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[3], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Collections.emptySet()));
         // Run
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
+        assertThrows(NoSuchElementException.class, () -> fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
         board.clearDamaged();
@@ -95,17 +109,17 @@ class FireSequenceTest {
 
     @Test
     void testFocus() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, focus).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, focus)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Collections.emptySet()));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Collections.emptySet()));
         // Run
-        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
@@ -115,23 +129,23 @@ class FireSequenceTest {
 
     @Test
     void testTripod() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, tripod)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -142,23 +156,23 @@ class FireSequenceTest {
 
     @Test
     void testTripodOnlyOther() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, tripod)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.emptySet()));
+        fs.run(Collections.emptySet());
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -169,23 +183,23 @@ class FireSequenceTest {
 
     @Test
     void testTripodOnlyLast() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, tripod)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Collections.emptySet()));
+        fs.run(Collections.emptySet());
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
@@ -195,24 +209,24 @@ class FireSequenceTest {
 
     @Test
     void testFocusTripod() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, focus, tripod).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, focus, tripod)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         // Focus mode
-        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());
@@ -223,21 +237,21 @@ class FireSequenceTest {
 
     @Test
     void testTripodFocus() {
-        FireSequence fs = new FireSequence(figures[0], board, Stream.of(base, tripod, focus).flatMap(FireMode::getStepsStream).collect(Collectors.toList()));
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, tripod, focus)));
         // Base mode
-        assertTrue(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         // Tripod mode
-        assertTrue(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
-        assertTrue(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
+        fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
-        assertFalse(fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
-        assertFalse(fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));
+        assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         // Run
-        assertTrue(fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         // Check
         assertEquals(Stream.of(figures[1], figures[2], figures[4]).collect(Collectors.toSet()), board.getDamaged());

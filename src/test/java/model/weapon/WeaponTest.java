@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,6 +18,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class WeaponTest {
     private static FireMode[] fm;
     private static Weapon weapon;
+
+    private static boolean ammoCubeEquals(AmmoCube a, AmmoCube b) {
+        try {
+            Field f = AmmoCube.class.getDeclaredField("ammo");
+            f.setAccessible(true);
+            return Objects.deepEquals(f.get(a), f.get(b));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return false;
+        }
+    }
 
     @BeforeAll
     static void ba() {
@@ -39,8 +51,8 @@ class WeaponTest {
         assertTrue(weapon.isLoaded());
         weapon.unload();
         assertFalse(weapon.isLoaded());
-        assertEquals(weapon.getPickupCost(), new AmmoCube(1, 2));
-        assertEquals(weapon.getReloadCost(), new AmmoCube(2));
+        assertTrue(ammoCubeEquals(weapon.getPickupCost(), new AmmoCube(1, 2)));
+        assertTrue(ammoCubeEquals(weapon.getReloadCost(), new AmmoCube(2)));
     }
 
     @Test

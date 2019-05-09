@@ -3,10 +3,24 @@ package model;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.Field;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AmmoCubeTest {
     private static AmmoCube a, b;
+
+    private static boolean ammoCubeEquals(AmmoCube a, AmmoCube b) {
+        try {
+            Field f = AmmoCube.class.getDeclaredField("ammo");
+            f.setAccessible(true);
+            return Objects.deepEquals(f.get(a), f.get(b));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return false;
+        }
+    }
 
     @BeforeAll
     static void init() {
@@ -15,18 +29,24 @@ class AmmoCubeTest {
     }
 
     @Test
+    void testZero() {
+        assertTrue(ammoCubeEquals(new AmmoCube(), new AmmoCube(0, 0)));
+        assertTrue(ammoCubeEquals(new AmmoCube(1), new AmmoCube(1, 0, 0)));
+    }
+
+    @Test
     void testSimpleSum() {
-        assertEquals(new AmmoCube(3, 2, 3), a.add(b));
+        assertTrue(ammoCubeEquals(new AmmoCube(3, 2, 3), a.add(b)));
     }
 
     @Test
     void testSimpleSub() {
-        assertEquals(new AmmoCube(-1, 2, 3), a.sub(b));
+        assertTrue(ammoCubeEquals(new AmmoCube(-1, 2, 3), a.sub(b)));
     }
 
     @Test
     void testCap() {
-        assertEquals(new AmmoCube(2, 2, 2), a.add(b).cap(2));
+        assertTrue(ammoCubeEquals(new AmmoCube(2, 2, 2), a.add(b).cap(2)));
     }
 
     @Test
@@ -36,18 +56,6 @@ class AmmoCubeTest {
         AmmoCube c = new AmmoCube(1);
         assertFalse(c.greaterEqThan(a));
         assertTrue(a.greaterEqThan(c));
-    }
-
-    @Test
-    void testEquals() {
-        assertNotEquals(a, new Object());
-        assertNotEquals(a, b);
-        assertEquals(a, a);
-        assertEquals(a, new AmmoCube(1, 2, 3));
-        assertEquals(a.hashCode(), new AmmoCube(1, 2, 3).hashCode());
-        assertEquals(new AmmoCube(1), new AmmoCube(1, 0, 0));
-        assertEquals(new AmmoCube(), new AmmoCube(0, 0));
-        assertEquals(new AmmoCube(1).hashCode(), new AmmoCube(1, 0, 0).hashCode());
     }
 
 }

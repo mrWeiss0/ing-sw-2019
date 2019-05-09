@@ -160,11 +160,11 @@ public abstract class AbstractSquare implements Targettable {
         for (Figure s : occupants) s.markFrom(dealer, n);
     }
 
-    public abstract boolean accept(Game game);
+    public abstract void accept(Game game);
 
-    public abstract boolean refill(Grabbable o);
+    public abstract void refill(Grabbable o);
 
-    public abstract boolean grab(Figure grabber, Grabbable grabbed);
+    public abstract void grab(Figure grabber, Grabbable grabbed);
 
     public abstract Set<Grabbable> peek();
 }
