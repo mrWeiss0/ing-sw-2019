@@ -20,30 +20,18 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     private UUID name;
     private final int maxUsers = 3;
     private int occupants = 0;
-    private transient Server server;
     private State state;
     protected boolean canJoin;
 
-    public Controller(Server server) throws RemoteException {
+    public Controller() throws RemoteException {
         super();
         this.name = UUID.randomUUID();
         this.usersByID = new HashMap<>();
-        this.server = server;
         this.state = new WaitingState(this);
-    }
-
-
-
-    public String getName(){
-        return name.toString();
     }
 
     public boolean canJoin() {
         return occupants<maxUsers;
-    }
-
-    public String occupancy() {
-        return occupants + "/" + maxUsers;
     }
 
     public void login(String name, RemoteView remoteView, String id)throws RemoteException{
@@ -53,8 +41,6 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
                 new TextResponse("You are now connected, send message with text:*message*"));
         occupants = usersByID.values().size();
         System.out.println(">>users : " + usersByID);
-        if (server.getLobbyList().getControllers().stream().noneMatch(Controller::canJoin))
-            server.addToLobby();
     }
 
     @Override
@@ -67,10 +53,6 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
             usr.getView().handle(toSend);
     }
 
-    @Override
-    public void loginSelected(String username, String id, int selectionIndex) throws RemoteException {
-        usersByID.get(id).getView().handle(new TextResponse("ERROR: You are already connected to " + name));
-    }
 
     @Override
     public void logout(String id) throws RemoteException{
@@ -80,7 +62,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     }
 
     @Override
-    public void notifyConnection(RemoteView remoteView) throws RemoteException{
+    public void notifyConnection(RemoteView remoteView, String id) throws RemoteException{
         remoteView.handle(new TextResponse("ERROR: You are trying to connect directly to a Controller," +
                 " please refer to client handler first"));
     }

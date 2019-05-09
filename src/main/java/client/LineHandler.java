@@ -40,9 +40,8 @@ public class LineHandler {
     }
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
     private void handleLineCommand(String line) throws IOException, NotBoundException {
-        if (line.startsWith("select:")) {
-            client.getController().loginSelected(client.getName(),client.getID(),Integer.parseInt(line.substring(7)));
-        } else if (line.startsWith("text:")) {
+
+        if (line.startsWith("text:")) {
             client.getController().sendText(line.substring(5),client.getID());
         } else if (line.startsWith("logout")){
             client.getController().logout(client.getID());

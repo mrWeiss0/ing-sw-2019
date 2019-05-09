@@ -2,7 +2,11 @@ package connection.messages.requests;
 
 import connection.messages.RequestInterpreter;
 
-public class ConnectionRequest extends Request {
+public class LoginRequest extends Request {
+    private String username;
+    public LoginRequest(String username){
+        this.username=username;
+    }
     @Override
     public String prompt() {
         return "Request Connection";
@@ -11,5 +15,9 @@ public class ConnectionRequest extends Request {
     @Override
     public void handle(RequestInterpreter requestInterpreter) {
         requestInterpreter.handle(this);
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

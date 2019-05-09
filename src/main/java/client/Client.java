@@ -37,7 +37,7 @@ public class Client {
         TextView textView = new ViewRMI(this);
         controller = (RemoteController) registry.lookup("connection handler");
         lineHandler = new LineHandler(linein, textView, this);
-        controller.notifyConnection((RemoteView) textView);
+        controller.notifyConnection((RemoteView) textView,name);
         lineHandler.run();
         controller.logout(id);
     }
@@ -51,6 +51,7 @@ public class Client {
             Thread thread = new Thread(t);
             thread.start();
             lineHandler = new LineHandler(linein, t, this);
+            controller.notifyConnection(t,name);
             lineHandler.run();
             t.stop();
             inputStream.close();
@@ -80,5 +81,10 @@ public class Client {
     }
     public void setController(RemoteController remoteController){
         this.controller=remoteController;
+    }
+
+    public static void main(String[] args) {
+        Client c = new Client("localhost",9900,"miki1");
+        c.connectSocket();
     }
 }

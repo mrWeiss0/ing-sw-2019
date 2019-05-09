@@ -24,7 +24,7 @@ public class Server implements Runnable {
         pool = Executors.newCachedThreadPool();
         System.out.println(">>Socket: Server Started on Port: " + portSocket);
         lobbyList = new LobbyList();
-        Controller firstController = new Controller(this);
+        Controller firstController = new Controller();
         lobbyList.addController(firstController);
 
         serverSocket = new ServerSocket(portSocket);
@@ -55,15 +55,6 @@ public class Server implements Runnable {
         pool.shutdown();
     }
 
-    public LobbyList getLobbyList() {
-        return lobbyList;
-    }
-
-    public void addToLobby() throws RemoteException{
-        Controller toAdd = new Controller(this);
-        lobbyList.addController(toAdd);
-
-    }
 
     public static void main(String[] args) throws IOException {
         Server server = new Server(9900, 1099);

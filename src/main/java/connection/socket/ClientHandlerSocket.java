@@ -31,7 +31,6 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
     public void run() {
         try {
             referenceController = lobbyList;
-            referenceController.notifyConnection(connectionVirtualView);
             while (socket.isConnected()) {
                 try {
                     Request received = (Request) sin.readObject();
@@ -53,15 +52,7 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
         this.referenceController = referenceController;
     }
     //TODO IMPLEMENTARE LA RICEZIONE DEL COMANDO
-    @Override
-    public void handle(ControllerSelectionRequest request){
-        try {
-            referenceController.loginSelected(request.getUsername(), request.getSender(), request.getSelectedControllerIndex());
-            referenceController = lobbyList.getControllers().get(request.getSelectedControllerIndex());
-        }catch(RemoteException e){
-            e.printStackTrace();
-        }
-    }
+
     @Override
     public void handle(TextRequest request){
         try {
@@ -72,9 +63,9 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
     }
 
     @Override
-    public void handle(ConnectionRequest request){
+    public void handle(LoginRequest request){
         try {
-            referenceController.notifyConnection(connectionVirtualView);
+            referenceController.notifyConnection(connectionVirtualView, request.getUsername());
         }catch(RemoteException e){
             e.printStackTrace();
         }

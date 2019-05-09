@@ -15,7 +15,7 @@ public class State implements RemoteController {
     }
 
     @Override
-    public void notifyConnection(RemoteView remoteView) throws RemoteException {
+    public void notifyConnection(RemoteView remoteView, String name) throws RemoteException {
         remoteView.handle(new TextResponse("You are already connected"));
     }
 
@@ -26,11 +26,6 @@ public class State implements RemoteController {
 
     @Override
     public void sendText(String text, String id) throws RemoteException {
-        controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
-    }
-
-    @Override
-    public void loginSelected(String username, String id, int selectionIndex) throws RemoteException {
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
     }
 

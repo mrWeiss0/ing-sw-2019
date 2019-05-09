@@ -2,7 +2,7 @@ package view;
 
 import client.Client;
 import connection.messages.*;
-import connection.messages.responses.ControllerProposalResponse;
+import connection.messages.responses.LoginResponse;
 import connection.messages.responses.TextResponse;
 
 public class ViewResponseDisplay implements ResponseDisplay {
@@ -12,7 +12,7 @@ public class ViewResponseDisplay implements ResponseDisplay {
     }
 
     @Override
-    public void handle(ControllerProposalResponse m) {
+    public void handle(LoginResponse m) {
         client.saveUuid(m.getId());
         System.out.println(m.prompt());
     }

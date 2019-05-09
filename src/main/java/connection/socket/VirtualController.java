@@ -18,8 +18,8 @@ public class VirtualController implements RemoteController {
     }
     //TODO IMPLEMENTARE L'INVIO DEL COMANDO
     @Override
-    public void notifyConnection(RemoteView remoteView){
-        send(new ConnectionRequest());
+    public void notifyConnection(RemoteView remoteView, String username){
+        send(new LoginRequest(username));
     }
 
     @Override
@@ -32,10 +32,6 @@ public class VirtualController implements RemoteController {
         send(new TextRequest(text));
     }
 
-    @Override
-    public void loginSelected(String username, String id, int selectionIndex){
-        send(new ControllerSelectionRequest(selectionIndex, username));
-    }
 
     private void send(Request r){
         try{

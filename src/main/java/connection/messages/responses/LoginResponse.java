@@ -3,13 +3,11 @@ package connection.messages.responses;
 
 import connection.messages.ResponseDisplay;
 
-public class ControllerProposalResponse extends Response {
-    private String controllerDescriptions;
+public class LoginResponse extends Response {
     private String id;
 
-    public ControllerProposalResponse(String controllerDescriptions, String id) {
+    public LoginResponse( String id) {
         this.id = id;
-        this.controllerDescriptions = controllerDescriptions;
     }
 
 
@@ -19,7 +17,7 @@ public class ControllerProposalResponse extends Response {
 
     @Override
     public String prompt() {
-        return controllerDescriptions;
+        return ">> Connected";
     }
 
     @Override
