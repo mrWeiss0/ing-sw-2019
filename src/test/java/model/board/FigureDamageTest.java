@@ -125,7 +125,7 @@ class FigureDamageTest {
     @Test
     void testRoomMark() {
         room.markFrom(figures[0], 3);
-        room.getSquares().stream().flatMap(s -> s.getOccupants().stream()).forEach(model.board.Figure::applyMarks);
+        new Board.Builder().figures(figures).build().applyMarks();
         room.damageFrom(figures[0], 1);
         assertEquals(0, figures[0].getDamages().size());
         assertEquals(4, figures[1].getDamages().size());
@@ -133,5 +133,4 @@ class FigureDamageTest {
         assertEquals(4, figures[3].getDamages().size());
         assertEquals(4, figures[4].getDamages().size());
     }
-
 }

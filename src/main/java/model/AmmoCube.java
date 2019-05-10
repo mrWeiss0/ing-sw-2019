@@ -6,10 +6,6 @@ import java.util.stream.IntStream;
 public class AmmoCube {
     private final int[] ammo;
 
-    public AmmoCube() {
-        this.ammo = new int[]{};
-    }
-
     public AmmoCube(int... ammo) {
         int len = ammo.length;
         while (len > 0 && ammo[len - 1] == 0) --len;

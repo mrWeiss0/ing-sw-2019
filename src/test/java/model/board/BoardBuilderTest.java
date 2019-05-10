@@ -28,11 +28,11 @@ public class BoardBuilderTest {
             new SquareImage().id(6).coords(1, 3).roomId(5).adjacent(5, 10),
             new SquareImage().id(9).coords(2, 2).roomId(4).adjacent(8, 5),
             new SquareImage().id(4).coords(1, 1).roomId(2).adjacent(5),
-            new SquareImage().id(0).coords(0, 0).roomId(0),
+            new SquareImage().coords(0, 0).roomId(0),
             new SquareImage().id(5).coords(1, 2).roomId(2),
             new SquareImage().id(7).coords(2, 0).roomId(4).adjacent(3),
-            new SquareImage().id(2).coords(0, 2).roomId(1).adjacent(5, 1).spawn(),
-            new SquareImage().id(3).coords(1, 0).roomId(0).adjacent(0).spawn(),
+            new SquareImage().coords(0, 2).roomId(1).adjacent(5, 1).spawn(),
+            new SquareImage().coords(1, 0).roomId(0).adjacent(0).spawn(),
             new SquareImage().id(10).coords(2, 3).roomId(5).adjacent(9, 6).spawn()
     };
     private static Set<Room> rooms;
