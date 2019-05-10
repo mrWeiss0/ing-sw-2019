@@ -18,9 +18,6 @@ public class Deck<T> {
     private final ArrayList<T> discard = new ArrayList<>();
     private final ArrayDeque<T> cards = new ArrayDeque<>();
 
-    public Deck() {
-    }
-
     /**
      * Constructs a deck with the given collection of cards, automatically
      * shuffling it.

@@ -1,50 +1,54 @@
 package model;
 
-import model.board.Board;
-import model.board.Figure;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
-    private Game game;
-
-    @BeforeEach
-    void init() {
-        game = new GameMock().setBoard(new Board.Builder().build());
-    }
+    private Player[] players = new Player[]{
+            new Player(),
+            new Player(),
+            new Player(),
+            new Player(),
+            new Player()
+    };
+    private Game.Builder gameBuilder = new Game.Builder().player(players[0]);
 
     @Test
     void test1Player() {
-        Figure p1 = game.newPlayer();
-        assertEquals(game.nextPlayer(), p1);
+        Game game = gameBuilder
+                .build();
+        assertEquals(game.nextPlayer(), players[0]);
     }
 
     @Test
     void test2Player() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p2);
+        Game game = gameBuilder
+                .player(players[1])
+                .build();
+        assertEquals(game.nextPlayer(), players[0]);
+        assertEquals(game.nextPlayer(), players[1]);
     }
 
     @Test
     void testCycling() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p2);
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p2);
+        Game game = gameBuilder
+                .player(players[1])
+                .build();
+        assertEquals(game.nextPlayer(), players[0]);
+        assertEquals(game.nextPlayer(), players[1]);
+        assertEquals(game.nextPlayer(), players[0]);
+        assertEquals(game.nextPlayer(), players[1]);
     }
 
     @Test
     void test5Players() {
-        Figure[] players = new Figure[5];
-        for (int i = 0; i < 5; i++) {
-            players[i] = game.newPlayer();
-        }
+        Game game = gameBuilder
+                .player(players[1])
+                .player(players[2])
+                .player(players[3])
+                .player(players[4])
+                .build();
         for (int i = 0; i < 10; i++) {
             assertEquals(game.nextPlayer(), players[i % 5]);
         }
@@ -52,14 +56,15 @@ class GameTest {
 
     @Test
     void testRemove() {
-        Figure p1 = game.newPlayer();
-        Figure p2 = game.newPlayer();
-        Figure p3 = game.newPlayer();
-        game.removePlayer(p2);
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p3);
-        assertEquals(game.nextPlayer(), p1);
-        assertEquals(game.nextPlayer(), p3);
+        Game game = gameBuilder
+                .player(players[1])
+                .player(players[2])
+                .removePlayer(players[1])
+                .build();
+        assertEquals(game.nextPlayer(), players[0]);
+        assertEquals(game.nextPlayer(), players[2]);
+        assertEquals(game.nextPlayer(), players[0]);
+        assertEquals(game.nextPlayer(), players[2]);
     }
 }
 

@@ -16,15 +16,17 @@ public class Figure implements Targettable {
     private final Set<PowerUp> powerUps = new HashSet<>();
     private final int maxDamages;
     private final int maxMarks;
+    private final int maxAmmo;
     private AbstractSquare square = null;
     private boolean damaged = false;
     private int deaths = 0;
     private AmmoCube ammo;
 
-    public Figure(int maxDamages, int maxMarks, AmmoCube ammo) {
-        this.ammo = ammo;
+    public Figure(int maxDamages, int maxMarks, int maxAmmo, AmmoCube ammo) {
         this.maxDamages = maxDamages;
         this.maxMarks = maxMarks;
+        this.maxAmmo = maxAmmo;
+        this.ammo = ammo;
     }
 
     /**

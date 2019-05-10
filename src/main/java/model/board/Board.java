@@ -69,7 +69,7 @@ public class Board {
             return this;
         }
 
-        public Builder figure(Collection<Figure> figures) {
+        public Builder figures(Collection<Figure> figures) {
             this.figures.addAll(figures);
             return this;
         }

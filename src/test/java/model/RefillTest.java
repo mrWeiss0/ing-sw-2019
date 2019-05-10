@@ -24,7 +24,7 @@ class RefillTest {
     void init() {
         weapons = new Weapon[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new WeaponMock()};
         ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
-        g = new GameMock().setWeapons(Arrays.asList(weapons)).setAmmoTiles(Arrays.asList(ammoTiles));
+        g = new Game.Builder().weapons(Arrays.asList(weapons)).ammoTiles(Arrays.asList(ammoTiles)).build();
     }
 
     @Test

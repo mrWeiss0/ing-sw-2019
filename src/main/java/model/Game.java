@@ -5,6 +5,7 @@ import model.weapon.Weapon;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,71 +17,30 @@ import java.util.List;
  * as provides methods to manage them.
  */
 public class Game {
-    private final int maxDamages;
-    private final int maxMarks;
-    private final AmmoCube defaultAmmo;
-    private final int maxAmmo;
     // Killshot Track
     private final List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
-    private final List<Figure> players = new ArrayList<>();
+    private final List<Player> players;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
 
-    private Deck<AmmoTile> ammoTileDeck;
-    private Deck<Weapon> weaponDeck;
-    private Deck<PowerUp> powerUpDeck;
+    private final Deck<AmmoTile> ammoTileDeck;
+    private final Deck<Weapon> weaponDeck;
+    private final Deck<PowerUp> powerUpDeck;
 
-    private Board board;
+    private final Board board;
 
-    /**
-     * Constructor that initializes remaining kills with given value,
-     * determining game length.
-     *
-     * @param nKills the number of kills needed to reach the end game or
-     *               the frenzy turn
-     */
-    public Game(int nKills, int maxDamages, int maxMarks, AmmoCube defaultAmmo, int maxAmmo) {
-        remainingKills = nKills;
-        this.maxDamages = maxDamages;
-        this.maxMarks = maxMarks;
-        this.defaultAmmo = defaultAmmo;
-        this.maxAmmo = maxAmmo;
-    }
-
-    public Game setAmmoTiles(Collection<AmmoTile> c) {
-        ammoTileDeck = new Deck<>(c);
-        return this;
-    }
-
-    public Game setWeapons(Collection<Weapon> c) {
-        weaponDeck = new Deck<>(c);
-        return this;
-    }
-
-    public Game setPowerUps(Collection<PowerUp> c) {
-        powerUpDeck = new Deck<>(c);
-        return this;
-    }
-
-    public Game setBoard(Board b) {
-        board = b;
-        return this;
-    }
-
-    public Figure newPlayer() {
-        Figure player = new Figure(maxDamages, maxMarks, defaultAmmo);
-        players.add(player);
-        return player;
-    }
-
-    /**
-     * Removes the specified player from the player list. This should
-     * be done only at the end of a game.
-     *
-     * @param player the player to be removed
-     */
-    public void removePlayer(Figure player) {
-        players.remove(player);
+    public Game(Builder builder) {
+        remainingKills = builder.nKills;
+        ammoTileDeck = new Deck<>(builder.ammoTiles);
+        weaponDeck = new Deck<>(builder.weapons);
+        powerUpDeck = new Deck<>(builder.powerUps);
+        for (Player p : builder.players) {
+            Figure figure = new Figure(builder.maxDamages, builder.maxMarks, builder.maxAmmo, builder.defaultAmmo);
+            p.setFigure(figure);
+            builder.boardBuilder.figure(figure);
+        }
+        players = Collections.unmodifiableList(builder.players);
+        board = builder.boardBuilder.build();
     }
 
     /**
@@ -88,7 +48,7 @@ public class Game {
      *
      * @return the player whose turn its taking place
      */
-    public Figure currentPlayer() {
+    public Player currentPlayer() {
         return players.get(currPlayer);
     }
 
@@ -101,7 +61,7 @@ public class Game {
      * @return the player that comes after the one that has completed
      * its turn
      */
-    public Figure nextPlayer() {
+    public Player nextPlayer() {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
@@ -118,5 +78,78 @@ public class Game {
 
     public void fillSquare(SpawnSquare square) {
         square.refill(weaponDeck.draw());
+    }
+
+    public static class Builder {
+
+        private int nKills;
+        private int maxDamages;
+        private int maxMarks;
+        private int maxAmmo;
+        private AmmoCube defaultAmmo;
+        private final Board.Builder boardBuilder = new Board.Builder();
+        private final List<Player> players = new ArrayList<>();
+        private Collection<AmmoTile> ammoTiles = Collections.emptyList();
+        private Collection<Weapon> weapons = Collections.emptyList();
+        private Collection<PowerUp> powerUps = Collections.emptyList();
+
+        public Builder nKills(int val) {
+            nKills = val;
+            return this;
+        }
+
+        public Builder maxDamages(int val) {
+            maxDamages = val;
+            return this;
+        }
+
+        public Builder maxMarks(int val) {
+            maxMarks = val;
+            return this;
+        }
+
+        public Builder maxAmmo(int val) {
+            maxAmmo = val;
+            return this;
+        }
+
+        public Builder defaultAmmo(AmmoCube val) {
+            defaultAmmo = val;
+            return this;
+        }
+
+        public Builder spawnCapacity(int val) {
+            boardBuilder.spawnCapacity(val);
+            return this;
+        }
+
+        public Builder ammoTiles(Collection<AmmoTile> c) {
+            ammoTiles = c;
+            return this;
+        }
+
+        public Builder weapons(Collection<Weapon> c) {
+            weapons = c;
+            return this;
+        }
+
+        public Builder powerUps(Collection<PowerUp> c) {
+            powerUps = c;
+            return this;
+        }
+
+        public Builder player(Player player) {
+            players.add(player);
+            return this;
+        }
+
+        public Builder removePlayer(Player player) {
+            players.remove(player);
+            return this;
+        }
+
+        public Game build() {
+            return new Game(this);
+        }
     }
 }
