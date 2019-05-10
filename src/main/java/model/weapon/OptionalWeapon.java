@@ -7,11 +7,6 @@ import java.util.*;
 public class OptionalWeapon extends Weapon {
     private final Map<FireMode, FireMode> dependency;
 
-    public OptionalWeapon(AmmoCube pickupCost, AmmoCube reloadCost) {
-        super(pickupCost, reloadCost);
-        dependency = new HashMap<>();
-    }
-
     private OptionalWeapon(Builder builder) {
         super(builder);
         for (Map.Entry<FireMode, FireMode> e : builder.dependency.entrySet())
@@ -37,23 +32,28 @@ public class OptionalWeapon extends Weapon {
         return baseMode;
     }
 
+    @SuppressWarnings("squid:S2176")
     public static class Builder extends Weapon.Builder {
         private final Map<FireMode, FireMode> dependency = new HashMap<>();
 
+        @Override
         public Builder pickupCost(AmmoCube cost) {
             super.pickupCost(cost);
             return this;
         }
 
+        @Override
         public Builder reloadCost(AmmoCube cost) {
             super.reloadCost(cost);
             return this;
         }
 
+        @Override
         public Builder fireModes(FireMode... fireModes) {
             return fireModes(Arrays.asList(fireModes));
         }
 
+        @Override
         public Builder fireModes(Collection<FireMode> fireModes) {
             super.fireModes(fireModes);
             return this;
@@ -64,6 +64,7 @@ public class OptionalWeapon extends Weapon {
             return this;
         }
 
+        @Override
         public Weapon build() {
             return new OptionalWeapon(this);
         }

@@ -1,11 +1,14 @@
 package model.weapon;
 
+import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,7 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OptionalWeaponTest {
     private static FireMode[] fm;
-    private static List<Weapon> weapons = new ArrayList<Weapon>();
+    private static List<Weapon> weapons = new ArrayList<>();
+
+    private static boolean ammoCubeEquals(AmmoCube a, AmmoCube b) {
+        try {
+            Field f = AmmoCube.class.getDeclaredField("ammo");
+            f.setAccessible(true);
+            return Objects.deepEquals(f.get(a), f.get(b));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return false;
+        }
+    }
 
     @BeforeAll
     static void ba() {
@@ -42,6 +55,16 @@ class OptionalWeaponTest {
         // Wrong dependencies
         assertThrows(IllegalArgumentException.class, () -> new OptionalWeapon.Builder().fireModes(fm[0]).dependency(fm[0], new FireMode()).build());
         assertThrows(IllegalArgumentException.class, () -> new OptionalWeapon.Builder().fireModes(fm[0]).dependency(new FireMode(), fm[0]).build());
+    }
+
+    @Test
+    void testGeneric() {
+        Weapon weapon = new OptionalWeapon.Builder()
+                .pickupCost(new AmmoCube(2, 1))
+                .reloadCost(new AmmoCube(2))
+                .build();
+        assertTrue(ammoCubeEquals(weapon.getPickupCost(), new AmmoCube(2, 1)));
+        assertTrue(ammoCubeEquals(weapon.getReloadCost(), new AmmoCube(2)));
     }
 
     @Test

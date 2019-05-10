@@ -11,20 +11,10 @@ public class Weapon implements Grabbable {
     private final List<FireMode> fireModes;
     private boolean loaded = false;
 
-    public Weapon(AmmoCube pickupCost, AmmoCube reloadCost) {
-        this.pickupCost = pickupCost;
-        fireModes = null;
-        this.reloadCost = reloadCost;
-    }
-
     protected Weapon(Builder builder) {
         pickupCost = builder.pickupCost;
         reloadCost = builder.reloadCost;
         fireModes = Collections.unmodifiableList(builder.fireModes);
-    }
-
-    public void addFireMode(FireMode fireMode) {
-        fireModes.add(fireMode);
     }
 
     public List<FireMode> getFireModes() {
