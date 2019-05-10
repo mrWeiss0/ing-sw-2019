@@ -18,8 +18,8 @@ class SquareDistanceTest {
     static void init() {
         Room room = new Room();
         sq = new AbstractSquare[]{
-                new SpawnSquareMock(room), new SpawnSquareMock(room), new SpawnSquareMock(room), new SpawnSquareMock(room),
-                new SpawnSquareMock(room), new SpawnSquareMock(room), new SpawnSquareMock(room), new SpawnSquareMock(room)
+                new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1),
+                new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1), new SpawnSquare(room, new int[]{}, 1)
         };
         sq[0].connect(sq[1]);
         sq[1].connect(sq[2]);

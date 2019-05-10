@@ -3,10 +3,13 @@ package model;
 import model.board.*;
 import model.weapon.OptionalWeapon;
 import model.weapon.Weapon;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,25 +17,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("SuspiciousMethodCalls")
 class RefillTest {
-    private Game g;
-    private AbstractSquare[] squares;
-    private Weapon[] weapons;
-    private AmmoTile[] ammoTiles;
+    private static Weapon[] weapons;
+    private static AmmoTile[] ammoTiles;
 
-    @BeforeEach
-    void init() {
+    @BeforeAll
+    static void init() {
         Weapon.Builder weapon = new Weapon.Builder();
         weapons = new Weapon[]{weapon.build(), new OptionalWeapon.Builder().build(), weapon.build(), weapon.build()};
-        ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
-        g = new Game.Builder().weapons(Arrays.asList(weapons)).ammoTiles(Arrays.asList(ammoTiles)).build();
+        ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile(), new AmmoTile()};
     }
 
     @Test
     void testRefill() {
-        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room()), new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room())};
-        Arrays.stream(squares).forEach(s -> s.accept(g));
-        Arrays.stream(squares).forEach(s -> s.accept(g));
-        Arrays.stream(squares).forEach(s -> {
+        Game g = new Game.Builder()
+                .weapons(Arrays.asList(weapons))
+                .ammoTiles(Arrays.asList(ammoTiles))
+                .squares(
+                        new SquareImage().coords(0, 0),
+                        new SquareImage().coords(0, 0).spawn(),
+                        new SquareImage().coords(0, 0),
+                        new SquareImage().coords(0, 0).spawn()
+                )
+                .build();
+        Set<AbstractSquare> squares = g.getBoard().getSquares();
+        g.fillBoard();
+        g.fillBoard();
+        squares.forEach(s -> {
             Grabbable grabbed = s.peek().iterator().next();
             if (s instanceof AmmoSquare)
                 assertTrue(Arrays.asList(ammoTiles).contains(grabbed));
@@ -43,20 +53,25 @@ class RefillTest {
 
     @Test
     void testRefillEmpty() {
-        squares = new AbstractSquare[]{
-                new SpawnSquareMock(new Room(), 3),
-                new SpawnSquareMock(new Room(), 3),
-                new SpawnSquareMock(new Room(), 3)
-        };
-        Arrays.stream(squares).forEach(s -> s.accept(g));
-        assertEquals(3, squares[0].peek().size());
-        assertEquals(1, squares[1].peek().size());
-        assertEquals(0, squares[2].peek().size());
+        Game g = new Game.Builder()
+                .weapons(Arrays.asList(weapons))
+                .squares(
+                        new SquareImage().coords(0, 0).spawn(),
+                        new SquareImage().coords(1, 0).spawn(),
+                        new SquareImage().coords(2, 0).spawn()
+                )
+                .spawnCapacity(3)
+                .build();
+        List<AbstractSquare> squares = new ArrayList<>(g.getBoard().getSquares());
+        squares.forEach(s -> s.accept(g));
+        assertEquals(3, squares.get(0).peek().size());
+        assertEquals(1, squares.get(1).peek().size());
+        assertEquals(0, squares.get(2).peek().size());
     }
 
     @Test
     void testRefillMany() {
-        AbstractSquare square = new SpawnSquareMock(new Room(), 3);
+        AbstractSquare square = new SpawnSquare(new Room(), new int[]{}, 3);
         square.refill(weapons[2]);
         square.refill(weapons[1]);
         square.refill(weapons[3]);
@@ -66,7 +81,7 @@ class RefillTest {
 
     @Test
     void testWrongAmmo() {
-        AbstractSquare square = new AmmoSquareMock(new Room());
+        AbstractSquare square = new AmmoSquare(new Room(), new int[]{});
         square.refill(ammoTiles[1]);
         assertThrows(IllegalStateException.class, () -> square.refill(ammoTiles[0]));
         assertThrows(ClassCastException.class, () -> square.refill(weapons[0]));
@@ -75,7 +90,7 @@ class RefillTest {
 
     @Test
     void testWrongWeapon() {
-        AbstractSquare square = new SpawnSquareMock(new Room(), 3);
+        AbstractSquare square = new SpawnSquare(new Room(), new int[]{}, 3);
         square.refill(weapons[1]);
         assertThrows(ClassCastException.class, () -> square.refill(ammoTiles[0]));
         assertEquals(weapons[1], square.peek().iterator().next());

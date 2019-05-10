@@ -1,5 +1,6 @@
 package model.board;
 
+import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +24,15 @@ class SquareVisibleTest {
                 new Room()
         };
         squares = new AbstractSquare[]{
-                new SpawnSquareMock(rooms[0]),
-                new SpawnSquareMock(rooms[0]),
-                new SpawnSquareMock(rooms[1]),
-                new SpawnSquareMock(rooms[2])
+                new SpawnSquare(rooms[0], new int[]{}, 1),
+                new SpawnSquare(rooms[0], new int[]{}, 1),
+                new SpawnSquare(rooms[1], new int[]{}, 1),
+                new SpawnSquare(rooms[2], new int[]{}, 1)
         };
         squares[0].connect(squares[1]);
         squares[1].connect(squares[2]);
         squares[2].connect(squares[3]);
-        figure = new FigureMock();
+        figure = new Figure(12, 3, 3, new AmmoCube(1, 1, 1));
         figure.moveTo(squares[2]);
     }
 

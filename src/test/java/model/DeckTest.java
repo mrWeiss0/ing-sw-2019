@@ -1,7 +1,6 @@
-package model.board;
+package model;
 
 
-import model.Deck;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

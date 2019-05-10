@@ -48,6 +48,7 @@ public class Board {
         private final List<Room> rooms = new ArrayList<>();
         private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
         private final Set<Figure> figures = new HashSet<>();
+        private int nextKey = 0;
         private Supplier<SquareImage[]> squareImagesSupplier = () -> new SquareImage[]{};
         private int capacity = 1;
 
@@ -103,7 +104,11 @@ public class Board {
         }
 
         void addSquare(int id, AbstractSquare square) {
-            if (squaresMap.containsKey(id))
+            if (id < 0) {
+                while (squaresMap.containsKey(nextKey))
+                    nextKey++;
+                id = nextKey++;
+            } else if (squaresMap.containsKey(id))
                 throw new IllegalArgumentException("Duplicate cell ID " + id);
             squaresMap.put(id, square);
         }

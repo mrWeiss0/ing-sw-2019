@@ -1,5 +1,6 @@
 package model.board;
 
+import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,14 +15,14 @@ class FigureTest {
     static void init() {
         Room room = new Room();
         squares = new AbstractSquare[]{
-                new SpawnSquareMock(room),
-                new SpawnSquareMock(room)
+                new SpawnSquare(room, new int[]{}, 1),
+                new SpawnSquare(room, new int[]{}, 1)
         };
     }
 
     @BeforeEach
     void initCase() {
-        figure = new FigureMock();
+        figure = new Figure(12, 3, 3, new AmmoCube(1, 1, 1));
     }
 
     @Test

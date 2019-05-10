@@ -1,5 +1,6 @@
 package model.board;
 
+import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,19 +18,19 @@ class FigureDamageTest {
     static void init() {
         room = new Room();
         squares = new AbstractSquare[]{
-                new SpawnSquareMock(room),
-                new SpawnSquareMock(room)
+                new SpawnSquare(room, new int[]{}, 1),
+                new SpawnSquare(room, new int[]{}, 1)
         };
     }
 
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock()
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1))
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);
@@ -124,7 +125,7 @@ class FigureDamageTest {
     @Test
     void testRoomMark() {
         room.markFrom(figures[0], 3);
-        room.getSquares().stream().flatMap(s -> s.getOccupants().stream()).forEach(Figure::applyMarks);
+        room.getSquares().stream().flatMap(s -> s.getOccupants().stream()).forEach(model.board.Figure::applyMarks);
         room.damageFrom(figures[0], 1);
         assertEquals(0, figures[0].getDamages().size());
         assertEquals(4, figures[1].getDamages().size());

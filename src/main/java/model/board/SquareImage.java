@@ -1,7 +1,7 @@
 package model.board;
 
 public class SquareImage {
-    private int id;
+    private int id = -1;
     private boolean spawn;
     private int[] coords;
     private int roomId;
@@ -32,7 +32,6 @@ public class SquareImage {
         this.adjacent = adjacent;
         return this;
     }
-
 
     void build(Board.Builder builder) {
         Room room = builder.getRoom(roomId);

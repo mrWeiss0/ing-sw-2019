@@ -16,14 +16,14 @@ class SquareTest {
 
     @Test
     void testGetRoom() {
-        AbstractSquare square = new SpawnSquareMock(SquareTest.room);
+        AbstractSquare square = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         assertEquals(square.getRoom(), SquareTest.room);
     }
 
     @Test
     void TestConnect() {
-        AbstractSquare square1 = new SpawnSquareMock(SquareTest.room);
-        AbstractSquare square2 = new SpawnSquareMock(SquareTest.room);
+        AbstractSquare square1 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
+        AbstractSquare square2 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         square1.connect(square2);
         assertTrue(square1.getAdjacent().contains(square2));
         assertTrue(square2.getAdjacent().contains(square1));
@@ -35,8 +35,8 @@ class SquareTest {
 
     @Test
     void TestConnectDup() {
-        AbstractSquare square1 = new SpawnSquareMock(SquareTest.room);
-        AbstractSquare square2 = new SpawnSquareMock(SquareTest.room);
+        AbstractSquare square1 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
+        AbstractSquare square2 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         square1.connect(square2);
         square2.connect(square1);
         assertTrue(square1.getAdjacent().contains(square2));

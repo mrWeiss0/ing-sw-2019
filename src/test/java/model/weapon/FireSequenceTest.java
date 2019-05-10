@@ -1,7 +1,10 @@
 package model.weapon;
 
 import model.AmmoCube;
-import model.board.*;
+import model.board.Board;
+import model.board.Figure;
+import model.board.SquareImage;
+import model.board.Targettable;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,15 +69,15 @@ class FireSequenceTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock(),
-                new FigureMock()
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
+                new Figure(12, 3, 3, new AmmoCube(1, 1, 1))
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new FigureMock())
+                .figures(new Figure(12, 3, 3, new AmmoCube(1, 1, 1)))
                 .squares(new SquareImage().coords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());

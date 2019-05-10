@@ -42,7 +42,6 @@ public class Figure implements Targettable {
         return weapons;
     }
 
-
     /**
      * Returns the list in which each element represent a single point of
      * damage this figure has taken, where the figure pointed is the dealer.

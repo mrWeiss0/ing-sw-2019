@@ -20,10 +20,10 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new FigureMock();
+        f = new Figure(12, 3, 3, new AmmoCube(1, 1, 1));
         Weapon.Builder weapon = new Weapon.Builder();
         Weapon.Builder optionalWeapon = new OptionalWeapon.Builder();
-        squares = new AbstractSquare[]{new AmmoSquareMock(new Room()), new SpawnSquareMock(new Room(), 3)};
+        squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{}), new SpawnSquare(new Room(), new int[]{}, 3)};
         items = new Grabbable[]{weapon.build(), optionalWeapon.build(), weapon.build(), optionalWeapon.build(), new AmmoTile(), new AmmoTile()};
     }
 

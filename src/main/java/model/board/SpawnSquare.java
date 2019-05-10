@@ -12,10 +12,6 @@ public class SpawnSquare extends AbstractSquare {
     private final int capacity;
     private final Set<Weapon> weapons = new HashSet<>();
 
-    public SpawnSquare(Room room, int[] coordinates) {
-        this(room, coordinates, 1);
-    }
-
     public SpawnSquare(Room room, int[] coordinates, int capacity) {
         super(room, coordinates);
         this.capacity = capacity;
