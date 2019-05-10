@@ -1,6 +1,7 @@
 package model.board;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -47,15 +48,15 @@ public class Board {
         private final List<Room> rooms = new ArrayList<>();
         private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
         private final Set<Figure> figures = new HashSet<>();
-        private SquareImage[] squareImages;
+        private Supplier<SquareImage[]> squareImagesSupplier = () -> new SquareImage[]{};
         private int capacity = 1;
 
-        public Builder() {
-            this.squareImages = new SquareImage[]{};
+        public Builder squares(SquareImage... squareImages) {
+            return squares(() -> squareImages);
         }
 
-        public Builder squares(SquareImage... squareImages) {
-            this.squareImages = squareImages;
+        public Builder squares(Supplier<SquareImage[]> supplier) {
+            squareImagesSupplier = supplier;
             return this;
         }
 
@@ -75,6 +76,7 @@ public class Board {
         }
 
         public Board build() {
+            SquareImage[] squareImages = squareImagesSupplier.get();
             for (SquareImage s : squareImages)
                 s.build(this);
             for (SquareImage s : squareImages)

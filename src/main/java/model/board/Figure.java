@@ -53,6 +53,10 @@ public class Figure implements Targettable {
         return damages;
     }
 
+    public AmmoCube getAmmo() {
+        return ammo;
+    }
+
     /**
      * Sets the current square to the one given and takes care of removing
      * and adding this figure from the occupants list of the respective squares.
@@ -121,5 +125,4 @@ public class Figure implements Targettable {
         );
         newMarks.clear();
     }
-
 }

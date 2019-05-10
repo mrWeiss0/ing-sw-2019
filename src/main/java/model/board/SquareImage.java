@@ -13,12 +13,12 @@ public class SquareImage {
         return this;
     }
 
-    public SquareImage spawn(boolean spawn) {
-        this.spawn = spawn;
+    public SquareImage spawn() {
+        spawn = true;
         return this;
     }
 
-    public SquareImage coords(int[] coords) {
+    public SquareImage coords(int... coords) {
         this.coords = coords;
         return this;
     }
@@ -28,7 +28,7 @@ public class SquareImage {
         return this;
     }
 
-    public SquareImage adjacent(int[] adjacent) {
+    public SquareImage adjacent(int... adjacent) {
         this.adjacent = adjacent;
         return this;
     }

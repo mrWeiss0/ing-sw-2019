@@ -23,17 +23,17 @@ public class BoardBuilderTest {
      * +-----------+---+
      */
     public static SquareImage[] squareImages = new SquareImage[]{
-            new SquareImage().id(8).coords(new int[]{2, 1}).roomId(4).adjacent(new int[]{4, 7}),
-            new SquareImage().id(1).coords(new int[]{0, 1}).roomId(1).adjacent(new int[]{0, 2}),
-            new SquareImage().id(6).coords(new int[]{1, 3}).roomId(5).adjacent(new int[]{5, 10}),
-            new SquareImage().id(9).coords(new int[]{2, 2}).roomId(4).adjacent(new int[]{8, 5}),
-            new SquareImage().id(4).coords(new int[]{1, 1}).roomId(2).adjacent(new int[]{5}),
-            new SquareImage().id(0).coords(new int[]{0, 0}).roomId(0),
-            new SquareImage().id(5).coords(new int[]{1, 2}).roomId(2),
-            new SquareImage().id(7).coords(new int[]{2, 0}).roomId(4).adjacent(new int[]{3}),
-            new SquareImage().id(2).coords(new int[]{0, 2}).roomId(1).adjacent(new int[]{5, 1}).spawn(true),
-            new SquareImage().id(3).coords(new int[]{1, 0}).roomId(0).adjacent(new int[]{0}).spawn(true),
-            new SquareImage().id(10).coords(new int[]{2, 3}).roomId(5).adjacent(new int[]{9, 6}).spawn(true)
+            new SquareImage().id(8).coords(2, 1).roomId(4).adjacent(4, 7),
+            new SquareImage().id(1).coords(0, 1).roomId(1).adjacent(0, 2),
+            new SquareImage().id(6).coords(1, 3).roomId(5).adjacent(5, 10),
+            new SquareImage().id(9).coords(2, 2).roomId(4).adjacent(8, 5),
+            new SquareImage().id(4).coords(1, 1).roomId(2).adjacent(5),
+            new SquareImage().id(0).coords(0, 0).roomId(0),
+            new SquareImage().id(5).coords(1, 2).roomId(2),
+            new SquareImage().id(7).coords(2, 0).roomId(4).adjacent(3),
+            new SquareImage().id(2).coords(0, 2).roomId(1).adjacent(5, 1).spawn(),
+            new SquareImage().id(3).coords(1, 0).roomId(0).adjacent(0).spawn(),
+            new SquareImage().id(10).coords(2, 3).roomId(5).adjacent(9, 6).spawn()
     };
     private static Set<Room> rooms;
     private static List<AbstractSquare> squares;
@@ -57,13 +57,13 @@ public class BoardBuilderTest {
     @Test
     void testExceptions() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Board.Builder().squares(new SquareImage().roomId(0).adjacent(new int[]{0}).spawn(true)).build());
+                new Board.Builder().squares(new SquareImage().roomId(0).adjacent(0).spawn()).build());
         assertThrows(IllegalArgumentException.class, () ->
-                new Board.Builder().squares(new SquareImage().coords(new int[]{1})).build());
+                new Board.Builder().squares(new SquareImage().coords(1)).build());
         assertThrows(IllegalArgumentException.class, () ->
-                new Board.Builder().squares(new SquareImage().coords(new int[]{1, 2, 3})).build());
+                new Board.Builder().squares(new SquareImage().coords(1, 2, 3)).build());
         assertThrows(IllegalArgumentException.class, () ->
-                new Board.Builder().squares(new SquareImage().id(1).coords(new int[]{0, 1}), new SquareImage().id(1).coords(new int[]{0, 2})).build());
+                new Board.Builder().squares(new SquareImage().id(1).coords(0, 1), new SquareImage().id(1).coords(0, 2)).build());
     }
 
     @Test

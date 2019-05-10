@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * <code>Game</code> is a class containing all of the major elements of a game
@@ -20,16 +21,14 @@ public class Game {
     // Killshot Track
     private final List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
     private final List<Player> players;
-    private int remainingKills; // Kills to finish game
-    private int currPlayer = -1;
-
     private final Deck<AmmoTile> ammoTileDeck;
     private final Deck<Weapon> weaponDeck;
     private final Deck<PowerUp> powerUpDeck;
-
     private final Board board;
+    private int remainingKills; // Kills to finish game
+    private int currPlayer = -1;
 
-    public Game(Builder builder) {
+    private Game(Builder builder) {
         remainingKills = builder.nKills;
         ammoTileDeck = new Deck<>(builder.ammoTiles);
         weaponDeck = new Deck<>(builder.weapons);
@@ -41,6 +40,10 @@ public class Game {
         }
         players = Collections.unmodifiableList(builder.players);
         board = builder.boardBuilder.build();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     /**
@@ -82,13 +85,13 @@ public class Game {
 
     public static class Builder {
 
+        private final Board.Builder boardBuilder = new Board.Builder();
+        private final List<Player> players = new ArrayList<>();
         private int nKills;
         private int maxDamages;
         private int maxMarks;
         private int maxAmmo;
         private AmmoCube defaultAmmo;
-        private final Board.Builder boardBuilder = new Board.Builder();
-        private final List<Player> players = new ArrayList<>();
         private Collection<AmmoTile> ammoTiles = Collections.emptyList();
         private Collection<Weapon> weapons = Collections.emptyList();
         private Collection<PowerUp> powerUps = Collections.emptyList();
@@ -120,6 +123,16 @@ public class Game {
 
         public Builder spawnCapacity(int val) {
             boardBuilder.spawnCapacity(val);
+            return this;
+        }
+
+        public Builder squares(SquareImage... val) {
+            squares(() -> val);
+            return this;
+        }
+
+        public Builder squares(Supplier<SquareImage[]> supplier) {
+            boardBuilder.squares(supplier);
             return this;
         }
 
