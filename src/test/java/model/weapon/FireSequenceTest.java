@@ -74,7 +74,7 @@ class FireSequenceTest {
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figure(new FigureMock())
+                .figures(new FigureMock())
                 .squares(new SquareImage().coords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());

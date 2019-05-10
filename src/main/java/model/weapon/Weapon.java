@@ -3,18 +3,24 @@ package model.weapon;
 import model.AmmoCube;
 import model.Grabbable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Weapon implements Grabbable {
     private final AmmoCube pickupCost;
     private final AmmoCube reloadCost;
-    private final List<FireMode> fireModes = new ArrayList<>();
+    private final List<FireMode> fireModes;
     private boolean loaded = false;
 
     public Weapon(AmmoCube pickupCost, AmmoCube reloadCost) {
         this.pickupCost = pickupCost;
+        fireModes = null;
         this.reloadCost = reloadCost;
+    }
+
+    protected Weapon(Builder builder) {
+        pickupCost = builder.pickupCost;
+        reloadCost = builder.reloadCost;
+        fireModes = Collections.unmodifiableList(builder.fireModes);
     }
 
     public void addFireMode(FireMode fireMode) {
@@ -47,5 +53,34 @@ public class Weapon implements Grabbable {
 
     public boolean validateFireModes(List<FireMode> selectedModes) {
         return selectedModes.size() == 1 && fireModes.contains(selectedModes.get(0));
+    }
+
+    public static class Builder {
+        private final List<FireMode> fireModes = new ArrayList<>();
+        private AmmoCube pickupCost = new AmmoCube();
+        private AmmoCube reloadCost = new AmmoCube();
+
+        public Builder pickupCost(AmmoCube cost) {
+            pickupCost = cost;
+            return this;
+        }
+
+        public Builder reloadCost(AmmoCube cost) {
+            reloadCost = cost;
+            return this;
+        }
+
+        public Builder fireModes(FireMode... fireModes) {
+            return fireModes(Arrays.asList(fireModes));
+        }
+
+        public Builder fireModes(Collection<FireMode> fireModes) {
+            this.fireModes.addAll(fireModes);
+            return this;
+        }
+
+        public Weapon build() {
+            return new Weapon(this);
+        }
     }
 }

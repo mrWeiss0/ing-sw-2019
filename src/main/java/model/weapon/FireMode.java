@@ -20,15 +20,15 @@ public class FireMode {
         this.steps = Arrays.asList(steps);
     }
 
+    public static List<FireStep> flatSteps(List<FireMode> fm) {
+        return fm.stream().flatMap(FireMode::getStepsStream).collect(Collectors.toList());
+    }
+
     public AmmoCube getCost() {
         return cost;
     }
 
     private Stream<FireStep> getStepsStream() {
         return steps.stream();
-    }
-
-    public static List<FireStep> flatSteps(List<FireMode> fm) {
-        return fm.stream().flatMap(FireMode::getStepsStream).collect(Collectors.toList());
     }
 }

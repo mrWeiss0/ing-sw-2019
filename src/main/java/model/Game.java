@@ -36,7 +36,7 @@ public class Game {
         for (Player p : builder.players) {
             Figure figure = new Figure(builder.maxDamages, builder.maxMarks, builder.maxAmmo, builder.defaultAmmo);
             p.setFigure(figure);
-            builder.boardBuilder.figure(figure);
+            builder.boardBuilder.figures(figure);
         }
         players = Collections.unmodifiableList(builder.players);
         board = builder.boardBuilder.build();
@@ -127,8 +127,7 @@ public class Game {
         }
 
         public Builder squares(SquareImage... val) {
-            squares(() -> val);
-            return this;
+            return squares(() -> val);
         }
 
         public Builder squares(Supplier<SquareImage[]> supplier) {

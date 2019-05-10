@@ -2,7 +2,6 @@ package model.weapon;
 
 import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -36,13 +35,11 @@ class WeaponTest {
                 new FireMode(),
                 new FireMode()
         };
-        weapon = new Weapon(new AmmoCube(1, 2), new AmmoCube(2));
-        for (FireMode f : fm)
-            weapon.addFireMode(f);
-    }
-
-    @BeforeEach
-    void init() {
+        weapon = new Weapon.Builder()
+                .pickupCost(new AmmoCube(1, 2))
+                .reloadCost(new AmmoCube(2))
+                .fireModes(fm)
+                .build();
     }
 
     @Test

@@ -65,9 +65,8 @@ public class Board {
             return this;
         }
 
-        public Builder figure(Figure figure) {
-            figures.add(figure);
-            return this;
+        public Builder figures(Figure... figures) {
+            return figures(Arrays.asList(figures));
         }
 
         public Builder figures(Collection<Figure> figures) {

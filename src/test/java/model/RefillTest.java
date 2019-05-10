@@ -1,9 +1,8 @@
 package model;
 
 import model.board.*;
-import model.weapon.OptionalWeaponMock;
+import model.weapon.OptionalWeapon;
 import model.weapon.Weapon;
-import model.weapon.WeaponMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +21,8 @@ class RefillTest {
 
     @BeforeEach
     void init() {
-        weapons = new Weapon[]{new WeaponMock(), new OptionalWeaponMock(), new WeaponMock(), new WeaponMock()};
+        Weapon.Builder weapon = new Weapon.Builder();
+        weapons = new Weapon[]{weapon.build(), new OptionalWeapon.Builder().build(), weapon.build(), weapon.build()};
         ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile()};
         g = new Game.Builder().weapons(Arrays.asList(weapons)).ammoTiles(Arrays.asList(ammoTiles)).build();
     }

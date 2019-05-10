@@ -4,17 +4,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class OptionalWeaponTest {
     private static FireMode[] fm;
-    private static Weapon[] weapons;
+    private static List<Weapon> weapons = new ArrayList<Weapon>();
 
     @BeforeAll
     static void ba() {
@@ -23,30 +22,26 @@ class OptionalWeaponTest {
                 new FireMode(),
                 new FireMode()
         };
-        OptionalWeapon[] wp = new OptionalWeapon[]{
-                new OptionalWeaponMock(), // No dependencies
-                new OptionalWeaponMock(), // Depend on base
-                new OptionalWeaponMock(), // Chain dependency
-                new OptionalWeaponMock()  // Not depend on base
-        };
-        for (Weapon w : wp)
-            for (FireMode f : fm)
-                w.addFireMode(f);
-        wp[1].addDependency(fm[1], fm[0]);
-        wp[1].addDependency(fm[2], fm[0]);
-        wp[2].addDependency(fm[1], fm[0]);
-        wp[2].addDependency(fm[2], fm[1]);
-        wp[3].addDependency(fm[2], fm[0]);
-        // Wrong dep ignored
-        wp[0].addDependency(fm[0], new FireMode());
-        wp[1].addDependency(fm[0], new FireMode());
-        wp[2].addDependency(fm[0], new FireMode());
-        wp[3].addDependency(fm[0], new FireMode());
-        wp[0].addDependency(new FireMode(), fm[0]);
-        wp[1].addDependency(new FireMode(), fm[0]);
-        wp[2].addDependency(new FireMode(), fm[0]);
-        wp[3].addDependency(new FireMode(), fm[0]);
-        weapons = Arrays.copyOf(wp, wp.length, Weapon[].class);
+        weapons.add(new OptionalWeapon.Builder()
+                .fireModes(fm)
+                .build());
+        weapons.add(new OptionalWeapon.Builder()
+                .fireModes(fm)
+                .dependency(fm[1], fm[0])
+                .dependency(fm[2], fm[0])
+                .build());
+        weapons.add(new OptionalWeapon.Builder()
+                .fireModes(fm)
+                .dependency(fm[1], fm[0])
+                .dependency(fm[2], fm[1])
+                .build());
+        weapons.add(new OptionalWeapon.Builder()
+                .fireModes(fm)
+                .dependency(fm[2], fm[0])
+                .build());
+        // Wrong dependencies
+        assertThrows(IllegalArgumentException.class, () -> new OptionalWeapon.Builder().fireModes(fm[0]).dependency(fm[0], new FireMode()).build());
+        assertThrows(IllegalArgumentException.class, () -> new OptionalWeapon.Builder().fireModes(fm[0]).dependency(new FireMode(), fm[0]).build());
     }
 
     @Test
@@ -63,7 +58,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateMultiple() {
-        Weapon w = weapons[0];
+        Weapon w = weapons.get(0);
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -78,7 +73,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateRepeating() {
-        Weapon w = weapons[0];
+        Weapon w = weapons.get(0);
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[0]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[1]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[1], fm[1]).collect(Collectors.toList())));
@@ -88,7 +83,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateBaseDep() {
-        Weapon w = weapons[1];
+        Weapon w = weapons.get(1);
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -103,7 +98,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateChainDep() {
-        Weapon w = weapons[2];
+        Weapon w = weapons.get(2);
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertFalse(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
@@ -118,7 +113,7 @@ class OptionalWeaponTest {
 
     @Test
     void validateNotBaseDep() {
-        Weapon w = weapons[3];
+        Weapon w = weapons.get(3);
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[1]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[0], fm[2]).collect(Collectors.toList())));
         assertTrue(w.validateFireModes(Stream.of(fm[1], fm[0]).collect(Collectors.toList())));
