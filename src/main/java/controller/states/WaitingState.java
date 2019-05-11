@@ -6,8 +6,12 @@ import controller.Controller;
 import controller.User;
 
 import java.rmi.RemoteException;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WaitingState extends State{
+    private Timer countdownTimer;
     public WaitingState(Controller controller) {
         super(controller);
     }
@@ -38,10 +42,29 @@ public class WaitingState extends State{
     }
 
     public void startCountdown(){
-
+        countdownTimer = new Timer();
+        countdownTimer.schedule(new TimerTask() {
+            int i = 10;
+            @Override
+            public void run() {
+                if(i>0){
+                    i--;
+                    try {
+                        Response toSend = new TextResponse(Integer.toString(i));
+                        for (User usr : getController().getUsersByID().values())
+                            usr.getView().handle(toSend);
+                    }catch(RemoteException e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    getController().setState(new State(getController()));
+                }
+            }
+        }, new Date(), 1000);
     }
 
     public void resetCountdown(){
-
+        countdownTimer.cancel();
+        countdownTimer.purge();
     }
 }
