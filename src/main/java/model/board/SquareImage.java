@@ -1,12 +1,12 @@
 package model.board;
 
 public class SquareImage {
-    private int id = -1;
+    private int id;
     private boolean spawn;
     private int[] coords;
     private int roomId;
     private int[] adjacent = new int[]{};
-    private AbstractSquare squareObj;
+    private Board.Builder boardBuilder;
 
     public SquareImage id(int id) {
         this.id = id;
@@ -33,20 +33,26 @@ public class SquareImage {
         return this;
     }
 
-    void build(Board.Builder builder) {
-        Room room = builder.getRoom(roomId);
+    public SquareImage boardBuilder(Board.Builder boardBuilder) {
+        this.boardBuilder = boardBuilder;
+        return this;
+    }
+
+    AbstractSquare build() {
+        Room room = boardBuilder.getRoom(roomId);
         if (coords == null)
             throw new IllegalArgumentException("Missing coordinates in square " + id);
         if (coords.length != 2)
             throw new IllegalArgumentException("Cell " + id + " has " + coords.length + " coordinate");
-        squareObj = spawn ?
-                new SpawnSquare(room, coords, builder.getCapacity()) :
+        AbstractSquare squareObj = spawn ?
+                new SpawnSquare(room, coords, boardBuilder.getCapacity()) :
                 new AmmoSquare(room, coords);
-        builder.addSquare(id, squareObj);
+        boardBuilder.addSquare(id, squareObj);
+        return squareObj;
     }
 
-    void connect(Board.Builder builder) {
+    void connect() {
         for (int i : adjacent)
-            builder.getSquare(i).connect(squareObj);
+            boardBuilder.getSquare(id).connect(boardBuilder.getSquare(i));
     }
 }

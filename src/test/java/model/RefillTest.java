@@ -33,10 +33,10 @@ class RefillTest {
                 .weapons(Arrays.asList(weapons))
                 .ammoTiles(Arrays.asList(ammoTiles))
                 .squares(
-                        new SquareImage().coords(0, 0),
-                        new SquareImage().coords(0, 0).spawn(),
-                        new SquareImage().coords(0, 0),
-                        new SquareImage().coords(0, 0).spawn()
+                        new SquareImage().coords(0, 0).id(1),
+                        new SquareImage().coords(0, 0).spawn().id(11),
+                        new SquareImage().coords(0, 0).id(2),
+                        new SquareImage().coords(0, 0).spawn().id(12)
                 )
                 .build();
         Set<AbstractSquare> squares = g.getBoard().getSquares();
@@ -56,8 +56,8 @@ class RefillTest {
         Game g = new Game.Builder()
                 .weapons(Arrays.asList(weapons))
                 .squares(
-                        new SquareImage().coords(0, 0).spawn(),
-                        new SquareImage().coords(1, 0).spawn(),
+                        new SquareImage().coords(0, 0).spawn().id(1),
+                        new SquareImage().coords(1, 0).spawn().id(2),
                         new SquareImage().coords(2, 0).spawn()
                 )
                 .spawnCapacity(3)

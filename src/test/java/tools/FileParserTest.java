@@ -46,11 +46,11 @@ class FileParserTest {
                 "{\"id\":6,\"coords\":[1,3],\"roomId\":5,\"adjacent\":[5,10]}," +
                 "{\"id\":9,\"coords\":[2,2],\"roomId\":4,\"adjacent\":[8,5]}," +
                 "{\"id\":4,\"coords\":[1,1],\"roomId\":2,\"adjacent\":[5]}," +
-                "{\"coords\":[0,0],\"roomId\":0}," +
+                "{\"coords\":[0,0]}," +
                 "{\"id\":5,\"coords\":[1,2],\"roomId\":2}," +
                 "{\"id\":7,\"coords\":[2,0],\"roomId\":4,\"adjacent\":[3]}," +
-                "{\"coords\":[0,2],\"roomId\":1,\"adjacent\":[5,1],\"spawn\":true}," +
-                "{\"coords\":[1,0],\"roomId\":0,\"adjacent\":[0],\"spawn\":true}," +
+                "{\"id\":2,\"coords\":[0,2],\"roomId\":1,\"adjacent\":[5,1],\"spawn\":true}," +
+                "{\"id\":3,\"coords\":[1,0],\"roomId\":0,\"adjacent\":[0],\"spawn\":true}," +
                 "{\"id\":10,\"coords\":[2,3],\"roomId\":5,\"adjacent\":[9,6],\"spawn\":true}]"))));
     }
 }

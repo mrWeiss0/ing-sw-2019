@@ -78,9 +78,9 @@ public class Board {
         public Board build() {
             SquareImage[] squareImages = squareImagesSupplier.get();
             for (SquareImage s : squareImages)
-                s.build(this);
+                s.boardBuilder(this).build();
             for (SquareImage s : squareImages)
-                s.connect(this);
+                s.connect();
             return new Board(this);
         }
 
@@ -104,11 +104,7 @@ public class Board {
         }
 
         void addSquare(int id, AbstractSquare square) {
-            if (id < 0) {
-                while (squaresMap.containsKey(nextKey))
-                    nextKey++;
-                id = nextKey++;
-            } else if (squaresMap.containsKey(id))
+            if (squaresMap.containsKey(id))
                 throw new IllegalArgumentException("Duplicate cell ID " + id);
             squaresMap.put(id, square);
         }
