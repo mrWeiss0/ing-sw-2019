@@ -1,12 +1,11 @@
 package model;
 
-import model.board.Figure;
-import model.board.SpawnSquare;
-import model.board.SquareImage;
+import model.board.*;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +34,8 @@ class GameBuilderTest {
                 .maxDamages(8)
                 .maxMarks(4)
                 .maxAmmo(5)
+                .maxWeapons(6)
+                .maxPowerUps(7)
                 .defaultAmmo(new AmmoCube(1, 2, 3))
                 .build();
         Figure f = p.getFigure();
@@ -50,6 +51,12 @@ class GameBuilderTest {
             field = Figure.class.getDeclaredField("maxAmmo");
             field.setAccessible(true);
             assertEquals(5, field.getInt(f));
+            field = Figure.class.getDeclaredField("maxWeapons");
+            field.setAccessible(true);
+            assertEquals(6, field.getInt(f));
+            field = Figure.class.getDeclaredField("maxPowerUps");
+            field.setAccessible(true);
+            assertEquals(7, field.getInt(f));
             field = Figure.class.getDeclaredField("ammo");
             field.setAccessible(true);
             Field ammoField = AmmoCube.class.getDeclaredField("ammo");
@@ -73,5 +80,35 @@ class GameBuilderTest {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             fail(e);
         }
+    }
+
+    @Test
+    void testInitTiles() {
+        Game g = new Game.Builder()
+                .powerUps(new PowerUpImage(1))
+                .ammoTiles(new AmmoTileImage(new AmmoCube(0,1), false))
+                .build();
+        AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
+        s.accept(g);
+        Grabbable a = s.peek().iterator().next();
+        Figure f = new Figure(1, 1, 1, 1, 1);
+        s.grab(f, a);
+        assertEquals(0, f.getPowerUps().size());
+        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(0,1).value(i) == f.getAmmo().value(i)));
+    }
+
+    @Test
+    void testTilePUp() {
+        Game g = new Game.Builder()
+                .powerUps(new PowerUpImage(2))
+                .ammoTiles(new AmmoTileImage(new AmmoCube(1), true))
+                .build();
+        AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
+        s.accept(g);
+        Grabbable a = s.peek().iterator().next();
+        Figure f = new Figure(1, 1, 1, 1, 1);
+        s.grab(f, a);
+        AmmoCube powerUpAmmo = f.getPowerUps().iterator().next().getAmmo();
+        assertTrue(IntStream.range(0, powerUpAmmo.size()).allMatch(i -> new AmmoCube(0,0, 1).value(i) == powerUpAmmo.value(i)));
     }
 }

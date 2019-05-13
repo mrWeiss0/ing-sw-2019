@@ -17,19 +17,23 @@ public class Figure implements Targettable {
     private final int maxDamages;
     private final int maxMarks;
     private final int maxAmmo;
+    private final int maxWeapons;
+    private final int maxPowerUps;
     private AbstractSquare square = null;
     private boolean damaged = false;
     private int deaths = 0;
-    private AmmoCube ammo;
+    private AmmoCube ammo = new AmmoCube();
 
-    public Figure(int maxDamages, int maxMarks, int maxAmmo, AmmoCube ammo) {
+    public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps) {
         this.maxDamages = maxDamages;
         this.maxMarks = maxMarks;
         this.maxAmmo = maxAmmo;
-        this.ammo = ammo;
+        this.maxWeapons = maxWeapons;
+        this.maxPowerUps = maxPowerUps;
     }
 
     /**
+     * AmmoTile
      * Returns the square this figure is on.
      *
      * @return the square this figure is on
@@ -56,6 +60,20 @@ public class Figure implements Targettable {
         return ammo;
     }
 
+    public void addAmmo(AmmoCube ammo) {
+        this.ammo = this.ammo.add(ammo).cap(maxAmmo);
+    }
+
+    public void subAmmo(AmmoCube ammo) {
+        if (!this.ammo.greaterEqThan(ammo))
+            throw new IllegalStateException("Ammo " + this.ammo + " not enough to pay " + ammo);
+        this.ammo = this.ammo.sub(ammo);
+    }
+
+    public Set<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
     /**
      * Sets the current square to the one given and takes care of removing
      * and adding this figure from the occupants list of the respective squares.
@@ -69,11 +87,16 @@ public class Figure implements Targettable {
     }
 
     public void grab(Weapon grabbed) {
+        if (weapons.size() >= maxWeapons)
+            throw new IllegalStateException("Reached limit of " + maxWeapons + " weapons");
         weapons.add(grabbed);
     }
 
     public void grab(AmmoTile grabbed) {
-        // TODO
+        addAmmo(grabbed.getAmmo());
+        if(powerUps.size() < maxPowerUps)
+            grabbed.getPowerUp().ifPresent(powerUps::add);
+        grabbed.discard();
     }
 
     /**

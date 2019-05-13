@@ -19,17 +19,6 @@ public class Deck<T> {
     private final ArrayDeque<T> cards = new ArrayDeque<>();
 
     /**
-     * Constructs a deck with the given collection of cards, automatically
-     * shuffling it.
-     *
-     * @param cards list of cards constituting the deck
-     */
-    public Deck(Collection<T> cards) {
-        discard.addAll(cards);
-        shuffle();
-    }
-
-    /**
      * Shuffles a new deck made from the discard pile, which is then cleared.
      */
     private void shuffle() {
@@ -57,5 +46,15 @@ public class Deck<T> {
      */
     public void discard(T c) {
         discard.add(c);
+    }
+
+    /**
+     * Adds a card to the discard pile, that can be can be reshuffled into
+     * the deck once it is emptied.
+     *
+     * @param c the card to be discarded
+     */
+    public void discard(Collection<T> c) {
+        discard.addAll(c);
     }
 }

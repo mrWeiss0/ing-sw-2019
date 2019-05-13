@@ -1,6 +1,5 @@
 package model.board;
 
-import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,7 @@ class SquareVisibleTest {
         squares[0].connect(squares[1]);
         squares[1].connect(squares[2]);
         squares[2].connect(squares[3]);
-        figure = new Figure(12, 3, 3, new AmmoCube(1, 1, 1));
+        figure = new Figure(12, 3, 3, 3, 3);
         figure.moveTo(squares[2]);
     }
 

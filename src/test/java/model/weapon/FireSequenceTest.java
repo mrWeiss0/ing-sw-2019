@@ -69,15 +69,15 @@ class FireSequenceTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1))
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, new AmmoCube(1, 1, 1)))
+                .figures(new Figure(12, 3, 3, 3, 3))
                 .squares(new SquareImage().coords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());

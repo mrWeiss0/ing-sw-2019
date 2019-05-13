@@ -3,11 +3,9 @@ package model;
 import model.board.*;
 import model.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * <code>Game</code> is a class containing all of the major elements of a game
@@ -21,25 +19,29 @@ public class Game {
     // Killshot Track
     private final List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
     private final List<Player> players;
-    private final Deck<AmmoTile> ammoTileDeck;
-    private final Deck<Weapon> weaponDeck;
-    private final Deck<PowerUp> powerUpDeck;
+    private final Deck<AmmoTile> ammoTileDeck = new Deck<>();
+    private final Deck<Weapon> weaponDeck = new Deck<>();
+    private final Deck<PowerUp> powerUpDeck = new Deck<>();
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
-        ammoTileDeck = new Deck<>(builder.ammoTiles);
-        weaponDeck = new Deck<>(builder.weapons);
-        powerUpDeck = new Deck<>(builder.powerUps);
-        for (Player p : builder.players) {
-            Figure figure = new Figure(builder.maxDamages, builder.maxMarks, builder.maxAmmo, builder.defaultAmmo);
-            p.setFigure(figure);
-            builder.boardBuilder.figures(figure);
-        }
-        players = Collections.unmodifiableList(builder.players);
         board = builder.boardBuilder.build();
+        players = Collections.unmodifiableList(builder.players);
+
+        weaponDeck.discard(Arrays.asList(builder.weapons));
+        powerUpDeck.discard(Arrays.stream(builder.powerUps)
+                .map(powerup -> {
+                    int[] ammoVal = new int[powerup.color + 1];
+                    ammoVal[powerup.color] = 1;
+                    return new PowerUp(new AmmoCube(ammoVal), null); // TODO link spawnpoint
+                })
+                .collect(Collectors.toList()));
+        ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
+                .map(tile -> new AmmoTile(tile.ammo, tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
+                .collect(Collectors.toList()));
     }
 
     public Board getBoard() {
@@ -91,10 +93,12 @@ public class Game {
         private int maxDamages;
         private int maxMarks;
         private int maxAmmo;
-        private AmmoCube defaultAmmo;
-        private Collection<AmmoTile> ammoTiles = Collections.emptyList();
-        private Collection<Weapon> weapons = Collections.emptyList();
-        private Collection<PowerUp> powerUps = Collections.emptyList();
+        private int maxWeapons;
+        private int maxPowerUps;
+        private AmmoCube defaultAmmo = new AmmoCube();
+        private AmmoTileImage[] ammoTiles = new AmmoTileImage[]{};
+        private Weapon[] weapons = new Weapon[]{};
+        private PowerUpImage[] powerUps = new PowerUpImage[]{};
 
         public Builder nKills(int val) {
             nKills = val;
@@ -113,6 +117,16 @@ public class Game {
 
         public Builder maxAmmo(int val) {
             maxAmmo = val;
+            return this;
+        }
+
+        public Builder maxWeapons(int val) {
+            maxWeapons = val;
+            return this;
+        }
+
+        public Builder maxPowerUps(int val) {
+            maxPowerUps = val;
             return this;
         }
 
@@ -135,18 +149,18 @@ public class Game {
             return this;
         }
 
-        public Builder ammoTiles(Collection<AmmoTile> c) {
-            ammoTiles = c;
+        public Builder ammoTiles(AmmoTileImage... arr) {
+            ammoTiles = arr;
             return this;
         }
 
-        public Builder weapons(Collection<Weapon> c) {
-            weapons = c;
+        public Builder weapons(Weapon... arr) {
+            weapons = arr;
             return this;
         }
 
-        public Builder powerUps(Collection<PowerUp> c) {
-            powerUps = c;
+        public Builder powerUps(PowerUpImage... arr) {
+            powerUps = arr;
             return this;
         }
 
@@ -161,6 +175,12 @@ public class Game {
         }
 
         public Game build() {
+            for (Player p : players) {
+                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
+                figure.addAmmo(defaultAmmo);
+                p.setFigure(figure);
+                boardBuilder.figures(figure);
+            }
             return new Game(this);
         }
     }

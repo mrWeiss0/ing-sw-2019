@@ -30,7 +30,7 @@ public class AmmoCube {
         return this.rangeAmmo(other).allMatch(i -> value(i) >= other.value(i));
     }
 
-    public int length() {
+    public int size() {
         return ammo.length;
     }
 
@@ -38,7 +38,12 @@ public class AmmoCube {
         return i < ammo.length ? ammo[i] : 0;
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(ammo);
+    }
+
     private IntStream rangeAmmo(AmmoCube other) {
-        return IntStream.range(0, Math.max(length(), other.length()));
+        return IntStream.range(0, Math.max(size(), other.size()));
     }
 }

@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoCubeTest {
     private static AmmoCube a, b;
@@ -58,4 +57,9 @@ class AmmoCubeTest {
         assertTrue(a.greaterEqThan(c));
     }
 
+    @Test
+    void testString() {
+        assertEquals("[]", new AmmoCube().toString());
+        assertEquals("[1, 0, 2]", new AmmoCube(1, 0, 2).toString());
+    }
 }

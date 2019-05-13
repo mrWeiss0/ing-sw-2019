@@ -1,6 +1,5 @@
 package model.board;
 
-import model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,11 +25,11 @@ class FigureDamageTest {
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1)),
-                new Figure(12, 3, 3, new AmmoCube(1, 1, 1))
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3)
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);

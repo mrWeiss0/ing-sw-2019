@@ -21,7 +21,7 @@ class SquareTest {
     }
 
     @Test
-    void TestConnect() {
+    void testConnect() {
         AbstractSquare square1 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         AbstractSquare square2 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         square1.connect(square2);
@@ -34,7 +34,7 @@ class SquareTest {
     }
 
     @Test
-    void TestConnectDup() {
+    void testConnectDup() {
         AbstractSquare square1 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         AbstractSquare square2 = new SpawnSquare(SquareTest.room, new int[]{}, 1);
         square1.connect(square2);

@@ -6,6 +6,7 @@ import model.weapon.Weapon;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,14 +25,17 @@ class RefillTest {
     static void init() {
         Weapon.Builder weapon = new Weapon.Builder();
         weapons = new Weapon[]{weapon.build(), new OptionalWeapon.Builder().build(), weapon.build(), weapon.build()};
-        ammoTiles = new AmmoTile[]{new AmmoTile(), new AmmoTile(), new AmmoTile()};
+        ammoTiles = new AmmoTile[]{
+                new AmmoTile(new AmmoCube(), null, null),
+                new AmmoTile(new AmmoCube(), null, null),
+                new AmmoTile(new AmmoCube(), null, null)
+        };
     }
 
     @Test
     void testRefill() {
         Game g = new Game.Builder()
-                .weapons(Arrays.asList(weapons))
-                .ammoTiles(Arrays.asList(ammoTiles))
+                .weapons(weapons)
                 .squares(
                         new SquareImage().coords(0, 0).id(1),
                         new SquareImage().coords(0, 0).spawn().id(11),
@@ -40,6 +44,15 @@ class RefillTest {
                 )
                 .build();
         Set<AbstractSquare> squares = g.getBoard().getSquares();
+        Deck<AmmoTile> deck = new Deck<>();
+        try {
+            Field atd = Game.class.getDeclaredField("ammoTileDeck");
+            atd.setAccessible(true);
+            atd.set(g, deck);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            fail(e);
+        }
+        deck.discard(Arrays.asList(ammoTiles));
         g.fillBoard();
         g.fillBoard();
         squares.forEach(s -> {
@@ -54,7 +67,7 @@ class RefillTest {
     @Test
     void testRefillEmpty() {
         Game g = new Game.Builder()
-                .weapons(Arrays.asList(weapons))
+                .weapons(weapons)
                 .squares(
                         new SquareImage().coords(0, 0).spawn().id(1),
                         new SquareImage().coords(1, 0).spawn().id(2),
