@@ -5,6 +5,7 @@ import connection.messages.responses.TextResponse;
 import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
+import model.Player;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -28,7 +29,7 @@ public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHa
         remoteView.handle(new LoginResponse(id));
         System.out.println("Registered new view "+id);
         for(Controller c:controllers){
-            if(c.canJoin() && !c.getUsersByID().values().stream().map(User::getName).anyMatch(x->x.equals(username))) {
+            if(c.canJoin() && c.getUsersByID().values().stream().map(Player::getName).noneMatch(x->x.equals(username))) {
                 c.login(username, remoteView, id);
                 remoteView.setController(c);
                 return c;
@@ -40,5 +41,16 @@ public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHa
         controllers.add(backup);
         return backup;
     }
-
+    @Override
+    public RemoteController reconnect( String id, String name, RemoteView remoteView) throws RemoteException{
+        for(Controller c:controllers){
+            if(c.getUsersByID().keySet().contains(id) && c.getUsersByID().get(id).getName().equals(name)) {
+                c.reLogin(id, remoteView);
+                remoteView.setController(c);
+                return c;
+            }
+        }
+        remoteView.handle(new TextResponse("You are not in a Game"));
+        return null;
+    }
 }

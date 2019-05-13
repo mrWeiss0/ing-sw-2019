@@ -3,7 +3,7 @@ package controller.states;
 import connection.messages.responses.Response;
 import connection.messages.responses.TextResponse;
 import controller.Controller;
-import controller.User;
+import model.Player;
 
 import java.rmi.RemoteException;
 import java.util.Date;
@@ -22,7 +22,7 @@ public class WaitingState extends State{
     public void sendText(String text, String id) throws RemoteException {
         if (!getController().getUsersByID().keySet().contains(id)) return;
         Response toSend = new TextResponse("LobbyChat>> " + getController().getUsersByID().get(id).getName() +" : "+ text);
-        for(User usr:getController().getUsersByID().values())
+        for(Player usr:getController().getUsersByID().values())
             usr.getView().handle(toSend);
     }
 
@@ -44,7 +44,7 @@ public class WaitingState extends State{
         }
     }
 
-    public void startCountdown(){
+    private void startCountdown(){
         startedCountdown= true;
         countdownTimer = new Timer();
         countdownTimer.schedule(new TimerTask() {
@@ -54,7 +54,7 @@ public class WaitingState extends State{
                 if(i>0){
                     try {
                         Response toSend = new TextResponse(Integer.toString(i));
-                        for (User usr : getController().getUsersByID().values())
+                        for (Player usr : getController().getUsersByID().values())
                             usr.getView().handle(toSend);
                         i--;
                     }catch(RemoteException e){
@@ -67,7 +67,7 @@ public class WaitingState extends State{
         }, new Date(), 1000);
     }
 
-    public void resetCountdown(){
+    private void resetCountdown(){
         countdownTimer.cancel();
         countdownTimer.purge();
         startedCountdown=false;

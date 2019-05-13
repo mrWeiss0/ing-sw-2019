@@ -29,26 +29,36 @@ public class LineHandler {
             while (in.hasNext()) {
                 String read = in.nextLine();
                 if (read.startsWith("quit")) break;
-                handleLineCommand(read);
+                if (client.isConnected()) {
+                    handleLineCommand(read);
+                } else {
+                    notConnectedCommand(read);
+                }
             }
             view.handle(new TextResponse("Client disconnected"));
-        } catch (IOException | NotBoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
-    private void handleLineCommand(String line) throws IOException, NotBoundException {
+    private void handleLineCommand(String line) throws IOException {
         if (line.startsWith("logout")) {
             client.getController().logout(client.getID());
             view.handle(new TextResponse("Logout"));
-        }else if(line.startsWith("/connectRMI")){
-            client.connectRMI();
-        }else if(line.startsWith("/connectSocket")){
-            client.connectSocket();
-        }else if(line.startsWith("/n ")){
-            client.setName(line.substring(3));
         } else {
             client.getController().sendText(line,client.getID());
+        }
+    }
+
+    private void notConnectedCommand(String line) throws IOException, NotBoundException{
+        if (line.startsWith("/n ")) {
+            client.setName(line.substring(3));
+        } else if(line.startsWith("/connectRMI")){
+            client.logout();
+            client.connectRMI();
+        } else if(line.startsWith("/connectSocket")){
+            client.logout();
+            client.connectSocket();
         }
     }
 }

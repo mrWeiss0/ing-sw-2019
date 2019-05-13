@@ -5,6 +5,7 @@ import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import controller.states.State;
 import controller.states.WaitingState;
+import model.Player;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -15,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Controller extends UnicastRemoteObject implements Serializable, RemoteController {
-    private transient HashMap<String, User> usersByID;
+    private transient HashMap<String, Player> usersByID;
     private UUID name;
     private final int maxUsers = 5;
     private State state;
@@ -38,14 +39,17 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
         this.canJoin = canJoin;
     }
 
-    public void login(String name, RemoteView remoteView, String id)throws RemoteException{
+    public void login(String name, RemoteView remoteView, String id) throws RemoteException{
         System.out.println("Login by : " + name);
-        usersByID.put(id, new User(name, remoteView));
+        usersByID.put(id, new Player(name, remoteView));
         remoteView.handle(
                 new TextResponse(">> You are now connected to "+this.name+", send message writing in the chat\n" +
-                        ">> Other users:  "+usersByID.values().stream().map(User::getName).collect(Collectors.joining(" "))));
+                        ">> Other users:  "+usersByID.values().stream().map(Player::getName).collect(Collectors.joining(" "))));
         canJoin = (usersByID.values().size()<maxUsers);
         state.login();
+    }
+    public void reLogin(String id, RemoteView remoteView){
+        usersByID.get(id).setView(remoteView);
     }
 
     //TODO IMPLEMENT CONTROLLER METHOD AS state.method()
@@ -65,7 +69,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     }
 
 
-    public Map<String,User> getUsersByID() {
+    public Map<String,Player> getUsersByID() {
         return usersByID;
     }
 

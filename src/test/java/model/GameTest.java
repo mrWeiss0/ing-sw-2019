@@ -15,15 +15,15 @@ public class GameTest {
 
     @Test
     public void test1Player() {
-        Player p1 = new Player();
+        Player p1 = new Player(null,null);
         game.addPlayer(p1);
         assertEquals(game.nextPlayer(), p1);
     }
 
     @Test
     public void test2Player() {
-        Player p1 = new Player();
-        Player p2 = new Player();
+        Player p1 = new Player(null,null);
+        Player p2 = new Player(null,null);
         game.addPlayer(p1);
         game.addPlayer(p2);
         assertEquals(game.nextPlayer(), p1);
@@ -32,8 +32,8 @@ public class GameTest {
 
     @Test
     public void testCycling() {
-        Player p1 = new Player();
-        Player p2 = new Player();
+        Player p1 = new Player(null,null);
+        Player p2 = new Player(null,null);
         game.addPlayer(p1);
         game.addPlayer(p2);
         assertEquals(game.nextPlayer(), p1);
@@ -46,7 +46,7 @@ public class GameTest {
     public void test5Players() {
         Player[] players = new Player[5];
         for (int i = 0; i < 5; i++) {
-            players[i] = new Player();
+            players[i] = new Player(null,null);
             game.addPlayer(players[i]);
         }
         for (int i = 0; i < 10; i++) {
@@ -56,9 +56,9 @@ public class GameTest {
 
     @Test
     public void testRemove() {
-        Player p1 = new Player();
-        Player p2 = new Player();
-        Player p3 = new Player();
+        Player p1 = new Player(null,null);
+        Player p2 = new Player(null,null);
+        Player p3 = new Player(null,null);
         game.addPlayer(p1);
         game.addPlayer(p2);
         game.addPlayer(p3);
