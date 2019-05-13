@@ -1,4 +1,4 @@
-package server;
+package connection.server;
 
 import connection.socket.ClientHandlerSocket;
 import controller.Controller;
@@ -7,7 +7,6 @@ import controller.LobbyList;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -23,10 +22,7 @@ public class Server implements Runnable {
     public Server(int portSocket, int portRMI) throws IOException {
         pool = Executors.newCachedThreadPool();
         System.out.println(">>Socket: Server Started on Port: " + portSocket);
-        lobbyList = new LobbyList();
-        Controller firstController = new Controller();
-        lobbyList.addController(firstController);
-
+        lobbyList = new LobbyList(10);
         serverSocket = new ServerSocket(portSocket);
 
         Registry registry = LocateRegistry.createRegistry(portRMI);

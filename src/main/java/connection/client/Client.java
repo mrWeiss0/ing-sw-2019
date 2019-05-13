@@ -1,4 +1,4 @@
-package client;
+package connection.client;
 
 import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
@@ -36,16 +36,16 @@ public class Client {
     }
     public void connectRMI() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
-        TextView textView = new ViewRMI(this);
+        RemoteView textView = new ViewRMI(this);
         connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
-        controller = connectionHandler.notifyConnection((RemoteView) textView,name);
+        controller = connectionHandler.notifyConnection(textView,name);
         lineHandler = new LineHandler(linein, textView, this);
         lineHandler.run();
         controller.logout(id);
     }
 
-    public void connectSocket(){
-        try ( Socket socket = new Socket(destIp, destPort)){
+    public void connectSocket() throws IOException{
+        try(Socket socket = new Socket(destIp, destPort)) {
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
             controller = new VirtualController(this, outputStream);
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
@@ -53,15 +53,14 @@ public class Client {
             Thread thread = new Thread(t);
             thread.start();
             lineHandler = new LineHandler(linein, t, this);
-            ((VirtualController)controller).notifyConnection(null,name);
+            ((VirtualController) controller).notifyConnection(null, name);
             lineHandler.run();
             t.stop();
             inputStream.close();
             outputStream.close();
-        }catch(IOException e){
-            e.printStackTrace();
         }
     }
+
 
     public void saveUuid(String uuid) {
         if (this.id.isEmpty())
@@ -69,8 +68,8 @@ public class Client {
     }
 
 
-    public String getName() {
-        return name;
+    public void setName(String name) {
+         this.name=name;
     }
 
 
@@ -85,7 +84,7 @@ public class Client {
         this.controller=remoteController;
     }
 
-    public static void main(String[] args) throws NotBoundException, RemoteException {
+    public static void main(String[] args) throws NotBoundException, IOException {
         Client c = new Client("localhost",9900,"miki1");
         c.connectSocket();
     }

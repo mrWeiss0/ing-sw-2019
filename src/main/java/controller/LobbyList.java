@@ -15,13 +15,11 @@ import java.util.stream.Collectors;
 
 public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHandler, Serializable {
     private ArrayList<Controller> controllers;
-    public LobbyList() throws RemoteException {
+    private int countDownDuration;
+    public LobbyList(int countDownDuration) throws RemoteException {
         super();
         controllers = new ArrayList<>();
-    }
-
-    public void addController(Controller c) {
-        controllers.add(c);
+        this.countDownDuration=countDownDuration;
     }
 
     @Override
@@ -29,16 +27,16 @@ public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHa
         String id = UUID.randomUUID().toString();
         remoteView.handle(new LoginResponse(id));
         System.out.println("Registered new view "+id);
-        if (controllers.stream().noneMatch(Controller::canJoin))
-            controllers.add(new Controller());
         for(Controller c:controllers){
-            if(c.canJoin()) {
+            if(c.canJoin() && !c.getUsersByID().values().stream().map(User::getName).anyMatch(x->x.equals(username))) {
                 c.login(username, remoteView, id);
                 remoteView.setController(c);
                 return c;
             }
         }
-        Controller backup = new Controller();
+        Controller backup = new Controller(countDownDuration);
+        backup.login(username,remoteView,id);
+        remoteView.setController(backup);
         controllers.add(backup);
         return backup;
     }

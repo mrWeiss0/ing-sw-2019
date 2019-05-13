@@ -4,6 +4,7 @@ import connection.messages.responses.TextResponse;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import controller.Controller;
+import controller.User;
 
 import java.rmi.RemoteException;
 //TODO PUOI EREDITARE PER CREARE NUOVI STATE
@@ -22,8 +23,9 @@ public class State {
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Unrecognised command"));
     }
 
-    public void login(){
-
+    public void login() throws RemoteException{
+        for(User u:controller.getUsersByID().values())
+            u.getView().handle(new TextResponse("User tried to login in invalid state"));
     }
 
     public Controller getController() {

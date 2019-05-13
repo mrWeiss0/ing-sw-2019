@@ -4,7 +4,7 @@ import connection.messages.*;
 import connection.messages.requests.*;
 import connection.rmi.RemoteController;
 import controller.LobbyList;
-import server.VirtualViewSocket;
+import connection.server.VirtualViewSocket;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

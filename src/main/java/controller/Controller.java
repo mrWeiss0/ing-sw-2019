@@ -1,12 +1,10 @@
 package controller;
 
-import connection.messages.responses.Response;
 import connection.messages.responses.TextResponse;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import controller.states.State;
 import controller.states.WaitingState;
-import server.Server;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -22,13 +20,14 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     private final int maxUsers = 5;
     private State state;
     private boolean canJoin;
-
-    public Controller() throws RemoteException {
+    private int countdownDuration;
+    public Controller(int countdownDuration) throws RemoteException {
         super();
         this.name = UUID.randomUUID();
         this.usersByID = new HashMap<>();
         this.state = new WaitingState(this);
         canJoin = true;
+        this.countdownDuration=countdownDuration;
     }
 
     public boolean canJoin() {
@@ -72,5 +71,9 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public int getCountdownDuration(){
+        return countdownDuration;
     }
 }

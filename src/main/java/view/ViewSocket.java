@@ -1,9 +1,7 @@
 package view;
 
-import client.Client;
+import connection.client.Client;
 import connection.messages.responses.Response;
-import connection.rmi.RemoteController;
-import connection.rmi.RemoteView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

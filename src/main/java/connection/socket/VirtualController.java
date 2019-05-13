@@ -1,6 +1,6 @@
 package connection.socket;
 
-import client.Client;
+import connection.client.Client;
 import connection.messages.requests.*;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;

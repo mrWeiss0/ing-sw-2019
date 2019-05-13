@@ -12,8 +12,10 @@ import java.util.TimerTask;
 
 public class WaitingState extends State{
     private Timer countdownTimer;
+    private boolean startedCountdown;
     public WaitingState(Controller controller) {
         super(controller);
+        startedCountdown= false;
     }
 
     @Override
@@ -27,8 +29,9 @@ public class WaitingState extends State{
     @Override
     public void login(){
         if(getController().getUsersByID().size()==5){
+            resetCountdown();
             getController().setState(new State(getController()));
-        }else if(getController().getUsersByID().size()>=3){
+        }else if(getController().getUsersByID().size()>=3 && !startedCountdown){
             startCountdown();
         }
     }
@@ -42,17 +45,18 @@ public class WaitingState extends State{
     }
 
     public void startCountdown(){
+        startedCountdown= true;
         countdownTimer = new Timer();
         countdownTimer.schedule(new TimerTask() {
-            int i = 10;
+            int i = getController().getCountdownDuration();
             @Override
             public void run() {
                 if(i>0){
-                    i--;
                     try {
                         Response toSend = new TextResponse(Integer.toString(i));
                         for (User usr : getController().getUsersByID().values())
                             usr.getView().handle(toSend);
+                        i--;
                     }catch(RemoteException e){
                         e.printStackTrace();
                     }
@@ -66,5 +70,6 @@ public class WaitingState extends State{
     public void resetCountdown(){
         countdownTimer.cancel();
         countdownTimer.purge();
+        startedCountdown=false;
     }
 }

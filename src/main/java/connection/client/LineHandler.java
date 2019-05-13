@@ -1,4 +1,4 @@
-package client;
+package connection.client;
 
 import connection.messages.responses.TextResponse;
 import view.TextView;
@@ -32,15 +32,21 @@ public class LineHandler {
                 handleLineCommand(read);
             }
             view.handle(new TextResponse("Client disconnected"));
-        } catch (IOException e) {
+        } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
     }
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
-    private void handleLineCommand(String line) throws IOException {
+    private void handleLineCommand(String line) throws IOException, NotBoundException {
         if (line.startsWith("logout")) {
             client.getController().logout(client.getID());
             view.handle(new TextResponse("Logout"));
+        }else if(line.startsWith("/connectRMI")){
+            client.connectRMI();
+        }else if(line.startsWith("/connectSocket")){
+            client.connectSocket();
+        }else if(line.startsWith("/n ")){
+            client.setName(line.substring(3));
         } else {
             client.getController().sendText(line,client.getID());
         }

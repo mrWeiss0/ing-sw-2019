@@ -1,4 +1,4 @@
-package server;
+package connection.server;
 
 import connection.messages.responses.Response;
 import connection.rmi.RemoteController;
