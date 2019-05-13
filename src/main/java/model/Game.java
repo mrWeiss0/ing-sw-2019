@@ -3,7 +3,10 @@ package model;
 import model.board.*;
 import model.weapon.Weapon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -36,11 +39,11 @@ public class Game {
                 .map(powerup -> {
                     int[] ammoVal = new int[powerup.color + 1];
                     ammoVal[powerup.color] = 1;
-                    return new PowerUp(new AmmoCube(ammoVal), null); // TODO link spawnpoint
+                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color));
                 })
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
-                .map(tile -> new AmmoTile(tile.ammo, tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
+                .map(tile -> new AmmoTile(new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
                 .collect(Collectors.toList()));
     }
 

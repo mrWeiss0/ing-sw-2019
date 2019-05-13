@@ -2,7 +2,7 @@ package model;
 
 import model.board.SpawnSquare;
 
-public class PowerUp { // TODO add action
+public class PowerUp {
     private final AmmoCube ammo;
     private final SpawnSquare spawn;
 

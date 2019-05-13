@@ -1,58 +1,41 @@
 package model.board;
 
+@SuppressWarnings("squid:ClassVariableVisibilityCheck")
 public class SquareImage {
-    private int id;
-    private boolean spawn;
-    private int[] coords;
-    private int roomId;
-    private int[] adjacent = new int[]{};
-    private Board.Builder boardBuilder;
+    public int id;
+    public boolean spawn;
+    public int[] coords;
+    public int roomId;
+    public int color;
+    public int[] adjacent = new int[]{};
 
-    public SquareImage id(int id) {
+    public SquareImage setId(int id) {
         this.id = id;
         return this;
     }
 
-    public SquareImage spawn() {
+    public SquareImage setSpawn() {
         spawn = true;
         return this;
     }
 
-    public SquareImage coords(int... coords) {
+    public SquareImage setCoords(int... coords) {
         this.coords = coords;
         return this;
     }
 
-    public SquareImage roomId(int roomId) {
+    public SquareImage setRoomId(int roomId) {
         this.roomId = roomId;
         return this;
     }
 
-    public SquareImage adjacent(int... adjacent) {
+    public SquareImage setAdjacent(int... adjacent) {
         this.adjacent = adjacent;
         return this;
     }
 
-    public SquareImage boardBuilder(Board.Builder boardBuilder) {
-        this.boardBuilder = boardBuilder;
+    public SquareImage setColor(int color) {
+        this.color = color;
         return this;
-    }
-
-    AbstractSquare build() {
-        Room room = boardBuilder.getRoom(roomId);
-        if (coords == null)
-            throw new IllegalArgumentException("Missing coordinates in square " + id);
-        if (coords.length != 2)
-            throw new IllegalArgumentException("Cell " + id + " has " + coords.length + " coordinate");
-        AbstractSquare squareObj = spawn ?
-                new SpawnSquare(room, coords, boardBuilder.getCapacity()) :
-                new AmmoSquare(room, coords);
-        boardBuilder.addSquare(id, squareObj);
-        return squareObj;
-    }
-
-    void connect() {
-        for (int i : adjacent)
-            boardBuilder.getSquare(id).connect(boardBuilder.getSquare(i));
     }
 }

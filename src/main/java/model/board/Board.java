@@ -15,7 +15,7 @@ public class Board {
     private final Set<Figure> figures;
 
     private Board(Builder builder) {
-        this.rooms = Collections.unmodifiableSet(builder.rooms.stream().filter(Objects::nonNull).collect(Collectors.toSet()));
+        this.rooms = Collections.unmodifiableSet(new HashSet<>(builder.roomsMap.values()));
         this.squares = Collections.unmodifiableSet(new HashSet<>(builder.squaresMap.values()));
         this.figures = Collections.unmodifiableSet(builder.figures);
     }
@@ -45,10 +45,10 @@ public class Board {
     }
 
     public static class Builder {
-        private final List<Room> rooms = new ArrayList<>();
+        private final Map<Integer, Room> roomsMap = new HashMap<>();
         private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
+        private final Map<Integer, SpawnSquare> spawnColorMap = new HashMap<>();
         private final Set<Figure> figures = new HashSet<>();
-        private int nextKey = 0;
         private Supplier<SquareImage[]> squareImagesSupplier = () -> new SquareImage[]{};
         private int capacity = 1;
 
@@ -75,35 +75,43 @@ public class Board {
             return this;
         }
 
+        public SpawnSquare getSpawnByColor(int color) {
+            if (!spawnColorMap.containsKey(color))
+                throw new IllegalArgumentException("No spawn has color " + color);
+            return spawnColorMap.get(color);
+        }
+
         public Board build() {
             SquareImage[] squareImages = squareImagesSupplier.get();
+            for (SquareImage s : squareImages) {
+                if (s.coords == null)
+                    throw new IllegalArgumentException("Missing coordinates in square " + s.id);
+                if (s.coords.length != 2)
+                    throw new IllegalArgumentException("Cell " + s.id + " has " + s.coords.length + " coordinate");
+                Room room = getRoom(s.roomId);
+                AbstractSquare squareObj;
+                if (s.spawn) {
+                    squareObj = new SpawnSquare(room, s.coords, capacity);
+                    if (spawnColorMap.containsKey(s.color))
+                        throw new IllegalArgumentException("Two spawns have same color " + s.color);
+                    spawnColorMap.put(s.color, (SpawnSquare) squareObj);
+                } else
+                    squareObj = new AmmoSquare(room, s.coords);
+                addSquare(s.id, squareObj);
+            }
             for (SquareImage s : squareImages)
-                s.boardBuilder(this).build();
-            for (SquareImage s : squareImages)
-                s.connect();
+                for (int i : s.adjacent)
+                    squaresMap.get(s.id).connect(squaresMap.get(i));
             return new Board(this);
         }
 
-        Room getRoom(int i) {
-            Room roomObj;
-            if (i >= rooms.size())
-                rooms.addAll(Collections.nCopies(i - rooms.size() + 1, null));
-            if ((roomObj = rooms.get(i)) == null) {
-                roomObj = new Room();
-                rooms.set(i, roomObj);
-            }
-            return roomObj;
+        private Room getRoom(int i) {
+            if (!roomsMap.containsKey(i))
+                roomsMap.put(i, new Room());
+            return roomsMap.get(i);
         }
 
-        int getCapacity() {
-            return capacity;
-        }
-
-        AbstractSquare getSquare(int i) {
-            return squaresMap.get(i);
-        }
-
-        void addSquare(int id, AbstractSquare square) {
+        private void addSquare(int id, AbstractSquare square) {
             if (squaresMap.containsKey(id))
                 throw new IllegalArgumentException("Duplicate cell ID " + id);
             squaresMap.put(id, square);

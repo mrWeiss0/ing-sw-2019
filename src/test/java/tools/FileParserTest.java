@@ -32,10 +32,10 @@ class FileParserTest {
 
     @Test
     void testInvalid() {
-        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().roomId(0).adjacent(0).spawn()}, FileParser.readSquares(new StringReader("[{\"roomId\":0,\"adjacent\":[0],\"spawn\":true}]"))));
-        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().coords(1)}, FileParser.readSquares(new StringReader("[{\"coords\":[1]}]"))));
-        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().coords(1, 2, 3)}, FileParser.readSquares(new StringReader("[{\"coords\":[1,2,3]}]"))));
-        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().id(1).coords(0, 1), new SquareImage().id(1).coords(0, 2)}, FileParser.readSquares(new StringReader("[{\"id\":1,\"coords\":[0,1]},{\"id\":1,\"coords\":[0,2]}]"))));
+        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().setRoomId(0).setAdjacent(0).setSpawn()}, FileParser.readSquares(new StringReader("[{\"roomId\":0,\"adjacent\":[0],\"spawn\":true}]"))));
+        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().setCoords(1)}, FileParser.readSquares(new StringReader("[{\"coords\":[1]}]"))));
+        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().setCoords(1, 2, 3)}, FileParser.readSquares(new StringReader("[{\"coords\":[1,2,3]}]"))));
+        assertTrue(squareArrayEquals(new SquareImage[]{new SquareImage().setId(1).setCoords(0, 1), new SquareImage().setId(1).setCoords(0, 2)}, FileParser.readSquares(new StringReader("[{\"id\":1,\"coords\":[0,1]},{\"id\":1,\"coords\":[0,2]}]"))));
     }
 
     @Test
@@ -49,8 +49,8 @@ class FileParserTest {
                 "{\"coords\":[0,0]}," +
                 "{\"id\":5,\"coords\":[1,2],\"roomId\":2}," +
                 "{\"id\":7,\"coords\":[2,0],\"roomId\":4,\"adjacent\":[3]}," +
-                "{\"id\":2,\"coords\":[0,2],\"roomId\":1,\"adjacent\":[5,1],\"spawn\":true}," +
-                "{\"id\":3,\"coords\":[1,0],\"roomId\":0,\"adjacent\":[0],\"spawn\":true}," +
+                "{\"id\":2,\"coords\":[0,2],\"roomId\":1,\"adjacent\":[5,1],\"spawn\":true,\"color\":1}," +
+                "{\"id\":3,\"coords\":[1,0],\"roomId\":0,\"adjacent\":[0],\"spawn\":true,\"color\":2}," +
                 "{\"id\":10,\"coords\":[2,3],\"roomId\":5,\"adjacent\":[9,6],\"spawn\":true}]"))));
     }
 }

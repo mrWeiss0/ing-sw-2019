@@ -94,7 +94,7 @@ public class Figure implements Targettable {
 
     public void grab(AmmoTile grabbed) {
         addAmmo(grabbed.getAmmo());
-        if(powerUps.size() < maxPowerUps)
+        if (powerUps.size() < maxPowerUps)
             grabbed.getPowerUp().ifPresent(powerUps::add);
         grabbed.discard();
     }

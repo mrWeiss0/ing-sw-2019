@@ -37,10 +37,10 @@ class RefillTest {
         Game g = new Game.Builder()
                 .weapons(weapons)
                 .squares(
-                        new SquareImage().coords(0, 0).id(1),
-                        new SquareImage().coords(0, 0).spawn().id(11),
-                        new SquareImage().coords(0, 0).id(2),
-                        new SquareImage().coords(0, 0).spawn().id(12)
+                        new SquareImage().setCoords(0, 0).setId(1),
+                        new SquareImage().setCoords(0, 0).setSpawn().setId(11),
+                        new SquareImage().setCoords(0, 0).setId(2),
+                        new SquareImage().setCoords(0, 0).setSpawn().setId(12).setColor(1)
                 )
                 .build();
         Set<AbstractSquare> squares = g.getBoard().getSquares();
@@ -69,9 +69,9 @@ class RefillTest {
         Game g = new Game.Builder()
                 .weapons(weapons)
                 .squares(
-                        new SquareImage().coords(0, 0).spawn().id(1),
-                        new SquareImage().coords(1, 0).spawn().id(2),
-                        new SquareImage().coords(2, 0).spawn()
+                        new SquareImage().setCoords(0, 0).setSpawn().setId(1).setColor(1),
+                        new SquareImage().setCoords(1, 0).setSpawn().setId(2),
+                        new SquareImage().setCoords(2, 0).setSpawn().setColor(2)
                 )
                 .spawnCapacity(3)
                 .build();

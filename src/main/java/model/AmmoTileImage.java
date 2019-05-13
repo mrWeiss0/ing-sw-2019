@@ -1,10 +1,11 @@
 package model;
 
+@SuppressWarnings("squid:ClassVariableVisibilityCheck")
 public class AmmoTileImage {
-    public AmmoCube ammo;
+    public int[] ammo;
     public boolean powerUp;
 
-    public AmmoTileImage(AmmoCube ammo, boolean powerUp){
+    public AmmoTileImage(boolean powerUp, int... ammo) {
         this.ammo = ammo;
         this.powerUp = powerUp;
     }

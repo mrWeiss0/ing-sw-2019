@@ -45,7 +45,7 @@ public abstract class AbstractSquare implements Targettable {
      * Adds the specified square to the set of adjacency and ensures that
      * the connection is mutual.
      *
-     * @param square the square adjacent to this
+     * @param square the square setAdjacent to this
      */
     public void connect(AbstractSquare square) {
         adjacent.add(square);
