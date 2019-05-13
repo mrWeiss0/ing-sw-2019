@@ -117,7 +117,7 @@ class GameBuilderTest {
 
     @Test
     void testExceptions() {
-        assertThrows(IllegalArgumentException.class,()-> new Game.Builder()
+        assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
                 .powerUps(new PowerUpImage(2))
                 .squares(
                         new SquareImage().setId(2).setSpawn().setColor(2).setCoords(0, 0),
@@ -125,7 +125,7 @@ class GameBuilderTest {
                 )
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build());
-        assertThrows(IllegalArgumentException.class,()-> new Game.Builder()
+        assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
                 .powerUps(new PowerUpImage(1))
                 .squares(new SquareImage().setSpawn().setColor(2).setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(true, 1))

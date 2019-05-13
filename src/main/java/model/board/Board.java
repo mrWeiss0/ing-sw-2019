@@ -88,21 +88,24 @@ public class Board {
                     throw new IllegalArgumentException("Missing coordinates in square " + s.id);
                 if (s.coords.length != 2)
                     throw new IllegalArgumentException("Cell " + s.id + " has " + s.coords.length + " coordinate");
-                Room room = getRoom(s.roomId);
-                AbstractSquare squareObj;
-                if (s.spawn) {
-                    squareObj = new SpawnSquare(room, s.coords, capacity);
-                    if (spawnColorMap.containsKey(s.color))
-                        throw new IllegalArgumentException("Two spawns have same color " + s.color);
-                    spawnColorMap.put(s.color, (SpawnSquare) squareObj);
-                } else
-                    squareObj = new AmmoSquare(room, s.coords);
-                addSquare(s.id, squareObj);
+                addSquare(s.id, createSquare(s, getRoom(s.roomId)));
             }
             for (SquareImage s : squareImages)
                 for (int i : s.adjacent)
                     squaresMap.get(s.id).connect(squaresMap.get(i));
             return new Board(this);
+        }
+
+        private AbstractSquare createSquare(SquareImage s, Room room) {
+            AbstractSquare squareObj;
+            if (s.spawn) {
+                squareObj = new SpawnSquare(room, s.coords, capacity);
+                if (spawnColorMap.containsKey(s.color))
+                    throw new IllegalArgumentException("Two spawns have same color " + s.color);
+                spawnColorMap.put(s.color, (SpawnSquare) squareObj);
+            } else
+                squareObj = new AmmoSquare(room, s.coords);
+            return squareObj;
         }
 
         private Room getRoom(int i) {
