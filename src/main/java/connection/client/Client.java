@@ -24,7 +24,6 @@ public class Client {
     private Scanner linein;
     private String name;
     private String id = "";
-    private RemoteConnectionHandler connectionHandler;
     private RemoteController controller;
     private LineHandler lineHandler;
     private boolean connected=false;
@@ -38,7 +37,7 @@ public class Client {
     public void connectRMI() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
         RemoteView textView = new ViewRMI(this);
-        connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
+        RemoteConnectionHandler connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
         controller = connectionHandler.notifyConnection(textView,name);
         lineHandler = new LineHandler(linein, textView, this);
         lineHandler.run();
