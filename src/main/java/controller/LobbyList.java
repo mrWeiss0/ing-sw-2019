@@ -42,9 +42,9 @@ public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHa
         return backup;
     }
     @Override
-    public RemoteController reconnect( String id, String name, RemoteView remoteView) throws RemoteException{
+    public RemoteController reconnect(String id,  RemoteView remoteView) throws RemoteException{
         for(Controller c:controllers){
-            if(c.getUsersByID().keySet().contains(id) && c.getUsersByID().get(id).getName().equals(name)) {
+            if(c.getUsersByID().keySet().contains(id)) {
                 c.reLogin(id, remoteView);
                 remoteView.setController(c);
                 return c;

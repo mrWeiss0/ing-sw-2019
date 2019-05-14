@@ -26,7 +26,6 @@ public class Client {
     private String id = "";
     private RemoteController controller;
     private LineHandler lineHandler;
-    private boolean connected=false;
 
     public Client(String destIp, int destPort, String name) {
         this.destIp = destIp;
@@ -77,14 +76,6 @@ public class Client {
         return this.id;
     }
 
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void logout() throws RemoteException{
-        connected=false;
-        controller.logout(id);
-    }
 
     public RemoteController getController() {
         return controller;

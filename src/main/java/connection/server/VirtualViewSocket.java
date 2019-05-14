@@ -20,6 +20,7 @@ public class VirtualViewSocket implements RemoteView {
     public void handle(Response response) {
         try {
             outputStream.writeObject(response);
+            outputStream.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
