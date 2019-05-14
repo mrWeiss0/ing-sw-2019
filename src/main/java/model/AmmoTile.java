@@ -43,7 +43,7 @@ public class AmmoTile implements Grabbable {
     }
 
     /**
-     * Returns the AmmoCube contained within this AmmoTile
+     * Returns the AmmoCube contained within this AmmoTile.
      *
      * @return the AmmoCube contained within this AmmoTile
      */

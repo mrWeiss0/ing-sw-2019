@@ -8,9 +8,10 @@ import java.util.Collections;
 
 /**
  * <code>Deck</code> is a generic class used to simulate a deck of cards
- * with a discard pile; once emptied, can be refilled reshuffling
- * the discard pile.
- * It contains method to shuffle, draw and discard from hand.
+ * with a discard pile; the discard pile can be reshuffled into the deck to
+ * avoid its depletion.
+ * <p>
+ * It contains methods to shuffle, draw and discard from hand.
  *
  * @param <T>
  */
@@ -19,7 +20,7 @@ public class Deck<T> {
     private final ArrayDeque<T> cards = new ArrayDeque<>();
 
     /**
-     * Shuffles a new deck made from the discard pile, which is then cleared.
+     * Shuffles into this deck the discard pile, which is then cleared.
      */
     private void shuffle() {
         Collections.shuffle(discard);
@@ -28,8 +29,8 @@ public class Deck<T> {
     }
 
     /**
-     * Draws a card and removes it from the deck. If the deck is empty it's
-     * reshuffled using <code>shuffle</code>.
+     * Draws a card and removes it from the deck. Before drawing, if this
+     * deck is empty, it's reshuffled using <code>shuffle</code>.
      *
      * @return the card drawn
      */
@@ -39,8 +40,7 @@ public class Deck<T> {
     }
 
     /**
-     * Adds a card to the discard pile, that can be can be reshuffled into
-     * the deck once it is emptied.
+     * Adds a card to this deck's discard pile.
      *
      * @param c the card to be discarded
      */
@@ -49,8 +49,7 @@ public class Deck<T> {
     }
 
     /**
-     * Adds a card to the discard pile, that can be can be reshuffled into
-     * the deck once it is emptied.
+     * Adds a group of cards to this deck's discard pile.
      *
      * @param c the card to be discarded
      */
