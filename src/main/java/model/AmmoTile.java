@@ -11,6 +11,9 @@ import java.util.function.Supplier;
  * The class contains methods to get ammo and draw an optional PowerUp from a
  * supplier, as well as a method to discard the AmmoTile to its deck once its
  * contents are exhausted.
+ * <p>
+ * It implements also the empty Grabbable interface, which allows an AmmoTile
+ * to be grabbed via the visitor pattern.
  */
 public class AmmoTile implements Grabbable {
     private final AmmoCube ammo;
