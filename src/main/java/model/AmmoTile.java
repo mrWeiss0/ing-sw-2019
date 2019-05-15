@@ -5,15 +5,16 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * <code>AmmoTile</code> is a class the represents a tile containing ammo
- * and a PowerUp supplier.
+ * <code>AmmoTile</code> class represents a tile containing ammo, a PowerUp
+ * supplier and a consumer to which discard itself; these are <code>final</code>
+ * as to reflect the AmmoTile static nature in game.
  * <p>
- * The class contains methods to get ammo and draw an optional PowerUp from a
+ * The class provides methods to get ammo and draw an optional PowerUp from a
  * supplier, as well as a method to discard the AmmoTile to its deck once its
  * contents are exhausted.
  * <p>
- * It implements also the empty Grabbable interface, which allows an AmmoTile
- * to be grabbed via the visitor pattern.
+ * It also implements the empty Grabbable interface, which allows an AmmoTile
+ * to be grabbed.
  */
 public class AmmoTile implements Grabbable {
     private final AmmoCube ammo;

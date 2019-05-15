@@ -17,7 +17,7 @@ public class AmmoCube {
      * Constructs an AmmoCube containing the given amount of ammo for each
      * color.
      *
-     * @param ammo
+     * @param ammo the ordered amount of ammo for each color that this AmmoCube is to contain
      */
     public AmmoCube(int... ammo) {
         int len = ammo.length;

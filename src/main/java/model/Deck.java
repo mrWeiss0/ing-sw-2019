@@ -11,7 +11,7 @@ import java.util.Collections;
  * with a discard pile; the discard pile can be reshuffled into the deck to
  * avoid its depletion.
  * <p>
- * It contains methods to shuffle, draw and discard from hand.
+ * It provides methods to shuffle, draw and discard from hand.
  *
  * @param <T>
  */
@@ -52,7 +52,7 @@ public class Deck<T> {
     /**
      * Adds a group of cards to this deck's discard pile.
      *
-     * @param c the card to be discarded
+     * @param c the collections of cards to be discarded
      */
     public void discard(Collection<T> c) {
         discard.addAll(c);
