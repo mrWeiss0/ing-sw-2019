@@ -4,7 +4,6 @@ import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import connection.socket.VirtualController;
-import view.TextView;
 import view.ViewRMI;
 import view.ViewSocket;
 
@@ -33,18 +32,24 @@ public class Client {
         this.linein = new Scanner(System.in);
         this.name = name;
     }
+
+    public static void main(String[] args) throws NotBoundException, IOException {
+        Client c = new Client("localhost", 9900, "miki1");
+        c.connectRMI();
+    }
+
     public void connectRMI() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
         RemoteView textView = new ViewRMI(this);
         RemoteConnectionHandler connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
-        controller = connectionHandler.notifyConnection(textView,name);
+        controller = connectionHandler.notifyConnection(textView, name);
         lineHandler = new LineHandler(linein, textView, this);
         lineHandler.run();
         controller.logout(id);
     }
 
-    public void connectSocket() throws IOException{
-        try(Socket socket = new Socket(destIp, destPort)) {
+    public void connectSocket() throws IOException {
+        try (Socket socket = new Socket(destIp, destPort)) {
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
             controller = new VirtualController(this, outputStream);
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
@@ -60,32 +65,24 @@ public class Client {
         }
     }
 
-
     public void saveUuid(String uuid) {
         if (this.id.isEmpty())
             this.id = uuid;
     }
 
-
     public void setName(String name) {
-         this.name=name;
+        this.name = name;
     }
-
 
     public String getID() {
         return this.id;
     }
 
-
     public RemoteController getController() {
         return controller;
     }
-    public void setController(RemoteController remoteController){
-        this.controller=remoteController;
-    }
 
-    public static void main(String[] args) throws NotBoundException, IOException {
-        Client c = new Client("localhost",9900,"miki1");
-        c.connectRMI();
+    public void setController(RemoteController remoteController) {
+        this.controller = remoteController;
     }
 }

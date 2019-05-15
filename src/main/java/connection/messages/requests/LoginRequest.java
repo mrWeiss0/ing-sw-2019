@@ -4,9 +4,11 @@ import connection.messages.RequestInterpreter;
 
 public class LoginRequest extends Request {
     private String username;
-    public LoginRequest(String username){
-        this.username=username;
+
+    public LoginRequest(String username) {
+        this.username = username;
     }
+
     @Override
     public String prompt() {
         return "Request Connection";

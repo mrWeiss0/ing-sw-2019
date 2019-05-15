@@ -1,7 +1,6 @@
 package connection.server;
 
 import connection.socket.ClientHandlerSocket;
-import controller.Controller;
 import controller.LobbyList;
 
 import java.io.IOException;
@@ -32,6 +31,22 @@ public class Server implements Runnable {
 
     }
 
+    public static void main(String[] args) throws IOException {
+        Server server = new Server(9900, 1099);
+        Scanner sin = new Scanner(System.in);
+        Thread thread = new Thread(server);
+        thread.start();
+        String in = "";
+        while (!in.startsWith("quit")) {
+            in = sin.nextLine();
+        }
+        try {
+            server.close();
+        } catch (IOException ignored) {
+        }
+        thread.interrupt();
+    }
+
     public void run() {
         Socket socket;
         while (isRunning) {
@@ -50,22 +65,5 @@ public class Server implements Runnable {
         this.isRunning = false;
         serverSocket.close();
         pool.shutdown();
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        Server server = new Server(9900, 1099);
-        Scanner sin = new Scanner(System.in);
-        Thread thread = new Thread(server);
-        thread.start();
-        String in = "";
-        while (!in.startsWith("quit")) {
-            in = sin.nextLine();
-        }
-        try {
-            server.close();
-        } catch (IOException ignored) {
-        }
-        thread.interrupt();
     }
 }

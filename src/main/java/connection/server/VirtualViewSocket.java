@@ -14,7 +14,7 @@ public class VirtualViewSocket implements RemoteView {
 
     public VirtualViewSocket(ObjectOutputStream outputStream, ClientHandlerSocket clientHandlerSocket) {
         this.outputStream = outputStream;
-        this.clientHandlerSocket=clientHandlerSocket;
+        this.clientHandlerSocket = clientHandlerSocket;
     }
 
     public void handle(Response response) {
@@ -27,7 +27,7 @@ public class VirtualViewSocket implements RemoteView {
     }
 
     @Override
-    public void setController(RemoteController remoteController){
+    public void setController(RemoteController remoteController) {
         clientHandlerSocket.setReferenceController(remoteController);
     }
 }

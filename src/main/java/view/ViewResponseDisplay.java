@@ -1,14 +1,15 @@
 package view;
 
 import connection.client.Client;
-import connection.messages.*;
+import connection.messages.ResponseDisplay;
 import connection.messages.responses.LoginResponse;
 import connection.messages.responses.TextResponse;
 
 public class ViewResponseDisplay implements ResponseDisplay {
     private Client client;
-    public ViewResponseDisplay(Client client){
-        this.client=client;
+
+    public ViewResponseDisplay(Client client) {
+        this.client = client;
     }
 
     @Override

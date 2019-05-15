@@ -2,7 +2,7 @@ package connection.messages.requests;
 
 import connection.messages.RequestInterpreter;
 
-public class LogoutRequest extends Request{
+public class LogoutRequest extends Request {
 
     @Override
     public String prompt() {

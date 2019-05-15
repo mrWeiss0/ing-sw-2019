@@ -3,6 +3,7 @@ package connection.messages.requests;
 import connection.messages.RequestInterpreter;
 
 import java.io.Serializable;
+
 //TODO ESTENDI PER NUOVI COMANDI
 public abstract class Request implements Serializable {
     private String sender;
@@ -16,5 +17,6 @@ public abstract class Request implements Serializable {
     }
 
     public abstract String prompt();
+
     public abstract void handle(RequestInterpreter requestInterpreter);
 }

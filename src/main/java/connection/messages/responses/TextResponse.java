@@ -4,9 +4,11 @@ import connection.messages.ResponseDisplay;
 
 public class TextResponse extends Response {
     private String content;
-    public TextResponse(String content){
-        this.content=content;
+
+    public TextResponse(String content) {
+        this.content = content;
     }
+
     @Override
     public String prompt() {
         return content;

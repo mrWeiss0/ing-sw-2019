@@ -35,13 +35,14 @@ public class LineHandler {
             e.printStackTrace();
         }
     }
+
     //TODO SCRIVERE LA GENERAZIONE DEL COMANDO
     private void handleLineCommand(String line) throws IOException {
         if (line.startsWith("logout")) {
             client.getController().logout(client.getID());
             view.handle(new TextResponse("Logout"));
         } else {
-            client.getController().sendText(line,client.getID());
+            client.getController().sendText(line, client.getID());
         }
     }
 }

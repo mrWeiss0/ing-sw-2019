@@ -1,10 +1,10 @@
 package connection.socket;
 
-import connection.messages.*;
+import connection.messages.RequestInterpreter;
 import connection.messages.requests.*;
 import connection.rmi.RemoteController;
-import controller.LobbyList;
 import connection.server.VirtualViewSocket;
+import controller.LobbyList;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -52,36 +52,37 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
     //TODO IMPLEMENTARE LA RICEZIONE DEL COMANDO
 
     @Override
-    public void handle(TextRequest request){
+    public void handle(TextRequest request) {
         try {
-            referenceController.sendText(request.prompt(),request.getSender());
-        }catch(RemoteException e){
+            referenceController.sendText(request.prompt(), request.getSender());
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void handle(LoginRequest request){
+    public void handle(LoginRequest request) {
         try {
             lobbyList.notifyConnection(connectionVirtualView, request.getUsername());
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void handle(LogoutRequest request){
-        try{
+    public void handle(LogoutRequest request) {
+        try {
             referenceController.logout(request.getSender());
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
+
     @Override
-    public void handle(ReconnectRequest request){
-        try{
-            lobbyList.reconnect(request.getSender(),connectionVirtualView);
-        }catch(RemoteException e){
+    public void handle(ReconnectRequest request) {
+        try {
+            lobbyList.reconnect(request.getSender(), connectionVirtualView);
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }

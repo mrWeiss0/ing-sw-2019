@@ -6,7 +6,7 @@ import connection.messages.ResponseDisplay;
 public class LoginResponse extends Response {
     private String id;
 
-    public LoginResponse( String id) {
+    public LoginResponse(String id) {
         this.id = id;
     }
 

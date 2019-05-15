@@ -14,7 +14,7 @@ public class ViewSocket implements Runnable, TextView {
 
     public ViewSocket(ObjectInputStream sin, Client client) {
         this.sin = sin;
-        messageHandler= new ViewResponseDisplay(client);
+        messageHandler = new ViewResponseDisplay(client);
     }
 
     public void run() {
