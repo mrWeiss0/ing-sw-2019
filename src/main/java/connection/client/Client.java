@@ -86,6 +86,6 @@ public class Client {
 
     public static void main(String[] args) throws NotBoundException, IOException {
         Client c = new Client("localhost",9900,"miki1");
-        c.connectSocket();
+        c.connectRMI();
     }
 }

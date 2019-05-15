@@ -26,7 +26,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
         super();
         this.name = UUID.randomUUID();
         this.usersByID = new HashMap<>();
-        this.state = new WaitingState(this);
+        this.state = new WaitingState();
         canJoin = true;
         this.countdownDuration=countdownDuration;
     }
@@ -46,7 +46,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
                 new TextResponse(">> You are now connected to "+this.name+", send message writing in the chat\n" +
                         ">> Other users:  "+usersByID.values().stream().map(Player::getName).collect(Collectors.joining(" "))));
         canJoin = (usersByID.values().size()<maxUsers);
-        state.login();
+        state.login(this);
     }
     public void reLogin(String id, RemoteView remoteView){
         usersByID.get(id).setView(remoteView);
@@ -55,7 +55,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     //TODO IMPLEMENT CONTROLLER METHOD AS state.method()
     @Override
     public void sendText(String text, String id) throws RemoteException{
-        state.sendText(text,id);
+        state.sendText(this,text,id);
     }
 
 
@@ -63,9 +63,10 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
     public void logout(String id) throws RemoteException{
         if (!usersByID.keySet().contains(id)) return;
         System.out.println("Logout by : "+usersByID.get(id).getName());
+        state.logout(this,id);
         usersByID.remove(id);
         canJoin = (usersByID.values().size()<maxUsers);
-        state.logout(id);
+
     }
 
 

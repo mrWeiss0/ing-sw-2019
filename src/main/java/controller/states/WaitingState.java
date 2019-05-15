@@ -13,55 +13,54 @@ import java.util.TimerTask;
 public class WaitingState extends State{
     private Timer countdownTimer;
     private boolean startedCountdown;
-    public WaitingState(Controller controller) {
-        super(controller);
+    public WaitingState() {
         startedCountdown= false;
     }
 
     @Override
-    public void sendText(String text, String id) throws RemoteException {
-        if (!getController().getUsersByID().keySet().contains(id)) return;
-        Response toSend = new TextResponse("LobbyChat>> " + getController().getUsersByID().get(id).getName() +" : "+ text);
-        for(Player usr:getController().getUsersByID().values())
+    public void sendText(Controller controller,String text, String id) throws RemoteException {
+        if (!controller.getUsersByID().keySet().contains(id)) return;
+        Response toSend = new TextResponse("LobbyChat>> " + controller.getUsersByID().get(id).getName() +" : "+ text);
+        for(Player usr:controller.getUsersByID().values())
             usr.getView().handle(toSend);
     }
 
     @Override
-    public void login(){
-        if(getController().getUsersByID().size()==5){
+    public void login(Controller controller){
+        if(controller.getUsersByID().size()==5){
             resetCountdown();
-            getController().setState(new State(getController()));
-        }else if(getController().getUsersByID().size()>=3 && !startedCountdown){
-            startCountdown();
+            controller.setState(new State());
+        }else if(controller.getUsersByID().size()>=3 && !startedCountdown){
+            startCountdown(controller);
         }
     }
 
     @Override
-    public void logout(String id) throws RemoteException{
-        getController().getUsersByID().get(id).getView().handle(new TextResponse("Logout by "+getController().getUsersByID().get(id).getName()));
-        if(getController().getUsersByID().size()<3){
+    public void logout(Controller controller,String id) throws RemoteException{
+        controller.getUsersByID().get(id).getView().handle(new TextResponse("Logout by "+controller.getUsersByID().get(id).getName()));
+        if(controller.getUsersByID().size()<3){
             resetCountdown();
         }
     }
 
-    private void startCountdown(){
+    private void startCountdown(Controller controller){
         startedCountdown= true;
         countdownTimer = new Timer();
         countdownTimer.schedule(new TimerTask() {
-            int i = getController().getCountdownDuration();
+            int i = controller.getCountdownDuration();
             @Override
             public void run() {
                 if(i>0){
                     try {
                         Response toSend = new TextResponse(Integer.toString(i));
-                        for (Player usr : getController().getUsersByID().values())
+                        for (Player usr : controller.getUsersByID().values())
                             usr.getView().handle(toSend);
                         i--;
                     }catch(RemoteException e){
                         e.printStackTrace();
                     }
                 }else{
-                    getController().setState(new State(getController()));
+                    controller.setState(new State());
                 }
             }
         }, new Date(), 1000);

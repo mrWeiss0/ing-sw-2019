@@ -35,3 +35,7 @@ C >> *List of PowerUps to discard*
 #Validate list of PowerUp
 #Handle discard
 S >> *You have reloaded*
+
+non spawnato
+morto
+vivo
