@@ -7,6 +7,9 @@ import model.board.Targettable;
 import java.util.List;
 import java.util.Set;
 
+/**
+ *
+ */
 public class FireStep {
     private final TargetGen targetGen;
     private final Effect effect;

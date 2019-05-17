@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 /**
  * <code>AmmoTile</code> class represents a tile containing ammo, a PowerUp
  * supplier and a consumer to which discard itself; these are <code>final</code>
- * as to reflect the AmmoTile static nature in game.
+ * as to reflect an AmmoTile's static nature in game.
  * <p>
  * The class provides methods to get ammo and draw an optional PowerUp from a
  * supplier, as well as a method to discard the AmmoTile to its deck once its

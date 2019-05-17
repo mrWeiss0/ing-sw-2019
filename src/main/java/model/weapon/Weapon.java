@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * The <code>Weapon</code> class represents a weapon and its costs for pickup
  * and reload, as well as its FireModes; these are <code>final</code> as to reflect
- * the Weapon static nature in the game. A Weapon also can be either loaded or
+ * a Weapon's static nature in the game. A Weapon also can be either loaded or
  * unloaded.
  * <p>
  * The class also provides a <code>Builder</code> to allow a new Weapon's setup

@@ -5,7 +5,7 @@ import model.board.SpawnSquare;
 /**
  * The <code>PowerUp</code> class represents a generic PowerUp card containing
  * ammo and linked to a SpawnPoint; these are <code>final</code> as to reflect
- * the PowerUp card static nature in the game.
+ * a PowerUp's card static nature in the game.
  * <p>
  * It provides methods to get its associated ammo and spawn.
  */
