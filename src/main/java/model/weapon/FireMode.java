@@ -32,7 +32,7 @@ public class FireMode {
     }
 
     /**
-     * onstructs a FireMode with the specified steps and cost.
+     * Constructs a FireMode with the specified steps and cost.
      *
      * @param cost the cost of the FireMode
      * @param steps the steps of the FireMode
