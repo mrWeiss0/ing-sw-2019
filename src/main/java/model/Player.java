@@ -8,13 +8,16 @@ public class Player {
     private String name;
     private RemoteView view;
     private Figure figure;
+    private String id;
 
-
-    public Player(String n, RemoteView vv) {
+    public Player(String n, String id,RemoteView vv) {
         name = n;
+        this.id= id;
         view = vv;
     }
-
+    public String getId(){
+        return id;
+    }
     public String getName() {
         return name;
     }

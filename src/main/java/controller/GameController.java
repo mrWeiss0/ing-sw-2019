@@ -5,6 +5,7 @@ import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import controller.states.State;
 import controller.states.WaitingState;
+import model.Game;
 import model.Player;
 
 import java.io.Serializable;
@@ -15,16 +16,19 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class Controller extends UnicastRemoteObject implements Serializable, RemoteController {
+public class GameController extends UnicastRemoteObject implements Serializable, RemoteController {
+
     private final int maxUsers = 5;
     private transient HashMap<String, Player> usersByID;
     private UUID name;
     private State state;
     private boolean canJoin;
     private int countdownDuration;
+    private Game game;
 
-    public Controller(int countdownDuration) throws RemoteException {
+    public GameController(int countdownDuration) throws RemoteException {
         super();
+
         this.name = UUID.randomUUID();
         this.usersByID = new HashMap<>();
         this.state = new WaitingState();
@@ -42,7 +46,7 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
 
     public void login(String name, RemoteView remoteView, String id) throws RemoteException {
         System.out.println("Login by : " + name);
-        usersByID.put(id, new Player(name, remoteView));
+        usersByID.put(id, new Player(name, id, remoteView));
         remoteView.handle(
                 new TextResponse(">> You are now connected to " + this.name + ", send message writing in the chat\n" +
                         ">> Other users:  " + usersByID.values().stream().map(Player::getName).collect(Collectors.joining(" "))));
@@ -50,9 +54,6 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
         state.login(this);
     }
 
-    public void reLogin(String id, RemoteView remoteView) {
-        usersByID.get(id).setView(remoteView);
-    }
 
     //TODO IMPLEMENT CONTROLLER METHOD AS state.method()
     @Override
@@ -73,7 +74,12 @@ public class Controller extends UnicastRemoteObject implements Serializable, Rem
 
 
     public Map<String, Player> getUsersByID() {
-        return usersByID;
+
+        return game.getPlayers().stream().collect(Collectors.toMap(Player::getId,x->x));
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void setState(State state) {

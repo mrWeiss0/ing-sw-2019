@@ -28,7 +28,7 @@ class GameBuilderTest {
 
     @Test
     void testFigure() {
-        Player p = new Player();
+        Player p = new Player(null,null);
         Game game = gameBuilder
                 .player(p)
                 .maxDamages(8)

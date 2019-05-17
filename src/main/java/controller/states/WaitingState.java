@@ -2,7 +2,8 @@ package controller.states;
 
 import connection.messages.responses.Response;
 import connection.messages.responses.TextResponse;
-import controller.Controller;
+import controller.GameController;
+import model.Game;
 import model.Player;
 
 import java.rmi.RemoteException;
@@ -10,16 +11,17 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class WaitingState extends State {
+public class WaitingState implements State {
     private Timer countdownTimer;
     private boolean startedCountdown;
+    private Game.Builder gameBuilder = new Game.Builder();
 
     public WaitingState() {
         startedCountdown = false;
     }
 
     @Override
-    public void sendText(Controller controller, String text, String id) throws RemoteException {
+    public void sendText(GameController controller, String text, String id) throws RemoteException {
         if (!controller.getUsersByID().keySet().contains(id)) return;
         Response toSend = new TextResponse("LobbyChat>> " + controller.getUsersByID().get(id).getName() + " : " + text);
         for (Player usr : controller.getUsersByID().values())
@@ -27,24 +29,24 @@ public class WaitingState extends State {
     }
 
     @Override
-    public void login(Controller controller) {
+    public void login(GameController controller) {
         if (controller.getUsersByID().size() == 5) {
             resetCountdown();
-            controller.setState(new State());
+            controller.setState(new WaitingState());
         } else if (controller.getUsersByID().size() >= 3 && !startedCountdown) {
             startCountdown(controller);
         }
     }
 
     @Override
-    public void logout(Controller controller, String id) throws RemoteException {
+    public void logout(GameController controller, String id) throws RemoteException {
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Logout by " + controller.getUsersByID().get(id).getName()));
         if (controller.getUsersByID().size() < 3) {
             resetCountdown();
         }
     }
 
-    private void startCountdown(Controller controller) {
+    private void startCountdown(GameController controller) {
         startedCountdown = true;
         countdownTimer = new Timer();
         countdownTimer.schedule(new TimerTask() {
@@ -62,7 +64,7 @@ public class WaitingState extends State {
                         e.printStackTrace();
                     }
                 } else {
-                    controller.setState(new State());
+                    controller.setState(new WaitingState());
                 }
             }
         }, new Date(), 1000);

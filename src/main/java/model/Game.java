@@ -80,6 +80,10 @@ public class Game {
             current.accept(this);
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public void fillSquare(AmmoSquare square) {
         square.refill(ammoTileDeck.draw());
     }
