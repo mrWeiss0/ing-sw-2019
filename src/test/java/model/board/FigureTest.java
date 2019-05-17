@@ -59,7 +59,7 @@ class FigureTest {
         AmmoCube c = a.add(b).cap(3);
         figure.addAmmo(a);
         figure.addAmmo(b);
-        assertTrue(IntStream.range(0, figure.getAmmo().size()).allMatch(i -> c.value(i) == figure.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> c.value(i) == figure.getAmmo().value(i)));
     }
 
     @Test
@@ -71,6 +71,6 @@ class FigureTest {
         figure.addAmmo(a);
         assertThrows(IllegalStateException.class, () -> figure.subAmmo(c));
         figure.subAmmo(b);
-        assertTrue(IntStream.range(0, figure.getAmmo().size()).allMatch(i -> d.value(i) == figure.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> d.value(i) == figure.getAmmo().value(i)));
     }
 }

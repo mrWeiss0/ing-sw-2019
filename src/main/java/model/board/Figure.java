@@ -108,7 +108,7 @@ public class Figure implements Targettable {
      */
     public void subAmmo(AmmoCube ammo) {
         if (!this.ammo.greaterEqThan(ammo))
-            throw new IllegalStateException("Ammo " + this.ammo + " not enough to pay " + ammo);
+            throw new IllegalStateException("Not enough ammo");
         this.ammo = this.ammo.sub(ammo);
     }
 

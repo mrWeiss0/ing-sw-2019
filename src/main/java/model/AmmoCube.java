@@ -72,11 +72,6 @@ public class AmmoCube {
         return this.rangeAmmo(other).allMatch(i -> value(i) >= other.value(i));
     }
 
-    //TODO is this useful?
-    public int size() {
-        return ammo.length;
-    }
-
     /**
      * Returns the amount of ammo for a given color.
      *
@@ -87,19 +82,7 @@ public class AmmoCube {
         return i < ammo.length ? ammo[i] : 0;
     }
 
-    //TODO is this useful?
-    /**
-     * Returns a string of numbers representing the amount of ammo of this
-     * AmmoCube for every ammo color.
-     *
-     * @return a string of number representing the amount of ammo
-     */
-    @Override
-    public String toString() {
-        return Arrays.toString(ammo);
-    }
-
     private IntStream rangeAmmo(AmmoCube other) {
-        return IntStream.range(0, Math.max(size(), other.size()));
+        return IntStream.range(0, Math.max(ammo.length, other.ammo.length));
     }
 }

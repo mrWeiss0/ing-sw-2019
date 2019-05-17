@@ -95,7 +95,7 @@ class GameBuilderTest {
         Figure f = new Figure(1, 1, 1, 1, 1);
         s.grab(f, a);
         assertEquals(0, f.getPowerUps().size());
-        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
     }
 
     @Test
@@ -112,7 +112,7 @@ class GameBuilderTest {
         s.grab(f, a);
         assertEquals(f.getPowerUps().iterator().next().getSpawn(), g.getBoard().getSquares().iterator().next());
         AmmoCube powerUpAmmo = f.getPowerUps().iterator().next().getAmmo();
-        assertTrue(IntStream.range(0, powerUpAmmo.size()).allMatch(i -> new AmmoCube(0, 0, 1).value(i) == powerUpAmmo.value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(0, 0, 1).value(i) == powerUpAmmo.value(i)));
     }
 
     @Test
