@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
     private Player[] players = new Player[]{
-            new Player(null, null),
-            new Player(null, null),
-            new Player(null, null),
-            new Player(null, null),
-            new Player(null, null)
+            new Player(null, null, null),
+            new Player(null, null, null),
+            new Player(null, null, null),
+            new Player(null, null, null),
+            new Player(null, null, null)
     };
     private Game.Builder gameBuilder = new Game.Builder().player(players[0]);
 

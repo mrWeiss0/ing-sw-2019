@@ -78,12 +78,4 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
         }
     }
 
-    @Override
-    public void handle(ReconnectRequest request) {
-        try {
-            lobbyList.reconnect(request.getSender(), connectionVirtualView);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
 }

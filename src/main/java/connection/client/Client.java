@@ -21,20 +21,19 @@ public class Client {
     private String destIp;
     private int destPort;
     private Scanner linein;
-    private String name;
+    private String name = "";
     private String id = "";
     private RemoteController controller;
     private LineHandler lineHandler;
 
-    public Client(String destIp, int destPort, String name) {
+    public Client(String destIp, int destPort) {
         this.destIp = destIp;
         this.destPort = destPort;
         this.linein = new Scanner(System.in);
-        this.name = name;
     }
 
     public static void main(String[] args) throws NotBoundException, IOException {
-        Client c = new Client("localhost", 9900, "miki1");
+        Client c = new Client("localhost", 9900);
         c.connectRMI();
     }
 
@@ -85,4 +84,5 @@ public class Client {
     public void setController(RemoteController remoteController) {
         this.controller = remoteController;
     }
+
 }

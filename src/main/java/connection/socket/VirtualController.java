@@ -34,11 +34,6 @@ public class VirtualController implements RemoteController, RemoteConnectionHand
         send(new TextRequest(text));
     }
 
-    public RemoteController reconnect(String id, RemoteView remoteView) {
-        send(new ReconnectRequest());
-        return this;
-    }
-
     private void send(Request r) {
         try {
             r.setSender(client.getID());
