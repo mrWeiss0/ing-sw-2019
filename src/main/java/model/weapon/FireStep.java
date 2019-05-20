@@ -23,9 +23,9 @@ public class FireStep {
     private final int maxTargets;
 
     /**
-     * Constructs a FireStep with the specified target generation function and
-     * effect. A minimum and maximum number of targets to which the effect can
-     * be applied to may also be specified.
+     * Constructs a <code>FireStep</code> with the specified target generation
+     * function and effect. A minimum and maximum number of targets to which
+     * the effect can be applied to may also be specified.
      *
      * @param minTargets minimum number of targets the effect can be applied to
      * @param maxTargets maximum number of targets the effect can be applied to
@@ -71,7 +71,7 @@ public class FireStep {
     }
 
     /**
-     * Applies this FireStep's effect to the specified targets.
+     * Applies this <code>FireStep</code>'s effect to the specified targets.
      *
      * @param shooter the <code>Figure</code> who is currently shooting
      * @param currentTargets the targets on which the effect is to be applied

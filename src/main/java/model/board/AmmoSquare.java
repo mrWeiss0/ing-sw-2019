@@ -9,19 +9,45 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The <code>AmmoSquare</code> class extends <code>AbstractSquare</code> and
+ * implements its abstract methods for the refilling of ammo and handling of
+ * grabbed content.
+ */
 public class AmmoSquare extends AbstractSquare {
     private AmmoTile ammoTile = null;
 
+    /**
+     * Constructs an empty square that is contained in the specified room,
+     * adding this to its square set.
+     *
+     * @param room        the room this square belongs to
+     * @param coordinates the square coordinates
+     */
     public AmmoSquare(Room room, int[] coordinates) {
         super(room, coordinates);
     }
 
+
+    /**
+     * Asks the specified <code>Game</code> for this square to be refilled.
+     *
+     * @param game the game to ask for a refilling to
+     */
     @Override
     public void accept(Game game) {
         if (ammoTile == null)
             game.fillSquare(this);
     }
 
+    /**
+     * Refill this square with ammo from a specified <code>Grabbable</code>,
+     * which actual type should be <code>AmmoTile</code>.
+     *
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     * actual type isn't <code>AmmoTile</code>
+     * @param o the ammo with which to refill this square
+     */
     @Override
     public void refill(Grabbable o) {
         AmmoTile t = (AmmoTile) o;
@@ -30,6 +56,15 @@ public class AmmoSquare extends AbstractSquare {
         ammoTile = t;
     }
 
+    /**
+     * Gives to the grabber the specified <code>AmmoTile</code>, who should
+     * always be this square's ammo.
+     *
+     * @throws IllegalStateException when the specified <code>AmmoTile</code>
+     * isn' t this square's ammo
+     * @param grabber the figure grabbing the content
+     * @param grabbed the content to be grabbed
+     */
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
         AmmoTile t = (AmmoTile) grabbed;
@@ -39,6 +74,11 @@ public class AmmoSquare extends AbstractSquare {
         ammoTile = null;
     }
 
+    /**
+     * Returns a <code>Grabbable</code> set containing this square's <code>AmmoTile</code>.
+     *
+     * @return this square's <code>AmmoTile</code>
+     */
     @Override
     public Set<Grabbable> peek() {
         return Optional.ofNullable(ammoTile).map(Stream::of).orElseGet(Stream::empty).collect(Collectors.toSet());

@@ -11,16 +11,18 @@ import java.util.stream.Stream;
  * <code>AbstractSquares</code> is an abstract base class for any square on the
  * game board.
  * <p>
- * Each <code>AbstractSquare</code> provides attributes and methods to set and
- * return its room, coordinates, adjacency set and its occupants.
+ * It provides methods to set and return a square's room, coordinates; it also
+ * provides methods to keep track of figures moving in and out of this square.
  * <p>
- * Its abstract methods require that different squares handle their refilling
- * needed contents, or to return the correct contents when grabbed.
+ * Its abstract methods require that different squares handle the refilling of
+ * needed contents, and to correctly handle contents when grabbed.
  * <p>
- * It provides methods to determine which <code>Targettable</code>s it can see.
+ * It provides methods to determine which <code>Targettable</code>s a square
+ * can see and, given a maximum distance, which squares are within reach.
  * <p>
- * It implements the <code>Targettable</code> and its chain of responsibility,
- * with its <code>damageFrom</code> and <code>markFrom</code> methods.
+ * It implements the <code>Targettable</code> interface and its chain of
+ * responsibility, with its <code>damageFrom</code> and <code>markFrom</code>
+ * methods, for damage distribution.
  */
 public abstract class AbstractSquare implements Targettable {
     private final Room room;
@@ -29,7 +31,7 @@ public abstract class AbstractSquare implements Targettable {
     private final int[] coordinates;
 
     /**
-     * Constructs an empty square belonging to the specified room, automatically
+     * Constructs an empty square that is contained in the specified room,
      * adding this to its square set.
      *
      * @param room        the room this square belongs to
@@ -42,8 +44,8 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Adds the specified square to the set of adjacency and ensures that
-     * the connection is mutual.
+     * Adds the specified square to this square's adjacency set and ensures
+     * that the connection is mutual.
      *
      * @param square the square setAdjacent to this
      */
@@ -53,8 +55,7 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Adds the specified figure to the list of occupants. Should be called
-     * only when a figure is moved to this square.
+     * Adds the specified figure to this square's occupants list.
      *
      * @param figure the figure to be moved to this square
      */
@@ -63,8 +64,7 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Removes the specified figure to the list of occupants. Should be called
-     * only when a figure is moved from this square.
+     * Removes the specified figure to this square's occupants list.
      *
      * @param figure the figure to be moved from this square
      */
@@ -90,6 +90,11 @@ public abstract class AbstractSquare implements Targettable {
         return coordinates;
     }
 
+    /**
+     * Returns this square's adjacency set
+     * .
+     * @return this square's adjacency set
+     */
     public Set<AbstractSquare> getAdjacent() {
         return adjacent;
     }
@@ -122,10 +127,25 @@ public abstract class AbstractSquare implements Targettable {
         return distances;
     }
 
+    /**
+     * Returns a set of squares whose distance from this is, at most, the one given.
+     *
+     * @param maxDistance the maximum distance at which a returned square can be
+     * @return a set of square whose distance from this is, at most, the one given
+     */
     public Set<AbstractSquare> atDistance(int maxDistance) {
         return distanceMap(maxDistance).keySet();
     }
 
+    /**
+     * Returns a set of squares whose distance from this is in the given
+     * boundaries.
+     *
+     * @param minDistance the minimum distance at which a returned square can be
+     * @param maxDistance the maximum distance at which a returned square can be
+     * @return a set of squares whose distance from this is in the given
+     * boundaries.
+     */
     public Set<AbstractSquare> atDistance(int minDistance, int maxDistance) {
         return distanceMap(maxDistance).entrySet().stream().filter(e -> e.getValue() >= minDistance).map(Map.Entry::getKey).collect(Collectors.toSet());
     }
@@ -138,33 +158,90 @@ public abstract class AbstractSquare implements Targettable {
         return visibleRoomsStream().map(Room::getSquares).flatMap(Set::stream);
     }
 
+    /**
+     * Returns a set of rooms visible from this square. A room may be
+     * visible either from squares contained within the room itself or
+     * adjacent to them.
+     *
+     * @return a set of rooms visible from this square
+     */
     public Set<Targettable> visibleRooms() {
         return visibleRoomsStream().collect(Collectors.toSet());
     }
 
+    /**
+     * Returns a set of squares visible from this one. A square may be
+     * visible from another when contained in a visible room.
+     *
+     * @return a set of squares visible from this one
+     */
     public Set<Targettable> visibleSquares() {
         return visibleSquaresStream().collect(Collectors.toSet());
     }
 
+    /**
+     * Returns a set of figures visible from this square. A figure may be
+     * visible from a square when occupying a visible square.
+     *
+     * @return a set of figures visible from this square
+     */
     public Set<Targettable> visibleFigures() {
         return visibleSquaresStream().map(AbstractSquare::getOccupants).flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
+    /**
+     * Deals damage to all figure inside this square, using
+     * <code>Figure.damageFrom</code>.
+     *
+     * @param dealer the figure that has dealt the damage
+     * @param n      the amount of damage given
+     */
     @Override
     public void damageFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.damageFrom(dealer, n);
     }
 
+    /**
+     * Deals damage to all figure inside this square, using
+     * <code>Figure.markFrom</code>.
+     *
+     * @param dealer the figure that has dealt the damage
+     * @param n      the amount of damage given
+     */
     @Override
     public void markFrom(Figure dealer, int n) {
         for (Figure s : occupants) s.markFrom(dealer, n);
     }
 
+    /**
+     * Asks the specified <code>Game</code> for this square to be refilled.
+     *
+     * @param game the game to ask for a refilling to
+     */
     public abstract void accept(Game game);
 
+    /**
+     * Refill this square with content from a specified <code>Grabbable</code>.
+     *
+     * @param o the content with which to refill this square
+     */
     public abstract void refill(Grabbable o);
 
+    /**
+     * Gives to the grabber the specified <code>Grabbable</code> content, if
+     * present in this square.
+     *
+     * @param grabber the figure grabbing the content
+     * @param grabbed the content to be grabbed
+     */
     public abstract void grab(Figure grabber, Grabbable grabbed);
 
+    /**
+     * Returns a set of <code>Grabbable</code>s containing this square's
+     * <code>Grabbable</code> content.
+     *
+     * @return a <code>Grabbable</code>s containing this square's
+     * <code>Grabbable</code> content
+     */
     public abstract Set<Grabbable> peek();
 }

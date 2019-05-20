@@ -27,7 +27,7 @@ public class OptionalWeapon extends Weapon {
     /**
      * Checks if the specified FireMode's list is viable according to this
      * Weapon's rules. For a list to be valid it should contain only FireModes
-     * that are avaiable for this Weapon; it should also contain exactly one
+     * that are available for this Weapon; it should also contain exactly one
      * base FireMode and all dependencies should be respected so that if a
      * FireMode is dependent on another, the latter should precede the former.
      *
