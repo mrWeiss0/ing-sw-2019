@@ -39,7 +39,7 @@ public class Game {
                 .map(powerup -> {
                     int[] ammoVal = new int[powerup.color + 1];
                     ammoVal[powerup.color] = 1;
-                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color));
+                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color), powerUpDeck::discard);
                 })
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
@@ -73,6 +73,10 @@ public class Game {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
+    }
+
+    public Deck<PowerUp> getPowerUpDeck() {
+        return powerUpDeck;
     }
 
     public void fillBoard() {

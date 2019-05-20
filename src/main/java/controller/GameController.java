@@ -82,8 +82,9 @@ public class GameController extends UnicastRemoteObject implements Serializable,
         return game;
     }
 
-    public void setState(State state) {
+    public void setState(State state) throws RemoteException{
         this.state = state;
+        this.state.onEnter(this);
     }
 
     public int getCountdownDuration() {
