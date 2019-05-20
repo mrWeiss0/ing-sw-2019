@@ -22,7 +22,7 @@ public class AmmoSquare extends AbstractSquare {
      * adding this to its square set.
      *
      * @param room        the room this square belongs to
-     * @param coordinates the square coordinates
+     * @param coordinates this square coordinates
      */
     public AmmoSquare(Room room, int[] coordinates) {
         super(room, coordinates);
@@ -41,7 +41,7 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     /**
-     * Refill this square with ammo from a specified <code>Grabbable</code>,
+     * Refills this square with ammo from a specified <code>Grabbable</code>,
      * which actual type should be <code>AmmoTile</code>.
      *
      * @throws ClassCastException if the specified <code>Grabbable</code>
@@ -57,9 +57,11 @@ public class AmmoSquare extends AbstractSquare {
     }
 
     /**
-     * Gives to the grabber the specified <code>AmmoTile</code>, who should
+     * Gives the grabber the specified <code>AmmoTile</code>, who should
      * always be this square's ammo.
      *
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     * actual type isn't <code>AmmoTile</code>
      * @throws IllegalStateException when the specified <code>AmmoTile</code>
      * isn' t this square's ammo
      * @param grabber the figure grabbing the content

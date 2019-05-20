@@ -35,7 +35,7 @@ public abstract class AbstractSquare implements Targettable {
      * adding this to its square set.
      *
      * @param room        the room this square belongs to
-     * @param coordinates the square coordinates
+     * @param coordinates this square coordinates
      */
     public AbstractSquare(Room room, int[] coordinates) {
         this.room = room;
@@ -102,7 +102,7 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * Returns the set of figures that are currently on this square.
      *
-     * @return the set of figure on the square
+     * @return the set of figure on this square
      */
     public Set<Figure> getOccupants() {
         return occupants;
@@ -221,14 +221,15 @@ public abstract class AbstractSquare implements Targettable {
     public abstract void accept(Game game);
 
     /**
-     * Refill this square with content from a specified <code>Grabbable</code>.
+     * Refills this square with content from a specified
+     * <code>Grabbable</code>.
      *
      * @param o the content with which to refill this square
      */
     public abstract void refill(Grabbable o);
 
     /**
-     * Gives to the grabber the specified <code>Grabbable</code> content, if
+     * Gives the grabber the specified <code>Grabbable</code> content, if
      * present in this square.
      *
      * @param grabber the figure grabbing the content
