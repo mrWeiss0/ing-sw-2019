@@ -1,8 +1,9 @@
 package model.board;
 
 /**
- * The <code>Targettable</code> interface ensures that when targeting an area
- * the correct damages and marks are dealt to the objects within it.
+ * The <code>Targettable</code> interface ensures that when targeting a
+ * <code>Targettable</code> area the correct damages and marks are dealt to
+ * the targettables within it.
  * <p>
  * It provides two methods that delegate damage dealing from the target to
  * contained collections of targettables until a damageable or markable class

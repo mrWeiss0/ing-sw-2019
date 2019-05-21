@@ -20,9 +20,7 @@ import java.util.stream.Stream;
  * It provides methods to determine which <code>Targettable</code>s a square
  * can see and, given a maximum distance, which squares are within reach.
  * <p>
- * It implements the <code>Targettable</code> interface and its chain of
- * responsibility, with its <code>damageFrom</code> and <code>markFrom</code>
- * methods, for damage distribution.
+ * It implements the <code>Targettable</code> interface for damage distribution.
  */
 public abstract class AbstractSquare implements Targettable {
     private final Room room;
@@ -190,8 +188,8 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Deals damage to all figure inside this square, using
-     * <code>Figure.damageFrom</code>.
+     * Delegates damage dealing from this target to all smaller targets
+     * contained within this.
      *
      * @param dealer the figure that has dealt the damage
      * @param n      the amount of damage given
@@ -202,8 +200,8 @@ public abstract class AbstractSquare implements Targettable {
     }
 
     /**
-     * Deals damage to all figure inside this square, using
-     * <code>Figure.markFrom</code>.
+     * Delegates marks assigning from this target to all smaller targets
+     * contained within this.
      *
      * @param dealer the figure that has dealt the damage
      * @param n      the amount of damage given

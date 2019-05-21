@@ -154,8 +154,10 @@ public class Weapon implements Grabbable {
         }
 
         /**
-         * Returns an instance of <code>Weapon</code> created from the fields
+         * Returns an instance of <code>Weapon</code> created with the fields
          * set on this builder.
+         *
+         * @return the weapon instantiated
          */
         public Weapon build() {
             return new Weapon(this);
