@@ -23,13 +23,13 @@ public class PayAmmoState implements State {
     }
 
     @Override
-    public void onEnter(GameController controller) throws RemoteException {
+    public void onEnter(GameController controller){
         powerUpList = new ArrayList<>(controller.getGame().currentPlayer().getFigure().getPowerUps());
         controller.getGame().currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
     }
 
     @Override
-    public void select(int[] selection, GameController controller, String id) throws RemoteException{
+    public void select(int[] selection, GameController controller, String id){
         if(Arrays.stream(selection).distinct().anyMatch(x->x<0 || x>= powerUpList.size())) return;
         List<PowerUp> toDiscard = Arrays.stream(selection).distinct().mapToObj(x->powerUpList.get(x)).collect(Collectors.toList());
         if(id.equals(controller.getGame().currentPlayer().getId()) &&

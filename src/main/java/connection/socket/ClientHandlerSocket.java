@@ -3,7 +3,7 @@ package connection.socket;
 import connection.messages.RequestInterpreter;
 import connection.messages.requests.*;
 import connection.rmi.RemoteController;
-import connection.server.VirtualViewSocket;
+import controller.GameController;
 import controller.LobbyList;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
     private ObjectOutputStream sout;
     private LobbyList lobbyList;
     private VirtualViewSocket connectionVirtualView;
-    private RemoteController referenceController;
+    private GameController referenceController;
 
     public ClientHandlerSocket(Socket s, LobbyList lobbyList) throws IOException {
         socket = s;
@@ -46,36 +46,29 @@ public class ClientHandlerSocket implements Runnable, RequestInterpreter {
         }
     }
 
-    public void setReferenceController(RemoteController referenceController) {
+    public void setReferenceController(GameController referenceController) {
         this.referenceController = referenceController;
     }
     //TODO IMPLEMENTARE LA RICEZIONE DEL COMANDO
 
     @Override
     public void handle(TextRequest request) {
-        try {
-            referenceController.sendText(request.prompt(), request.getSender());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        referenceController.sendText(request.prompt(), request.getSender());
+
     }
 
     @Override
     public void handle(LoginRequest request) {
-        try {
-            lobbyList.notifyConnection(connectionVirtualView, request.getUsername());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+
+        lobbyList.notifyConnection(connectionVirtualView, request.getUsername());
+
     }
 
     @Override
     public void handle(LogoutRequest request) {
-        try {
-            referenceController.logout(request.getSender());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+
+        referenceController.logout(request.getSender());
+
     }
 
 }

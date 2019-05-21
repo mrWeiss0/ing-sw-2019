@@ -21,7 +21,7 @@ public class WaitingState implements State {
     }
 
     @Override
-    public void sendText(GameController controller, String text, String id) throws RemoteException {
+    public void sendText(GameController controller, String text, String id){
         if (!controller.getUsersByID().keySet().contains(id)) return;
         Response toSend = new TextResponse("LobbyChat>> " + controller.getUsersByID().get(id).getName() + " : " + text);
         for (Player usr : controller.getUsersByID().values())
@@ -39,7 +39,7 @@ public class WaitingState implements State {
     }
 
     @Override
-    public void logout(GameController controller, String id) throws RemoteException {
+    public void logout(GameController controller, String id){
         controller.getUsersByID().get(id).getView().handle(new TextResponse("Logout by " + controller.getUsersByID().get(id).getName()));
         if (controller.getUsersByID().size() < 3) {
             resetCountdown();
@@ -55,14 +55,10 @@ public class WaitingState implements State {
             @Override
             public void run() {
                 if (i > 0) {
-                    try {
-                        Response toSend = new TextResponse(Integer.toString(i));
-                        for (Player usr : controller.getUsersByID().values())
-                            usr.getView().handle(toSend);
-                        i--;
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
+                    Response toSend = new TextResponse(Integer.toString(i));
+                    for (Player usr : controller.getUsersByID().values())
+                        usr.getView().handle(toSend);
+                    i--;
                 } else {
                     controller.setState(new WaitingState());
                 }

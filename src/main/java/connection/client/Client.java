@@ -41,7 +41,7 @@ public class Client {
         Registry registry = LocateRegistry.getRegistry();
         RemoteView textView = new ViewRMI(this);
         RemoteConnectionHandler connectionHandler = (RemoteConnectionHandler) registry.lookup("connection handler");
-        controller = connectionHandler.notifyConnection(textView, name);
+        connectionHandler.notifyConnection(textView, name);
         lineHandler = new LineHandler(linein, textView, this);
         lineHandler.run();
         controller.logout(id);

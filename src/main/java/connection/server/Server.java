@@ -1,5 +1,6 @@
 package connection.server;
 
+import connection.rmi.LobbyListRMI;
 import connection.socket.ClientHandlerSocket;
 import controller.LobbyList;
 
@@ -26,7 +27,7 @@ public class Server implements Runnable {
 
         Registry registry = LocateRegistry.createRegistry(portRMI);
 
-        registry.rebind("connection handler", lobbyList);
+        registry.rebind("connection handler", new LobbyListRMI(lobbyList));
         System.out.println(">>RMI: RMI handler exposed");
 
     }

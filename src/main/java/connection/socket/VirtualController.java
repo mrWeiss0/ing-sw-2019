@@ -19,9 +19,8 @@ public class VirtualController implements RemoteController, RemoteConnectionHand
     }
     //TODO IMPLEMENTARE L'INVIO DEL COMANDO
 
-    public RemoteController notifyConnection(RemoteView remoteView, String username) {
+    public void notifyConnection(RemoteView remoteView, String username) {
         send(new LoginRequest(username));
-        return this;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class FireState implements State{
     }
 
     @Override
-    public void onEnter(GameController controller) throws RemoteException{
+    public void onEnter(GameController controller){
         fireSequence= new FireSequence(controller.getGame().currentPlayer().getFigure(),controller.getGame().getBoard(),
                 FireMode.flatSteps(fireModes));
         controller.getGame().currentPlayer().getView().handle(new TextResponse("possibili targets"));
@@ -31,7 +31,7 @@ public class FireState implements State{
     }
 
     @Override
-    public void select(int[] selection, GameController controller, String id) throws RemoteException{
+    public void select(int[] selection, GameController controller, String id){
         if(Arrays.stream(selection).distinct().anyMatch(x->x<0 || x>= choices.size())) return;
         Set<Targettable> selectedTargets = Arrays.stream(selection).mapToObj(x->choices.get(x)).collect(Collectors.toSet());
         if(fireSequence.validateTargets(selectedTargets) && id.equals(controller.getGame().currentPlayer().getId())){

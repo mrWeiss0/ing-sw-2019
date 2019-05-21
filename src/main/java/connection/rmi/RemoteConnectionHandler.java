@@ -4,5 +4,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface RemoteConnectionHandler extends Remote {
-    RemoteController notifyConnection(RemoteView remoteView, String username) throws RemoteException;
+    void notifyConnection(RemoteView remoteView, String username) throws RemoteException;
 }

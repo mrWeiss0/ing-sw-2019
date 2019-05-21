@@ -18,11 +18,11 @@ public class FireModeSelectionState implements State{
         currWeapon = w;
     }
     @Override
-    public void onEnter(GameController controller) throws RemoteException {
+    public void onEnter(GameController controller) {
         controller.getGame().currentPlayer().getView().handle(new TextResponse("possible firemodes"));
     }
     @Override
-    public void select(int[] selection, GameController controller, String id) throws RemoteException{
+    public void select(int[] selection, GameController controller, String id){
         if(Arrays.stream(selection).distinct().anyMatch(x->x<0 || x>= currWeapon.getFireModes().size())) return;
         List<FireMode> selectedFireModes = Arrays.stream(selection).mapToObj(x->currWeapon.getFireModes().get(x)).collect(Collectors.toList());
         if(currWeapon.validateFireModes(selectedFireModes) && id.equals(controller.getGame().currentPlayer().getId())){

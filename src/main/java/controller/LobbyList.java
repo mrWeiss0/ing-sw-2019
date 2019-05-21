@@ -5,6 +5,7 @@ import connection.messages.responses.TextResponse;
 import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
+import connection.server.VirtualView;
 import model.Player;
 
 import java.io.Serializable;
@@ -13,31 +14,29 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class LobbyList extends UnicastRemoteObject implements RemoteConnectionHandler, Serializable {
+public class LobbyList {
     private ArrayList<GameController> controllers;
     private int countDownDuration;
 
-    public LobbyList(int countDownDuration) throws RemoteException {
-        super();
+    public LobbyList(int countDownDuration){
         controllers = new ArrayList<>();
         this.countDownDuration = countDownDuration;
     }
 
-    @Override
-    public RemoteController notifyConnection(RemoteView remoteView, String username) throws RemoteException {
+    public GameController notifyConnection(VirtualView virtualView, String username){
         String id = UUID.randomUUID().toString();
-        remoteView.handle(new LoginResponse(id));
+        virtualView.handle(new LoginResponse(id));
         System.out.println("Registered new view " + id);
         for (GameController c : controllers) {
             if (c.canJoin() && c.getUsersByID().values().stream().map(Player::getName).noneMatch(x -> x.equals(username))) {
-                c.login(username, remoteView, id);
-                remoteView.setController(c);
+                c.login(username, virtualView, id);
+                virtualView.setController(c);
                 return c;
             }
         }
         GameController backup = new GameController(countDownDuration);
-        backup.login(username, remoteView, id);
-        remoteView.setController(backup);
+        backup.login(username, virtualView, id);
+        virtualView.setController(backup);
         controllers.add(backup);
         return backup;
     }

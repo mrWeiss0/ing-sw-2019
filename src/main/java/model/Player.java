@@ -1,16 +1,17 @@
 package model;
 
 import connection.rmi.RemoteView;
+import connection.server.VirtualView;
 import model.board.Figure;
 
 
 public class Player {
     private String name;
-    private RemoteView view;
+    private VirtualView view;
     private Figure figure;
     private String id;
 
-    public Player(String n, String id,RemoteView vv) {
+    public Player(String n, String id, VirtualView vv) {
         name = n;
         this.id= id;
         view = vv;
@@ -22,11 +23,11 @@ public class Player {
         return name;
     }
 
-    public RemoteView getView() {
+    public VirtualView getView() {
         return view;
     }
 
-    public void setView(RemoteView view) {
+    public void setView(VirtualView view) {
         this.view = view;
     }
 
