@@ -52,8 +52,6 @@ public class VortexCannonTest {
                     curr.forEach(f->((Figure)f).moveTo((AbstractSquare) last.get(0)));
                     curr.forEach(f->f.damageFrom(shooter,1));
                 }));
-
-
     }
 
     @BeforeEach
