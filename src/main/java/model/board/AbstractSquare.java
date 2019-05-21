@@ -128,7 +128,9 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * Returns a set of squares whose distance from this is, at most, the one given.
      *
-     * @param maxDistance the maximum distance at which a returned square can be
+     * @param maxDistance the maximum distance at which a returned square can be.
+     *                    The special value "-1" corresponds to an infinite
+     *                    maximum distance.
      * @return a set of square whose distance from this is, at most, the one given
      */
     public Set<AbstractSquare> atDistance(int maxDistance) {
@@ -140,7 +142,9 @@ public abstract class AbstractSquare implements Targettable {
      * boundaries.
      *
      * @param minDistance the minimum distance at which a returned square can be
-     * @param maxDistance the maximum distance at which a returned square can be
+     * @param maxDistance the maximum distance at which a returned square can be.
+     *                    The special value "-1" corresponds to an infinite
+     *                    maximum distance.
      * @return a set of squares whose distance from this is in the given
      * boundaries.
      */
