@@ -62,7 +62,6 @@ public class FireMode {
      *           calculated
      * @return the total cost of the specified FireModes
      */
-    //TODO needs testing
     public static AmmoCube flatCost(List<FireMode> fm) {
         return fm.stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new);
     }

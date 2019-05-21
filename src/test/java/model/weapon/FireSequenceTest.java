@@ -85,7 +85,7 @@ class FireSequenceTest {
 
     @Test
     void testCost() {
-        assertTrue(ammoCubeEquals(new AmmoCube(1, 1), Stream.of(base, focus, tripod).map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new)));
+        assertTrue(ammoCubeEquals(new AmmoCube(1, 1), FireMode.flatCost(Arrays.asList(base, focus, tripod))));
     }
 
     @Test
