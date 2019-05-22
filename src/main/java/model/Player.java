@@ -10,6 +10,7 @@ public class Player {
     private VirtualView view;
     private Figure figure;
     private String id;
+    private boolean active;
 
     public Player(String n, String id, VirtualView vv) {
         name = n;
@@ -37,6 +38,14 @@ public class Player {
 
     public void setFigure(Figure figure) {
         this.figure = figure;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
 

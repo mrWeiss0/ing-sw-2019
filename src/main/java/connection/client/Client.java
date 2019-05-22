@@ -34,7 +34,7 @@ public class Client {
 
     public static void main(String[] args) throws NotBoundException, IOException {
         Client c = new Client("localhost", 9900);
-        c.connectRMI();
+        c.connectSocket();
     }
 
     public void connectRMI() throws RemoteException, NotBoundException {
