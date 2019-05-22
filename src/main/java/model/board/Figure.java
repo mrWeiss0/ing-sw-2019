@@ -2,10 +2,13 @@ package model.board;
 
 import model.AmmoCube;
 import model.AmmoTile;
+import model.Game;
 import model.PowerUp;
 import model.weapon.Weapon;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 public class Figure implements Targettable {
@@ -19,17 +22,21 @@ public class Figure implements Targettable {
     private final int maxAmmo;
     private final int maxWeapons;
     private final int maxPowerUps;
+    private final int deathDamage;
     private AbstractSquare square = null;
     private boolean damaged = false;
-    private int deaths = 0;
+    private List<Figure> deaths = new ArrayList<>();
+    private int remainingActions;
+    private int points = 0;
     private AmmoCube ammo = new AmmoCube();
 
-    public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps) {
+    public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps, int deathDamage) {
         this.maxDamages = maxDamages;
         this.maxMarks = maxMarks;
         this.maxAmmo = maxAmmo;
         this.maxWeapons = maxWeapons;
         this.maxPowerUps = maxPowerUps;
+        this.deathDamage = deathDamage;
     }
 
     /**
@@ -146,5 +153,50 @@ public class Figure implements Targettable {
                         Integer.min(marks.getOrDefault(dealer, 0) + n, maxMarks))
         );
         newMarks.clear();
+    }
+
+    public void setRemainingActions(int remainingActions) {
+        this.remainingActions = remainingActions;
+    }
+
+    public int getRemainingActions() {
+        return remainingActions;
+    }
+
+    public void resolveDeath(Game game){
+        if(damages.size()>=deathDamage){
+            square=null;
+            damages.get(0).addPoints(1);
+            game.addKillCount(damages.get(deathDamage-1));
+            deaths.add(damages.get(deathDamage-1));
+            if(damages.size()>deathDamage) {
+                damages.get(maxDamages-1).markFrom(this,1);
+                game.addKillCount(damages.get(maxDamages-1));
+            }
+
+            List<Figure> toRemunerate=
+            damages.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).
+                entrySet().stream().sorted((x,y)->{
+                    if(x.getValue()>y.getValue()) return -1;
+                    else if(x.getValue()<y.getValue()) return 1;
+                    else return Integer.compare(damages.indexOf(x.getKey()),damages.indexOf(y.getKey()));
+            }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
+            List<Integer> pointSave = Arrays.stream(game.getKillPoints()).boxed().collect(Collectors.toList());
+            pointSave.subList(0,deaths.size()-1).clear();
+            for (Figure figure:toRemunerate){
+                if(!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
+                else figure.addPoints(1);
+            }
+            game.setRemainingKills(game.getRemainingKills()-1);
+            damages.clear();
+        }
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints(int points) {
+        this.points+= points;
     }
 }

@@ -7,6 +7,7 @@ import model.AmmoCube;
 import model.Game;
 import model.Player;
 import model.PowerUp;
+import model.board.AbstractSquare;
 import model.board.Targettable;
 import model.weapon.FireMode;
 import model.weapon.FireSequence;
@@ -267,8 +268,69 @@ public class GameController {
     private class TurnState implements State{
         @Override
         public void onEnter(GameController controller){
-
+            if(game.currentPlayer().getFigure().getSquare()==null){
+                setState(new SelectSpawnState(this));
+            }else if(game.currentPlayer().getFigure().getRemainingActions()==0){
+                setState(new EndOfTurnState());
+            }
         }
+    }
+
+    private class SelectSpawnState implements State{
+        private State nextState;
+        private List<PowerUp> choices;
+        public SelectSpawnState(State nextState){
+            this.nextState=nextState;
+        }
+
+        @Override
+        public void onEnter(GameController controller){
+            choices = new ArrayList<>(game.currentPlayer().getFigure().getPowerUps());
+            game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id){
+            if (selection.length>1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size())) return;
+            PowerUp toDiscard = choices.get(selection[0]);
+            if (id.equals(game.currentPlayer().getId())) {
+                game.currentPlayer().getFigure().getPowerUps().remove(toDiscard);
+                toDiscard.discard();
+                game.currentPlayer().getFigure().moveTo(toDiscard.getSpawn());
+                controller.setState(nextState);
+            }
+        }
+    }
+
+    private class MoveState implements State{
+        private State nextState;
+        private List<AbstractSquare> choices;
+        private int maxMove;
+        public MoveState(State nextState, int maxMove){
+            this.nextState= nextState;
+            this.maxMove= maxMove;
+        }
+
+        @Override
+        public void onEnter(GameController controller){
+            choices = new ArrayList<>(game.currentPlayer().getFigure().getSquare().atDistance(maxMove));
+            game.currentPlayer().getView().handle(new TextResponse("possible cells"));
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id) {
+            if (selection.length > 1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size()))
+                return;
+            AbstractSquare destination = choices.get(selection[0]);
+            if (id.equals(game.currentPlayer().getId())) {
+                game.currentPlayer().getFigure().moveTo(destination);
+                controller.setState(nextState);
+            }
+        }
+    }
+
+    private class EndOfTurnState implements State{
+
     }
 }
 

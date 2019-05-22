@@ -25,6 +25,7 @@ public class Game {
     private final Deck<AmmoTile> ammoTileDeck = new Deck<>();
     private final Deck<Weapon> weaponDeck = new Deck<>();
     private final Deck<PowerUp> powerUpDeck = new Deck<>();
+    private final int[] killPoints;
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
@@ -45,6 +46,7 @@ public class Game {
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
                 .map(tile -> new AmmoTile(new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
                 .collect(Collectors.toList()));
+        killPoints=builder.killPoints;
     }
 
     public Board getBoard() {
@@ -96,6 +98,22 @@ public class Game {
         square.refill(weaponDeck.draw());
     }
 
+    public void addKillCount(Figure f){
+        killCount.add(f);
+    }
+
+    public int getRemainingKills(){
+        return remainingKills;
+    }
+
+    public void setRemainingKills(int remainingKills){
+        this.remainingKills=remainingKills;
+    }
+
+    public int[] getKillPoints() {
+        return killPoints;
+    }
+
     public static class Builder {
 
         private final Board.Builder boardBuilder = new Board.Builder();
@@ -106,6 +124,8 @@ public class Game {
         private int maxAmmo;
         private int maxWeapons;
         private int maxPowerUps;
+        private int deathDamage;
+        private int[] killPoints;
         private AmmoCube defaultAmmo = new AmmoCube();
         private AmmoTileImage[] ammoTiles = new AmmoTileImage[]{};
         private Weapon[] weapons = new Weapon[]{};
@@ -113,6 +133,11 @@ public class Game {
 
         public Builder nKills(int val) {
             nKills = val;
+            return this;
+        }
+
+        public Builder killPoints(int[] val){
+            killPoints=val;
             return this;
         }
 
@@ -138,6 +163,10 @@ public class Game {
 
         public Builder maxPowerUps(int val) {
             maxPowerUps = val;
+            return this;
+        }
+        public Builder deathDamage(int val){
+            deathDamage = val;
             return this;
         }
 
@@ -187,7 +216,7 @@ public class Game {
 
         public Game build() {
             for (Player p : players) {
-                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
+                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps, deathDamage);
                 figure.addAmmo(defaultAmmo);
                 p.setFigure(figure);
                 boardBuilder.figures(figure);

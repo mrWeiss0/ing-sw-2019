@@ -92,7 +92,7 @@ class GameBuilderTest {
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1);
+        Figure f = new Figure(1, 1, 1, 1, 1, 1);
         s.grab(f, a);
         assertEquals(0, f.getPowerUps().size());
         assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
@@ -108,7 +108,7 @@ class GameBuilderTest {
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1);
+        Figure f = new Figure(1, 1, 1, 1, 1, 11);
         s.grab(f, a);
         assertEquals(f.getPowerUps().iterator().next().getSpawn(), g.getBoard().getSquares().iterator().next());
         AmmoCube powerUpAmmo = f.getPowerUps().iterator().next().getAmmo();

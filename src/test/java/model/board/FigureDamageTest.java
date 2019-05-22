@@ -25,11 +25,11 @@ class FigureDamageTest {
     @BeforeEach
     void initCase() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3)
+                new Figure(12, 3, 3, 3, 3, 11),
+                new Figure(12, 3, 3, 3, 3, 11),
+                new Figure(12, 3, 3, 3, 3, 11),
+                new Figure(12, 3, 3, 3, 3, 11),
+                new Figure(12, 3, 3, 3, 3, 11)
         };
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);
