@@ -114,6 +114,10 @@ public class Game {
         return killPoints;
     }
 
+    public List<Figure> getKillCount() {
+        return killCount;
+    }
+
     public static class Builder {
 
         private final Board.Builder boardBuilder = new Board.Builder();

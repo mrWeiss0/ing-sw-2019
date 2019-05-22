@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -21,11 +24,12 @@ public class FigureDeathTest {
                 new SpawnSquare(room, new int[]{}, 1),
                 new SpawnSquare(room, new int[]{}, 1)
         };
-        game = new Game.Builder().killPoints(new int[]{8,6,4,2}).maxDamages(12).deathDamage(11).build();
+
     }
 
     @BeforeEach
     void initCase() {
+        game = new Game.Builder().killPoints(new int[]{8,6,4,2}).maxDamages(12).deathDamage(11).nKills(8).build();
         figures = new Figure[]{
                 new Figure(12, 3, 3, 3, 3, 11),
                 new Figure(12, 3, 3, 3, 3, 11),
@@ -113,14 +117,50 @@ public class FigureDeathTest {
         figures[0].resolveDeath(game);
         assertEquals(9,figures[1].getPoints());
         assertEquals(6,figures[2].getPoints());
+        assertEquals(Collections.singletonList(figures[2]),game.getKillCount());
+        assertEquals(7,game.getRemainingKills());
     }
     @Test
-    void testRevengeMark(){
+    void testRevengeMarkAndGameProperties(){
         figures[0].damageFrom(figures[1],12);
         figures[0].resolveDeath(game);
         figures[1].applyMarks();
         figures[1].damageFrom(figures[0],1);
         assertEquals(2,figures[1].getDamages().size());
+        assertEquals(Arrays.asList(figures[1],figures[1]),game.getKillCount());
+        assertEquals(7,game.getRemainingKills());
+    }
+    @Test
+    void notDead(){
+        figures[0].damageFrom(figures[1],10);
+        figures[0].resolveDeath(game);
+        assertEquals(0,figures[0].getPoints());
+    }
+    @Test
+    void testAllCondition(){
+        figures[0].damageFrom(figures[1],4);
+        figures[0].damageFrom(figures[2],7);
+        figures[0].resolveDeath(game);
+        assertEquals(7,figures[1].getPoints());
+        assertEquals(8,figures[2].getPoints());
+
+        figures[0].damageFrom(figures[1],7);
+        figures[0].damageFrom(figures[2],4);
+        figures[0].resolveDeath(game);
+        assertEquals(14,figures[1].getPoints());
+        assertEquals(12,figures[2].getPoints());
+
+        figures[0].damageFrom(figures[1],6);
+        figures[0].damageFrom(figures[2],6);
+        figures[0].resolveDeath(game);
+        assertEquals(19,figures[1].getPoints());
+        assertEquals(14,figures[2].getPoints());
+
+        figures[0].damageFrom(figures[2],6);
+        figures[0].damageFrom(figures[1],6);
+        figures[0].resolveDeath(game);
+        assertEquals(20,figures[1].getPoints());
+        assertEquals(17,figures[2].getPoints());
     }
 
 }
