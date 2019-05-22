@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * <p>
  * The class also provides a <code>Builder</code> to allow the board's setup
  * and creation. A <code>Board</code> may only be instantiated through the
- * <code>Weapon.Builder</code> class.
+ * <code>Board.Builder</code> class.
  * <p>
  * It provides methods to keep track of damaged figures and applying marks to
  * them.
