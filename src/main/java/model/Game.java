@@ -118,6 +118,7 @@ public class Game {
         return killCount;
     }
 
+
     public static class Builder {
 
         private final Board.Builder boardBuilder = new Board.Builder();
