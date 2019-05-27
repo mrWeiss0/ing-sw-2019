@@ -86,6 +86,10 @@ public class Game {
             current.accept(this);
     }
 
+    public PowerUp drawPowerup(){
+        return powerUpDeck.draw();
+    }
+
     public List<Player> getPlayers() {
         return players;
     }

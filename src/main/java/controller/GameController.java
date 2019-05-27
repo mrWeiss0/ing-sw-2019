@@ -5,12 +5,15 @@ import connection.messages.responses.TextResponse;
 import connection.server.VirtualView;
 import model.*;
 import model.board.AbstractSquare;
+import model.board.Figure;
 import model.board.Targettable;
 import model.weapon.FireMode;
 import model.weapon.FireSequence;
 import model.weapon.Weapon;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class GameController {
@@ -242,7 +245,9 @@ public class GameController {
                     x >=choices.size()) || selection.length>1)
                 return;
             if(id.equals(game.currentPlayer().getId())) {
-                controller.setState(new FireModeSelectionState(choices.get(selection[0])));
+                if(!choices.get(selection[0]).isLoaded()) game.currentPlayer().getView()
+                        .handle(new TextResponse("the weapon isn't loaded"));
+                else controller.setState(new FireModeSelectionState(choices.get(selection[0])));
             }
         }
     }
@@ -264,7 +269,13 @@ public class GameController {
             if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= currWeapon.getFireModes().size()))
                 return;
             List<FireMode> selectedFireModes = Arrays.stream(selection).mapToObj(x -> currWeapon.getFireModes().get(x)).collect(Collectors.toList());
-            if (currWeapon.validateFireModes(selectedFireModes) && id.equals(game.currentPlayer().getId())) {
+            //check if the player can afford the cost
+            if (currWeapon.validateFireModes(selectedFireModes) && id.equals(game.currentPlayer().getId()) &&
+                    game.currentPlayer().getFigure().getAmmo()
+                            .add(game.currentPlayer().getFigure().getPowerUps()
+                                    .stream().map(PowerUp::getAmmo).reduce(AmmoCube::add).orElseGet(AmmoCube::new))
+                            .greaterEqThan(selectedFireModes
+                                    .stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new))) {
                 controller.setState(new PayAmmoState(selectedFireModes.stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new), new FireState(selectedFireModes)));
             }
         }
@@ -312,6 +323,7 @@ public class GameController {
             if (game.currentPlayer().getFigure().getSquare() == null) {
                 setState(new SelectSpawnState(this));
             } else if (game.currentPlayer().getFigure().getRemainingActions() == 0) {
+                //TODO BEFORE END OF TURN, ASK RELOAD
                 setState(new EndOfTurnState());
             } else {
                 game.currentPlayer().getView().handle(new TextResponse("lists all possible actions based on the model"));
@@ -329,6 +341,7 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
+            game.currentPlayer().getFigure().addPowerUp(game.drawPowerup()); //draw another powerup(should already have 1)
             choices = new ArrayList<>(game.currentPlayer().getFigure().getPowerUps());
             game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
         }
@@ -394,11 +407,13 @@ public class GameController {
         @Override
         public void select(int[] selection, GameController controller, String id) {
             if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= powerUpList.size())) return;
-            List<PowerUp> toDiscard = Arrays.stream(selection).distinct().mapToObj(x -> powerUpList.get(x)).collect(Collectors.toList());
+            List<PowerUp> toDiscard = Arrays.stream(selection)
+                    .distinct().mapToObj(x -> powerUpList.get(x)).collect(Collectors.toList());
             if (id.equals(game.currentPlayer().getId()) &&
-                    (toDiscard.stream().map(PowerUp::getAmmo).
-                            reduce(game.currentPlayer().getFigure().getAmmo(), AmmoCube::add)).greaterEqThan(cost)) {
+                    (toDiscard.stream().map(PowerUp::getAmmo)
+                            .reduce(game.currentPlayer().getFigure().getAmmo(), AmmoCube::add)).greaterEqThan(cost)) {
                 game.currentPlayer().getFigure().getPowerUps().removeAll(toDiscard);
+                game.currentPlayer().getFigure().getAmmo().sub(cost);
                 toDiscard.forEach(PowerUp::discard);
                 controller.setState(nextState);
             }
@@ -408,7 +423,39 @@ public class GameController {
     }
 
     private class EndOfTurnState implements State {
-        //TODO REMEMBER TO IMPLEMENT DOUBLE KILL!
+        private Map<Player,List<PowerUp>> choiceMap;
+
+        @Override
+        public void onEnter(GameController controller){
+            //TODO NB DON't CONSIDER INACTIVE PLAYERS
+            List<Player> deadPlayers = game.getPlayers().stream()
+                    .filter(x->x.getFigure().getSquare()==null).collect(Collectors.toList());
+            deadPlayers.forEach(x->x.getFigure().addPowerUp(game.drawPowerup()));
+            choiceMap = new HashMap<>();
+            deadPlayers.forEach(x->choiceMap.put(x,new ArrayList<>(x.getFigure().getPowerUps())));
+            deadPlayers.forEach(x->x.getView().handle(new TextResponse("possible powerup to discard to spawn")));
+            if(deadPlayers.size()>1) game.currentPlayer().getFigure().addPoints(1); //Additional point for doublekill
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id) {
+            if(choiceMap.keySet().stream().map(Player::getId).collect(Collectors.toList()).contains(id)){
+                Player selector = usersByID.get(id);
+                if (selection.length>1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0
+                        || x >= choiceMap.get(selector).size())) return;
+
+                PowerUp toDiscard =choiceMap.get(selector).get(selection[0]);
+                selector.getFigure().moveTo(toDiscard.getSpawn());
+                selector.getFigure().getPowerUps().remove(toDiscard);
+                toDiscard.discard();
+                choiceMap.remove(selector);
+                if(choiceMap.keySet().size()==0) {
+                    game.fillBoard();
+                    controller.setState(new TurnState());
+                }
+            }
+        }
+
     }
 }
 

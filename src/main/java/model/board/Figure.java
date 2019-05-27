@@ -164,6 +164,7 @@ public class Figure implements Targettable {
     }
 
     public void resolveDeath(Game game){
+        //TODO IN FRENZY 2-1-1-1 AND NO FIRSTBLOOD IF WITHOUT DAMAGE ENTERING FRENZY
         if(damages.size()>=deathDamage){
             square=null;
             damages.get(0).addPoints(1);
@@ -198,5 +199,9 @@ public class Figure implements Targettable {
 
     public void addPoints(int points) {
         this.points+= points;
+    }
+
+    public void addPowerUp(PowerUp powerUp){
+        powerUps.add(powerUp);
     }
 }
