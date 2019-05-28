@@ -120,7 +120,8 @@ public class Game {
         private final Board.Builder boardBuilder = new Board.Builder();
         private final List<Player> players = new ArrayList<>();
         private int nKills;
-        private int maxDamages; //TODO must add "killDamage"
+        private int killDamages;
+        private int maxDamages;
         private int maxMarks;
         private int maxAmmo;
         private int maxWeapons;
@@ -143,7 +144,19 @@ public class Game {
         }
 
         /**
-         * Returns this builder with the given value set as he maximum amount
+         * Returns this builder with the given value set as the amount of
+         * damages needed to kill a figure.
+         *
+         * @param val the amount of damages needed to kill a figure
+         * @return this builder
+         */
+        public Builder killDamages(int val) {
+            killDamages = val;
+            return this;
+        }
+
+        /**
+         * Returns this builder with the given value set as the maximum amount
          * of damages a figure can take.
          *
          * @param val the maximum amount of damages a figure can take
@@ -322,7 +335,7 @@ public class Game {
          */
         public Game build() {
             for (Player p : players) {
-                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
+                Figure figure = new Figure(killDamages, maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
                 figure.addAmmo(defaultAmmo);
                 p.setFigure(figure);
                 boardBuilder.figures(figure);

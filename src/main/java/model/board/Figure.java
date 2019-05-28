@@ -31,12 +31,13 @@ public class Figure implements Targettable {
     private final HashMap<Figure, Integer> newMarks = new HashMap<>();
     private final Set<Weapon> weapons = new HashSet<>();
     private final Set<PowerUp> powerUps = new HashSet<>();
+    private final int killDamages;
     private final int maxDamages;
     private final int maxMarks;
     private final int maxAmmo;
     private final int maxWeapons;
     private final int maxPowerUps;
-    private AbstractSquare square = null; //TODO refactor to location
+    private AbstractSquare location = null;
     private boolean damaged = false;
     private int deaths = 0;
     private AmmoCube ammo = new AmmoCube();
@@ -44,7 +45,8 @@ public class Figure implements Targettable {
     /**
      * Constructs a figure with the given damage, marks, ammo, weapon and powerup limits.
      */
-    public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps) {
+    public Figure(int killDamages, int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps) {
+        this.killDamages = killDamages;
         this.maxDamages = maxDamages;
         this.maxMarks = maxMarks;
         this.maxAmmo = maxAmmo;
@@ -53,12 +55,12 @@ public class Figure implements Targettable {
     }
 
     /**
-     * Returns the square this figure is on.
+     * Returns the location this figure is on.
      *
-     * @return the square this figure is on
+     * @return the location this figure is on
      */
-    public AbstractSquare getSquare() {
-        return square;
+    public AbstractSquare getLocation() {
+        return location;
     }
 
     /**
@@ -122,15 +124,15 @@ public class Figure implements Targettable {
     }
 
     /**
-     * Sets the current square to the one given and takes care of removing
+     * Sets the current location to the one given and takes care of removing
      * and adding this figure from the occupants list of the respective squares.
      *
-     * @param square the square the figure is to be moved to
+     * @param square the location the figure is to be moved to
      */
     public void moveTo(AbstractSquare square) {
-        if (this.square != null) this.square.removeOccupant(this);
-        this.square = square;
-        if (this.square != null) this.square.addOccupant(this);
+        if (this.location != null) this.location.removeOccupant(this);
+        this.location = square;
+        if (this.location != null) this.location.addOccupant(this);
     }
 
     /**

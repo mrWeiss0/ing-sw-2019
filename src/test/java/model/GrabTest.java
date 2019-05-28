@@ -23,7 +23,7 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new Figure(12, 3, 3, 2, 1);
+        f = new Figure(10, 12, 3, 3, 2, 1);
         Weapon.Builder weapon = new Weapon.Builder();
         Weapon.Builder optionalWeapon = new OptionalWeapon.Builder();
         squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{}), new SpawnSquare(new Room(), new int[]{}, 3)};

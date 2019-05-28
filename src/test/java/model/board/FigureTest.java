@@ -24,18 +24,18 @@ class FigureTest {
 
     @BeforeEach
     void initCase() {
-        figure = new Figure(12, 3, 3, 3, 3);
+        figure = new Figure(10, 12, 3, 3, 3, 3);
     }
 
     @Test
     void testMove() {
         figure.moveTo(squares[0]);
-        assertEquals(squares[0], figure.getSquare());
+        assertEquals(squares[0], figure.getLocation());
         figure.moveTo(squares[1]);
-        assertEquals(squares[1], figure.getSquare());
-        assertNotEquals(squares[0], figure.getSquare());
+        assertEquals(squares[1], figure.getLocation());
+        assertNotEquals(squares[0], figure.getLocation());
         figure.moveTo(null);
-        assertNull(figure.getSquare());
+        assertNull(figure.getLocation());
     }
 
     @Test
