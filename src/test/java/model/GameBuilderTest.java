@@ -31,6 +31,7 @@ class GameBuilderTest {
         Player p = new Player();
         Game game = gameBuilder
                 .player(p)
+                .killDamages(11)
                 .maxDamages(8)
                 .maxMarks(4)
                 .maxAmmo(5)
@@ -42,6 +43,9 @@ class GameBuilderTest {
         assertSame(f, game.getBoard().getFigures().iterator().next());
         try {
             Field field;
+            field = Figure.class.getDeclaredField("killDamages");
+            field.setAccessible(true);
+            assertEquals(11, field.getInt(f));
             field = Figure.class.getDeclaredField("maxDamages");
             field.setAccessible(true);
             assertEquals(8, field.getInt(f));
