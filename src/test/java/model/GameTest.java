@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
@@ -53,6 +55,7 @@ class GameTest {
         gameBuilder.addPlayer(players[3]);
         gameBuilder.addPlayer(players[4]);
         Game game = gameBuilder.build();
+        assertEquals(Arrays.asList(players), game.getPlayers());
         for (int i = 0; i < 10; i++) {
             assertEquals(game.nextPlayer(), players[i % 5]);
         }
@@ -64,6 +67,7 @@ class GameTest {
         gameBuilder.addPlayer(players[2]);
         gameBuilder.removePlayer(players[1]);
         Game game = gameBuilder.build();
+        assertEquals(Arrays.asList(players[0], players[2]), game.getPlayers());
         assertEquals(game.nextPlayer(), players[0]);
         assertEquals(game.nextPlayer(), players[2]);
         assertEquals(game.nextPlayer(), players[0]);

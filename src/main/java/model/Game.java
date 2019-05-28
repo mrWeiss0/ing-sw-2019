@@ -79,10 +79,6 @@ public class Game {
         return players;
     }
 
-    public Deck<PowerUp> getPowerUpDeck() {
-        return powerUpDeck;
-    }
-
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
