@@ -1,18 +1,25 @@
 package model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
     private Player[] players = new Player[]{
-            new Player(null, null, null),
-            new Player(null, null, null),
-            new Player(null, null, null),
-            new Player(null, null, null),
-            new Player(null, null, null)
+            new Player(null),
+            new Player(null),
+            new Player(null),
+            new Player(null),
+            new Player(null)
     };
-    private Game.Builder gameBuilder = new Game.Builder().player(players[0]);
+    private Game.Builder gameBuilder;
+
+    @BeforeEach
+    void init() {
+        gameBuilder = new Game.Builder();
+        gameBuilder.addPlayer(players[0]);
+    }
 
     @Test
     void test1Player() {
@@ -23,18 +30,16 @@ class GameTest {
 
     @Test
     void test2Player() {
-        Game game = gameBuilder
-                .player(players[1])
-                .build();
+        gameBuilder.addPlayer(players[1]);
+        Game game = gameBuilder.build();
         assertEquals(game.nextPlayer(), players[0]);
         assertEquals(game.nextPlayer(), players[1]);
     }
 
     @Test
     void testCycling() {
-        Game game = gameBuilder
-                .player(players[1])
-                .build();
+        gameBuilder.addPlayer(players[1]);
+        Game game = gameBuilder.build();
         assertEquals(game.nextPlayer(), players[0]);
         assertEquals(game.nextPlayer(), players[1]);
         assertEquals(game.nextPlayer(), players[0]);
@@ -43,12 +48,11 @@ class GameTest {
 
     @Test
     void test5Players() {
-        Game game = gameBuilder
-                .player(players[1])
-                .player(players[2])
-                .player(players[3])
-                .player(players[4])
-                .build();
+        gameBuilder.addPlayer(players[1]);
+        gameBuilder.addPlayer(players[2]);
+        gameBuilder.addPlayer(players[3]);
+        gameBuilder.addPlayer(players[4]);
+        Game game = gameBuilder.build();
         for (int i = 0; i < 10; i++) {
             assertEquals(game.nextPlayer(), players[i % 5]);
         }
@@ -56,11 +60,10 @@ class GameTest {
 
     @Test
     void testRemove() {
-        Game game = gameBuilder
-                .player(players[1])
-                .player(players[2])
-                .removePlayer(players[1])
-                .build();
+        gameBuilder.addPlayer(players[1]);
+        gameBuilder.addPlayer(players[2]);
+        gameBuilder.removePlayer(players[1]);
+        Game game = gameBuilder.build();
         assertEquals(game.nextPlayer(), players[0]);
         assertEquals(game.nextPlayer(), players[2]);
         assertEquals(game.nextPlayer(), players[0]);

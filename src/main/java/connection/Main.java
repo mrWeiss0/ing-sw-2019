@@ -1,11 +1,11 @@
-package controller;
+package connection;
 
 import java.io.IOException;
 
-public class Main {
+public final class Main {
     public static void main(String[] args) {
-        try {
-            new Server();
+        try (Server server = new Server()) {
+            server.run();
         } catch (IOException e) {
             e.printStackTrace();
         }

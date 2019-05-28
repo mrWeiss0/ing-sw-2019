@@ -1,6 +1,7 @@
 package model;
 
 import model.board.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -10,7 +11,12 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameBuilderTest {
-    private Game.Builder gameBuilder = new Game.Builder();
+    private Game.Builder gameBuilder;
+
+    @BeforeEach
+    void init() {
+        gameBuilder = new Game.Builder();
+    }
 
     @Test
     void testParam() {
@@ -28,16 +34,17 @@ class GameBuilderTest {
 
     @Test
     void testFigure() {
-        Player p = new Player(null,null, null);
-        Game game = gameBuilder
-                .player(p)
+        Player p = new Player(null);
+
+        gameBuilder
                 .maxDamages(8)
                 .maxMarks(4)
                 .maxAmmo(5)
                 .maxWeapons(6)
                 .maxPowerUps(7)
-                .defaultAmmo(new AmmoCube(1, 2, 3))
-                .build();
+                .defaultAmmo(new AmmoCube(1, 2, 3));
+        gameBuilder.addPlayer(p);
+        Game game = gameBuilder.build();
         Figure f = p.getFigure();
         assertSame(f, game.getBoard().getFigures().iterator().next());
         try {

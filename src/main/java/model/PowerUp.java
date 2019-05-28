@@ -12,7 +12,7 @@ public class PowerUp {
     public PowerUp(AmmoCube ammo, SpawnSquare spawn, Consumer<PowerUp> discard) {
         this.ammo = ammo;
         this.spawn = spawn;
-        this.discard=discard;
+        this.discard = discard;
     }
 
     public AmmoCube getAmmo() {
@@ -23,7 +23,7 @@ public class PowerUp {
         return spawn;
     }
 
-    public void discard(){
+    public void discard() {
         discard.accept(this);
     }
 

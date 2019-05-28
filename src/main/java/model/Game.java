@@ -75,6 +75,10 @@ public class Game {
         return currentPlayer();
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public Deck<PowerUp> getPowerUpDeck() {
         return powerUpDeck;
     }
@@ -82,10 +86,6 @@ public class Game {
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
-    }
-
-    public List<Player> getPlayers() {
-        return players;
     }
 
     public void fillSquare(AmmoSquare square) {
@@ -97,7 +97,6 @@ public class Game {
     }
 
     public static class Builder {
-
         private final Board.Builder boardBuilder = new Board.Builder();
         private final List<Player> players = new ArrayList<>();
         private int nKills;
@@ -175,14 +174,14 @@ public class Game {
             return this;
         }
 
-        public Builder player(Player player) {
+        public int addPlayer(Player player) {
             players.add(player);
-            return this;
+            return players.size();
         }
 
-        public Builder removePlayer(Player player) {
+        public int removePlayer(Player player) {
             players.remove(player);
-            return this;
+            return players.size();
         }
 
         public Game build() {

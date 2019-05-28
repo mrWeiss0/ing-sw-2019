@@ -1,34 +1,31 @@
 package model;
 
-import connection.rmi.RemoteView;
-import connection.server.VirtualView;
+import connection.VirtualClient;
+import controller.GameController;
 import model.board.Figure;
-
 
 public class Player {
     private String name;
-    private VirtualView view;
+    private VirtualClient client;
     private Figure figure;
-    private String id;
+    private GameController game;
+    private boolean active = true;
+    private boolean online = true;
 
-    public Player(String n, String id, VirtualView vv) {
+    public Player(String n) {
         name = n;
-        this.id= id;
-        view = vv;
     }
-    public String getId(){
-        return id;
-    }
+
     public String getName() {
         return name;
     }
 
-    public VirtualView getView() {
-        return view;
+    public VirtualClient getClient() {
+        return client;
     }
 
-    public void setView(VirtualView view) {
-        this.view = view;
+    public void setClient(VirtualClient client) {
+        this.client = client;
     }
 
     public Figure getFigure() {
@@ -38,5 +35,37 @@ public class Player {
     public void setFigure(Figure figure) {
         this.figure = figure;
     }
-}
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive() {
+        active = true;
+    }
+
+    public void setInactive() {
+        active = false;
+    }
+
+    public boolean isOnline() {
+        // TODO ping client
+        return online;
+    }
+
+    public void setOnline() {
+        online = true;
+    }
+
+    public void setOffline() {
+        online = false;
+    }
+
+    public GameController getGame() {
+        return game;
+    }
+
+    public void setGame(GameController game) {
+        this.game = game;
+    }
+}
