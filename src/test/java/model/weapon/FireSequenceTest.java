@@ -104,7 +104,7 @@ class FireSequenceTest {
         assertThrows(NoSuchElementException.class, () -> fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
-        board.clearDamaged();
+        board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
         assertEquals(Collections.singletonList(figures[0]), figures[2].getDamages());

@@ -207,17 +207,9 @@ public class Figure implements Targettable {
         return damaged;
     }
 
-    //TODO should be called inside apply marks
-    /**
-     * Sets this figure's damaged status as false.
-     */
-    public void clearDamaged() {
-        damaged = false;
-    }
-
     /**
      * Applies to this figure its newly acquired marks, up to the mark's
-     * threshold for each dealer.
+     * threshold for each dealer. Also sets the damaged flag to false.
      */
     public void applyMarks() {
         newMarks.forEach((dealer, n) ->
@@ -225,5 +217,6 @@ public class Figure implements Targettable {
                         Integer.min(marks.getOrDefault(dealer, 0) + n, maxMarks))
         );
         newMarks.clear();
+        damaged = false;
     }
 }

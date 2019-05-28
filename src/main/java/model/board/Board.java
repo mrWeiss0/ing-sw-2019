@@ -64,13 +64,6 @@ public class Board {
     }
 
     /**
-     * Empties the damaged figures' set.
-     */
-    public void clearDamaged() {
-        figures.forEach(Figure::clearDamaged);
-    }
-
-    /**
      * Applies to each figure's their newly acquired marks
      */
     public void applyMarks() {
