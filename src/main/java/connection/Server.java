@@ -1,8 +1,8 @@
 package connection;
 
 import client.RemoteClient;
+import controller.Player;
 import model.Game;
-import model.Player;
 
 import java.io.Closeable;
 import java.io.IOException;

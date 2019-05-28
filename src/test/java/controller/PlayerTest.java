@@ -1,8 +1,7 @@
-package model;
+package controller;
 
 import connection.ClientRMI;
 import connection.VirtualClient;
-import controller.GameController;
 import model.board.Figure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

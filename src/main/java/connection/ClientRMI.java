@@ -1,7 +1,7 @@
 package connection;
 
 import client.RemoteClient;
-import model.Player;
+import controller.Player;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;

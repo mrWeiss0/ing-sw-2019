@@ -1,7 +1,6 @@
-package model;
+package controller;
 
 import connection.VirtualClient;
-import controller.GameController;
 import model.board.Figure;
 
 public class Player {

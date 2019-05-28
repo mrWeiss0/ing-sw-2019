@@ -1,5 +1,6 @@
 package model;
 
+import controller.Player;
 import model.board.*;
 import model.weapon.Weapon;
 
