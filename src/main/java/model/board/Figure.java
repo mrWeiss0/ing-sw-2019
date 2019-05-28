@@ -7,6 +7,8 @@ import model.PowerUp;
 import model.weapon.Weapon;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,8 @@ public class Figure implements Targettable {
     private int remainingActions;
     private int points = 0;
     private AmmoCube ammo = new AmmoCube();
+    //TODO CONSUMER FOR DAMAGE
+    //TODO END GAME
 
     public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps, int deathDamage) {
         this.maxDamages = maxDamages;
@@ -167,7 +171,7 @@ public class Figure implements Targettable {
         //TODO IN FRENZY 2-1-1-1 AND NO FIRSTBLOOD IF WITHOUT DAMAGE ENTERING FRENZY
         if(damages.size()>=deathDamage){
             square=null;
-            damages.get(0).addPoints(1);
+
             game.addKillCount(damages.get(deathDamage-1));
             deaths.add(damages.get(deathDamage-1));
             if(damages.size()>deathDamage) {
@@ -184,6 +188,7 @@ public class Figure implements Targettable {
             }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
             List<Integer> pointSave = Arrays.stream(game.getKillPoints()).boxed().collect(Collectors.toList());
             pointSave.subList(0,deaths.size()-1).clear();
+            damages.get(0).addPoints(1);
             for (Figure figure:toRemunerate){
                 if(!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
                 else figure.addPoints(1);

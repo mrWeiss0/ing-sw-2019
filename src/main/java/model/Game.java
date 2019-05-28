@@ -1,12 +1,10 @@
 package model;
 
 import model.board.*;
+import model.weapon.FireStep;
 import model.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -30,6 +28,35 @@ public class Game {
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
 
+
+    private List<List<FireStep>> powerUpEffects = Arrays.asList(
+            Collections.singletonList(new FireStep(1,1,
+                    (shooter,gameBoard,last)->new HashSet<>(gameBoard.getDamaged()),
+                    (shooter, curr, last)->
+                        curr.forEach(x->x.damageFrom(shooter,1))
+                    )),
+            Arrays.asList(new FireStep(1,1,
+                    (shooter,gameBoard,last)->new HashSet<>(gameBoard.getFigures()),
+                    (shooter, curr, last)->{
+                    }
+                    ),new FireStep(1,1,
+                    (shooter,gameBoard,last)->((Figure)last.toArray()[0]).getSquare().atDistance(1,2).
+                            stream().filter(x->
+                            x.getCoordinates()[0]==((Figure)last.toArray()[0]).getSquare().getCoordinates()[0] ||
+                                    x.getCoordinates()[1]==((Figure)last.toArray()[0]).getSquare().getCoordinates()[1]).collect(Collectors.toSet()),
+                    (shooter, curr, last)->
+                        ((Figure)last.toArray()[0]).moveTo((AbstractSquare) curr.toArray()[0])
+            )),
+            Collections.singletonList(new FireStep(1,1,
+                    (shooter,gameBoard,last)->new HashSet<>(Collections.singletonList(shooter.getDamages().get(shooter.getDamages().size()-1))),
+                    (shooter, curr, last)-> curr.forEach(x->x.markFrom(shooter,1))
+                    )),
+            Collections.singletonList(new FireStep(1,1,
+                    (shooter,gameBoard,last)->new HashSet<>(gameBoard.getSquares()),
+                    (shooter, curr, last)->shooter.moveTo((AbstractSquare) curr.toArray()[0])
+                    )
+    ));
+
     private Game(Builder builder) {
         remainingKills = builder.nKills;
         board = builder.boardBuilder.build();
@@ -40,7 +67,8 @@ public class Game {
                 .map(powerup -> {
                     int[] ammoVal = new int[powerup.color + 1];
                     ammoVal[powerup.color] = 1;
-                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color), powerUpDeck::discard);
+                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color),
+                            powerUpDeck::discard,powerUpEffects.get(powerup.type.ordinal()),powerup.type);
                 })
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
@@ -75,10 +103,6 @@ public class Game {
         currPlayer++;
         currPlayer %= players.size();
         return currentPlayer();
-    }
-
-    public Deck<PowerUp> getPowerUpDeck() {
-        return powerUpDeck;
     }
 
     public void fillBoard() {

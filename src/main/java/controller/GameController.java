@@ -11,6 +11,7 @@ import model.weapon.FireMode;
 import model.weapon.FireSequence;
 import model.weapon.Weapon;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -26,18 +27,6 @@ public class GameController {
     private int countdownDuration;
     private Game game;
     private Iterator<State> stateIterator;
-    private Map<String, Action> actionMap = Map.of(
-            "move",new Action(new MoveState(1,3)),
-            "shoot",new Action(new WeaponSelectionState()),
-            "grab",new Action(new MoveState(0,1)),
-            "grab_a",new Action(),
-            "shoot_a",new Action(),
-            "shoot_f1",new Action(),
-            "move_f1",new Action(),
-            "grab_f1",new Action(),
-            "shoot_f2",new Action(),
-            "grab_f2",new Action()
-    );
     private State WeaponSelectionState = new State() {
         private List<Weapon> choices;
 
@@ -56,6 +45,20 @@ public class GameController {
             }
         }
     };
+    private Map<String, Action> actionMap = Map.of(
+            "move",new Action(new MoveState(0,3)),
+            "shoot",new Action(WeaponSelectionState),
+            "grab",new Action(new MoveState(0,1), new GrabState()),
+            "grab_a",new Action(new MoveState(0,2), new GrabState()),
+            "shoot_a",new Action(new MoveState(0,1),WeaponSelectionState),
+            "shoot_f1",new Action(new MoveState(0,1), new SelectToReloadState(),WeaponSelectionState),
+            "move_f1",new Action(new MoveState(0,4)),
+            "grab_f1",new Action(new MoveState(0,2), new GrabState()),
+            "shoot_f2",new Action(new MoveState(0,2), new SelectToReloadState(),WeaponSelectionState),
+            "grab_f2",new Action(new MoveState(0,3), new GrabState())
+    );
+
+
 
     public GameController(int countdownDuration) {
         this.name = UUID.randomUUID();
@@ -228,30 +231,6 @@ public class GameController {
         //TODO
     }
 
-
-
-    private class WeaponSelectionState implements State{
-        private List<Weapon> choices;
-
-        @Override
-        public void onEnter(GameController controller) {
-            choices = new ArrayList<>(game.currentPlayer().getFigure().getWeapons());
-            game.currentPlayer().getView().handle(new TextResponse("possible weapons"));
-        }
-
-        @Override
-        public void select(int[] selection, GameController controller, String id) {
-            if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 ||
-                    x >=choices.size()) || selection.length>1)
-                return;
-            if(id.equals(game.currentPlayer().getId())) {
-                if(!choices.get(selection[0]).isLoaded()) game.currentPlayer().getView()
-                        .handle(new TextResponse("the weapon isn't loaded"));
-                else controller.setState(new FireModeSelectionState(choices.get(selection[0])));
-            }
-        }
-    }
-
     private class FireModeSelectionState implements State {
         private Weapon currWeapon;
 
@@ -276,6 +255,7 @@ public class GameController {
                                     .stream().map(PowerUp::getAmmo).reduce(AmmoCube::add).orElseGet(AmmoCube::new))
                             .greaterEqThan(selectedFireModes
                                     .stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new))) {
+                currWeapon.unload();
                 controller.setState(new PayAmmoState(selectedFireModes.stream().map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new), new FireState(selectedFireModes)));
             }
         }
@@ -308,26 +288,118 @@ public class GameController {
                 choices = new ArrayList<>(fireSequence.getTargets());
                 //TODO CHECK DAMAGED AND ASK FOR TAGBACK
                 //TODO CHECK CURRENT PLAYER FOR SCOPE AND ASK
-                //TODO REMEMBER TO APPLY MARK AT THE END
-                if (!fireSequence.hasNext()) controller.setState(new TurnState());
+                if (!fireSequence.hasNext()) {
+                    game.getPlayers().forEach(x->x.getFigure().applyMarks());
+                    controller.setState(new TurnState());
+                }
             }
         }
+    }
 
+    private class ReloadState implements State{
+        private List<Weapon> toReload;
+        public ReloadState(List<Weapon> toReload){
+            this.toReload=toReload;
+        }
+        @Override
+        public void onEnter(GameController controller){
+            toReload.forEach(Weapon::load);
+            controller.nextState();
+        }
+    }
 
+    private class SelectToReloadState implements State{
+        private List<Weapon> choices;
+        @Override
+        public void onEnter(GameController controller) {
+            choices= new ArrayList<>(game.currentPlayer().getFigure().getWeapons());
+            game.currentPlayer().getView().handle(new TextResponse("list of possible weapons"));
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id) {
+            if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size()))
+                return;
+            List<Weapon> selectedWeapons = Arrays.stream(selection).mapToObj(x -> choices.get(x)).collect(Collectors.toList());
+            AmmoCube totalCost = selectedWeapons
+                    .stream().map(Weapon::getReloadCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new);
+            //check if the player can afford the cost
+            if (id.equals(game.currentPlayer().getId()) &&
+                    game.currentPlayer().getFigure().getAmmo()
+                            .add(game.currentPlayer().getFigure().getPowerUps()
+                                    .stream().map(PowerUp::getAmmo).reduce(AmmoCube::add).orElseGet(AmmoCube::new))
+                            .greaterEqThan(totalCost)) {
+                controller.setState(new PayAmmoState(totalCost, new ReloadState(selectedWeapons)));
+            }
+        }
     }
 
     private class TurnState implements State {
-
+        private List<String> possibleAction;
         @Override
         public void onEnter(GameController controller) {
+            possibleAction = new ArrayList<>();
             if (game.currentPlayer().getFigure().getSquare() == null) {
                 setState(new SelectSpawnState(this));
             } else if (game.currentPlayer().getFigure().getRemainingActions() == 0) {
                 //TODO BEFORE END OF TURN, ASK RELOAD
-                setState(new EndOfTurnState());
-            } else {
+                stateIterator = new Action(new SelectToReloadState(), new EndOfTurnState()).iterator();
+                nextState();
+            } else {//TODO GENERATE ACTION BASED ON MODEL
+                possibleAction.add("move");
+                if(game.currentPlayer().getFigure().getDamages().size()>=3){
+                    possibleAction.add("grab_a");
+                    if(game.currentPlayer().getFigure().getDamages().size()>=6){
+                        possibleAction.add("shoot_a");
+                    }else{
+                        possibleAction.add("shoot");
+                    }
+                }else{
+                    possibleAction.add("grab");
+                }
+
+
+
+                if(game.currentPlayer().getFigure().getPowerUps().stream().anyMatch(x->x.getType().equals(PowerUpType.NEWTON))){
+                    possibleAction.add("newton");
+                }
+                if(game.currentPlayer().getFigure().getPowerUps().stream().anyMatch(x->x.getType().equals(PowerUpType.TELEPORTER))){
+                    possibleAction.add("teleporter");
+                }
+
                 game.currentPlayer().getView().handle(new TextResponse("lists all possible actions based on the model"));
             }
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id) {
+            if (selection.length > 1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= possibleAction.size()) ||
+                    !id.equals(game.currentPlayer().getId()))
+                return;
+            stateIterator = actionMap.get(possibleAction.get(selection[0])).iterator();
+            controller.nextState();
+        }
+    }
+
+    private class PayAnyColorState implements State{
+        private List<AmmoCube> choices;
+        private State nextState;
+        public PayAnyColorState(State nextState){
+            this.nextState=nextState;
+        }
+        @Override
+        public void onEnter(GameController controller) {
+            choices = new ArrayList<>(Arrays.asList(new AmmoCube(1,0,0),new AmmoCube(0,1,0),new AmmoCube(0,0,1)));
+            game.currentPlayer().getView().handle(new TextResponse("lists possible colors"));
+        }
+
+        @Override
+        public void select(int[] selection, GameController controller, String id) {
+            if (selection.length > 1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size()) ||
+                !id.equals(game.currentPlayer().getId()))
+                return;
+            AmmoCube cost = choices.get(selection[0]);
+            controller.setState(new PayAmmoState(cost,nextState));
         }
     }
 
@@ -413,6 +485,7 @@ public class GameController {
                     (toDiscard.stream().map(PowerUp::getAmmo)
                             .reduce(game.currentPlayer().getFigure().getAmmo(), AmmoCube::add)).greaterEqThan(cost)) {
                 game.currentPlayer().getFigure().getPowerUps().removeAll(toDiscard);
+                cost = cost.sub(toDiscard.stream().map(PowerUp::getAmmo).reduce(new AmmoCube(),AmmoCube::add));
                 game.currentPlayer().getFigure().getAmmo().sub(cost);
                 toDiscard.forEach(PowerUp::discard);
                 controller.setState(nextState);
@@ -428,6 +501,7 @@ public class GameController {
         @Override
         public void onEnter(GameController controller){
             //TODO NB DON't CONSIDER INACTIVE PLAYERS
+            game.getPlayers().forEach(x->x.getFigure().resolveDeath(game));
             List<Player> deadPlayers = game.getPlayers().stream()
                     .filter(x->x.getFigure().getSquare()==null).collect(Collectors.toList());
             deadPlayers.forEach(x->x.getFigure().addPowerUp(game.drawPowerup()));
@@ -449,8 +523,9 @@ public class GameController {
                 selector.getFigure().getPowerUps().remove(toDiscard);
                 toDiscard.discard();
                 choiceMap.remove(selector);
-                if(choiceMap.keySet().size()==0) {
+                if(choiceMap.keySet().isEmpty()) {
                     game.fillBoard();
+                    game.nextPlayer();
                     controller.setState(new TurnState());
                 }
             }
