@@ -65,7 +65,8 @@ public class Server implements Closeable, Runnable {
         // Close Socket
         try {
             serverSocket.close();
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            Main.logger.warning(e::toString);
         }
         threadPool.shutdownNow();
         // Close RMI
@@ -73,7 +74,8 @@ public class Server implements Closeable, Runnable {
             UnicastRemoteObject.unexportObject(serverRMI, true);
             registry.unbind("connection");
             UnicastRemoteObject.unexportObject(registry, true);
-        } catch (RemoteException | NotBoundException ignore) {
+        } catch (RemoteException | NotBoundException e) {
+            Main.logger.warning(e::toString);
         }
     }
 

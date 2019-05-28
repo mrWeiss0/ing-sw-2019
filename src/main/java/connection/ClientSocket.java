@@ -48,7 +48,8 @@ public class ClientSocket implements Runnable, VirtualClient {
     public void close() {
         try {
             socket.close();
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            Main.logger.warning(e::toString);
         }
     }
 

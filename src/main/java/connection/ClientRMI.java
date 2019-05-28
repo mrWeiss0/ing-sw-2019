@@ -37,7 +37,8 @@ public class ClientRMI implements VirtualClient, RemotePlayer {
         player.setOffline();
         try {
             UnicastRemoteObject.unexportObject(this, true);
-        } catch (NoSuchObjectException ignore) {
+        } catch (NoSuchObjectException e) {
+            Main.logger.warning(e::toString);
         }
     }
 }
