@@ -85,7 +85,7 @@ class GameBuilderTest {
     @Test
     void testInitTiles() {
         Game g = new Game.Builder()
-                .powerUps(new PowerUpImage(0))
+                .powerUps(new PowerUpImage(0,PowerUpType.NEWTON))
                 .squares(new SquareImage().setSpawn().setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(false, 0, 1))
                 .build();
@@ -101,7 +101,7 @@ class GameBuilderTest {
     @Test
     void testTilePUp() {
         Game g = new Game.Builder()
-                .powerUps(new PowerUpImage(2))
+                .powerUps(new PowerUpImage(2,PowerUpType.NEWTON))
                 .squares(new SquareImage().setSpawn().setColor(2).setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build();
@@ -118,7 +118,7 @@ class GameBuilderTest {
     @Test
     void testExceptions() {
         assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
-                .powerUps(new PowerUpImage(2))
+                .powerUps(new PowerUpImage(2,null))
                 .squares(
                         new SquareImage().setId(2).setSpawn().setColor(2).setCoords(0, 0),
                         new SquareImage().setId(1).setSpawn().setColor(2).setCoords(0, 0)
@@ -126,7 +126,7 @@ class GameBuilderTest {
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build());
         assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
-                .powerUps(new PowerUpImage(1))
+                .powerUps(new PowerUpImage(1,null))
                 .squares(new SquareImage().setSpawn().setColor(2).setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build());

@@ -27,7 +27,7 @@ public class Figure implements Targettable {
     private AbstractSquare square = null;
     private boolean damaged = false;
     private List<Figure> deaths = new ArrayList<>();
-    private int remainingActions;
+    private int remainingActions=2;
     private int points = 0;
     private AmmoCube ammo = new AmmoCube();
     private ObjIntConsumer<List<Figure>> pointGiver;
@@ -179,6 +179,7 @@ public class Figure implements Targettable {
         if(damages.size()>=deathDamage){
             square=null;
             deaths.add(damages.get(deathDamage-1));
+            game.addKillCount(damages.get(maxDamages-2));
             if(damages.size()>deathDamage) {
                 damages.get(maxDamages-1).markFrom(this,1);
                 game.addKillCount(damages.get(maxDamages-1));

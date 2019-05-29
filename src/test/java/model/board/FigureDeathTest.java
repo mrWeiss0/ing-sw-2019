@@ -1,6 +1,7 @@
 package model.board;
 
 import model.Game;
+import model.Player;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,19 +25,20 @@ public class FigureDeathTest {
                 new SpawnSquare(room, new int[]{}, 1),
                 new SpawnSquare(room, new int[]{}, 1)
         };
-
     }
 
     @BeforeEach
     void initCase() {
-        game = new Game.Builder().killPoints(new int[]{8,6,4,2}).maxDamages(12).deathDamage(11).nKills(8).build();
-        figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11)
-        };
+        game = new Game.Builder().killPoints(new int[]{8,6,4,2}).maxDamages(12).deathDamage(11).nKills(8).maxMarks(3).
+                player(new Player(null,null,null)).
+                player(new Player(null,null,null)).
+                player(new Player(null,null,null)).
+                player(new Player(null,null,null)).
+                player(new Player(null,null,null)).build();
+        figures= game.getBoard().getFigures().toArray(new Figure[0]);
+
+
+
         figures[0].moveTo(squares[0]);
         figures[1].moveTo(squares[0]);
         figures[2].moveTo(squares[0]);

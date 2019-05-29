@@ -6,6 +6,7 @@ import connection.rmi.RemoteConnectionHandler;
 import connection.rmi.RemoteController;
 import connection.rmi.RemoteView;
 import connection.server.VirtualView;
+import model.Game;
 import model.Player;
 
 import java.io.Serializable;
@@ -34,7 +35,7 @@ public class LobbyList {
                 return c;
             }
         }
-        GameController backup = new GameController(countDownDuration);
+        GameController backup = new GameController(countDownDuration, new Game.Builder().build());
         backup.login(username, virtualView, id);
         virtualView.setController(backup);
         controllers.add(backup);

@@ -62,10 +62,11 @@ public class GameController {
     public GameController(int countdownDuration,Game game) {
         this.name = UUID.randomUUID();
         this.usersByID = new HashMap<>();
-        this.state = new WaitingState();
         canJoin = true;
         this.countdownDuration = countdownDuration;
         this.game=game;
+        game.nextPlayer();
+        this.setState(new TurnState());
     }
 
     public boolean canJoin() {
@@ -81,6 +82,9 @@ public class GameController {
         canJoin = (usersByID.values().size() < maxUsers);
         state.login(this);
     }
+    public void select(int[] selections, String id) {
+        state.select(selections,this,id);
+    }
 
     public void sendText(String text, String id) {
         state.sendText(this, text, id);
@@ -93,7 +97,7 @@ public class GameController {
     }
 
     public Map<String, Player> getUsersByID() {
-        return usersByID;
+        return game.getPlayers().stream().collect(Collectors.toMap(Player::getId,Function.identity()));
     }
 
     public void setState(State state) {
@@ -163,11 +167,11 @@ public class GameController {
 
         @Override
         public void logout(GameController controller, String id) {
-            usersByID.remove(id);
+            getUsersByID().remove(id);
             if (controller.getUsersByID().size() < 3) {
                 resetCountdown();
             }
-            canJoin = (usersByID.values().size() < maxUsers);
+            canJoin = (getUsersByID().values().size() < maxUsers);
         }
 
         private void startCountdown(GameController controller) {
@@ -360,7 +364,8 @@ public class GameController {
             } else {
                 possibleAction=game.currentPlayer().getFigure().getPossibleActions(game.getPlayers().get(0).getFigure().isFrenzyTurnLeft(),
                         game.isFrenzy() && game.getRemainingKills()<=0);
-                game.currentPlayer().getView().handle(new TextResponse("lists all possible actions based on the model"));
+                //game.currentPlayer().getView().handle(new TextResponse("lists all possible actions based on the model"));
+                System.out.println(possibleAction);
             }
         }
 
@@ -415,7 +420,8 @@ public class GameController {
         public void onEnter(GameController controller) {
             game.currentPlayer().getFigure().addPowerUp(game.drawPowerup()); //draw another powerup(should already have 1)
             choices = new ArrayList<>(game.currentPlayer().getFigure().getPowerUps());
-            game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
+            //game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
+            System.out.println(choices);
         }
 
         @Override
@@ -514,10 +520,9 @@ public class GameController {
         @Override
         public void select(int[] selection, GameController controller, String id) {
             if(choiceMap.keySet().stream().map(Player::getId).collect(Collectors.toList()).contains(id)){
-                Player selector = usersByID.get(id);
+                Player selector = getUsersByID().get(id);
                 if (selection.length>1 || Arrays.stream(selection).distinct().anyMatch(x -> x < 0
                         || x >= choiceMap.get(selector).size())) return;
-
                 PowerUp toDiscard =choiceMap.get(selector).get(selection[0]);
                 selector.getFigure().moveTo(toDiscard.getSpawn());
                 selector.getFigure().getPowerUps().remove(toDiscard);
@@ -547,22 +552,22 @@ public class GameController {
 
         @Override
         public void select(int[] selection, GameController controller, String id) {
-            if (!playerListMap.keySet().contains(usersByID.get(id)) ||
-                Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= playerListMap.get(usersByID.get(id)).size()))
+            if (!playerListMap.keySet().contains(getUsersByID().get(id)) ||
+                Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= playerListMap.get(getUsersByID().get(id)).size()))
                 return;
-            List<PowerUp> toUse = Arrays.stream(selection).mapToObj(x->playerListMap.get(usersByID.get(id)).get(x)).collect(Collectors.toList());
+            List<PowerUp> toUse = Arrays.stream(selection).mapToObj(x->playerListMap.get(getUsersByID().get(id)).get(x)).collect(Collectors.toList());
             toUse.forEach(x->game.currentPlayer().getFigure().getPowerUps().remove(x));
             toUse.forEach(x->{
                 if(x.getType().equals(PowerUpType.SCOPE)){
-                    stateQueue.addLast(new PayAnyColorState(new FireState(new FireSequence(usersByID.get(id).getFigure(),game.getBoard(), x.getFireSteps()))));
+                    stateQueue.addLast(new PayAnyColorState(new FireState(new FireSequence(getUsersByID().get(id).getFigure(),game.getBoard(), x.getFireSteps()))));
                 }
                 else{
-                    stateQueue.addLast(new FireState(new FireSequence(usersByID.get(id).getFigure(),game.getBoard(),x.getFireSteps())));
+                    stateQueue.addLast(new FireState(new FireSequence(getUsersByID().get(id).getFigure(),game.getBoard(),x.getFireSteps())));
                 }
             }
             );
             toUse.forEach(PowerUp::discard);
-            playerListMap.remove(usersByID.get(id));
+            playerListMap.remove(getUsersByID().get(id));
             if(playerListMap.keySet().isEmpty()){
                 controller.nextState();
             }

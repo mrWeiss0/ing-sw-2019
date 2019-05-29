@@ -27,14 +27,14 @@ class GrabTest {
         Weapon.Builder weapon = new Weapon.Builder();
         Weapon.Builder optionalWeapon = new OptionalWeapon.Builder();
         squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{}), new SpawnSquare(new Room(), new int[]{}, 3)};
-        pup = new PowerUp(null, null, null);
+        pup = new PowerUp(null, null, null,null ,null);
         items = new Grabbable[]{
                 weapon.build(),
                 optionalWeapon.build(),
                 weapon.build(),
                 optionalWeapon.build(),
                 new AmmoTile(new AmmoCube(1, 2, 3), () -> pup, (i) -> discard = i),
-                new AmmoTile(new AmmoCube(1), () -> new PowerUp(null, null, null), (i) -> discard = i)
+                new AmmoTile(new AmmoCube(1), () -> new PowerUp(null, null, null,null ,null), (i) -> discard = i)
         };
     }
 

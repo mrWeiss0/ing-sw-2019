@@ -80,7 +80,7 @@ public class Game {
     };
 
     public void toggleFrenzy() {
-        board.getFigures().stream().filter(x->x.getDamages().size()==0).forEach(x->x.setPointGiver(frenzyPointGiver));
+        board.getFigures().stream().filter(x->x.getDamages().isEmpty()).forEach(x->x.setPointGiver(frenzyPointGiver));
     }
 
     private ObjIntConsumer<List<Figure>> frenzyPointGiver = (damages,deaths)->{
@@ -121,6 +121,7 @@ public class Game {
         killPoints=builder.killPoints;
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
+        players.forEach(x->x.getFigure().addPowerUp(powerUpDeck.draw()));
     }
 
     public Board getBoard() {
