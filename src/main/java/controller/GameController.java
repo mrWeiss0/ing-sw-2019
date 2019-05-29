@@ -27,7 +27,7 @@ public class GameController {
     private int countdownDuration;
     private Game game;
     private Iterator<State> stateIterator;
-    private State WeaponSelectionState = new State() {
+    private State weaponSelectionState = new State() {
         private List<Weapon> choices;
 
         @Override
@@ -47,14 +47,14 @@ public class GameController {
     };
     private Map<String, Action> actionMap = Map.of(
             "move",new Action(new MoveState(0,3)),
-            "shoot",new Action(WeaponSelectionState),
+            "shoot",new Action(weaponSelectionState),
             "grab",new Action(new MoveState(0,1), new GrabState()),
             "grab_a",new Action(new MoveState(0,2), new GrabState()),
-            "shoot_a",new Action(new MoveState(0,1),WeaponSelectionState),
-            "shoot_f1",new Action(new MoveState(0,1), new SelectToReloadState(),WeaponSelectionState),
+            "shoot_a",new Action(new MoveState(0,1),weaponSelectionState),
+            "shoot_f1",new Action(new MoveState(0,1), new SelectToReloadState(),weaponSelectionState),
             "move_f1",new Action(new MoveState(0,4)),
             "grab_f1",new Action(new MoveState(0,2), new GrabState()),
-            "shoot_f2",new Action(new MoveState(0,2), new SelectToReloadState(),WeaponSelectionState),
+            "shoot_f2",new Action(new MoveState(0,2), new SelectToReloadState(),weaponSelectionState),
             "grab_f2",new Action(new MoveState(0,3), new GrabState())
     );
 
@@ -342,7 +342,6 @@ public class GameController {
             if (game.currentPlayer().getFigure().getSquare() == null) {
                 setState(new SelectSpawnState(this));
             } else if (game.currentPlayer().getFigure().getRemainingActions() == 0) {
-                //TODO BEFORE END OF TURN, ASK RELOAD
                 stateIterator = new Action(new SelectToReloadState(), new EndOfTurnState()).iterator();
                 nextState();
             } else {//TODO GENERATE ACTION BASED ON MODEL
@@ -524,6 +523,7 @@ public class GameController {
                 toDiscard.discard();
                 choiceMap.remove(selector);
                 if(choiceMap.keySet().isEmpty()) {
+                    if(game.isFrenzy()) game.toggleFrenzy();
                     game.fillBoard();
                     game.nextPlayer();
                     controller.setState(new TurnState());

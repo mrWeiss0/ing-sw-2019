@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 
 
@@ -31,6 +32,7 @@ public class Figure implements Targettable {
     private int remainingActions;
     private int points = 0;
     private AmmoCube ammo = new AmmoCube();
+    private ObjIntConsumer<List<Figure>> pointGiver;
     //TODO CONSUMER FOR DAMAGE
     //TODO END GAME
 
@@ -168,32 +170,14 @@ public class Figure implements Targettable {
     }
 
     public void resolveDeath(Game game){
-        //TODO IN FRENZY 2-1-1-1 AND NO FIRSTBLOOD IF WITHOUT DAMAGE ENTERING FRENZY
         if(damages.size()>=deathDamage){
             square=null;
-
-            game.addKillCount(damages.get(deathDamage-1));
             deaths.add(damages.get(deathDamage-1));
             if(damages.size()>deathDamage) {
                 damages.get(maxDamages-1).markFrom(this,1);
                 game.addKillCount(damages.get(maxDamages-1));
             }
-
-            List<Figure> toRemunerate=
-            damages.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).
-                entrySet().stream().sorted((x,y)->{
-                    if(x.getValue()>y.getValue()) return -1;
-                    else if(x.getValue()<y.getValue()) return 1;
-                    else return Integer.compare(damages.indexOf(x.getKey()),damages.indexOf(y.getKey()));
-            }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
-            List<Integer> pointSave = Arrays.stream(game.getKillPoints()).boxed().collect(Collectors.toList());
-            pointSave.subList(0,deaths.size()-1).clear();
-            damages.get(0).addPoints(1);
-            for (Figure figure:toRemunerate){
-                if(!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
-                else figure.addPoints(1);
-            }
-            game.setRemainingKills(game.getRemainingKills()-1);
+            pointGiver.accept(damages, deaths.size());
             damages.clear();
         }
     }
@@ -208,5 +192,9 @@ public class Figure implements Targettable {
 
     public void addPowerUp(PowerUp powerUp){
         powerUps.add(powerUp);
+    }
+
+    public void setPointGiver(ObjIntConsumer<List<Figure>> consumer){
+        this.pointGiver=consumer;
     }
 }
