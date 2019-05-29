@@ -26,7 +26,8 @@ public class ClientSocket implements Runnable, VirtualClient {
     public ClientSocket(Server server, Socket socket) throws IOException {
         this.server = server;
         this.socket = socket;
-        ostream = new PrintStream(socket.getOutputStream(), true);
+        ostream = new PrintStream(socket.getOutputStream());
+        send("Connected");
     }
 
     @Override
@@ -37,6 +38,8 @@ public class ClientSocket implements Runnable, VirtualClient {
                 parse(istream.readLine());
         } catch (IOException e) {
             Main.logger.info(e::toString);
+        } finally {
+            close();
         }
     }
 
@@ -63,17 +66,23 @@ public class ClientSocket implements Runnable, VirtualClient {
         try {
             send(commands.getOrDefault(p[0], args -> {
                 throw new BadRequestException("Unknown command");
-            }).execute(ARGS_DELIMITER.split(p[1])));
+            }).execute(p.length > 1 ?
+                    ARGS_DELIMITER.split(p[1]) :
+                    new String[]{}));
         } catch (BadRequestException e) {
             send(e.toString());
         }
     }
 
     private String login(String[] args) throws BadRequestException {
-        if (args.length < 1) throw new BadRequestException("Choose a username");
-        player = server.registerPlayer(args[0]);
+        if (args.length < 1)
+            throw new BadRequestException("Choose a username");
+        String username = args[0].trim();
+        if (args[0].equals(""))
+            throw new BadRequestException("Choose a username");
+        player = server.registerPlayer(username);
         player.setClient(this);
-        return "Logged in";
+        return "Logged in " + username;
     }
 
     @FunctionalInterface

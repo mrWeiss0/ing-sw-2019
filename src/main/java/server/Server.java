@@ -8,8 +8,6 @@ import server.model.Game;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.rmi.AccessException;
-import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -46,7 +44,7 @@ public class Server implements Closeable {
             players.put(username, player);
             Game.Builder game = getJoinableGame();
             game.addPlayer(player);
-        } else if (player.isOnline()) throw new LoginException("Username already taken");
+        } else if (player.isOnline()) throw new LoginException("Username " + username + " already taken");
         else player.setOnline();
         return player;
     }
@@ -82,13 +80,11 @@ public class Server implements Closeable {
     }
 
     private void socketListener() {
-        try {
+        try (serverSocket) {
             while (!serverSocket.isClosed())
                 threadPool.submit(new ClientSocket(this, serverSocket.accept()));
         } catch (IOException e) {
             Main.logger.info(e::toString);
-        } finally {
-            //close();
         }
     }
 
