@@ -32,14 +32,11 @@ public class ClientSocket implements Runnable, VirtualClient {
 
     @Override
     public void run() {
-        try {
-            BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        try (BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             while (!socket.isClosed())
                 parse(istream.readLine());
         } catch (IOException e) {
             Main.logger.info(e::toString);
-        } finally {
-            close();
         }
     }
 
