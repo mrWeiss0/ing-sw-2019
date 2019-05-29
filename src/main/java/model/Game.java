@@ -181,7 +181,7 @@ public class Game {
     }
 
     public boolean isFrenzy(){
-        return frenzyOn && remainingKills<=0;
+        return frenzyOn ;
     }
     //TODO IF POSSIBLE REMOVE
     private int[] getKillPoints() {

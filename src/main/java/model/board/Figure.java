@@ -1,9 +1,7 @@
 package model.board;
 
-import model.AmmoCube;
-import model.AmmoTile;
-import model.Game;
-import model.PowerUp;
+import controller.GameController;
+import model.*;
 import model.weapon.Weapon;
 
 import java.util.*;
@@ -33,8 +31,8 @@ public class Figure implements Targettable {
     private int points = 0;
     private AmmoCube ammo = new AmmoCube();
     private ObjIntConsumer<List<Figure>> pointGiver;
-    //TODO CONSUMER FOR DAMAGE
-    //TODO END GAME
+    private Player owner;
+    private boolean frenzyTurnLeft = true;
 
     public Figure(int maxDamages, int maxMarks, int maxAmmo, int maxWeapons, int maxPowerUps, int deathDamage) {
         this.maxDamages = maxDamages;
@@ -161,6 +159,14 @@ public class Figure implements Targettable {
         newMarks.clear();
     }
 
+    public boolean isFrenzyTurnLeft() {
+        return frenzyTurnLeft;
+    }
+
+    public void setFrenzyTurnLeft(boolean frenzyTurnLeft) {
+        this.frenzyTurnLeft = frenzyTurnLeft;
+    }
+
     public void setRemainingActions(int remainingActions) {
         this.remainingActions = remainingActions;
     }
@@ -196,5 +202,45 @@ public class Figure implements Targettable {
 
     public void setPointGiver(ObjIntConsumer<List<Figure>> consumer){
         this.pointGiver=consumer;
+    }
+
+    public Player getOwner(){
+        return owner;
+    }
+
+    public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn){
+            List<String> possibleAction = new ArrayList<>();
+            possibleAction.add("move");
+            remainingActions=2;
+            if(damages.size()>=3){
+                possibleAction.add("grab_a");
+                if(damages.size()>=6){
+                    possibleAction.add("shoot_a");
+                }else{
+                    possibleAction.add("shoot");
+                }
+            }else{
+                possibleAction.add("grab");
+            }
+            if(finalFrenzyOn){
+                possibleAction.clear();
+                if(beforeFirstPlayer){
+                    possibleAction.add("shoot_f1");
+                    possibleAction.add("move_f1");
+                    possibleAction.add("grab_f1");
+                }
+                else{
+                    remainingActions=1;
+                    possibleAction.add("shoot_f2");
+                    possibleAction.add("grab_f2");
+                }
+            }
+            if(powerUps.stream().anyMatch(x->x.getType().equals(PowerUpType.NEWTON))){
+                possibleAction.add("newton");
+            }
+            if(powerUps.stream().anyMatch(x->x.getType().equals(PowerUpType.TELEPORTER))){
+                possibleAction.add("teleporter");
+            }
+            return possibleAction;
     }
 }
