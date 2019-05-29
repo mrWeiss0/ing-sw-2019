@@ -58,8 +58,8 @@ turno normale
 	entro nell'end turn
 			realoadController()
 				chiedo all'utente quali armi vuole caricare, controllo i costi e posso chiedere lo scarto di un PowerUp
-				ordino al model di caricare l'arma
-				ordino al model di decrementare gli ammoCube della figure
+				ordino al server.model di caricare l'arma
+				ordino al server.model di decrementare gli ammoCube della figure
 			checkko le figure morte e ordino al Model di handleDeath(Player)
 				Assegno i punti (anche firstblood, overkill e doublekill), decremento le kills, gestisco le killcount e le deaths della figure
 			chiedo al giocatore dove vuole spawnare
