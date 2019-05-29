@@ -1,5 +1,6 @@
 package server.connection;
 
+import server.Main;
 import server.Server;
 import server.controller.Player;
 
@@ -9,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class ClientSocket implements Runnable, VirtualClient {
@@ -36,14 +36,17 @@ public class ClientSocket implements Runnable, VirtualClient {
             while (!socket.isClosed())
                 parse(istream.readLine());
         } catch (IOException e) {
-            close();
+            Main.logger.info(e::toString);
         }
     }
 
     @Override
     public void send(String s) {
         ostream.println(s);
-        if (ostream.checkError()) close();
+        if (ostream.checkError()) {
+            Main.logger.warning("Socket send exception");
+            close();
+        }
     }
 
     @Override
@@ -51,7 +54,7 @@ public class ClientSocket implements Runnable, VirtualClient {
         try {
             socket.close();
         } catch (IOException e) {
-            Logger.getLogger("Server").warning(e::toString);
+            Main.logger.warning(e::toString);
         }
     }
 

@@ -1,13 +1,13 @@
 package server.connection;
 
 import client.RemoteClient;
+import server.Main;
 import server.Server;
 import server.controller.Player;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Logger;
 
 public class ClientRMI implements VirtualClient, RemotePlayer {
     private final Server server;
@@ -24,6 +24,7 @@ public class ClientRMI implements VirtualClient, RemotePlayer {
         try {
             remoteClient.send(s);
         } catch (RemoteException e) {
+            Main.logger.warning("RMI send exception");
             close();
         }
     }
@@ -40,7 +41,7 @@ public class ClientRMI implements VirtualClient, RemotePlayer {
         try {
             UnicastRemoteObject.unexportObject(this, true);
         } catch (NoSuchObjectException e) {
-            Logger.getLogger("Server").warning(e::toString);
+            Main.logger.warning(e::toString);
         }
     }
 }

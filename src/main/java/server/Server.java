@@ -8,6 +8,8 @@ import server.model.Game;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.AccessException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
 
 public class Server implements Closeable {
     private final ServerSocket serverSocket;
@@ -31,6 +32,11 @@ public class Server implements Closeable {
     public Server() throws IOException {
         registry = LocateRegistry.createRegistry(1099);
         serverSocket = new ServerSocket(9900);
+    }
+
+    public void start() throws IOException {
+        registry.rebind("server.connection", UnicastRemoteObject.exportObject(serverRMI, 0));
+        new Thread(this::socketListener).start();
     }
 
     public Player registerPlayer(String username) throws LoginException {
@@ -54,11 +60,6 @@ public class Server implements Closeable {
         return game;
     }
 
-    public void start() throws IOException {
-        registry.rebind("server.connection", UnicastRemoteObject.exportObject(serverRMI, 0));
-        new Thread(this::socketListener).start();
-    }
-
     @Override
     public void close() {
         for (Player p : players.values())
@@ -67,7 +68,7 @@ public class Server implements Closeable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Logger.getLogger("Server").warning(e::toString);
+            Main.logger.warning(e::toString);
         }
         threadPool.shutdownNow();
         // Close RMI
@@ -76,17 +77,18 @@ public class Server implements Closeable {
             registry.unbind("server.connection");
             UnicastRemoteObject.unexportObject(registry, true);
         } catch (RemoteException | NotBoundException e) {
-            Logger.getLogger("Server").warning(e::toString);
+            Main.logger.warning(e::toString);
         }
     }
 
     private void socketListener() {
         try {
-            while (!serverSocket.isClosed()) {
+            while (!serverSocket.isClosed())
                 threadPool.submit(new ClientSocket(this, serverSocket.accept()));
-            }
         } catch (IOException e) {
-            close();
+            Main.logger.info(e::toString);
+        } finally {
+            //close();
         }
     }
 
