@@ -18,8 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
-public class Server implements Closeable, Runnable {
+public class Server implements Closeable {
     private final ServerSocket serverSocket;
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
     private final Registry registry;
@@ -29,7 +30,6 @@ public class Server implements Closeable, Runnable {
 
     public Server() throws IOException {
         registry = LocateRegistry.createRegistry(1099);
-        registry.rebind("server.connection", UnicastRemoteObject.exportObject(serverRMI, 0));
         serverSocket = new ServerSocket(9900);
     }
 
@@ -54,8 +54,8 @@ public class Server implements Closeable, Runnable {
         return game;
     }
 
-    @Override
-    public void run() {
+    public void start() throws IOException {
+        registry.rebind("server.connection", UnicastRemoteObject.exportObject(serverRMI, 0));
         new Thread(this::socketListener).start();
     }
 
@@ -67,7 +67,7 @@ public class Server implements Closeable, Runnable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Main.logger.warning(e::toString);
+            Logger.getLogger("Server").warning(e::toString);
         }
         threadPool.shutdownNow();
         // Close RMI
@@ -76,7 +76,7 @@ public class Server implements Closeable, Runnable {
             registry.unbind("server.connection");
             UnicastRemoteObject.unexportObject(registry, true);
         } catch (RemoteException | NotBoundException e) {
-            Main.logger.warning(e::toString);
+            Logger.getLogger("Server").warning(e::toString);
         }
     }
 
