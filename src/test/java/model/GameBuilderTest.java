@@ -37,6 +37,18 @@ class GameBuilderTest {
                 .maxWeapons(6)
                 .maxPowerUps(7)
                 .defaultAmmo(new AmmoCube(1, 2, 3))
+                .powerUps(new PowerUpImage(1, PowerUpType.NEWTON),
+                        new PowerUpImage(1, PowerUpType.TAGBACK),
+                        new PowerUpImage(1, PowerUpType.TELEPORTER),
+                                new PowerUpImage(1, PowerUpType.SCOPE),
+                                new PowerUpImage(2, PowerUpType.NEWTON),
+                                new PowerUpImage(2, PowerUpType.TAGBACK),
+                                new PowerUpImage(2, PowerUpType.TELEPORTER),
+                                new PowerUpImage(2, PowerUpType.SCOPE),
+                                new PowerUpImage(0, PowerUpType.NEWTON),
+                                new PowerUpImage(0, PowerUpType.TAGBACK),
+                                new PowerUpImage(0, PowerUpType.TELEPORTER),
+                                new PowerUpImage(0, PowerUpType.SCOPE)).squares(BoardBuilderTest.squareImages)
                 .build();
         Figure f = p.getFigure();
         assertSame(f, game.getBoard().getFigures().iterator().next());

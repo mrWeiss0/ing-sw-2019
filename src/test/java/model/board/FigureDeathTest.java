@@ -1,7 +1,6 @@
 package model.board;
 
-import model.Game;
-import model.Player;
+import model.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +33,19 @@ public class FigureDeathTest {
                 player(new Player(null,null,null)).
                 player(new Player(null,null,null)).
                 player(new Player(null,null,null)).
+                powerUps(new PowerUpImage(1, PowerUpType.NEWTON),
+                        new PowerUpImage(1, PowerUpType.TAGBACK),
+                        new PowerUpImage(1, PowerUpType.TELEPORTER),
+                        new PowerUpImage(1, PowerUpType.SCOPE),
+                        new PowerUpImage(2, PowerUpType.NEWTON),
+                        new PowerUpImage(2, PowerUpType.TAGBACK),
+                        new PowerUpImage(2, PowerUpType.TELEPORTER),
+                        new PowerUpImage(2, PowerUpType.SCOPE),
+                        new PowerUpImage(0, PowerUpType.NEWTON),
+                        new PowerUpImage(0, PowerUpType.TAGBACK),
+                        new PowerUpImage(0, PowerUpType.TELEPORTER),
+                        new PowerUpImage(0, PowerUpType.SCOPE)).
+                squares(BoardBuilderTest.squareImages).
                 player(new Player(null,null,null)).build();
         figures= game.getBoard().getFigures().toArray(new Figure[0]);
 

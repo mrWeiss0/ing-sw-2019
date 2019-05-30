@@ -4,7 +4,7 @@ import model.*;
 import model.board.AbstractSquare;
 import model.board.BoardBuilderTest;
 import model.board.Figure;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -16,8 +16,8 @@ class GameControllerTest {
     public static Game game;
     private static Figure[] figures;
     private static GameController controller;
-    @BeforeAll
-    static void init(){
+    @BeforeEach
+    void init(){
         game= new Game.Builder().nKills(8).maxDamages(12).deathDamage(11).maxPowerUps(3).killPoints(new int[]{8,6,4,2})
                 .frenzyPoints(new int[]{2,1,1,1}).frenzyOn(true).
                         player(new Player(null,"0",null)).
@@ -63,7 +63,7 @@ class GameControllerTest {
     void testMove() throws NoSuchFieldException, IllegalAccessException{
         Field f = GameController.class.getDeclaredField("state");
         f.setAccessible(true);
-
+        System.out.println(f.get(controller).getClass().getName());
         assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
         assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
         controller.select(new int[]{0}, "0");
