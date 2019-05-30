@@ -212,28 +212,31 @@ public class Figure implements Targettable {
     public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn){
             List<String> possibleAction = new ArrayList<>();
             possibleAction.add("move");
-            remainingActions=2;
-            if(damages.size()>=3){
+            possibleAction.add("grab");
+            if (damages.size() >= 3) {
+                possibleAction.remove("grab");
                 possibleAction.add("grab_a");
+            }
+            if(!weapons.isEmpty()){
+                possibleAction.add("shoot");
                 if(damages.size()>=6){
+                    possibleAction.remove("shoot");
                     possibleAction.add("shoot_a");
-                }else{
-                    possibleAction.add("shoot");
                 }
-            }else{
-                possibleAction.add("grab");
             }
             if(finalFrenzyOn){
                 possibleAction.clear();
+
+                if(!weapons.isEmpty())
+                    possibleAction.add("shoot_f2");
+                possibleAction.add("grab_f2");
+
                 if(beforeFirstPlayer){
-                    possibleAction.add("shoot_f1");
+                    possibleAction.clear();
+                    if(!weapons.isEmpty())
+                        possibleAction.add("shoot_f1");
                     possibleAction.add("move_f1");
                     possibleAction.add("grab_f1");
-                }
-                else{
-                    remainingActions=1;
-                    possibleAction.add("shoot_f2");
-                    possibleAction.add("grab_f2");
                 }
             }
             if(powerUps.stream().anyMatch(x->x.getType().equals(PowerUpType.NEWTON))){

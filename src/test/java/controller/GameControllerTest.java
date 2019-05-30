@@ -1,11 +1,14 @@
 package controller;
 
 import model.*;
+import model.board.AbstractSquare;
 import model.board.BoardBuilderTest;
 import model.board.Figure;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +37,22 @@ class GameControllerTest {
                         new PowerUpImage(0, PowerUpType.TAGBACK),
                         new PowerUpImage(0, PowerUpType.TELEPORTER),
                         new PowerUpImage(0, PowerUpType.SCOPE)).
+                        ammoTiles(new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0),
+                                new AmmoTileImage(false, 1,0,0)).
                         defaultAmmo(new AmmoCube(1,1,1)).maxWeapons(3).maxMarks(3)
                         .squares(BoardBuilderTest.squareImages).build();
         figures= game.getBoard().getFigures().toArray(new Figure[0]);
@@ -41,10 +60,109 @@ class GameControllerTest {
     }
 
     @Test
-    void testTurn(){
+    void testMove() throws NoSuchFieldException, IllegalAccessException{
+        Field f = GameController.class.getDeclaredField("state");
+        f.setAccessible(true);
+
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
         assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
         controller.select(new int[]{0}, "0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
         assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{1},"1");
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{10},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{2},"1");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{2},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(1,controller.getUsersByID().get("0").getFigure().getRemainingActions());
     }
+
+    @Test
+    void testGrab() throws NoSuchFieldException, IllegalAccessException{
+        Field f = GameController.class.getDeclaredField("state");
+        f.setAccessible(true);
+
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{0}, "0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{1},"1");
+        controller.select(new int[]{1},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("GrabState"));
+    }
+    @Test
+    void testFrenzyGrab() throws NoSuchFieldException, IllegalAccessException{
+        Field f = GameController.class.getDeclaredField("state");
+        f.setAccessible(true);
+        Field f1 = Game.class.getDeclaredField("remainingKills");
+        f1.setAccessible(true);
+
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        f1.set(game, 0);
+        controller.select(new int[]{0}, "0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{1},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("GrabState"));
+        assertEquals(1,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+    }
+    @Test
+    void testFrenzyMove() throws NoSuchFieldException, IllegalAccessException{
+        Field f = GameController.class.getDeclaredField("state");
+        f.setAccessible(true);
+        Field f1 = Game.class.getDeclaredField("remainingKills");
+        f1.setAccessible(true);
+
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        f1.set(game, 0);
+        controller.select(new int[]{0}, "0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(1,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+    }
+    @Test
+    void testFrenzyAfterFirstPlayer() throws NoSuchFieldException, IllegalAccessException{
+        Field f = GameController.class.getDeclaredField("state");
+        f.setAccessible(true);
+        Field f1 = Game.class.getDeclaredField("remainingKills");
+        f1.setAccessible(true);
+        f1.set(game, 0);
+        game.getPlayers().stream().filter(x->x!=game.currentPlayer()).forEach(x->x.getFigure().moveTo((AbstractSquare) game.getBoard().getSquares().toArray()[0]));
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectSpawnState"));
+        assertEquals(2,controller.getUsersByID().get("1").getFigure().getRemainingActions());
+        controller.select(new int[]{0}, "0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(2,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        assertEquals(1,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("MoveState"));
+        controller.select(new int[]{0},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("SelectToReloadState"));
+        assertEquals(0,controller.getUsersByID().get("0").getFigure().getRemainingActions());
+        controller.select(new int[]{},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+        controller.select(new int[]{1},"0");
+        assertTrue(f.get(controller).getClass().getName().endsWith("TurnState"));
+    }
+
 
 }

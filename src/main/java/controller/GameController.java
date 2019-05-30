@@ -33,7 +33,8 @@ public class GameController {
         @Override
         public void onEnter(GameController controller) {
             choices = controller.game.currentPlayer().getFigure().getWeapons().stream().filter(Weapon::isLoaded).collect(Collectors.toList());
-            controller.game.currentPlayer().getView().handle(new TextResponse("player's weapons list"));
+            //controller.game.currentPlayer().getView().handle(new TextResponse("player's weapons list"));
+            System.out.println(choices);
         }
 
         @Override
@@ -106,7 +107,7 @@ public class GameController {
     }
     private void nextState(){
         if (!stateQueue.isEmpty()) {
-            setState(stateQueue.getFirst());
+            setState(stateQueue.pop());
         } else {
             setState(new TurnState());
         }
@@ -206,7 +207,8 @@ public class GameController {
         @Override
         public void onEnter(GameController controller){
             choices = new ArrayList<>(game.currentPlayer().getFigure().getSquare().peek());
-            game.currentPlayer().getView().handle(new TextResponse("list of possible grabbable"));
+            //game.currentPlayer().getView().handle(new TextResponse("list of possible grabbable"));
+            System.out.println(choices);
         }
 
         @Override
@@ -226,7 +228,8 @@ public class GameController {
         @Override
         public void onEnter(GameController controller){
             choices = new ArrayList<>(game.currentPlayer().getFigure().getWeapons());
-            game.currentPlayer().getView().handle(new TextResponse("list of possible weapon to discard"));
+            //game.currentPlayer().getView().handle(new TextResponse("list of possible weapon to discard"));
+            System.out.println("choices");
         }
 
         @Override
@@ -247,7 +250,8 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
-            game.currentPlayer().getView().handle(new TextResponse("possible firemodes"));
+            //game.currentPlayer().getView().handle(new TextResponse("possible firemodes"));
+            System.out.println(currWeapon.getFireModes());
         }
 
         @Override
@@ -280,8 +284,9 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
-            game.currentPlayer().getView().handle(new TextResponse("possibili targets"));
             choices = new ArrayList<>(fireSequence.getTargets());
+            //game.currentPlayer().getView().handle(new TextResponse("possibili targets"));
+            System.out.println(choices);
         }
 
         @Override
@@ -290,8 +295,9 @@ public class GameController {
             Set<Targettable> selectedTargets = Arrays.stream(selection).mapToObj(x -> choices.get(x)).collect(Collectors.toSet());
             if (fireSequence.validateTargets(selectedTargets) && id.equals(game.currentPlayer().getId())) {
                 fireSequence.run(selectedTargets);
-                game.currentPlayer().getView().handle(new TextResponse("possibili targets"));
                 choices = new ArrayList<>(fireSequence.getTargets());
+                //game.currentPlayer().getView().handle(new TextResponse("possibili targets"));
+                System.out.println(choices);
                 if (!fireSequence.hasNext()) {
                     if(game.currentPlayer().getFigure().getPowerUps().stream().anyMatch(x->x.getType().equals(PowerUpType.SCOPE)))
                         stateQueue.addLast(new SelectPowerUpState(PowerUpType.SCOPE,Set.of(game.currentPlayer())));
@@ -315,7 +321,9 @@ public class GameController {
         @Override
         public void onEnter(GameController controller){
             toReload.forEach(Weapon::load);
+            System.out.println("reloaded");
             controller.nextState();
+
         }
     }
 
@@ -324,23 +332,28 @@ public class GameController {
         @Override
         public void onEnter(GameController controller) {
             choices= new ArrayList<>(game.currentPlayer().getFigure().getWeapons());
-            game.currentPlayer().getView().handle(new TextResponse("list of possible weapons"));
+            //game.currentPlayer().getView().handle(new TextResponse("list of possible weapons"));
+            System.out.println(choices);
         }
 
         @Override
         public void select(int[] selection, GameController controller, String id) {
             if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size()))
                 return;
-            List<Weapon> selectedWeapons = Arrays.stream(selection).mapToObj(x -> choices.get(x)).collect(Collectors.toList());
-            AmmoCube totalCost = selectedWeapons
-                    .stream().map(Weapon::getReloadCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new);
-            //check if the player can afford the cost
-            if (id.equals(game.currentPlayer().getId()) &&
-                    game.currentPlayer().getFigure().getAmmo()
-                            .add(game.currentPlayer().getFigure().getPowerUps()
-                                    .stream().map(PowerUp::getAmmo).reduce(AmmoCube::add).orElseGet(AmmoCube::new))
-                            .greaterEqThan(totalCost)) {
-                controller.setState(new PayAmmoState(totalCost, new ReloadState(selectedWeapons)));
+            if(selection.length==0)
+                controller.nextState();
+            else {
+                List<Weapon> selectedWeapons = Arrays.stream(selection).mapToObj(x -> choices.get(x)).collect(Collectors.toList());
+                AmmoCube totalCost = selectedWeapons
+                        .stream().map(Weapon::getReloadCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new);
+                //check if the player can afford the cost
+                if (id.equals(game.currentPlayer().getId()) &&
+                        game.currentPlayer().getFigure().getAmmo()
+                                .add(game.currentPlayer().getFigure().getPowerUps()
+                                        .stream().map(PowerUp::getAmmo).reduce(AmmoCube::add).orElseGet(AmmoCube::new))
+                                .greaterEqThan(totalCost)) {
+                    controller.setState(new PayAmmoState(totalCost, new ReloadState(selectedWeapons)));
+                }
             }
         }
     }
@@ -379,9 +392,9 @@ public class GameController {
             }else if(possibleAction.get(selection[0]).equals("teleporter")){
                 controller.setState(new SelectPowerUpState(PowerUpType.TELEPORTER,Set.of(game.currentPlayer())));
             }else if(actionMap.keySet().contains(possibleAction.get(selection[0]))){
+                game.currentPlayer().getFigure().setRemainingActions(game.currentPlayer().getFigure().getRemainingActions()-1);
                 actionMap.get(possibleAction.get(selection[0])).forEach(x->stateQueue.addLast(x));
                 controller.nextState();
-                game.currentPlayer().getFigure().setRemainingActions(game.currentPlayer().getFigure().getRemainingActions()-1);
             }
         }
     }
@@ -394,8 +407,10 @@ public class GameController {
         }
         @Override
         public void onEnter(GameController controller) {
+            //TODO color as an int?
             choices = new ArrayList<>(Arrays.asList(new AmmoCube(1,0,0),new AmmoCube(0,1,0),new AmmoCube(0,0,1)));
-            game.currentPlayer().getView().handle(new TextResponse("lists possible colors"));
+            //game.currentPlayer().getView().handle(new TextResponse("lists possible colors"));
+            System.out.println(choices);
         }
 
         @Override
@@ -451,7 +466,9 @@ public class GameController {
         @Override
         public void onEnter(GameController controller) {
             choices = new ArrayList<>(game.currentPlayer().getFigure().getSquare().atDistance(minMove,maxMove));
-            game.currentPlayer().getView().handle(new TextResponse("possible cells"));
+            //game.currentPlayer().getView().handle(new TextResponse("possible cells"));
+            System.out.println(choices.stream().map(x->String.valueOf(x.getCoordinates()[0])+String.valueOf(x.getCoordinates()[1])).collect(Collectors.toList()));
+            
         }
 
         @Override
@@ -479,7 +496,8 @@ public class GameController {
         @Override
         public void onEnter(GameController controller) {
             powerUpList = new ArrayList<>(game.currentPlayer().getFigure().getPowerUps());
-            game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
+            //game.currentPlayer().getView().handle(new TextResponse("possible powerup to discard"));
+            System.out.println(powerUpList);
         }
 
         @Override
@@ -513,7 +531,9 @@ public class GameController {
             deadPlayers.forEach(x->x.getFigure().addPowerUp(game.drawPowerup()));
             choiceMap = new HashMap<>();
             deadPlayers.forEach(x->choiceMap.put(x,new ArrayList<>(x.getFigure().getPowerUps())));
-            deadPlayers.forEach(x->x.getView().handle(new TextResponse("possible powerup to discard to spawn")));
+            //deadPlayers.forEach(x->x.getView().handle(new TextResponse("possible powerup to discard to spawn")));
+            System.out.println(choiceMap);
+            if(choiceMap.keySet().isEmpty()) endTurn(controller);
             if(deadPlayers.size()>1) game.currentPlayer().getFigure().addPoints(1); //Additional point for doublekill
         }
 
@@ -528,13 +548,21 @@ public class GameController {
                 selector.getFigure().getPowerUps().remove(toDiscard);
                 toDiscard.discard();
                 choiceMap.remove(selector);
-                if(choiceMap.keySet().isEmpty()) {
-                    if(game.isFrenzy() && game.getRemainingKills()<=0) game.toggleFrenzy();
-                    game.fillBoard();
-                    game.nextPlayer();
-                    controller.setState(new TurnState());
-                }
+                if(choiceMap.keySet().isEmpty())
+                    endTurn(controller);
             }
+        }
+
+        private void endTurn(GameController controller){
+            game.fillBoard();
+            game.nextPlayer();
+            if(game.isFrenzy() && game.getRemainingKills()<=0) {
+                game.toggleFrenzy();
+                if(game.getPlayers().get(0).getFigure().isFrenzyTurnLeft())
+                    game.currentPlayer().getFigure().setRemainingActions(2);
+                else game.currentPlayer().getFigure().setRemainingActions(1);
+            }
+            controller.setState(new TurnState());
         }
 
     }
@@ -547,7 +575,8 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
-            playerListMap.keySet().forEach(x->x.getView().handle(new TextResponse("possible powerup to discard")));
+            //playerListMap.keySet().forEach(x->x.getView().handle(new TextResponse("possible powerup to discard")));
+            System.out.println(playerListMap);
         }
 
         @Override
@@ -575,6 +604,10 @@ public class GameController {
     }
 
     private class EndGameState implements State{
+        @Override
+        public void onEnter(GameController controller) {
+            System.out.println("END GAME");
+        }
     }
 }
 
