@@ -34,7 +34,7 @@ public class LockRifleTest {
     @BeforeAll
     static void init() {
         base = new FireMode(new FireStep(1, 1,
-                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
+                TargetGens.VISIBLE.get(),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 2));
                     curr.forEach(f-> f.markFrom(shooter,1));

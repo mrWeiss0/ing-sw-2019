@@ -67,6 +67,7 @@ public class FireStep {
      * @return the set of generated targets
      */
     public Set<Targettable> getTargets(Figure shooter, Board board, List<Targettable> lastTargets) {
+
         return targetGen.get(shooter, board, lastTargets);
     }
 

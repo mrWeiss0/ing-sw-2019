@@ -33,7 +33,7 @@ public class VortexCannonTest {
     static void init() {
         base = new FireMode(
                 new FireStep(1, 1,
-                (shooter, board, last) -> shooter.getSquare().visibleSquares().stream().filter(t -> t != shooter.getSquare()).collect(Collectors.toSet()),
+                TargetGens.VORTEX_BASE.get(),
                 (shooter, curr, last) ->
                     last.addAll(curr)),
                 new FireStep(1,1,

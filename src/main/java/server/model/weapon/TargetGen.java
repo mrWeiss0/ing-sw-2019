@@ -4,6 +4,7 @@ import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.Targettable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,4 +28,26 @@ public interface TargetGen {
      * @return the set of elements which can be targeted
      */
     Set<Targettable> get(Figure shooter, Board board, List<Targettable> lastTargets);
+
+    default TargetGen and(TargetGen targetGen2){
+        return (shooter,board,last)-> {
+            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
+            res.retainAll(targetGen2.get(shooter,board,last));
+            return res;
+        };
+    }
+    default TargetGen or(TargetGen targetGen2){
+        return (shooter,board,last)-> {
+            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
+            res.addAll(targetGen2.get(shooter,board,last));
+            return res;
+        };
+    }
+    default TargetGen less(TargetGen targetGen2){
+        return (shooter,board,last)-> {
+            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
+            res.removeAll(targetGen2.get(shooter,board,last));
+            return res;
+        };
+    }
 }
