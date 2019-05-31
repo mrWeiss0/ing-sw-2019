@@ -1,8 +1,8 @@
 package server.model;
 
-import server.controller.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.controller.Player;
 
 import java.util.Arrays;
 

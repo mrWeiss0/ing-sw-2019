@@ -1,10 +1,10 @@
 package server.model;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import server.model.board.*;
 import server.model.weapon.OptionalWeapon;
 import server.model.weapon.Weapon;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;

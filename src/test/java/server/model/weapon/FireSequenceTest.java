@@ -1,13 +1,13 @@
 package server.model.weapon;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import server.model.AmmoCube;
 import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.SquareImage;
 import server.model.board.Targettable;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.*;

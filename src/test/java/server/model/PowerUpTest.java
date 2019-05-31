@@ -1,8 +1,8 @@
 package server.model;
 
+import org.junit.jupiter.api.Test;
 import server.model.board.Room;
 import server.model.board.SpawnSquare;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

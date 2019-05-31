@@ -1,9 +1,9 @@
 package server.model.board;
 
-import server.model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.model.AmmoCube;
 
 import java.util.stream.IntStream;
 

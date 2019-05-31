@@ -1,10 +1,10 @@
 package server.model;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import server.model.board.*;
 import server.model.weapon.OptionalWeapon;
 import server.model.weapon.Weapon;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

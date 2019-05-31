@@ -1,6 +1,6 @@
 package server.connection;
 
-import client.RemoteClient;
+import client.connection.RemoteClient;
 import server.Main;
 import server.Server;
 import server.controller.Player;

@@ -1,4 +1,4 @@
-package server.tools;
+package tools;
 
 import com.google.gson.Gson;
 import server.model.AmmoTileImage;

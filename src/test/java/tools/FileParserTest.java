@@ -1,10 +1,10 @@
-package server.tools;
+package tools;
 
+import org.junit.jupiter.api.Test;
 import server.model.AmmoTileImage;
 import server.model.PowerUpImage;
 import server.model.board.BoardBuilderTest;
 import server.model.board.SquareImage;
-import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
 import java.util.Arrays;

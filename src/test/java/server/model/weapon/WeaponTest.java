@@ -1,8 +1,8 @@
 package server.model.weapon;
 
-import server.model.AmmoCube;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import server.model.AmmoCube;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
