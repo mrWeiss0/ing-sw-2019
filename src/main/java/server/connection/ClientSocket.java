@@ -2,7 +2,10 @@ package server.connection;
 
 import server.Main;
 import server.Server;
-import server.controller.Player;
+import tools.parser.CommandException;
+import tools.parser.CommandExitException;
+import tools.parser.CommandNotFoundException;
+import tools.parser.Parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,24 +13,29 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-public class ClientSocket implements Runnable, VirtualClient {
-    private static final Pattern CMD_DELIMITER = Pattern.compile("\\s*:\\s*");
-    private static final Pattern ARGS_DELIMITER = Pattern.compile("\\s*,\\s*");
-    private final Server server;
+public class ClientSocket extends VirtualClient implements Runnable {
     private final Socket socket;
     private final PrintStream ostream;
-    private Player player;
-    private final Map<String, Command> commands = Map.ofEntries(
+    private final Parser parser = new Parser(Map.ofEntries(
+            Map.entry("help", this::help),
             Map.entry("login", this::login)
-    );
+    ), "\\s*:\\s*", "\\s*,\\s*");
 
     public ClientSocket(Server server, Socket socket) throws IOException {
-        this.server = server;
+        super(server);
         this.socket = socket;
         ostream = new PrintStream(socket.getOutputStream());
         send("Connected");
+    }
+
+    @Override
+    public void send(String s) {
+        ostream.println(s);
+        if (ostream.checkError()) {
+            Main.LOGGER.warning("Socket send exception");
+            close();
+        }
     }
 
     @Override
@@ -36,54 +44,45 @@ public class ClientSocket implements Runnable, VirtualClient {
             while (!socket.isClosed())
                 parse(istream.readLine());
         } catch (IOException e) {
-            Main.logger.info(e::toString);
-        }
-    }
-
-    @Override
-    public void send(String s) {
-        ostream.println(s);
-        if (ostream.checkError()) {
-            Main.logger.warning("Socket send exception");
+            Main.LOGGER.info(e::toString);
+        } finally {
             close();
         }
     }
 
     @Override
     public void close() {
+        player.setOffline();
         try {
             socket.close();
         } catch (IOException e) {
-            Main.logger.warning(e::toString);
+            Main.LOGGER.warning(e::toString);
         }
     }
 
-    private void parse(String s) {
-        String[] p = CMD_DELIMITER.split(s, 2);
+    private void parse(String line) {
         try {
-            send(commands.getOrDefault(p[0], args -> {
-                throw new BadRequestException("Unknown command");
-            }).execute(p.length > 1 ?
-                    ARGS_DELIMITER.split(p[1]) :
-                    new String[]{}));
-        } catch (BadRequestException e) {
+            parser.parse(line);
+        } catch (CommandExitException e) {
+            close();
+        } catch (CommandException e) {
             send(e.toString());
         }
     }
 
-    private String login(String[] args) throws BadRequestException {
-        if (args.length < 1)
-            throw new BadRequestException("Choose a username");
-        String username = args[0].trim();
-        if (args[0].equals(""))
-            throw new BadRequestException("Choose a username");
-        player = server.registerPlayer(username);
-        player.setClient(this);
-        return "Logged in " + username;
+    public void help(String[] args) throws CommandNotFoundException {
+        if (args.length == 0 || args[0].isEmpty())
+            send(parser.help());
+        else
+            send(parser.help(args[0]));
     }
 
-    @FunctionalInterface
-    private interface Command {
-        String execute(String[] args) throws BadRequestException;
+    private void login(String[] args) throws CommandException {
+        if (args.length < 1)
+            throw new CommandException("Choose a username");
+        String username = args[0].trim();
+        if (username.isEmpty())
+            throw new CommandException("Choose a username");
+        server.registerPlayer(username, this);
     }
 }

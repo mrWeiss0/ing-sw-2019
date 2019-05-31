@@ -37,16 +37,18 @@ public class Server implements Closeable {
         new Thread(this::socketListener).start();
     }
 
-    public Player registerPlayer(String username) throws LoginException {
+    public void registerPlayer(String username, VirtualClient client) {
         Player player = players.get(username);
         if (player == null) {
             player = new Player(username);
             players.put(username, player);
             Game.Builder game = getJoinableGame();
             game.addPlayer(player);
-        } else if (player.isOnline()) throw new LoginException("Username " + username + " already taken");
-        else player.setOnline();
-        return player;
+        } else if (player.isOnline()) {
+            client.send("Username " + username + " already taken");
+            return;
+        } else player.setOnline();
+        client.setPlayer(player);
     }
 
     private Game.Builder getJoinableGame() {
@@ -66,7 +68,7 @@ public class Server implements Closeable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Main.logger.warning(e::toString);
+            Main.LOGGER.warning(e::toString);
         }
         threadPool.shutdownNow();
         // Close RMI
@@ -75,7 +77,7 @@ public class Server implements Closeable {
             registry.unbind("server.connection");
             UnicastRemoteObject.unexportObject(registry, true);
         } catch (RemoteException | NotBoundException e) {
-            Main.logger.warning(e::toString);
+            Main.LOGGER.warning(e::toString);
         }
     }
 
@@ -84,7 +86,7 @@ public class Server implements Closeable {
             while (!serverSocket.isClosed())
                 threadPool.submit(new ClientSocket(this, serverSocket.accept()));
         } catch (IOException e) {
-            Main.logger.info(e::toString);
+            Main.LOGGER.info(e::toString);
         }
     }
 

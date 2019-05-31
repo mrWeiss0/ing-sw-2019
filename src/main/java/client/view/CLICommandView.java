@@ -16,20 +16,20 @@ public class CLICommandView extends CLIView {
         return Map.ofEntries(
                 Map.entry("connect", Command.documented(this::connect, "Connect to given host port")),
                 Map.entry("login", Command.documented(this::login, "Login with given username")),
-                Map.entry("help", Command.documented(this::help, "Get help")),
-                Map.entry("quit", Command.documented(this::quit, "Quit"))
+                Map.entry("help", this::help),
+                Map.entry("quit", this::quit)
         );
     }
 
-    public void connect(String[] args) {
+    private void connect(String[] args) {
         print("CONNECT");
     }
 
-    public void login(String[] args) {
+    private void login(String[] args) {
         print("LOGIN");
     }
 
-    public void quit(String[] args) throws CommandExitException {
+    private void quit(String[] args) throws CommandExitException {
         throw new CommandExitException();
     }
 }

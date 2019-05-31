@@ -1,40 +1,18 @@
 package tools.parser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Parser implements Runnable {
-    private final BufferedReader inputStream;
+public class Parser {
     private final Map<String, Command> commands;
-    private final Consumer<CommandException> exceptionHandler;
     private final Pattern cmdDelimiter;
     private final Pattern argsDelimiter;
 
-    public Parser(InputStream inputStream, Map<String, Command> commands, Consumer<CommandException> exceptionHandler, String cmdDelimiter, String argsDelimiter) {
-        this.inputStream = new BufferedReader(new InputStreamReader(inputStream));
+    public Parser(Map<String, Command> commands, String cmdDelimiter, String argsDelimiter) {
         this.commands = commands;
-        this.exceptionHandler = exceptionHandler;
         this.cmdDelimiter = Pattern.compile(cmdDelimiter);
         this.argsDelimiter = Pattern.compile(argsDelimiter);
-    }
-
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                parse(inputStream.readLine());
-            } catch (IOException e) {
-                Thread.currentThread().interrupt();
-            } catch (CommandException e) {
-                exceptionHandler.accept(e);
-            }
-        }
     }
 
     public String help() {
@@ -53,7 +31,7 @@ public class Parser implements Runnable {
         return help0(cmdName, command.docString());
     }
 
-    private void parse(String args) throws CommandException {
+    public void parse(String args) throws CommandException {
         if (args == null)
             throw new CommandExitException();
         String[] p = splitCommand(args);
