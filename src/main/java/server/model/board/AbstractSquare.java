@@ -247,5 +247,6 @@ public abstract class AbstractSquare implements Targettable {
      * @return a <code>Grabbable</code>s containing this square's
      * <code>Grabbable</code> content
      */
+
     public abstract List<Grabbable> peek();
 }

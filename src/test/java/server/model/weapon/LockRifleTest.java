@@ -1,9 +1,7 @@
-package model.weapon;
+package server.model.weapon;
 
-import model.AmmoCube;
-import model.board.Board;
-import model.board.Figure;
-import model.board.SquareImage;
+import server.model.AmmoCube;
+import server.model.board.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +32,7 @@ public class LockRifleTest {
     @BeforeAll
     static void init() {
         base = new FireMode(new FireStep(1, 1,
-                TargetGens.VISIBLE.get(),
+                TargetGens.visibleFigures(),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 2));
                     curr.forEach(f-> f.markFrom(shooter,1));
@@ -42,7 +40,7 @@ public class LockRifleTest {
                 }));
 
         secondLock = new FireMode(new AmmoCube(0,0,1), new FireStep(1,1,
-                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t-> t!=shooter && !last.contains(t)).collect(Collectors.toSet()),
+                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t-> t!=shooter && !last.contains(t)).collect(Collectors.toSet()),
                 (shooter, curr, last)-> {
                         curr.forEach(f->f.markFrom(shooter,1));
                 }));
@@ -53,15 +51,15 @@ public class LockRifleTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3),
-                new Figure(12, 3, 3, 3, 3)
+                new Figure(12, 3, 3, 3, 3,3),
+                new Figure(12, 3, 3, 3, 3,3),
+                new Figure(12, 3, 3, 3, 3,3),
+                new Figure(12, 3, 3, 3, 3,3),
+                new Figure(12, 3, 3, 3, 3,3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, 3, 3))
+                .figures(new Figure(12, 3, 3, 3, 3,3))
                 .squares(new SquareImage().setCoords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());
@@ -81,14 +79,12 @@ public class LockRifleTest {
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), board.getDamaged());
-        board.clearDamaged();
         board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Arrays.asList(figures[0],figures[0]), figures[1].getDamages());
 
         fs = new FireSequence(figures[2], board, FireMode.flatSteps(Collections.singletonList(base)));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
-        board.clearDamaged();
         board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Arrays.asList(figures[0],figures[0], figures[2], figures[2]), figures[1].getDamages());
@@ -101,12 +97,10 @@ public class LockRifleTest {
         fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         assertEquals(Stream.of(figures[4]).collect(Collectors.toSet()),board.getDamaged());
-        board.clearDamaged();
         board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Stream.of(figures[1], figures[2], figures[3]).collect(Collectors.toSet()), fs.getTargets());
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
-        board.clearDamaged();
         board.applyMarks();
         assertEquals(Arrays.asList(figures[0],figures[0]), figures[4].getDamages());
         figures[4].damageFrom(figures[0], 1);
