@@ -24,4 +24,10 @@ public interface Effect {
      * @param lastTargets    the list previously affected targets to be updated
      */
     void run(Figure shooter, Set<Targettable> currentTargets, List<Targettable> lastTargets);
+    default Effect and(Effect other){
+        return (shooter, currentTargets, lastTargets) ->{
+            this.run(shooter,currentTargets,lastTargets);
+            other.run(shooter,currentTargets,lastTargets);
+        };
+    }
 }

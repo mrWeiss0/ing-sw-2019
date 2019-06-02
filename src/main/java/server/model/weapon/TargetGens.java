@@ -232,4 +232,6 @@ public class TargetGens{
     public static TargetGen otherTarget(){
         return (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
     }
+
+    //TODO railgun2
 }

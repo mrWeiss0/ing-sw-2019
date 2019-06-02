@@ -33,17 +33,11 @@ public class LockRifleTest {
     static void init() {
         base = new FireMode(new FireStep(1, 1,
                 TargetGens.visibleFigures(),
-                (shooter, curr, last) -> {
-                    curr.forEach(f -> f.damageFrom(shooter, 2));
-                    curr.forEach(f-> f.markFrom(shooter,1));
-                    last.addAll(curr);
-                }));
+                Effects.damageCurr(2).and(Effects.markCurr(1).and(Effects.addCurrToLast()))));
 
         secondLock = new FireMode(new AmmoCube(0,0,1), new FireStep(1,1,
                 TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
-                (shooter, curr, last)-> {
-                        curr.forEach(f->f.markFrom(shooter,1));
-                }));
+                Effects.markCurr(1)));
 
 
     }
