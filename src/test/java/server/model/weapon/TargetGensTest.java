@@ -58,7 +58,7 @@ class TargetGensTest {
 
     @Test
     void testNotInLast(){
-        Set<Targettable> targets = TargetGens.notInLastFigures().get(figures[1],board, new ArrayList<>(Collections.singletonList(figures[0])));
+        Set<Targettable> targets = TargetGens.differentFigures().less(TargetGens.inLastFigure()).get(figures[1],board, new ArrayList<>(Collections.singletonList(figures[0])));
         assertFalse(targets.contains(figures[0]));
         assertFalse(targets.contains(figures[1]));
         assertTrue(targets.contains(figures[2]));
@@ -104,7 +104,7 @@ class TargetGensTest {
 
     @Test
     void testNotVisible(){
-        Set<Targettable> targets = TargetGens.notVisibleFigures().get(figures[0],board, new ArrayList<>());
+        Set<Targettable> targets = TargetGens.differentFigures().less(TargetGens.visibleFigures()).get(figures[0],board, new ArrayList<>());
         assertFalse(targets.contains(figures[0]));
         assertFalse(targets.contains(figures[1]));
         assertFalse(targets.contains(figures[2]));
@@ -229,7 +229,7 @@ class TargetGensTest {
     @Test
     void testDifferentSquareFigures(){
         figures[1].moveTo(figures[0].getLocation());
-        Set<Targettable> targets = TargetGens.differentSquareFigures().get(figures[0],board, new ArrayList<>());
+        Set<Targettable> targets = TargetGens.differentFigures().less(TargetGens.maxDistanceFigures(0)).get(figures[0],board, new ArrayList<>());
         assertFalse(targets.contains(figures[1]));
         assertFalse(targets.contains(figures[0]));
         assertTrue(targets.contains(figures[2]));

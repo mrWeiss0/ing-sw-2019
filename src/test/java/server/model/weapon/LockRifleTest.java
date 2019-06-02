@@ -40,8 +40,7 @@ public class LockRifleTest {
                 }));
 
         secondLock = new FireMode(new AmmoCube(0,0,1), new FireStep(1,1,
-
-                TargetGens.visibleFigures().and(TargetGens.notInLastFigures()),
+                TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
                 (shooter, curr, last)-> {
                         curr.forEach(f->f.markFrom(shooter,1));
                 }));
