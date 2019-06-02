@@ -35,14 +35,12 @@ class FireSequenceTest {
     @BeforeAll
     static void init() {
         base = new FireMode(new FireStep(1, 2,
-                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
+                TargetGens.visibleFigures(),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 1));
                     last.addAll(curr);
                     if (last.size() < 2) last.add(null);
                 }));
-
-        TargetGen otherTG = (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
 
         Effect otherEff = (shooter, curr, last) -> {
             try {
@@ -54,10 +52,10 @@ class FireSequenceTest {
             }
         };
 
-        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, otherTG, otherEff));
+        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), otherEff));
 
-        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, otherTG, otherEff), new FireStep(0, 1,
-                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
+        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), otherEff), new FireStep(0, 1,
+                TargetGens.visibleFigures().and(TargetGens.notInLastFigures()),
                 (shooter, curr, last) -> {
                     try {
                         curr.iterator().next().damageFrom(shooter, 1);

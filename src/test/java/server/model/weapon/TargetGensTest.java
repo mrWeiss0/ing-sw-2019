@@ -27,15 +27,15 @@ class TargetGensTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3)
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, 3, 3,3))
+                .figures(new Figure(12, 3, 3, 3, 3, 3))
                 .squares(BoardBuilderTest.squareImages)
                 .build();
 
@@ -112,12 +112,128 @@ class TargetGensTest {
         assertFalse(targets.contains(figures[4]));
     }
     @Test
-    void testOnCardinal(){
-        Set<Targettable> targets = TargetGens.onCardinalFigure().get(figures[0],board, new ArrayList<>());
+    void testOnCardinalFigure(){
+        Set<Targettable> targets = TargetGens.onCardinalFigures().get(figures[0],board, new ArrayList<>());
         assertFalse(targets.contains(figures[0]));
         assertTrue(targets.contains(figures[1]));
         assertTrue(targets.contains(figures[2]));
         assertFalse(targets.contains(figures[3]));
+        assertTrue(targets.contains(figures[4]));
+    }
+    @Test
+    void testOnCardinalSquare(){
+        Set<Targettable> targets = TargetGens.onCardinalSquare().get(figures[0],board, new ArrayList<>());
+        assertTrue(targets.contains(figures[0].getLocation()));
+        assertTrue(targets.contains(figures[1].getLocation()));
+        assertTrue(targets.contains(figures[2].getLocation()));
+        assertFalse(targets.contains(figures[3].getLocation()));
+        assertTrue(targets.contains(figures[4].getLocation()));
+    }
+
+    @Test
+    void testVisibleFromLast(){
+        Set<Targettable> targets = TargetGens.visibleFromLastFigures().get(figures[0],board, new ArrayList<>(Collections.singletonList(figures[3])));
+        assertFalse(targets.contains(figures[0]));
+        assertFalse(targets.contains(figures[1]));
+        assertFalse(targets.contains(figures[2]));
+        assertFalse(targets.contains(figures[3]));
+        assertFalse(targets.contains(figures[4]));
+
+        targets = TargetGens.visibleFromLastFigures().get(figures[0],board, new ArrayList<>(Collections.singletonList(figures[2])));
+        assertFalse(targets.contains(figures[0]));
+        assertTrue(targets.contains(figures[1]));
+        assertFalse(targets.contains(figures[2]));
+        assertFalse(targets.contains(figures[3]));
+        assertFalse(targets.contains(figures[4]));
+
+        targets = TargetGens.visibleFromLastFigures().get(figures[0],board, new ArrayList<>(Collections.singletonList(figures[1])));
+        assertFalse(targets.contains(figures[0]));
+        assertFalse(targets.contains(figures[1]));
+        assertTrue(targets.contains(figures[2]));
+        assertFalse(targets.contains(figures[3]));
+        assertTrue(targets.contains(figures[4]));
+    }
+
+    @Test
+    void testVisibleRoom(){
+        Set<Targettable> targets = TargetGens.visibleRoom().get(figures[0],board, new ArrayList<>());
+        assertTrue(targets.contains(figures[0].getLocation().getRoom()));
+        assertTrue(targets.contains(figures[1].getLocation().getRoom()));
+        assertFalse(targets.contains(figures[3].getLocation().getRoom()));
+    }
+
+    @Test
+    void testDifferentRoom(){
+        Set<Targettable> targets = TargetGens.differentRoom().get(figures[0],board, new ArrayList<>());
+        assertFalse(targets.contains(figures[0].getLocation().getRoom()));
+        assertTrue(targets.contains(figures[1].getLocation().getRoom()));
+        assertTrue(targets.contains(figures[3].getLocation().getRoom()));
+    }
+
+    @Test
+    void testVisibleDifferentRoom(){
+        Set<Targettable> targets = TargetGens.differentRoom().and(TargetGens.visibleRoom()).get(figures[0],board, new ArrayList<>());
+        assertFalse(targets.contains(figures[0].getLocation().getRoom()));
+        assertTrue(targets.contains(figures[1].getLocation().getRoom()));
+        assertFalse(targets.contains(figures[3].getLocation().getRoom()));
+    }
+
+    @Test
+    void testSameDirectionAsLast(){
+        Set<Targettable> targets = TargetGens.sameDirectionAsLastSquares().get(figures[1],board, new ArrayList<>(Collections.singletonList(figures[0].getLocation())));
+        assertTrue(targets.contains(figures[1].getLocation()));
+        assertTrue(targets.contains(figures[2].getLocation()));
+        assertFalse(targets.contains(figures[0].getLocation()));
+        assertFalse(targets.contains(figures[3].getLocation()));
+        assertFalse(targets.contains(figures[4].getLocation()));
+
+        targets = TargetGens.sameDirectionAsLastSquares().get(figures[4],board, new ArrayList<>(Collections.singletonList(figures[0].getLocation())));
+        assertTrue(targets.contains(figures[4].getLocation()));
+        assertFalse(targets.contains(figures[2].getLocation()));
+        assertFalse(targets.contains(figures[0].getLocation()));
+        assertFalse(targets.contains(figures[3].getLocation()));
+        assertFalse(targets.contains(figures[1].getLocation()));
+    }
+
+    @Test
+    void testMaxDistanceFromLastSquare(){
+        Set<Targettable> targets = TargetGens.maxDistanceFromLastSquares(1).get(figures[0],board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
+        assertTrue(targets.contains(figures[1].getLocation()));
+        assertTrue(targets.contains(figures[2].getLocation()));
+        assertTrue(targets.contains(figures[0].getLocation()));
+        assertFalse(targets.contains(figures[3].getLocation()));
+        assertFalse(targets.contains(figures[4].getLocation()));
+    }
+
+    @Test
+    void testOnLast(){
+        figures[3].moveTo(figures[1].getLocation());
+        Set<Targettable> targets = TargetGens.onLastFigures().get(figures[0],board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
+        assertTrue(targets.contains(figures[1]));
+        assertTrue(targets.contains(figures[3]));
+        assertFalse(targets.contains(figures[0]));
+        assertFalse(targets.contains(figures[2]));
+        assertFalse(targets.contains(figures[4]));
+    }
+
+    @Test
+    void testMaxDistanceSquare(){
+        Set<Targettable> targets = TargetGens.maxDistanceSquares(1).get(figures[0],board, new ArrayList<>());
+        assertTrue(targets.contains(figures[1].getLocation()));
+        assertFalse(targets.contains(figures[2].getLocation()));
+        assertTrue(targets.contains(figures[0].getLocation()));
+        assertFalse(targets.contains(figures[3].getLocation()));
+        assertTrue(targets.contains(figures[4].getLocation()));
+    }
+
+    @Test
+    void testDifferentSquareFigures(){
+        figures[1].moveTo(figures[0].getLocation());
+        Set<Targettable> targets = TargetGens.differentSquareFigures().get(figures[0],board, new ArrayList<>());
+        assertFalse(targets.contains(figures[1]));
+        assertFalse(targets.contains(figures[0]));
+        assertTrue(targets.contains(figures[2]));
+        assertTrue(targets.contains(figures[3]));
         assertTrue(targets.contains(figures[4]));
     }
 }

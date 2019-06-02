@@ -34,12 +34,11 @@ public class VortexCannonTest {
     static void init() {
         base = new FireMode(
                 new FireStep(1, 1,
-                TargetGens.visibleSquares(),
+                TargetGens.visibleSquares().and(TargetGens.differentSquares()),
                 (shooter, curr, last) ->
                     last.addAll(curr)),
                 new FireStep(1,1,
-                (shooter, board, last)-> ((AbstractSquare)last.get(0)).atDistance(1).stream().
-                        collect(HashSet::new,(x,y)->x.addAll(y.getOccupants().stream().filter(z->z!=shooter).collect(Collectors.toSet())),Set::addAll),
+                TargetGens.maxDistanceFromLastFigures(1),
                 (shooter, curr, last)-> {
                     ((Figure)curr.toArray()[0]).moveTo((AbstractSquare)last.get(0));
                     curr.forEach(x->x.damageFrom(shooter,2));
@@ -47,8 +46,7 @@ public class VortexCannonTest {
                 }
         ));
         blackhole = new FireMode(new AmmoCube(0,0,1), new FireStep(1,2,
-                (shooter, board, last) -> ((AbstractSquare)last.get(0)).atDistance(1).stream().
-                        collect(HashSet::new,(x,y)->x.addAll(y.getOccupants().stream().filter(z->z!=shooter && !last.contains(z)).collect(Collectors.toSet())),Set::addAll),
+                TargetGens.maxDistanceFromLastFigures(1).and(TargetGens.notInLastFigures()),
                 (shooter, curr, last)-> {
                     curr.forEach(f->((Figure)f).moveTo((AbstractSquare) last.get(0)));
                     curr.forEach(f->f.damageFrom(shooter,1));
@@ -58,15 +56,16 @@ public class VortexCannonTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3)
+
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, 3, 3,3))
+                .figures(new Figure(12, 3, 3, 3, 3, 3))
                 .squares(new SquareImage().setCoords(0, 0).setId(0), new SquareImage().setCoords(0,1).setId(1).setAdjacent(0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());

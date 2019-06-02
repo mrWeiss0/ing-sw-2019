@@ -40,7 +40,8 @@ public class LockRifleTest {
                 }));
 
         secondLock = new FireMode(new AmmoCube(0,0,1), new FireStep(1,1,
-                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t-> t!=shooter && !last.contains(t)).collect(Collectors.toSet()),
+
+                TargetGens.visibleFigures().and(TargetGens.notInLastFigures()),
                 (shooter, curr, last)-> {
                         curr.forEach(f->f.markFrom(shooter,1));
                 }));
@@ -51,15 +52,16 @@ public class LockRifleTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3),
-                new Figure(12, 3, 3, 3, 3,3)
+
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3),
+                new Figure(12, 3, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, 3, 3,3))
+                .figures(new Figure(12, 3, 3, 3, 3, 3))
                 .squares(new SquareImage().setCoords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());
