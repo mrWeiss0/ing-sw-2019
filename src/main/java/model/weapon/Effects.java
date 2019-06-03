@@ -1,5 +1,8 @@
 package model.weapon;
 
+import model.board.AbstractSquare;
+import model.board.Figure;
+
 public class Effects {
 
     public static Effect damageCurr(int n){
@@ -11,10 +14,14 @@ public class Effects {
     }
 
     public static Effect damageSameSquare(int n){
-        return (shooter, currentTargets, lastTargets) -> shooter.getSquare().damageFrom(shooter, n);
+        return (shooter, currentTargets, lastTargets) -> shooter.getLocation().damageFrom(shooter, n);
     }
 
     public static Effect addCurrToLast(){
         return (shooter, currentTargets, lastTargets) -> lastTargets.addAll(currentTargets);
+    }
+
+    public static Effect moveCurrToLast(){
+        return (shooter, currentTargets, lastTargets) -> currentTargets.forEach(x->((Figure)x).moveTo((AbstractSquare) lastTargets.get(0)));
     }
 }
