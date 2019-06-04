@@ -1,7 +1,7 @@
-package model.weapon;
+package server.model.weapon;
 
-import model.board.AbstractSquare;
-import model.board.Figure;
+import server.model.board.AbstractSquare;
+import server.model.board.Figure;
 
 public class Effects {
 
