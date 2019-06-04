@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.connection.ClientRMI;
 import server.connection.VirtualClient;
+import server.model.Game;
 import server.model.board.Figure;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,9 +18,9 @@ class PlayerTest {
 
     @BeforeEach
     void init() {
-        f = new Figure(0, 0, 0, 0, 0);
+        f = new Figure(0, 0, 0, 0, 0, 0);
         c = new ClientRMI(null, null);
-        g = new GameController();
+        g = new GameController(0, new Game.Builder().build());
         player.setFigure(f);
         player.setClient(c);
         player.setGame(g);

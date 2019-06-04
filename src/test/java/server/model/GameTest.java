@@ -3,6 +3,7 @@ package server.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.controller.Player;
+import server.model.board.BoardBuilderTest;
 
 import java.util.Arrays;
 
@@ -20,7 +21,22 @@ class GameTest {
 
     @BeforeEach
     void init() {
-        gameBuilder = new Game.Builder();
+        gameBuilder = new Game.Builder()
+                .squares(BoardBuilderTest.squareImages)
+                .powerUps(
+                        new PowerUpImage(1, PowerUpType.NEWTON),
+                        new PowerUpImage(1, PowerUpType.TAGBACK),
+                        new PowerUpImage(1, PowerUpType.TELEPORTER),
+                        new PowerUpImage(1, PowerUpType.SCOPE),
+                        new PowerUpImage(2, PowerUpType.NEWTON),
+                        new PowerUpImage(2, PowerUpType.TAGBACK),
+                        new PowerUpImage(2, PowerUpType.TELEPORTER),
+                        new PowerUpImage(2, PowerUpType.SCOPE),
+                        new PowerUpImage(0, PowerUpType.NEWTON),
+                        new PowerUpImage(0, PowerUpType.TAGBACK),
+                        new PowerUpImage(0, PowerUpType.TELEPORTER),
+                        new PowerUpImage(0, PowerUpType.SCOPE)
+                );
         gameBuilder.addPlayer(players[0]);
     }
 

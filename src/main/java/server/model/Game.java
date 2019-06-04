@@ -2,12 +2,12 @@ package server.model;
 
 import server.controller.Player;
 import server.model.board.*;
+import server.model.weapon.FireStep;
 import server.model.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -26,13 +26,79 @@ public class Game {
     private final Deck<AmmoTile> ammoTileDeck = new Deck<>();
     private final Deck<Weapon> weaponDeck = new Deck<>();
     private final Deck<PowerUp> powerUpDeck = new Deck<>();
+    private final boolean frenzyOn;
+    private final int[] killPoints;
+    private final int[] frenzyPoints;
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
 
+
+    private List<List<FireStep>> powerUpEffects = Arrays.asList(
+            Collections.singletonList(new FireStep(1, 1,
+                    (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getDamaged()),
+                    (shooter, curr, last) ->
+                            curr.forEach(x -> x.damageFrom(shooter, 1))
+            )),
+            Arrays.asList(new FireStep(1, 1,
+                    (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getFigures()),
+                    (shooter, curr, last) -> {
+                    }
+            ), new FireStep(1, 1,
+                    (shooter, gameBoard, last) -> ((Figure) last.toArray()[0]).getSquare().atDistance(1, 2).
+                            stream().filter(x ->
+                            x.getCoordinates()[0] == ((Figure) last.toArray()[0]).getSquare().getCoordinates()[0] ||
+                                    x.getCoordinates()[1] == ((Figure) last.toArray()[0]).getSquare().getCoordinates()[1]).collect(Collectors.toSet()),
+                    (shooter, curr, last) ->
+                            ((Figure) last.toArray()[0]).moveTo((AbstractSquare) curr.toArray()[0])
+            )),
+            Collections.singletonList(new FireStep(1, 1,
+                    (shooter, gameBoard, last) -> new HashSet<>(Collections.singletonList(shooter.getDamages().get(shooter.getDamages().size() - 1))),
+                    (shooter, curr, last) -> curr.forEach(x -> x.markFrom(shooter, 1))
+            )),
+            Collections.singletonList(new FireStep(1, 1,
+                            (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getSquares()),
+                            (shooter, curr, last) -> shooter.moveTo((AbstractSquare) curr.toArray()[0])
+                    )
+            ));
+
+    private ObjIntConsumer<List<Figure>> normalPointGiver = (damages, deaths) -> {
+        List<Figure> toRemunerate =
+                damages.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).
+                        entrySet().stream().sorted((x, y) -> {
+                    if (x.getValue() > y.getValue()) return -1;
+                    else if (x.getValue() < y.getValue()) return 1;
+                    else return Integer.compare(damages.indexOf(x.getKey()), damages.indexOf(y.getKey()));
+                }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
+        List<Integer> pointSave = Arrays.stream(getKillPoints()).boxed().collect(Collectors.toList());
+        pointSave.subList(0, deaths - 1).clear();
+        damages.get(0).addPoints(1);
+        for (Figure figure : toRemunerate) {
+            if (!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
+            else figure.addPoints(1);
+        }
+        remainingKills--;
+    };
+    private ObjIntConsumer<List<Figure>> frenzyPointGiver = (damages, deaths) -> {
+        List<Figure> toRemunerate =
+                damages.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).
+                        entrySet().stream().sorted((x, y) -> {
+                    if (x.getValue() > y.getValue()) return -1;
+                    else if (x.getValue() < y.getValue()) return 1;
+                    else return Integer.compare(damages.indexOf(x.getKey()), damages.indexOf(y.getKey()));
+                }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
+        List<Integer> pointSave = Arrays.stream(getFrenzyPoints()).boxed().collect(Collectors.toList());
+        for (Figure figure : toRemunerate) {
+            if (!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
+            else figure.addPoints(1);
+        }
+        remainingKills--;
+    };
+
     private Game(Builder builder) {
         remainingKills = builder.nKills;
         board = builder.boardBuilder.build();
+        board.getFigures().forEach(x -> x.setPointGiver(normalPointGiver));
         players = Collections.unmodifiableList(builder.players);
 
         weaponDeck.discard(Arrays.asList(builder.weapons));
@@ -40,12 +106,21 @@ public class Game {
                 .map(powerup -> {
                     int[] ammoVal = new int[powerup.color + 1];
                     ammoVal[powerup.color] = 1;
-                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color), powerUpDeck::discard);
+                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color),
+                            powerUpDeck::discard, powerUpEffects.get(powerup.type.ordinal()), powerup.type);
                 })
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
                 .map(tile -> new AmmoTile(new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
                 .collect(Collectors.toList()));
+        killPoints = builder.killPoints;
+        frenzyPoints = builder.frenzyPoints;
+        frenzyOn = builder.frenzyOn;
+        players.forEach(x -> x.getFigure().addPowerUp(powerUpDeck.draw()));
+    }
+
+    public void toggleFrenzy() {
+        board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> x.setPointGiver(frenzyPointGiver));
     }
 
     public Board getBoard() {
@@ -85,6 +160,10 @@ public class Game {
             current.accept(this);
     }
 
+    public PowerUp drawPowerup() {
+        return powerUpDeck.draw();
+    }
+
     public void fillSquare(AmmoSquare square) {
         square.refill(ammoTileDeck.draw());
     }
@@ -92,6 +171,32 @@ public class Game {
     public void fillSquare(SpawnSquare square) {
         square.refill(weaponDeck.draw());
     }
+
+    public void addKillCount(Figure f) {
+        killCount.add(f);
+    }
+
+    public int getRemainingKills() {
+        return remainingKills;
+    }
+
+    public boolean isFrenzy() {
+        return frenzyOn;
+    }
+
+    //TODO IF POSSIBLE REMOVE
+    private int[] getKillPoints() {
+        return killPoints;
+    }
+
+    private int[] getFrenzyPoints() {
+        return frenzyPoints;
+    }
+
+    public List<Figure> getKillCount() {
+        return killCount;
+    }
+
 
     public static class Builder {
         private final Board.Builder boardBuilder = new Board.Builder();
@@ -102,6 +207,10 @@ public class Game {
         private int maxAmmo;
         private int maxWeapons;
         private int maxPowerUps;
+        private int deathDamage;
+        private boolean frenzyOn;
+        private int[] killPoints;
+        private int[] frenzyPoints;
         private AmmoCube defaultAmmo = new AmmoCube();
         private AmmoTileImage[] ammoTiles = new AmmoTileImage[]{};
         private Weapon[] weapons = new Weapon[]{};
@@ -109,6 +218,21 @@ public class Game {
 
         public Builder nKills(int val) {
             nKills = val;
+            return this;
+        }
+
+        public Builder killPoints(int[] val) {
+            killPoints = val;
+            return this;
+        }
+
+        public Builder frenzyPoints(int[] val) {
+            frenzyPoints = val;
+            return this;
+        }
+
+        public Builder frenzyOn(boolean val) {
+            frenzyOn = val;
             return this;
         }
 
@@ -134,6 +258,11 @@ public class Game {
 
         public Builder maxPowerUps(int val) {
             maxPowerUps = val;
+            return this;
+        }
+
+        public Builder deathDamage(int val) {
+            deathDamage = val;
             return this;
         }
 
@@ -183,7 +312,7 @@ public class Game {
 
         public Game build() {
             for (Player p : players) {
-                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
+                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps, deathDamage);
                 figure.addAmmo(defaultAmmo);
                 p.setFigure(figure);
                 boardBuilder.figures(figure);

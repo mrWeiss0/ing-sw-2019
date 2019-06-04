@@ -43,7 +43,21 @@ class GameBuilderTest {
                 .maxAmmo(5)
                 .maxWeapons(6)
                 .maxPowerUps(7)
-                .defaultAmmo(new AmmoCube(1, 2, 3));
+                .defaultAmmo(new AmmoCube(1, 2, 3))
+                .powerUps(
+                        new PowerUpImage(1, PowerUpType.NEWTON),
+                        new PowerUpImage(1, PowerUpType.TAGBACK),
+                        new PowerUpImage(1, PowerUpType.TELEPORTER),
+                        new PowerUpImage(1, PowerUpType.SCOPE),
+                        new PowerUpImage(2, PowerUpType.NEWTON),
+                        new PowerUpImage(2, PowerUpType.TAGBACK),
+                        new PowerUpImage(2, PowerUpType.TELEPORTER),
+                        new PowerUpImage(2, PowerUpType.SCOPE),
+                        new PowerUpImage(0, PowerUpType.NEWTON),
+                        new PowerUpImage(0, PowerUpType.TAGBACK),
+                        new PowerUpImage(0, PowerUpType.TELEPORTER),
+                        new PowerUpImage(0, PowerUpType.SCOPE))
+                .squares(BoardBuilderTest.squareImages);
         gameBuilder.addPlayer(p);
         Game game = gameBuilder.build();
         Figure f = p.getFigure();
@@ -93,14 +107,14 @@ class GameBuilderTest {
     @Test
     void testInitTiles() {
         Game g = new Game.Builder()
-                .powerUps(new PowerUpImage(0))
+                .powerUps(new PowerUpImage(0, PowerUpType.NEWTON))
                 .squares(new SquareImage().setSpawn().setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(false, 0, 1))
                 .build();
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1);
+        Figure f = new Figure(1, 1, 1, 1, 1, 1);
         s.grab(f, a);
         assertEquals(0, f.getPowerUps().size());
         assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
@@ -109,14 +123,14 @@ class GameBuilderTest {
     @Test
     void testTilePUp() {
         Game g = new Game.Builder()
-                .powerUps(new PowerUpImage(2))
+                .powerUps(new PowerUpImage(2, PowerUpType.NEWTON))
                 .squares(new SquareImage().setSpawn().setColor(2).setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build();
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1);
+        Figure f = new Figure(1, 1, 1, 1, 1, 11);
         s.grab(f, a);
         assertEquals(f.getPowerUps().iterator().next().getSpawn(), g.getBoard().getSquares().iterator().next());
         AmmoCube powerUpAmmo = f.getPowerUps().iterator().next().getAmmo();
@@ -126,7 +140,7 @@ class GameBuilderTest {
     @Test
     void testExceptions() {
         assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
-                .powerUps(new PowerUpImage(2))
+                .powerUps(new PowerUpImage(2, null))
                 .squares(
                         new SquareImage().setId(2).setSpawn().setColor(2).setCoords(0, 0),
                         new SquareImage().setId(1).setSpawn().setColor(2).setCoords(0, 0)
@@ -134,7 +148,7 @@ class GameBuilderTest {
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build());
         assertThrows(IllegalArgumentException.class, () -> new Game.Builder()
-                .powerUps(new PowerUpImage(1))
+                .powerUps(new PowerUpImage(1, null))
                 .squares(new SquareImage().setSpawn().setColor(2).setCoords(0, 0))
                 .ammoTiles(new AmmoTileImage(true, 1))
                 .build());

@@ -70,9 +70,9 @@ class FileParserTest {
     @Test
     void testPowerUps() {
         assertTrue(reflectArrayEquals(new PowerUpImage[]{
-                        new PowerUpImage(1),
-                        new PowerUpImage(2),
-                        new PowerUpImage(3)
+                        new PowerUpImage(1, null),
+                        new PowerUpImage(2, null),
+                        new PowerUpImage(3, null)
                 },
                 FileParser.readPowerUps(new StringReader("[" +
                         "{\"color\":1}," +
