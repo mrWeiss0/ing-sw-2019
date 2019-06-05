@@ -1,4 +1,4 @@
-package model.weapon;
+package server.model.weapon;
 
 import server.model.board.*;
 import server.model.weapon.*;

@@ -36,32 +36,15 @@ class FireSequenceTest {
     static void init() {
         base = new FireMode(new FireStep(1, 2,
                 TargetGens.visibleFigures(),
-                (shooter, curr, last) -> {
-                    curr.forEach(f -> f.damageFrom(shooter, 1));
-                    last.addAll(curr);
-                    if (last.size() < 2) last.add(null);
-                }));
+                Effects.damageCurr(1).and(Effects.addCurrToLast().and(Effects.fillLastToSize(2)))
+        ));
 
-        Effect otherEff = (shooter, curr, last) -> {
-            try {
-                Targettable current = curr.iterator().next();
-                current.damageFrom(shooter, 1);
-                last.set(last.indexOf(current), null);
-                last.add(current);
-            } catch (NoSuchElementException ignore) {
-            }
-        };
+        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), Effects.damageOther(1)));
 
-        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), otherEff));
-
-        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), otherEff), new FireStep(0, 1,
+        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), Effects.damageOther(1)), new FireStep(0, 1,
                 TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
-                (shooter, curr, last) -> {
-                    try {
-                        curr.iterator().next().damageFrom(shooter, 1);
-                    } catch (NoSuchElementException ignore) {
-                    }
-                }));
+                Effects.damageCurr(1)
+                ));
     }
 
     @BeforeEach
@@ -71,7 +54,7 @@ class FireSequenceTest {
                 new Figure(10, 12, 3, 3, 3, 3),
                 new Figure(10, 12, 3, 3, 3, 3),
                 new Figure(10, 12, 3, 3, 3, 3),
-                new Figure(10, 12, 3, 3, 3, 3)
+                new Figure(10, 12,3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))

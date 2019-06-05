@@ -2,6 +2,9 @@ package server.model.weapon;
 
 import server.model.board.AbstractSquare;
 import server.model.board.Figure;
+import server.model.board.Targettable;
+
+import java.util.NoSuchElementException;
 
 public class Effects {
 
@@ -34,7 +37,12 @@ public class Effects {
     }
 
     public static Effect moveToCurr() {
-        return (shooter, currentTargets, lastTargets) -> shooter.moveTo((AbstractSquare) currentTargets.iterator().next());
+        return (shooter, currentTargets, lastTargets) -> {
+            try {
+                shooter.moveTo((AbstractSquare) currentTargets.iterator().next());
+            }catch(NoSuchElementException ignore){
+            }
+            };
     }
 
     public static Effect damageLast(int n) {
@@ -52,6 +60,24 @@ public class Effects {
 
     public static Effect clearLast() {
         return (shooter, currentTargets, lastTargets) -> lastTargets.clear();
+    }
+
+    public static Effect fillLastToSize(int n){
+        return (shooter, currentTargets, lastTargets) -> {
+            while(lastTargets.size()<n) lastTargets.add(null);
+        };
+    }
+
+    public static Effect damageOther(int n){
+        return (shooter, curr, last) -> {
+            try {
+                Targettable current = curr.iterator().next();
+                current.damageFrom(shooter, 1);
+                last.set(last.indexOf(current), null);
+                last.add(current);
+            } catch (NoSuchElementException ignore) {
+            }
+        };
     }
 }
 

@@ -90,7 +90,7 @@ public class Weapon implements Grabbable {
 
     /**
      * Checks if the specified FireMode's list is viable according to this
-     * Weapon's rules. For a list to be vaid it should contain a single
+     * Weapon's rules. For a list to be valid it should contain a single
      * FireMode which itself should belong to the weapon's available FireModes.
      *
      * @param selectedModes the list of FireMode to check for availability
