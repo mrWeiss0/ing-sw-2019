@@ -29,7 +29,7 @@ public class Effects {
     }
 
     public static Effect moveLastToCurr() {
-        return (shooter, currentTargets, lastTargets) -> lastTargets.forEach(x -> ((Figure) x).moveTo((AbstractSquare) lastTargets.get(0)));
+        return (shooter, currentTargets, lastTargets) -> lastTargets.forEach(x -> ((Figure) x).moveTo((AbstractSquare) currentTargets.iterator().next()));
     }
 
     public static Effect addShooterSquareToLast() {
@@ -43,6 +43,14 @@ public class Effects {
             }catch(NoSuchElementException ignore){
             }
             };
+    }
+
+    public static Effect moveToLast(){
+        return (shooter, currentTargets, lastTargets) -> {
+            try {
+                shooter.moveTo((AbstractSquare) lastTargets.get(0));
+            }catch(IndexOutOfBoundsException ignore){}
+        };
     }
 
     public static Effect damageLast(int n) {
@@ -79,5 +87,11 @@ public class Effects {
             }
         };
     }
+
+    public static Effect damageNeighbours(int n){
+        return (shooter, currentTargets, lastTargets) -> shooter.getLocation().atDistance(1,1).forEach(x->x.damageFrom(shooter,n));
+    }
+
+
 }
 

@@ -3,7 +3,6 @@ package server.model.weapon;
 import server.model.board.AbstractSquare;
 import server.model.board.Figure;
 
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -225,6 +224,25 @@ public class TargetGens {
         };
     }
 
+    public static TargetGen sameDirectionAsLastFigures() {
+        return (shooter, board, lastTargets) -> {
+            int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
+            int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
+            if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1])
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+            else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1])
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+            else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0])
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+            else return board.getSquares()
+                        .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0])
+                        .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+        };
+    }
+
     /**
      * Returns the <code>TargetGen</code> that generates the non-null elements
      * present in the last 2 positions of lastTargets (used in machine gun)
@@ -236,5 +254,5 @@ public class TargetGens {
         return (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
-    //TODO railgun2
+
 }
