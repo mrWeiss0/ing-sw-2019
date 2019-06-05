@@ -10,14 +10,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class TargetGens{
+public class TargetGens {
     /**
      * Returns the <code>TargetGen</code> that generates all visible squares by the shooter
      *
      * @return the TargetGen generating all visible squares by shooter
      */
     public static TargetGen visibleSquares() {
-        return (shooter, board, last)-> shooter.getLocation().visibleSquares()
+        return (shooter, board, last) -> shooter.getLocation().visibleSquares()
                 .stream().filter(t -> t != shooter.getLocation()).collect(Collectors.toSet());
     }
 
@@ -27,7 +27,7 @@ public class TargetGens{
      * @return the TargetGen generating all visible figures by shooter
      */
     public static TargetGen visibleFigures() {
-        return  (shooter, board, last)->shooter.getLocation().visibleFigures()
+        return (shooter, board, last) -> shooter.getLocation().visibleFigures()
                 .stream().filter(t -> t != shooter).collect(Collectors.toSet());
     }
 
@@ -36,7 +36,7 @@ public class TargetGens{
      *
      * @return the TargetGen generating all visible rooms by shooter
      */
-    public static TargetGen visibleRoom(){
+    public static TargetGen visibleRoom() {
         return (shooter, board, lastTargets) -> shooter.getLocation().visibleRooms();
     }
 
@@ -46,8 +46,8 @@ public class TargetGens{
      *
      * @return the TargetGen generating all figures different from shooter
      */
-    public static TargetGen differentFigures(){
-        return (shooter, board, lastTargets) -> board.getFigures().stream().filter(x->x!=shooter).collect(Collectors.toSet());
+    public static TargetGen differentFigures() {
+        return (shooter, board, lastTargets) -> board.getFigures().stream().filter(x -> x != shooter).collect(Collectors.toSet());
     }
 
     /**
@@ -55,10 +55,13 @@ public class TargetGens{
      *
      * @return the TargetGen generating all figures present in lastTarget
      */
-    public static TargetGen inLastFigure(){
+    public static TargetGen inLastFigure() {
         return (shooter, board, lastTargets) -> board.getFigures()
-                .stream().filter(t->t!=shooter && lastTargets.contains(t)).collect(Collectors.toSet());
+                .stream().filter(t -> t != shooter && lastTargets.contains(t)).collect(Collectors.toSet());
+    }
 
+    public static TargetGen inLast() {
+        return (shooter, board, lastTargets) -> new HashSet<>(lastTargets);
     }
 
     /**
@@ -67,9 +70,9 @@ public class TargetGens{
      *
      * @return the TargetGen generating all figures on a square in lastTargets
      */
-    public static TargetGen onLastFigures(){
+    public static TargetGen onLastFigures() {
         return (shooter, board, lastTargets) -> board.getFigures()
-                .stream().filter(x->lastTargets.contains(x.getLocation())).collect(Collectors.toSet());
+                .stream().filter(x -> lastTargets.contains(x.getLocation())).collect(Collectors.toSet());
     }
 
     /**
@@ -79,9 +82,9 @@ public class TargetGens{
      * @param n the max distance from shooter
      * @return the TargetGen generating all figures at max distance n
      */
-    public static TargetGen maxDistanceFigures(int n){
-        return (shooter,board,last)-> board.getFigures()
-                .stream().filter(t->t!=shooter && shooter.getLocation().atDistance(n).contains(t.getLocation())).collect(Collectors.toSet());
+    public static TargetGen maxDistanceFigures(int n) {
+        return (shooter, board, last) -> board.getFigures()
+                .stream().filter(t -> t != shooter && shooter.getLocation().atDistance(n).contains(t.getLocation())).collect(Collectors.toSet());
     }
 
     /**
@@ -91,7 +94,7 @@ public class TargetGens{
      * @param n the max distance from shooter
      * @return the TargetGen generating all squares at max distance n
      */
-    public static TargetGen maxDistanceSquares(int n){
+    public static TargetGen maxDistanceSquares(int n) {
         return (shooter, board, lastTargets) -> new HashSet<>(shooter.getLocation().atDistance(n));
     }
 
@@ -103,10 +106,10 @@ public class TargetGens{
      * @return the TargetGen generating all figures at max distance n from a
      * square visible by shooter
      */
-    public static TargetGen atDistanceFromVisibleSquareFigures(int n){
+    public static TargetGen atDistanceFromVisibleSquareFigures(int n) {
         return (shooter, board, lastTargets) -> board.getFigures().stream()
-                .filter(x->x!=shooter && shooter.getLocation().visibleSquares()
-                        .stream().anyMatch(y->((AbstractSquare)y).atDistance(n).contains(x.getLocation()))).collect(Collectors.toSet());
+                .filter(x -> x != shooter && shooter.getLocation().visibleSquares()
+                        .stream().anyMatch(y -> ((AbstractSquare) y).atDistance(n).contains(x.getLocation()))).collect(Collectors.toSet());
     }
 
     /**
@@ -115,10 +118,10 @@ public class TargetGens{
      *
      * @return the TargetGen generating all figures on a cardinal direction
      */
-    public static TargetGen onCardinalFigures(){
+    public static TargetGen onCardinalFigures() {
         return (shooter, board, lastTargets) -> board.getFigures()
-                .stream().filter(x->x!= shooter && x.getLocation()!=null && (x.getLocation().getCoordinates()[0]==shooter.getLocation().getCoordinates()[0] ||
-                        x.getLocation().getCoordinates()[1]==shooter.getLocation().getCoordinates()[1])).collect(Collectors.toSet());
+                .stream().filter(x -> x != shooter && x.getLocation() != null && (x.getLocation().getCoordinates()[0] == shooter.getLocation().getCoordinates()[0] ||
+                        x.getLocation().getCoordinates()[1] == shooter.getLocation().getCoordinates()[1])).collect(Collectors.toSet());
     }
 
     /**
@@ -127,10 +130,10 @@ public class TargetGens{
      *
      * @return the TargetGen generating all squares on a cardinal direction
      */
-    public static TargetGen onCardinalSquare(){
+    public static TargetGen onCardinalSquare() {
         return (shooter, board, lastTargets) -> board.getSquares()
-                .stream().filter(x->x.getCoordinates()[0]==shooter.getLocation().getCoordinates()[0] ||
-                x.getCoordinates()[1]==shooter.getLocation().getCoordinates()[1]).collect(Collectors.toSet());
+                .stream().filter(x -> x.getCoordinates()[0] == shooter.getLocation().getCoordinates()[0] ||
+                        x.getCoordinates()[1] == shooter.getLocation().getCoordinates()[1]).collect(Collectors.toSet());
     }
 
     /**
@@ -140,9 +143,9 @@ public class TargetGens{
      * @return the TargetGen generating all rooms different from the shooter's
      * one
      */
-    public static TargetGen differentRoom(){
+    public static TargetGen differentRoom() {
         return (shooter, board, lastTargets) -> board.getRooms()
-                .stream().filter(x->!x.getSquares().contains(shooter.getLocation())).collect(Collectors.toSet());
+                .stream().filter(x -> !x.getSquares().contains(shooter.getLocation())).collect(Collectors.toSet());
     }
 
     /**
@@ -152,8 +155,8 @@ public class TargetGens{
      * @return the TargetGen generating all rooms different from the shooter's
      * one
      */
-    public static TargetGen differentSquares(){
-        return (shooter, board, lastTargets) -> board.getSquares().stream().filter(x->x!=shooter.getLocation()).collect(Collectors.toSet());
+    public static TargetGen differentSquares() {
+        return (shooter, board, lastTargets) -> board.getSquares().stream().filter(x -> x != shooter.getLocation()).collect(Collectors.toSet());
     }
 
     /**
@@ -166,9 +169,9 @@ public class TargetGens{
      * that are at a maximum distance of n from the first element of
      * lastTargets
      */
-    public static TargetGen maxDistanceFromLastFigures(int n){
-        return (shooter, board, lastTargets)->((AbstractSquare)lastTargets.get(0)).atDistance(n).stream().
-                collect(HashSet::new,(x, y)->x.addAll(y.getOccupants().stream().filter(z->z!=shooter).collect(Collectors.toSet())), Set::addAll);
+    public static TargetGen maxDistanceFromLastFigures(int n) {
+        return (shooter, board, lastTargets) -> ((AbstractSquare) lastTargets.get(0)).atDistance(n).stream().
+                collect(HashSet::new, (x, y) -> x.addAll(y.getOccupants().stream().filter(z -> z != shooter).collect(Collectors.toSet())), Set::addAll);
     }
 
     /**
@@ -181,8 +184,8 @@ public class TargetGens{
      * that are at a maximum distance of n from the first element of
      * lastTargets
      */
-    public static TargetGen maxDistanceFromLastSquares(int n){
-        return (shooter, board, lastTargets)-> new HashSet<>(((AbstractSquare)lastTargets.get(0)).atDistance(n));
+    public static TargetGen maxDistanceFromLastSquares(int n) {
+        return (shooter, board, lastTargets) -> new HashSet<>(((AbstractSquare) lastTargets.get(0)).atDistance(n));
     }
 
     /**
@@ -192,9 +195,9 @@ public class TargetGens{
      * @return the TargetGen generating all the figures
      * that are visible from the last figure in lastTargets
      */
-    public static TargetGen visibleFromLastFigures(){
+    public static TargetGen visibleFromLastFigures() {
         return (shooter, board, lastTargets) -> board.getFigures()
-                .stream().filter(x->x!=shooter && !lastTargets.contains(x) && ((Figure)lastTargets.get(lastTargets.size()-1)).getLocation()
+                .stream().filter(x -> x != shooter && !lastTargets.contains(x) && ((Figure) lastTargets.get(lastTargets.size() - 1)).getLocation()
                         .visibleSquares().contains(x.getLocation())).collect(Collectors.toSet());
     }
 
@@ -207,18 +210,18 @@ public class TargetGens{
      * that are on the same direction of the movement from the first element
      * of lastTargets to the shooter's current square
      */
-    public static TargetGen sameDirectionAsLastSquares(){
+    public static TargetGen sameDirectionAsLastSquares() {
         return (shooter, board, lastTargets) -> {
-            int[] origin = ((AbstractSquare)lastTargets.get(0)).getCoordinates();
-            int[] last = shooter.getLocation().getCoordinates();
-            if(origin[0]==last[0] && origin[1]>last[1]) return board.getSquares()
-                    .stream().filter(x->x.getCoordinates()[0]==origin[0] && x.getCoordinates()[1]<origin[1]).collect(Collectors.toSet());
-            else if(origin[0]==last[0] && origin[1]<last[1]) return board.getSquares()
-                    .stream().filter(x->x.getCoordinates()[0]==origin[0] && x.getCoordinates()[1]>origin[1]).collect(Collectors.toSet());
-            else if(origin[1]==last[1] && origin[0]<last[0]) return board.getSquares()
-                    .stream().filter(x->x.getCoordinates()[1]==origin[1] && x.getCoordinates()[0]>origin[0]).collect(Collectors.toSet());
+            int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
+            int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
+            if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1]).collect(Collectors.toSet());
+            else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1]).collect(Collectors.toSet());
+            else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
+                    .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0]).collect(Collectors.toSet());
             else return board.getSquares()
-                    .stream().filter(x->x.getCoordinates()[1]==origin[1] && x.getCoordinates()[0]<origin[0]).collect(Collectors.toSet());
+                        .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0]).collect(Collectors.toSet());
         };
     }
 
@@ -229,7 +232,7 @@ public class TargetGens{
      * @return the TargetGen generating the non-null elements
      * present in the last 2 positions of lastTargets
      */
-    public static TargetGen otherTarget(){
+    public static TargetGen otherTarget() {
         return (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 

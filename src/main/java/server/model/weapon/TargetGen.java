@@ -29,24 +29,26 @@ public interface TargetGen {
      */
     Set<Targettable> get(Figure shooter, Board board, List<Targettable> lastTargets);
 
-    default TargetGen and(TargetGen targetGen2){
-        return (shooter,board,last)-> {
-            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
-            res.retainAll(targetGen2.get(shooter,board,last));
+    default TargetGen and(TargetGen targetGen2) {
+        return (shooter, board, last) -> {
+            Set<Targettable> res = new HashSet<>(this.get(shooter, board, last));
+            res.retainAll(targetGen2.get(shooter, board, last));
             return res;
         };
     }
-    default TargetGen or(TargetGen targetGen2){
-        return (shooter,board,last)-> {
-            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
-            res.addAll(targetGen2.get(shooter,board,last));
+
+    default TargetGen or(TargetGen targetGen2) {
+        return (shooter, board, last) -> {
+            Set<Targettable> res = new HashSet<>(this.get(shooter, board, last));
+            res.addAll(targetGen2.get(shooter, board, last));
             return res;
         };
     }
-    default TargetGen less(TargetGen targetGen2){
-        return (shooter,board,last)-> {
-            Set<Targettable> res= new HashSet<>(this.get(shooter,board,last));
-            res.removeAll(targetGen2.get(shooter,board,last));
+
+    default TargetGen less(TargetGen targetGen2) {
+        return (shooter, board, last) -> {
+            Set<Targettable> res = new HashSet<>(this.get(shooter, board, last));
+            res.removeAll(targetGen2.get(shooter, board, last));
             return res;
         };
     }
