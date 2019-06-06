@@ -29,7 +29,9 @@ public class Effects {
     }
 
     public static Effect moveLastToCurr() {
-        return (shooter, currentTargets, lastTargets) -> lastTargets.forEach(x -> ((Figure) x).moveTo((AbstractSquare) currentTargets.iterator().next()));
+        return (shooter, currentTargets, lastTargets) -> ((Figure)lastTargets.get(lastTargets.size()-1))
+                .moveTo(((AbstractSquare) currentTargets.iterator().next()));
+
     }
 
     public static Effect addShooterSquareToLast() {

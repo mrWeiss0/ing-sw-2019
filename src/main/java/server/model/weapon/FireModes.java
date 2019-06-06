@@ -156,7 +156,7 @@ public class FireModes {
             new FireMode(
                     new FireStep(1,1,
                             TargetGens.visibleFigures().less(TargetGens.maxDistanceFigures(0)),
-                            Effects.damageCurr(2).and(Effects.addCurrToLast()).and(Effects.addCurrFigureSquareToLast())),
+                            Effects.damageCurr(2).and(Effects.addCurrFigureSquareToLast()).and(Effects.addCurrToLast())),
                     new FireStep(0,1,
                             TargetGens.maxDistanceFromLastSquares(1),
                             Effects.moveLastToCurr())
@@ -166,9 +166,9 @@ public class FireModes {
                             TargetGens.maxDistanceSquares(2),
                             Effects.moveToCurr())),
             new FireMode(new AmmoCube(0,1,0),
-                    new FireStep(2,2,
+                    new FireStep(0,2,
                             TargetGens.inLast(),
-                            Effects.damageCurr(1)))
+                            Effects.damageLast(1)))
     };
 
     static final FireMode[] railgunModes = new FireMode[]{
@@ -237,10 +237,10 @@ public class FireModes {
             new FireMode(new AmmoCube(0,0,1),
                     new FireStep(1,1,
                             TargetGens.maxDistanceSquares(1).less(TargetGens.maxDistanceSquares(0)),
-                            Effects.moveToCurr()),
+                            Effects.addShooterSquareToLast().and(Effects.moveToCurr())),
                     new FireStep(1,1,
                             TargetGens.maxDistanceFigures(0),
-                            Effects.damageCurr(2).and(Effects.addShooterSquareToLast().and(Effects.addCurrToLast()))),
+                            Effects.damageCurr(2).and(Effects.addShooterSquareToLast())),
                     new FireStep(1,1,
                             TargetGens.sameDirectionAsLastSquares().and(TargetGens.maxDistanceSquares(1).less(TargetGens.inLast())),
                             Effects.moveToCurr()),

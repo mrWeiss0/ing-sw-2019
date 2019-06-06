@@ -243,4 +243,5 @@ class TargetGensTest {
         assertTrue(targets.contains(figures[3]));
         assertTrue(targets.contains(figures[4]));
     }
+
 }
