@@ -32,7 +32,7 @@ public class OptionalWeapon extends Weapon {
      * FireMode is dependent on another, the latter should precede the former.
      *
      * @param selectedModes the list of FireMode to check for availability
-     * @return  true if the list is valid
+     * @return true if the list is valid
      */
     @Override
     public boolean validateFireModes(List<FireMode> selectedModes) {
@@ -63,7 +63,7 @@ public class OptionalWeapon extends Weapon {
          * Sets the pickup cost for the weapon to be built.
          *
          * @param cost the pickup cost for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         @Override
         public Builder pickupCost(AmmoCube cost) {
@@ -75,7 +75,7 @@ public class OptionalWeapon extends Weapon {
          * Sets reload cost for the weapon to be built.
          *
          * @param cost the reload cost for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         @Override
         public Builder reloadCost(AmmoCube cost) {
@@ -87,7 +87,7 @@ public class OptionalWeapon extends Weapon {
          * Sets the specified FireModes for the weapon to be built.
          *
          * @param fireModes the FireModes for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         @Override
         public Builder fireModes(FireMode... fireModes) {
@@ -99,7 +99,7 @@ public class OptionalWeapon extends Weapon {
          *
          * @param fireModes the FireModes' collection for the weapon to be
          *                  built
-         * @return  this builder
+         * @return this builder
          */
         @Override
         public Builder fireModes(Collection<FireMode> fireModes) {
@@ -110,7 +110,7 @@ public class OptionalWeapon extends Weapon {
         /**
          * Sets the first FireMode specified as dependent from the second.
          *
-         * @param after the dependent FireMode
+         * @param after  the dependent FireMode
          * @param before the previous FireMode dependee
          * @return this builder
          */

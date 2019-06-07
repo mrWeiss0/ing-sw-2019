@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,7 +42,7 @@ class RefillTest {
                         new SquareImage().setCoords(0, 0).setSpawn().setId(12).setColor(1)
                 )
                 .build();
-        Set<AbstractSquare> squares = g.getBoard().getSquares();
+        List<AbstractSquare> squares = g.getBoard().getSquares();
         Deck<AmmoTile> deck = new Deck<>();
         try {
             Field atd = Game.class.getDeclaredField("ammoTileDeck");

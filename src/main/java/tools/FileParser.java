@@ -27,7 +27,7 @@ public final class FileParser {
      * @param reader the reader that provides a stream from which to generate
      *               the squares
      * @return the Square Images from which the game's square are to be
-     *         constructed
+     * constructed
      */
     public static SquareImage[] readSquares(Reader reader) {
         return gson.fromJson(reader, SquareImage[].class);
@@ -40,7 +40,7 @@ public final class FileParser {
      * @param reader the reader that provides a stream from which to generate
      *               the AmmoTile
      * @return the AmmoTile Images from which the game's square are to be
-     *         constructed
+     * constructed
      */
     public static AmmoTileImage[] readAmmoTiles(Reader reader) {
         return gson.fromJson(reader, AmmoTileImage[].class);
@@ -53,7 +53,7 @@ public final class FileParser {
      * @param reader the reader that provides a stream from which to generate
      *               the PowerUp
      * @return the PowerUp Images from which the game's square are to be
-     *         constructed
+     * constructed
      */
     public static PowerUpImage[] readPowerUps(Reader reader) {
         return gson.fromJson(reader, PowerUpImage[].class);

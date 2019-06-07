@@ -27,14 +27,14 @@ class GrabTest {
         Weapon.Builder weapon = new Weapon.Builder();
         Weapon.Builder optionalWeapon = new OptionalWeapon.Builder();
         squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{}), new SpawnSquare(new Room(), new int[]{}, 3)};
-        pup = new PowerUp(null, null, null, null, null);
+        pup = new PowerUp(null, null, null, null);
         items = new Grabbable[]{
                 weapon.build(),
                 optionalWeapon.build(),
                 weapon.build(),
                 optionalWeapon.build(),
                 new AmmoTile(new AmmoCube(1, 2, 3), () -> pup, (i) -> discard = i),
-                new AmmoTile(new AmmoCube(1), () -> new PowerUp(null, null, null, null, null), (i) -> discard = i)
+                new AmmoTile(new AmmoCube(1), () -> new PowerUp(null, null, null, null), (i) -> discard = i)
         };
     }
 
@@ -78,7 +78,7 @@ class GrabTest {
     void testGrabWeapon() {
         squares[1].refill(items[0]);
         squares[1].grab(f, items[0]);
-        assertEquals(Stream.of(items[0]).collect(Collectors.toSet()), f.getWeapons());
+        assertEquals(Stream.of(items[0]).collect(Collectors.toList()), f.getWeapons());
     }
 
     @Test
@@ -89,7 +89,7 @@ class GrabTest {
         squares[1].grab(f, items[1]);
         assertThrows(IllegalStateException.class, () -> squares[1].grab(f, items[1]));
         squares[1].grab(f, items[0]);
-        assertEquals(Stream.of(items[0], items[1]).collect(Collectors.toSet()), f.getWeapons());
+        assertEquals(Stream.of(items[1], items[0]).collect(Collectors.toList()), f.getWeapons());
         assertThrows(IllegalStateException.class, () -> squares[1].grab(f, items[2]));
     }
 
@@ -98,14 +98,14 @@ class GrabTest {
         squares[1].refill(items[0]);
         assertThrows(IllegalStateException.class, () -> squares[1].grab(f, items[1]));
         assertThrows(ClassCastException.class, () -> squares[1].grab(f, items[4]));
-        assertEquals(Stream.of().collect(Collectors.toSet()), f.getWeapons());
+        assertEquals(Stream.of().collect(Collectors.toList()), f.getWeapons());
     }
 
     @Test
     void testGrabAmmo() {
         squares[0].refill(items[4]);
         squares[0].grab(f, items[4]);
-        assertEquals(Stream.of(pup).collect(Collectors.toSet()), f.getPowerUps());
+        assertEquals(Stream.of(pup).collect(Collectors.toList()), f.getPowerUps());
         assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(1, 2, 3).value(i) == f.getAmmo().value(i)));
         assertEquals(discard, items[4]);
     }
@@ -116,7 +116,7 @@ class GrabTest {
         squares[0].grab(f, items[4]);
         squares[0].refill(items[5]);
         squares[0].grab(f, items[5]);
-        assertEquals(Stream.of(pup).collect(Collectors.toSet()), f.getPowerUps());
+        assertEquals(Stream.of(pup).collect(Collectors.toList()), f.getPowerUps());
         assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(2, 2, 3).value(i) == f.getAmmo().value(i)));
         assertEquals(discard, items[5]);
     }
@@ -126,7 +126,7 @@ class GrabTest {
         squares[0].refill(items[4]);
         assertThrows(IllegalStateException.class, () -> squares[0].grab(f, items[5]));
         assertThrows(ClassCastException.class, () -> squares[0].grab(f, items[1]));
-        assertEquals(Stream.of().collect(Collectors.toSet()), f.getPowerUps());
+        assertEquals(Stream.of().collect(Collectors.toList()), f.getPowerUps());
         assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube().value(i) == f.getAmmo().value(i)));
     }
 }

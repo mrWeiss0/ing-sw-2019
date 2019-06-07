@@ -25,7 +25,7 @@ public class AmmoTile implements Grabbable {
      * Constructs an AmmoTile with the specified AmmoCube, a PowerUp supplier
      * and a consumer deck to which this AmmoTile is to be discarded.
      *
-     * @param ammo  the amount of ammo to be given
+     * @param ammo    the amount of ammo to be given
      * @param powerUp the supplier for the PowerUp
      * @param discard the consumer for the discard
      */
@@ -40,7 +40,7 @@ public class AmmoTile implements Grabbable {
      * with it, else returns <code>null</code>.
      *
      * @return a PowerUp if the tile has been generated with it, else
-     *         null
+     * null
      */
     public Optional<PowerUp> getPowerUp() {
         return Optional.ofNullable(powerUp.get());

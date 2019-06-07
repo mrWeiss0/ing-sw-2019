@@ -113,7 +113,7 @@ public class Weapon implements Grabbable {
          * Sets the pickup cost for the weapon to be built.
          *
          * @param cost the pickup cost for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         public Builder pickupCost(AmmoCube cost) {
             pickupCost = cost;
@@ -124,7 +124,7 @@ public class Weapon implements Grabbable {
          * Sets reload cost for the weapon to be built.
          *
          * @param cost the reload cost for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         public Builder reloadCost(AmmoCube cost) {
             reloadCost = cost;
@@ -135,7 +135,7 @@ public class Weapon implements Grabbable {
          * Sets the specified FireModes for the weapon to be built.
          *
          * @param fireModes the FireModes for the weapon to be built
-         * @return  this builder
+         * @return this builder
          */
         public Builder fireModes(FireMode... fireModes) {
             return fireModes(Arrays.asList(fireModes));
@@ -146,7 +146,7 @@ public class Weapon implements Grabbable {
          *
          * @param fireModes the FireModes' collection for the weapon to be
          *                  built
-         * @return  this builder
+         * @return this builder
          */
         public Builder fireModes(Collection<FireMode> fireModes) {
             this.fireModes.addAll(fireModes);

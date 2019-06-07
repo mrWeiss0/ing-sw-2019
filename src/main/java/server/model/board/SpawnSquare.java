@@ -22,9 +22,9 @@ public class SpawnSquare extends AbstractSquare {
      * adding this to its square set; also sets this square's max weapon
      * capacity to the given one,
      *
-     * @param room the room this square belongs to
+     * @param room        the room this square belongs to
      * @param coordinates this square coordinates
-     * @param capacity this square's max weapon capacity
+     * @param capacity    this square's max weapon capacity
      */
     public SpawnSquare(Room room, int[] coordinates, int capacity) {
         super(room, coordinates);
@@ -50,9 +50,9 @@ public class SpawnSquare extends AbstractSquare {
      * Refills this square with ammo from a specified <code>Grabbable</code>,
      * which actual type should be <code>Weapon</code>.
      *
-     * @throws ClassCastException if the specified <code>Grabbable</code>
-     * actual type isn't <code>Weapon</code>
      * @param o the weapon with which to refill this square
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     *                            actual type isn't <code>Weapon</code>
      */
     @Override
     public void refill(Grabbable o) {
@@ -66,12 +66,12 @@ public class SpawnSquare extends AbstractSquare {
      * Gives the grabber the specified <code>Weapon</code>, who should
      * always be one of this square's weapons
      *
-     * @throws ClassCastException if the specified <code>Grabbable</code>
-     * actual type isn't <code>Weapon</code>
-     * @throws IllegalStateException when the specified <code>AmmoTile</code>
-     * isn' t one of this square's weapons
      * @param grabber the figure grabbing the content
      * @param grabbed the content to be grabbed
+     * @throws ClassCastException    if the specified <code>Grabbable</code>
+     *                               actual type isn't <code>Weapon</code>
+     * @throws IllegalStateException when the specified <code>AmmoTile</code>
+     *                               isn' t one of this square's weapons
      */
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {

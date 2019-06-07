@@ -15,7 +15,7 @@ class PowerUpTest {
 
     @Test
     void test() {
-        PowerUp powerUp = new PowerUp(new AmmoCube(1), new SpawnSquare(new Room(), null, 0), this::discard, null, null);
+        PowerUp powerUp = new PowerUp(null, new AmmoCube(1), new SpawnSquare(new Room(), null, 0), this::discard);
         powerUp.discard();
         assertEquals(powerUp, discard);
     }

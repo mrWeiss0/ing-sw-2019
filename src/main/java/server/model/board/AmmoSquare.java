@@ -44,9 +44,9 @@ public class AmmoSquare extends AbstractSquare {
      * Refills this square with ammo from a specified <code>Grabbable</code>,
      * which actual type should be <code>AmmoTile</code>.
      *
-     * @throws ClassCastException if the specified <code>Grabbable</code>
-     * actual type isn't <code>AmmoTile</code>
      * @param o the ammo with which to refill this square
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     *                            actual type isn't <code>AmmoTile</code>
      */
     @Override
     public void refill(Grabbable o) {
@@ -60,12 +60,12 @@ public class AmmoSquare extends AbstractSquare {
      * Gives the grabber the specified <code>AmmoTile</code>, who should
      * always be this square's ammo.
      *
-     * @throws ClassCastException if the specified <code>Grabbable</code>
-     * actual type isn't <code>AmmoTile</code>
-     * @throws IllegalStateException when the specified <code>AmmoTile</code>
-     * isn' t this square's ammo
      * @param grabber the figure grabbing the content
      * @param grabbed the content to be grabbed
+     * @throws ClassCastException    if the specified <code>Grabbable</code>
+     *                               actual type isn't <code>AmmoTile</code>
+     * @throws IllegalStateException when the specified <code>AmmoTile</code>
+     *                               isn' t this square's ammo
      */
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {

@@ -29,8 +29,8 @@ public class FireStep {
      *
      * @param minTargets minimum number of targets the effect can be applied to
      * @param maxTargets maximum number of targets the effect can be applied to
-     * @param targetGen the function to be used for target generation
-     * @param effect the effect to be applied to the targets
+     * @param targetGen  the function to be used for target generation
+     * @param effect     the effect to be applied to the targets
      */
     public FireStep(int minTargets, int maxTargets, TargetGen targetGen, Effect effect) {
         this.minTargets = minTargets;
@@ -61,10 +61,10 @@ public class FireStep {
      * Applies this FireStep's target generation function to the board,
      * returning the generated <code>Targettable</code>s.
      *
-     * @param shooter the <code>Figure</code> who is currently shooting
-     * @param board the <code>Board</code> the function is to be applied to
+     * @param shooter     the <code>Figure</code> who is currently shooting
+     * @param board       the <code>Board</code> the function is to be applied to
      * @param lastTargets the previously effected targets
-     * @return  the set of generated targets
+     * @return the set of generated targets
      */
     public Set<Targettable> getTargets(Figure shooter, Board board, List<Targettable> lastTargets) {
         return targetGen.get(shooter, board, lastTargets);
@@ -73,9 +73,9 @@ public class FireStep {
     /**
      * Applies this <code>FireStep</code>'s effect to the specified targets.
      *
-     * @param shooter the <code>Figure</code> who is currently shooting
+     * @param shooter        the <code>Figure</code> who is currently shooting
      * @param currentTargets the targets on which the effect is to be applied
-     * @param lastTargets the previously effected targets
+     * @param lastTargets    the previously effected targets
      */
     public void run(Figure shooter, Set<Targettable> currentTargets, List<Targettable> lastTargets) {
         effect.run(shooter, currentTargets, lastTargets);

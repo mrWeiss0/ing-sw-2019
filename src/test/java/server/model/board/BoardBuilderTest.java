@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,7 +34,7 @@ public class BoardBuilderTest {
             new SquareImage().setId(3).setCoords(1, 0).setRoomId(0).setAdjacent(0).setSpawn().setColor(2),
             new SquareImage().setId(10).setCoords(2, 3).setRoomId(5).setAdjacent(9, 6).setSpawn()
     };
-    private static Set<Room> rooms;
+    private static List<Room> rooms;
     private static List<AbstractSquare> squares;
 
     @BeforeAll

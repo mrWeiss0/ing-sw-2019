@@ -1,16 +1,16 @@
 package server.connection;
 
-import server.Server;
+import server.controller.LobbyList;
 import server.controller.Player;
 
 import java.io.Closeable;
 
 public abstract class VirtualClient implements Closeable {
-    protected final Server server;
+    protected final LobbyList lobbyList;
     protected Player player;
 
-    protected VirtualClient(Server server) {
-        this.server = server;
+    protected VirtualClient(LobbyList lobbyList) {
+        this.lobbyList = lobbyList;
     }
 
     public void setPlayer(Player player) {

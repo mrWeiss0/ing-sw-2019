@@ -2,7 +2,7 @@ package server.connection;
 
 import client.connection.RemoteClient;
 import server.Main;
-import server.Server;
+import server.controller.LobbyList;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
@@ -11,8 +11,8 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientRMI extends VirtualClient implements RemotePlayer {
     private final RemoteClient remoteClient;
 
-    public ClientRMI(Server server, RemoteClient remoteClient) {
-        super(server);
+    public ClientRMI(LobbyList lobbyList, RemoteClient remoteClient) {
+        super(lobbyList);
         this.remoteClient = remoteClient;
     }
 
@@ -38,6 +38,6 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void login(String username) {
-        server.registerPlayer(username, this);
+        lobbyList.registerPlayer(username, this);
     }
 }

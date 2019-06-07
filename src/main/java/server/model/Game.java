@@ -2,7 +2,6 @@ package server.model;
 
 import server.controller.Player;
 import server.model.board.*;
-import server.model.weapon.FireStep;
 import server.model.weapon.Weapon;
 
 import java.util.*;
@@ -39,35 +38,6 @@ public class Game {
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
-
-
-    private List<List<FireStep>> powerUpEffects = Arrays.asList(
-            Collections.singletonList(new FireStep(1, 1,
-                    (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getDamaged()),
-                    (shooter, curr, last) ->
-                            curr.forEach(x -> x.damageFrom(shooter, 1))
-            )),
-            Arrays.asList(new FireStep(1, 1,
-                    (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getFigures()),
-                    (shooter, curr, last) -> {
-                    }
-            ), new FireStep(1, 1,
-                    (shooter, gameBoard, last) -> ((Figure) last.toArray()[0]).getLocation().atDistance(1, 2).
-                            stream().filter(x ->
-                            x.getCoordinates()[0] == ((Figure) last.toArray()[0]).getLocation().getCoordinates()[0] ||
-                                    x.getCoordinates()[1] == ((Figure) last.toArray()[0]).getLocation().getCoordinates()[1]).collect(Collectors.toSet()),
-                    (shooter, curr, last) ->
-                            ((Figure) last.toArray()[0]).moveTo((AbstractSquare) curr.toArray()[0])
-            )),
-            Collections.singletonList(new FireStep(1, 1,
-                    (shooter, gameBoard, last) -> new HashSet<>(Collections.singletonList(shooter.getDamages().get(shooter.getDamages().size() - 1))),
-                    (shooter, curr, last) -> curr.forEach(x -> x.markFrom(shooter, 1))
-            )),
-            Collections.singletonList(new FireStep(1, 1,
-                            (shooter, gameBoard, last) -> new HashSet<>(gameBoard.getSquares()),
-                            (shooter, curr, last) -> shooter.moveTo((AbstractSquare) curr.toArray()[0])
-                    )
-            ));
 
     private ObjIntConsumer<List<Figure>> normalPointGiver = (damages, deaths) -> {
         List<Figure> toRemunerate =
@@ -107,23 +77,25 @@ public class Game {
         board = builder.boardBuilder.build();
         board.getFigures().forEach(x -> x.setPointGiver(normalPointGiver));
         players = Collections.unmodifiableList(builder.players);
-
         weaponDeck.discard(Arrays.asList(builder.weapons));
         powerUpDeck.discard(Arrays.stream(builder.powerUps)
                 .map(powerup -> {
                     int[] ammoVal = new int[powerup.color + 1];
                     ammoVal[powerup.color] = 1;
-                    return new PowerUp(new AmmoCube(ammoVal), builder.boardBuilder.getSpawnByColor(powerup.color),
-                            powerUpDeck::discard, powerUpEffects.get(powerup.type.ordinal()), powerup.type);
+                    return new PowerUp(
+                            powerup.type, new AmmoCube(ammoVal),
+                            builder.boardBuilder.getSpawnByColor(powerup.color), powerUpDeck::discard);
                 })
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
-                .map(tile -> new AmmoTile(new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null, ammoTileDeck::discard))
+                .map(tile -> new AmmoTile(
+                        new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null,
+                        ammoTileDeck::discard))
                 .collect(Collectors.toList()));
         killPoints = builder.killPoints;
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
-        players.forEach(x -> x.getFigure().addPowerUp(powerUpDeck.draw()));
+        players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
     }
 
     public void toggleFrenzy() {
@@ -431,7 +403,6 @@ public class Game {
             return this;
         }
 
-
         /**
          * Returns this builder with the specified player added to the
          * player list.
@@ -439,9 +410,9 @@ public class Game {
          * @param player the player to add to the player list
          * @return this builder
          */
-        public int addPlayer(Player player) {
+        public Builder addPlayer(Player player) {
             players.add(player);
-            return players.size();
+            return this;
         }
 
         /**
@@ -451,9 +422,13 @@ public class Game {
          * @param player the player to remove from the player list.
          * @return this builder
          */
-        public int removePlayer(Player player) {
+        public Builder removePlayer(Player player) {
             players.remove(player);
-            return players.size();
+            return this;
+        }
+
+        public List<Player> getJoinedPlayers() {
+            return players;
         }
 
         /**

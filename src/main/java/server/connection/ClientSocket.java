@@ -1,7 +1,7 @@
 package server.connection;
 
 import server.Main;
-import server.Server;
+import server.controller.LobbyList;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.CommandNotFoundException;
@@ -22,8 +22,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Map.entry("login", this::login)
     ), "\\s*:\\s*", "\\s*,\\s*");
 
-    public ClientSocket(Server server, Socket socket) throws IOException {
-        super(server);
+    public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
+        super(lobbyList);
         this.socket = socket;
         ostream = new PrintStream(socket.getOutputStream());
         send("Connected");
@@ -83,6 +83,6 @@ public class ClientSocket extends VirtualClient implements Runnable {
         String username = args[0].trim();
         if (username.isEmpty())
             throw new CommandException("Choose a username");
-        server.registerPlayer(username, this);
+        lobbyList.registerPlayer(username, this);
     }
 }

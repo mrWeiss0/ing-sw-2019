@@ -1,9 +1,7 @@
 package server.model;
 
 import server.model.board.SpawnSquare;
-import server.model.weapon.FireStep;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -17,21 +15,20 @@ public class PowerUp {
     private final AmmoCube ammo;
     private final SpawnSquare spawn;
     private final Consumer<PowerUp> discard;
-    private final List<FireStep> fireSteps;
     private final PowerUpType type;
 
     /**
+     * TODO
      * Constructs a PowerUp with the specified ammo and spawnpoint.
      *
-     * @param ammo the ammo that this PowerUp can be traded for
+     * @param ammo  the ammo that this PowerUp can be traded for
      * @param spawn the spawnpoint that this PowerUp can be used to spawn at
      */
-    public PowerUp(AmmoCube ammo, SpawnSquare spawn, Consumer<PowerUp> discard, List<FireStep> steps, PowerUpType type) {
+    public PowerUp(PowerUpType type, AmmoCube ammo, SpawnSquare spawn, Consumer<PowerUp> discard) {
+        this.type = type;
         this.ammo = ammo;
         this.spawn = spawn;
         this.discard = discard;
-        this.fireSteps = steps;
-        this.type = type;
     }
 
     /**
@@ -58,9 +55,5 @@ public class PowerUp {
 
     public PowerUpType getType() {
         return type;
-    }
-
-    public List<FireStep> getFireSteps() {
-        return fireSteps;
     }
 }

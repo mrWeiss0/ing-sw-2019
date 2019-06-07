@@ -20,7 +20,7 @@ class PlayerTest {
     void init() {
         f = new Figure(0, 0, 0, 0, 0, 0);
         c = new ClientRMI(null, null);
-        g = new GameController(0, new Game.Builder().build());
+        g = new GameController(new Game.Builder().build());
         player.setFigure(f);
         player.setClient(c);
         player.setGame(g);

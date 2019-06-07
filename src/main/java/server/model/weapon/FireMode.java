@@ -34,7 +34,7 @@ public class FireMode {
     /**
      * Constructs a FireMode with the specified steps and cost.
      *
-     * @param cost the cost of the FireMode
+     * @param cost  the cost of the FireMode
      * @param steps the steps of the FireMode
      */
     public FireMode(AmmoCube cost, FireStep... steps) {
@@ -48,8 +48,8 @@ public class FireMode {
      * concatenated with those of the next FireMode.
      *
      * @param fm the list of FireModes of which the <code>FireStep</code>s are
-     *          to be returned
-     * @return  the list of <code>FireStep</code> of the specified FireModes
+     *           to be returned
+     * @return the list of <code>FireStep</code> of the specified FireModes
      */
     public static List<FireStep> flatSteps(List<FireMode> fm) {
         return fm.stream().flatMap(FireMode::getStepsStream).collect(Collectors.toList());

@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
  * them.
  */
 public class Board {
-    private final Set<Room> rooms;
-    private final Set<AbstractSquare> squares;
-    private final Set<Figure> figures;
+    private final List<Room> rooms;
+    private final List<AbstractSquare> squares;
+    private final List<Figure> figures;
 
     private Board(Builder builder) {
-        this.rooms = Collections.unmodifiableSet(new HashSet<>(builder.roomsMap.values()));
-        this.squares = Collections.unmodifiableSet(new HashSet<>(builder.squaresMap.values()));
-        this.figures = Collections.unmodifiableSet(builder.figures);
+        this.rooms = builder.roomsMap.values().stream().sorted(Comparator.comparingInt(Object::hashCode)).collect(Collectors.toList());
+        this.squares = builder.squaresMap.values().stream().sorted(Comparator.comparingInt(Object::hashCode)).collect(Collectors.toList());
+        this.figures = builder.figures.stream().sorted(Comparator.comparingInt(Object::hashCode)).collect(Collectors.toList());
     }
 
     /**
@@ -32,7 +32,7 @@ public class Board {
      *
      * @return this board's rooms
      */
-    public Set<Room> getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
@@ -41,7 +41,7 @@ public class Board {
      *
      * @return this board's squares
      */
-    public Set<AbstractSquare> getSquares() {
+    public List<AbstractSquare> getSquares() {
         return squares;
     }
 
@@ -50,7 +50,7 @@ public class Board {
      *
      * @return this board's figures
      */
-    public Set<Figure> getFigures() {
+    public List<Figure> getFigures() {
         return figures;
     }
 
@@ -78,7 +78,7 @@ public class Board {
         private final Map<Integer, Room> roomsMap = new HashMap<>();
         private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
         private final Map<Integer, SpawnSquare> spawnColorMap = new HashMap<>();
-        private final Set<Figure> figures = new HashSet<>();
+        private final List<Figure> figures = new ArrayList<>();
         private Supplier<SquareImage[]> squareImagesSupplier = () -> new SquareImage[]{};
         private int capacity = 1;
 
@@ -154,9 +154,9 @@ public class Board {
          * Returns an instance of <code>Board</code> created from the fields
          * set on this builder.
          *
-         * @throws IllegalArgumentException if the <code>SquareImages</code>
-         * provided don't have coordinates or their format is wrong.
          * @return the board instantiated
+         * @throws IllegalArgumentException if the <code>SquareImages</code>
+         *                                  provided don't have coordinates or their format is wrong.
          */
         public Board build() {
             SquareImage[] squareImages = squareImagesSupplier.get();

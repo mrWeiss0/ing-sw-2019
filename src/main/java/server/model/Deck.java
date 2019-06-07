@@ -32,8 +32,8 @@ public class Deck<T> {
      * Draws a card and removes it from the deck. Before drawing, if this
      * deck is empty, it's reshuffled using <code>shuffle</code>.
      *
-     * @throws java.util.NoSuchElementException if both the deck and the discard pile are empty
      * @return the card drawn
+     * @throws java.util.NoSuchElementException if both the deck and the discard pile are empty
      */
     public T draw() {
         if (cards.isEmpty()) shuffle();

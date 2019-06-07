@@ -4,7 +4,10 @@ import server.controller.Player;
 import server.model.*;
 import server.model.weapon.Weapon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.function.ObjIntConsumer;
 
 /**
@@ -29,8 +32,8 @@ public class Figure implements Targettable {
     private final List<Figure> damages = new ArrayList<>();
     private final HashMap<Figure, Integer> marks = new HashMap<>();
     private final HashMap<Figure, Integer> newMarks = new HashMap<>();
-    private final Set<Weapon> weapons = new HashSet<>();
-    private final Set<PowerUp> powerUps = new HashSet<>();
+    private final List<Weapon> weapons = new ArrayList<>();
+    private final List<PowerUp> powerUps = new ArrayList<>();
     private final int killDamages;
     private final int maxDamages;
     private final int maxMarks;
@@ -39,13 +42,13 @@ public class Figure implements Targettable {
     private final int maxPowerUps;
     private AbstractSquare location = null;
     private boolean damaged = false;
-    private List<Figure> deaths = new ArrayList<>();
-    private int remainingActions = 2;
-    private int points = 0;
+    private int deaths;
+    private int remainingActions;
+    private int points;
     private AmmoCube ammo = new AmmoCube();
-    private ObjIntConsumer<List<Figure>> pointGiver;
-    private Player owner;
-    private boolean frenzyTurnLeft = true;
+    private ObjIntConsumer<List<Figure>> pointGiver; // TODO ?
+    private Player player;
+    private boolean frenzyTurnLeft = true; // TODO ?
 
     /**
      * Constructs a figure with the given damage, marks, ammo, weapon and powerup limits.
@@ -60,7 +63,7 @@ public class Figure implements Targettable {
     }
 
     /**
-     * Returns the location this figure is on.
+     * Returns the square this figure is on.
      *
      * @return the location this figure is on
      */
@@ -73,7 +76,7 @@ public class Figure implements Targettable {
      *
      * @return the set of this player's weapons
      */
-    public Set<Weapon> getWeapons() {
+    public List<Weapon> getWeapons() {
         return weapons;
     }
 
@@ -109,9 +112,9 @@ public class Figure implements Targettable {
     /**
      * Subtracts the given ammo to this figure's.
      *
-     * @throws IllegalStateException if the ammo to subtract is more than
-     * what the figure has
      * @param ammo the ammo to be subtracted
+     * @throws IllegalStateException if the ammo to subtract is more than
+     *                               what the figure has
      */
     public void subAmmo(AmmoCube ammo) {
         if (!this.ammo.greaterEqThan(ammo))
@@ -124,7 +127,7 @@ public class Figure implements Targettable {
      *
      * @return this figure's PowerUp
      */
-    public Set<PowerUp> getPowerUps() {
+    public List<PowerUp> getPowerUps() {
         return powerUps;
     }
 
@@ -143,9 +146,9 @@ public class Figure implements Targettable {
     /**
      * Adds the specified weapon the figure's weapon set.
      *
-     * @throws IllegalStateException if the weapon size limit has already been
-     * reached.
      * @param grabbed the weapon to be added.
+     * @throws IllegalStateException if the weapon size limit has already been
+     *                               reached.
      */
     public void grab(Weapon grabbed) {
         if (weapons.size() >= maxWeapons)
@@ -227,15 +230,15 @@ public class Figure implements Targettable {
 
     public boolean isFrenzyTurnLeft() {
         return frenzyTurnLeft;
-    }
+    } // TODO ?
 
     public void setFrenzyTurnLeft(boolean frenzyTurnLeft) {
         this.frenzyTurnLeft = frenzyTurnLeft;
-    }
+    } // TODO ?
 
     public int getRemainingActions() {
         return remainingActions;
-    }
+    } // TODO ?
 
     public void setRemainingActions(int remainingActions) {
         this.remainingActions = remainingActions;
@@ -244,13 +247,13 @@ public class Figure implements Targettable {
     public void resolveDeath(Game game) {
         if (damages.size() >= killDamages) {
             moveTo(null);
-            deaths.add(damages.get(killDamages - 1));
+            ++deaths;
             game.addKillCount(damages.get(maxDamages - 2));
             if (damages.size() > killDamages) {
                 damages.get(maxDamages - 1).markFrom(this, 1);
                 game.addKillCount(damages.get(maxDamages - 1));
             }
-            pointGiver.accept(damages, deaths.size());
+            pointGiver.accept(damages, deaths);
             damages.clear();
         }
     }
@@ -263,16 +266,12 @@ public class Figure implements Targettable {
         this.points += points;
     }
 
-    public void addPowerUp(PowerUp powerUp) {
-        powerUps.add(powerUp);
-    }
-
     public void setPointGiver(ObjIntConsumer<List<Figure>> consumer) {
         this.pointGiver = consumer;
     }
 
-    public Player getOwner() {
-        return owner;
+    public Player getPlayer() {
+        return player;
     }
 
     public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn) {

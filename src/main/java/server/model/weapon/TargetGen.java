@@ -21,8 +21,8 @@ public interface TargetGen {
      * Returns the set of elements which can be by the specified shooter
      * on the given board.
      *
-     * @param shooter the figure who is shooting
-     * @param board the board on which to look for targets
+     * @param shooter     the figure who is shooting
+     * @param board       the board on which to look for targets
      * @param lastTargets the list of previous affected targets
      * @return the set of elements which can be targeted
      */

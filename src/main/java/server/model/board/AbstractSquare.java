@@ -91,6 +91,7 @@ public abstract class AbstractSquare implements Targettable {
     /**
      * Returns this square's adjacency set
      * .
+     *
      * @return this square's adjacency set
      */
     public Set<AbstractSquare> getAdjacent() {

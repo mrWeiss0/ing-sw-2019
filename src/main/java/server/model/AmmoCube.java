@@ -30,7 +30,7 @@ public class AmmoCube {
      * equal color.
      *
      * @param toAdd the AmmoCube to be added
-     * @return  the added AmmoCube
+     * @return the added AmmoCube
      */
     public AmmoCube add(AmmoCube toAdd) {
         return new AmmoCube(rangeAmmo(toAdd).
@@ -42,7 +42,7 @@ public class AmmoCube {
      * cubes of equal color.
      *
      * @param toSub the AmmoCube to be subbed
-     * @return   the subbed AmmoCube
+     * @return the subbed AmmoCube
      */
     public AmmoCube sub(AmmoCube toSub) {
         return new AmmoCube(rangeAmmo(toSub).
@@ -54,7 +54,7 @@ public class AmmoCube {
      * AmmoCube.
      *
      * @param c the max amount of ammo for each color
-     * @return  the AmmoCube once capped
+     * @return the AmmoCube once capped
      */
     public AmmoCube cap(int c) {
         return new AmmoCube(Arrays.stream(ammo).map(x -> Math.min(c, x)).toArray());
@@ -66,7 +66,7 @@ public class AmmoCube {
      *
      * @param other the AmmoCube checked
      * @return true if this AmmoCube contains more ammo then the specified for
-     *         each color
+     * each color
      */
     public boolean greaterEqThan(AmmoCube other) {
         return this.rangeAmmo(other).allMatch(i -> value(i) >= other.value(i));
@@ -76,7 +76,7 @@ public class AmmoCube {
      * Returns the amount of ammo for a given color.
      *
      * @param i the index of the wanted color
-     * @return  the amount of ammo for the given color
+     * @return the amount of ammo for the given color
      */
     public int value(int i) {
         return i < ammo.length ? ammo[i] : 0;
