@@ -205,7 +205,7 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
-            choices = new ArrayList<>(game.currentPlayer().getFigure().getSquare().peek());
+            choices = new ArrayList<>(game.currentPlayer().getFigure().getLocation().peek());
             //game.currentPlayer().getClient().send(new String("list of possible grabbable"));
             System.out.println(choices);
         }
@@ -214,7 +214,7 @@ public class GameController {
         public void select(int[] selections, GameController controller, String id) {
             if (selections.length != 1 || Arrays.stream(selections).anyMatch(x -> x > choices.size() || x < 0)) return;
             try {
-                game.currentPlayer().getFigure().getSquare().grab(game.currentPlayer().getFigure(), choices.get(selections[0]));
+                game.currentPlayer().getFigure().getLocation().grab(game.currentPlayer().getFigure(), choices.get(selections[0]));
                 controller.nextState();
             } catch (IllegalStateException e) {
                 controller.setState(new DiscardWeaponState());
@@ -235,7 +235,7 @@ public class GameController {
         @Override
         public void select(int[] selections, GameController controller, String id) {
             if (selections.length != 1 || Arrays.stream(selections).anyMatch(x -> x > choices.size() || x < 0)) return;
-            game.currentPlayer().getFigure().getSquare().refill(choices.get(selections[0]));
+            game.currentPlayer().getFigure().getLocation().refill(choices.get(selections[0]));
             game.currentPlayer().getFigure().getWeapons().remove(choices.get(selections[0]));
             controller.nextState();
         }
@@ -370,7 +370,7 @@ public class GameController {
             if (game.isFrenzy() && game.getPlayers().stream().noneMatch(x -> x.getFigure().isFrenzyTurnLeft())) {
                 setState(new EndGameState());
                 nextState();
-            } else if (game.currentPlayer().getFigure().getSquare() == null) {
+            } else if (game.currentPlayer().getFigure().getLocation() == null) {
                 setState(new SelectSpawnState(this));
             } else if (game.currentPlayer().getFigure().getRemainingActions() == 0) {
                 stateQueue.addLast(new SelectToReloadState());
@@ -472,7 +472,7 @@ public class GameController {
 
         @Override
         public void onEnter(GameController controller) {
-            choices = new ArrayList<>(game.currentPlayer().getFigure().getSquare().atDistance(minMove, maxMove));
+            choices = new ArrayList<>(game.currentPlayer().getFigure().getLocation().atDistance(minMove, maxMove));
             //game.currentPlayer().getClient().send(new String("possible cells"));
             System.out.println(choices.stream().map(x -> String.valueOf(x.getCoordinates()[0]) + String.valueOf(x.getCoordinates()[1])).collect(Collectors.toList()));
 
@@ -534,7 +534,7 @@ public class GameController {
             //TODO NB DON't CONSIDER INACTIVE PLAYERS
             game.getPlayers().forEach(x -> x.getFigure().resolveDeath(game));
             List<Player> deadPlayers = game.getPlayers().stream()
-                    .filter(x -> x.getFigure().getSquare() == null).collect(Collectors.toList());
+                    .filter(x -> x.getFigure().getLocation() == null).collect(Collectors.toList());
             deadPlayers.forEach(x -> x.getFigure().addPowerUp(game.drawPowerup()));
             choiceMap = new HashMap<>();
             deadPlayers.forEach(x -> choiceMap.put(x, new ArrayList<>(x.getFigure().getPowerUps())));

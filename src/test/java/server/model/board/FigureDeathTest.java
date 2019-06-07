@@ -29,7 +29,7 @@ class FigureDeathTest {
 
     @BeforeEach
     void initCase() {
-        Game.Builder gb = new Game.Builder().killPoints(new int[]{8, 6, 4, 2}).maxDamages(12).deathDamage(11).nKills(8).maxMarks(3);
+        Game.Builder gb = new Game.Builder().killPoints(new int[]{8, 6, 4, 2}).maxDamages(12).killDamages(11).nKills(8).maxMarks(3);
         gb.addPlayer(new Player(null));
         gb.addPlayer(new Player(null));
         gb.addPlayer(new Player(null));

@@ -19,7 +19,7 @@ class GameControllerTest {
 
     @BeforeEach
     void init() {
-        Game.Builder gb = new Game.Builder().nKills(8).maxDamages(12).deathDamage(11).maxPowerUps(3).killPoints(new int[]{8, 6, 4, 2})
+        Game.Builder gb = new Game.Builder().nKills(8).maxDamages(12).killDamages(11).maxPowerUps(3).killPoints(new int[]{8, 6, 4, 2})
                 .frenzyPoints(new int[]{2, 1, 1, 1}).frenzyOn(true);
         gb.addPlayer(new Player("0"));
         gb.addPlayer(new Player("1"));

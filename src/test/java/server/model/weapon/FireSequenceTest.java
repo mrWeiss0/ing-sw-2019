@@ -35,7 +35,7 @@ class FireSequenceTest {
     @BeforeAll
     static void init() {
         base = new FireMode(new FireStep(1, 2,
-                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
+                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t -> t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     curr.forEach(f -> f.damageFrom(shooter, 1));
                     last.addAll(curr);
@@ -57,7 +57,7 @@ class FireSequenceTest {
         focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, otherTG, otherEff));
 
         tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, otherTG, otherEff), new FireStep(0, 1,
-                (shooter, board, last) -> shooter.getSquare().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
+                (shooter, board, last) -> shooter.getLocation().visibleFigures().stream().filter(t -> !last.contains(t) && t != shooter).collect(Collectors.toSet()),
                 (shooter, curr, last) -> {
                     try {
                         curr.iterator().next().damageFrom(shooter, 1);
@@ -69,15 +69,15 @@ class FireSequenceTest {
     @BeforeEach
     void each() {
         figures = new Figure[]{
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11),
-                new Figure(12, 3, 3, 3, 3, 11)
+                new Figure(10, 12, 3, 3, 3, 3),
+                new Figure(10, 12, 3, 3, 3, 3),
+                new Figure(10, 12, 3, 3, 3, 3),
+                new Figure(10, 12, 3, 3, 3, 3),
+                new Figure(10, 12, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))
-                .figures(new Figure(12, 3, 3, 3, 3, 11))
+                .figures(new Figure(10, 12, 3, 3, 3, 3))
                 .squares(new SquareImage().setCoords(0, 0))
                 .build();
         for (Figure f : figures) f.moveTo(board.getSquares().iterator().next());
@@ -85,7 +85,7 @@ class FireSequenceTest {
 
     @Test
     void testCost() {
-        assertTrue(ammoCubeEquals(new AmmoCube(1, 1), Stream.of(base, focus, tripod).map(FireMode::getCost).reduce(AmmoCube::add).orElseGet(AmmoCube::new)));
+        assertTrue(ammoCubeEquals(new AmmoCube(1, 1), FireMode.flatCost(Arrays.asList(base, focus, tripod))));
     }
 
     @Test
@@ -104,7 +104,7 @@ class FireSequenceTest {
         assertThrows(NoSuchElementException.class, () -> fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
         // Check
         assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), board.getDamaged());
-        board.clearDamaged();
+        board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
         assertEquals(Collections.singletonList(figures[0]), figures[1].getDamages());
         assertEquals(Collections.singletonList(figures[0]), figures[2].getDamages());

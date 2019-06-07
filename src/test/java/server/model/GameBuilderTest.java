@@ -6,6 +6,7 @@ import server.controller.Player;
 import server.model.board.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayDeque;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -36,8 +37,8 @@ class GameBuilderTest {
     @Test
     void testFigure() {
         Player p = new Player(null);
-
         gameBuilder
+                .killDamages(11)
                 .maxDamages(8)
                 .maxMarks(4)
                 .maxAmmo(5)
@@ -64,6 +65,9 @@ class GameBuilderTest {
         assertSame(f, game.getBoard().getFigures().iterator().next());
         try {
             Field field;
+            field = Figure.class.getDeclaredField("killDamages");
+            field.setAccessible(true);
+            assertEquals(11, field.getInt(f));
             field = Figure.class.getDeclaredField("maxDamages");
             field.setAccessible(true);
             assertEquals(8, field.getInt(f));
@@ -114,10 +118,10 @@ class GameBuilderTest {
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1, 1);
+        Figure f = new Figure(10, 1, 1, 1, 1, 1);
         s.grab(f, a);
         assertEquals(0, f.getPowerUps().size());
-        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(0, 1).value(i) == f.getAmmo().value(i)));
     }
 
     @Test
@@ -130,11 +134,11 @@ class GameBuilderTest {
         AbstractSquare s = new AmmoSquare(new Room(), new int[]{});
         s.accept(g);
         Grabbable a = s.peek().iterator().next();
-        Figure f = new Figure(1, 1, 1, 1, 1, 11);
+        Figure f = new Figure(10, 1, 1, 1, 1, 1);
         s.grab(f, a);
         assertEquals(f.getPowerUps().iterator().next().getSpawn(), g.getBoard().getSquares().iterator().next());
         AmmoCube powerUpAmmo = f.getPowerUps().iterator().next().getAmmo();
-        assertTrue(IntStream.range(0, powerUpAmmo.size()).allMatch(i -> new AmmoCube(0, 0, 1).value(i) == powerUpAmmo.value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(0, 0, 1).value(i) == powerUpAmmo.value(i)));
     }
 
     @Test

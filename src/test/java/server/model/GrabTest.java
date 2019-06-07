@@ -23,7 +23,7 @@ class GrabTest {
 
     @BeforeEach
     void init() {
-        f = new Figure(12, 3, 3, 2, 1, 11);
+        f = new Figure(10, 12, 3, 3, 2, 1);
         Weapon.Builder weapon = new Weapon.Builder();
         Weapon.Builder optionalWeapon = new OptionalWeapon.Builder();
         squares = new AbstractSquare[]{new AmmoSquare(new Room(), new int[]{}), new SpawnSquare(new Room(), new int[]{}, 3)};
@@ -106,7 +106,7 @@ class GrabTest {
         squares[0].refill(items[4]);
         squares[0].grab(f, items[4]);
         assertEquals(Stream.of(pup).collect(Collectors.toSet()), f.getPowerUps());
-        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(1, 2, 3).value(i) == f.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(1, 2, 3).value(i) == f.getAmmo().value(i)));
         assertEquals(discard, items[4]);
     }
 
@@ -117,7 +117,7 @@ class GrabTest {
         squares[0].refill(items[5]);
         squares[0].grab(f, items[5]);
         assertEquals(Stream.of(pup).collect(Collectors.toSet()), f.getPowerUps());
-        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube(2, 2, 3).value(i) == f.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube(2, 2, 3).value(i) == f.getAmmo().value(i)));
         assertEquals(discard, items[5]);
     }
 
@@ -127,6 +127,6 @@ class GrabTest {
         assertThrows(IllegalStateException.class, () -> squares[0].grab(f, items[5]));
         assertThrows(ClassCastException.class, () -> squares[0].grab(f, items[1]));
         assertEquals(Stream.of().collect(Collectors.toSet()), f.getPowerUps());
-        assertTrue(IntStream.range(0, f.getAmmo().size()).allMatch(i -> new AmmoCube().value(i) == f.getAmmo().value(i)));
+        assertTrue(IntStream.range(0, 3).allMatch(i -> new AmmoCube().value(i) == f.getAmmo().value(i)));
     }
 }

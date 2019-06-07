@@ -12,12 +12,19 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * <code>Game</code> is a class containing all of the major elements of a game
- * such as the <code>Board</code>, card <code>Deck</code>s and
- * <code>Figure</code>s, as well as the players.
+ * The <code>Game</code> class contains all of the major elements of a game:
+ * its scoreboard, players, board as well as its ammo tile, weapon and powerup
+ * decks.
  * <p>
  * It keeps track of <code>Player</code>s and their order, as well
  * as provides methods to manage them.
+ * <p>
+ * It provides a method to pass itself its board's squares so the may call this
+ * game appropriate refilling methods.
+ * <p>
+ * The class also provides a <code>Builder</code> to allow the game's setup
+ * and creation. A <code>Game</code> may only be instantiated through the
+ * <code>Game.Builder</code> class.
  */
 public class Game {
     // Killshot Track
@@ -45,10 +52,10 @@ public class Game {
                     (shooter, curr, last) -> {
                     }
             ), new FireStep(1, 1,
-                    (shooter, gameBoard, last) -> ((Figure) last.toArray()[0]).getSquare().atDistance(1, 2).
+                    (shooter, gameBoard, last) -> ((Figure) last.toArray()[0]).getLocation().atDistance(1, 2).
                             stream().filter(x ->
-                            x.getCoordinates()[0] == ((Figure) last.toArray()[0]).getSquare().getCoordinates()[0] ||
-                                    x.getCoordinates()[1] == ((Figure) last.toArray()[0]).getSquare().getCoordinates()[1]).collect(Collectors.toSet()),
+                            x.getCoordinates()[0] == ((Figure) last.toArray()[0]).getLocation().getCoordinates()[0] ||
+                                    x.getCoordinates()[1] == ((Figure) last.toArray()[0]).getLocation().getCoordinates()[1]).collect(Collectors.toSet()),
                     (shooter, curr, last) ->
                             ((Figure) last.toArray()[0]).moveTo((AbstractSquare) curr.toArray()[0])
             )),
@@ -123,6 +130,11 @@ public class Game {
         board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> x.setPointGiver(frenzyPointGiver));
     }
 
+    /**
+     * Returns this game's board.
+     *
+     * @return this game board
+     */
     public Board getBoard() {
         return board;
     }
@@ -137,13 +149,11 @@ public class Game {
     }
 
     /**
-     * Indicates that a player's turn has passed by updating the current player
-     * and returning it.
-     * If the last player has completed its turn, the method cycles back to the
-     * first player.
+     * Updates the current player with the next player in line.
+     * If the last available player has completed its turn, the current player
+     * cycles back to the first one.
      *
-     * @return the player that comes after the one that has completed
-     * its turn
+     * @return the player whose turn is next
      */
     public Player nextPlayer() {
         currPlayer++;
@@ -155,6 +165,10 @@ public class Game {
         return players;
     }
 
+    /**
+     * Asks every square to fill itself calling the appropriate <code>Game</code>'s
+     * method.
+     */
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
@@ -164,10 +178,20 @@ public class Game {
         return powerUpDeck.draw();
     }
 
+    /**
+     * Refills the <code>AmmoSquare</code> by drawing an <code>AmmoTile</code>.
+     *
+     * @param square the square to refill
+     */
     public void fillSquare(AmmoSquare square) {
         square.refill(ammoTileDeck.draw());
     }
 
+    /**
+     * Refills the <code>SpawnSquare</code> by drawing a <code>Weapon</code>.
+     *
+     * @param square the square to refill
+     */
     public void fillSquare(SpawnSquare square) {
         square.refill(weaponDeck.draw());
     }
@@ -197,17 +221,20 @@ public class Game {
         return killCount;
     }
 
-
+    /**
+     * The <code>Game.Builder</code> class allows the construction of a new
+     * <code>Game</code>.
+     */
     public static class Builder {
         private final Board.Builder boardBuilder = new Board.Builder();
         private final List<Player> players = new ArrayList<>();
         private int nKills;
+        private int killDamages;
         private int maxDamages;
         private int maxMarks;
         private int maxAmmo;
         private int maxWeapons;
         private int maxPowerUps;
-        private int deathDamage;
         private boolean frenzyOn;
         private int[] killPoints;
         private int[] frenzyPoints;
@@ -216,6 +243,13 @@ public class Game {
         private Weapon[] weapons = new Weapon[]{};
         private PowerUpImage[] powerUps = new PowerUpImage[]{};
 
+        /**
+         * Returns this builder with the given value set as the number of kills
+         * needed to enter the endgame.
+         *
+         * @param val the number of kills needed to finish the game
+         * @return this builder
+         */
         public Builder nKills(int val) {
             nKills = val;
             return this;
@@ -236,83 +270,201 @@ public class Game {
             return this;
         }
 
+        /**
+         * Returns this builder with the given value set as the amount of
+         * damages needed to kill a figure.
+         *
+         * @param val the amount of damages needed to kill a figure
+         * @return this builder
+         */
+        public Builder killDamages(int val) {
+            killDamages = val;
+            return this;
+        }
+
+        /**
+         * Returns this builder with the given value set as the maximum amount
+         * of damages a figure can take.
+         *
+         * @param val the maximum amount of damages a figure can take
+         * @return this builder
+         */
         public Builder maxDamages(int val) {
             maxDamages = val;
             return this;
         }
 
+
+        /**
+         * Returns this builder with the given value set as the maximum amount
+         * of marks a figure can take from a single other figure.
+         *
+         * @param val the maximum amount of marks a figure can take from a
+         *            single other figure
+         * @return this builder
+         */
         public Builder maxMarks(int val) {
             maxMarks = val;
             return this;
         }
 
+        /**
+         * Returns this builder with the given value set as the maximum amount
+         * of ammo for a single color a figure can hold.
+         *
+         * @param val the maximum amount of ammo for a single color a figure
+         *            can hold
+         * @return this builder
+         */
         public Builder maxAmmo(int val) {
             maxAmmo = val;
             return this;
         }
 
+        /**
+         * Returns this builder with the given value set as the maximum number
+         * of weapons a figure can hold.
+         *
+         * @param val the maximum number of weapons a figure can hold
+         * @return this builder
+         */
         public Builder maxWeapons(int val) {
             maxWeapons = val;
             return this;
         }
 
+        /**
+         * Returns this builder with the given value set as the maximum number
+         * of powerups a figure can hold.
+         *
+         * @param val the maximum number of powerups a figure can hold
+         * @return this builder
+         */
         public Builder maxPowerUps(int val) {
             maxPowerUps = val;
             return this;
         }
 
-        public Builder deathDamage(int val) {
-            deathDamage = val;
-            return this;
-        }
-
+        /**
+         * Returns this builder with the given value set as the starting
+         * amount of ammo for every figure.
+         *
+         * @param val the starting amount of ammo for every figure.
+         * @return this builder
+         */
         public Builder defaultAmmo(AmmoCube val) {
             defaultAmmo = val;
             return this;
         }
 
+        /**
+         * Returns this builder with the given value set as the maximum number
+         * of weapons a spawnpoint can contain.
+         *
+         * @param val the maximum number of weapons a spawnpoint can contain
+         * @return this builder
+         */
         public Builder spawnCapacity(int val) {
             boardBuilder.spawnCapacity(val);
             return this;
         }
 
+        /**
+         * Returns this builder with the specified <code>SquareImages</code>
+         * set as its <code>Board</code> builder supplier.
+         *
+         * @param val the images to set as a supplier
+         * @return this builder
+         */
         public Builder squares(SquareImage... val) {
             return squares(() -> val);
         }
 
+        /**
+         * Returns this builder with the specified <code>SquareImage</code> set
+         * supplier set for its <code>Board</code> builder.
+         *
+         * @param supplier the supplier to be set
+         * @return this builder
+         */
         public Builder squares(Supplier<SquareImage[]> supplier) {
             boardBuilder.squares(supplier);
             return this;
         }
 
+        /**
+         * Returns this builder with the specified <code>AmmoTileImage</code>s
+         * set as basis for the game's <code>AmmoTile</code> deck
+         *
+         * @param arr the <code>AmmoTileImage</code>s to use as basis for the
+         *            <code>AmmoTile</code> deck
+         * @return this builder
+         */
         public Builder ammoTiles(AmmoTileImage... arr) {
             ammoTiles = arr;
             return this;
         }
 
+        /**
+         * Returns this builder with the specified <code>Weapon</code>s
+         * set as basis for the game's weapon deck
+         *
+         * @param arr the <code>Weapon</code>s to use as basis for the
+         *            weapon deck
+         * @return this builder
+         */
         public Builder weapons(Weapon... arr) {
             weapons = arr;
             return this;
         }
 
+        /**
+         * Returns this builder with the specified <code>PowerUpImage</code>s
+         * set as basis for the game's <code>PowerUp</code> deck
+         *
+         * @param arr the <code>PowerUpImage</code>s to use as basis for the
+         *            <code>PowerUp</code> deck
+         * @return this builder
+         */
         public Builder powerUps(PowerUpImage... arr) {
             powerUps = arr;
             return this;
         }
 
+
+        /**
+         * Returns this builder with the specified player added to the
+         * player list.
+         *
+         * @param player the player to add to the player list
+         * @return this builder
+         */
         public int addPlayer(Player player) {
             players.add(player);
             return players.size();
         }
 
+        /**
+         * Returns this builder with the specified player removed from the
+         * player list
+         *
+         * @param player the player to remove from the player list.
+         * @return this builder
+         */
         public int removePlayer(Player player) {
             players.remove(player);
             return players.size();
         }
 
+        /**
+         * Returns an instance of <code>Game</code> created from the fields
+         * set on this builder.
+         *
+         * @return the game instantiated
+         */
         public Game build() {
             for (Player p : players) {
-                Figure figure = new Figure(maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps, deathDamage);
+                Figure figure = new Figure(killDamages, maxDamages, maxMarks, maxAmmo, maxWeapons, maxPowerUps);
                 figure.addAmmo(defaultAmmo);
                 p.setFigure(figure);
                 boardBuilder.figures(figure);

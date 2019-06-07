@@ -8,15 +8,34 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * The <code>SpawnSquare</code> class extends <code>AbstractSquare</code> and
+ * implements its abstract methods for the refilling of weapons and handling of
+ * grabbed content.
+ */
 public class SpawnSquare extends AbstractSquare {
     private final int capacity;
     private final Set<Weapon> weapons = new HashSet<>();
 
+    /**
+     * Constructs an empty square that is contained in the specified room,
+     * adding this to its square set; also sets this square's max weapon
+     * capacity to the given one,
+     *
+     * @param room the room this square belongs to
+     * @param coordinates this square coordinates
+     * @param capacity this square's max weapon capacity
+     */
     public SpawnSquare(Room room, int[] coordinates, int capacity) {
         super(room, coordinates);
         this.capacity = capacity;
     }
 
+    /**
+     * Asks the specified <code>Game</code> for this square to be refilled.
+     *
+     * @param game the game to ask for a refilling to
+     */
     @Override
     public void accept(Game game) {
         try {
@@ -27,6 +46,14 @@ public class SpawnSquare extends AbstractSquare {
         }
     }
 
+    /**
+     * Refills this square with ammo from a specified <code>Grabbable</code>,
+     * which actual type should be <code>Weapon</code>.
+     *
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     * actual type isn't <code>Weapon</code>
+     * @param o the weapon with which to refill this square
+     */
     @Override
     public void refill(Grabbable o) {
         Weapon w = (Weapon) o;
@@ -35,6 +62,17 @@ public class SpawnSquare extends AbstractSquare {
         weapons.add(w);
     }
 
+    /**
+     * Gives the grabber the specified <code>Weapon</code>, who should
+     * always be one of this square's weapons
+     *
+     * @throws ClassCastException if the specified <code>Grabbable</code>
+     * actual type isn't <code>Weapon</code>
+     * @throws IllegalStateException when the specified <code>AmmoTile</code>
+     * isn' t one of this square's weapons
+     * @param grabber the figure grabbing the content
+     * @param grabbed the content to be grabbed
+     */
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
         Weapon w = (Weapon) grabbed;
@@ -43,6 +81,12 @@ public class SpawnSquare extends AbstractSquare {
         grabber.grab(w);
     }
 
+    /**
+     * Returns a <code>Grabbable</code> set containing this square's
+     * <code>Weapon</code>s.
+     *
+     * @return this square's weapon set
+     */
     @Override
     public Set<Grabbable> peek() {
         return new HashSet<>(weapons);

@@ -5,9 +5,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * <code>Board</code> represents the game board and its square.
+ * The <code>Board</code> class represents the game board, its rooms, squares
+ * and figures; these are <code>final</code> as to reflect a Weapon's static
+ * nature in the game.
  * <p>
- * It provides methods to allow refilling using the visitor pattern.
+ * The class also provides a <code>Builder</code> to allow the board's setup
+ * and creation. A <code>Board</code> may only be instantiated through the
+ * <code>Board.Builder</code> class.
+ * <p>
+ * It provides methods to keep track of damaged figures and applying marks to
+ * them.
  */
 public class Board {
     private final Set<Room> rooms;
@@ -20,30 +27,53 @@ public class Board {
         this.figures = Collections.unmodifiableSet(builder.figures);
     }
 
+    /**
+     * Returns this board's rooms.
+     *
+     * @return this board's rooms
+     */
     public Set<Room> getRooms() {
         return rooms;
     }
 
+    /**
+     * Returns this board's squares.
+     *
+     * @return this board's squares
+     */
     public Set<AbstractSquare> getSquares() {
         return squares;
     }
 
+    /**
+     * Returns this board's figures,
+     *
+     * @return this board's figures
+     */
     public Set<Figure> getFigures() {
         return figures;
     }
 
+    /**
+     * Returns the set of damaged figures.
+     *
+     * @return the set of damaged figures
+     */
     public Set<Figure> getDamaged() {
         return figures.stream().filter(Figure::isDamaged).collect(Collectors.toSet());
     }
 
-    public void clearDamaged() {
-        figures.forEach(Figure::clearDamaged);
-    }
-
+    /**
+     * Applies to each figure's their newly acquired marks
+     */
     public void applyMarks() {
         figures.forEach(Figure::applyMarks);
     }
 
+    /**
+     * The <code>Board.Builder</code> class allows the construction of a new
+     * <code>Board</code>.
+     */
     public static class Builder {
         private final Map<Integer, Room> roomsMap = new HashMap<>();
         private final Map<Integer, AbstractSquare> squaresMap = new HashMap<>();
@@ -52,35 +82,82 @@ public class Board {
         private Supplier<SquareImage[]> squareImagesSupplier = () -> new SquareImage[]{};
         private int capacity = 1;
 
+        /**
+         * Returns this builder with the specified <code>SquareImages</code>
+         * set as its supplier.
+         *
+         * @param squareImages the images to set as a supplier
+         * @return this builder
+         */
         public Builder squares(SquareImage... squareImages) {
             return squares(() -> squareImages);
         }
 
+        /**
+         * Returns this builder with the specified <code>SquareImage</code>
+         * supplier set.
+         *
+         * @param supplier the supplier to be set
+         * @return this builder
+         */
         public Builder squares(Supplier<SquareImage[]> supplier) {
             squareImagesSupplier = supplier;
             return this;
         }
 
+        /**
+         * Sets the spawns' weapon capacity as the one given.
+         *
+         * @param capacity the weapon capacity to be set
+         * @return this builder
+         */
         public Builder spawnCapacity(int capacity) {
             this.capacity = capacity;
             return this;
         }
 
+        /**
+         * Sets the specified figures as this builder's and returns it.
+         *
+         * @param figures the figures to be set
+         * @return this builder
+         */
         public Builder figures(Figure... figures) {
             return figures(Arrays.asList(figures));
         }
 
+        /**
+         * Returns this builder with the specified collection of figures added
+         * to its list.
+         *
+         * @param figures the figures to be added
+         * @return this builder
+         */
         public Builder figures(Collection<Figure> figures) {
             this.figures.addAll(figures);
             return this;
         }
 
+        /**
+         * Returns the spawn with the corresponding color.
+         *
+         * @param color the color of the spawn to be returned
+         * @return the spawn with the corresponding color
+         */
         public SpawnSquare getSpawnByColor(int color) {
             if (!spawnColorMap.containsKey(color))
                 throw new IllegalArgumentException("No spawn has color " + color);
             return spawnColorMap.get(color);
         }
 
+        /**
+         * Returns an instance of <code>Board</code> created from the fields
+         * set on this builder.
+         *
+         * @throws IllegalArgumentException if the <code>SquareImages</code>
+         * provided don't have coordinates or their format is wrong.
+         * @return the board instantiated
+         */
         public Board build() {
             SquareImage[] squareImages = squareImagesSupplier.get();
             for (SquareImage s : squareImages) {
