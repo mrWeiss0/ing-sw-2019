@@ -1,13 +1,11 @@
 package server.model.board;
 
+import server.controller.Action;
 import server.controller.Player;
 import server.model.*;
 import server.model.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.ObjIntConsumer;
 
 /**
@@ -49,7 +47,8 @@ public class Figure implements Targettable {
     private ObjIntConsumer<List<Figure>> pointGiver; // TODO ?
     private Player player;
     private boolean frenzyTurnLeft = true; // TODO ?
-
+    private List<Targettable> possibleTargets;
+    private List<Action> possibleAction= new ArrayList<>();
     /**
      * Constructs a figure with the given damage, marks, ammo, weapon and powerup limits.
      */
@@ -272,6 +271,14 @@ public class Figure implements Targettable {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Targettable> getPossibleTargets(){
+        return possibleTargets;
+    }
+
+    public void setPossibleTargets(Set<Targettable> targets){
+        this.possibleTargets= new ArrayList<>(targets);
     }
 
     public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn) {

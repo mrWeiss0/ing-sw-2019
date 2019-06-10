@@ -3,6 +3,12 @@ package server.controller;
 import server.connection.VirtualClient;
 import server.model.PowerUp;
 import server.model.board.Figure;
+import server.model.board.Targettable;
+import server.model.weapon.FireMode;
+import server.model.weapon.Weapon;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Player {
     private String name;
@@ -74,24 +80,32 @@ public class Player {
         game.enqueue(new SelectPowerUpEvent(this, powerUps));
     }
 
-    public void selectWeapon(int[] index) {
-        game.enqueue(null);
+    public void selectWeaponToReload(int[] index) {
+        game.enqueue(
+                new SelectWeaponToReloadEvent(this, Arrays.stream(index)
+                        .mapToObj(x->figure.getWeapons().get(x)).collect(Collectors.toList()).toArray(Weapon[]::new))
+        );
     }
 
-    public void selectGrabbable(int[] index) {
-        game.enqueue(null);
+    public void selectWeaponFireMode(int index, int[] fm){
+        game.enqueue(new SelectWeaponFireModeEvent(this, figure.getWeapons().get(index), Arrays.stream(fm)
+                .mapToObj(x->figure.getWeapons().get(index).getFireModes().get(x)).collect(Collectors.toList()).toArray(FireMode[]::new)));
+    }
+
+    public void selectGrabbable(int index) {
+        game.enqueue(new SelectGrabbableEvent(this, figure.getLocation().peek().get(index)));
     }
 
     public void selectTargettable(int[] index) {
-
-        game.enqueue(null);
+        game.enqueue(new SelectTargettableEvent(this, Arrays.stream(index)
+                .mapToObj(x->figure.getPossibleTargets().get(x)).collect(Collectors.toList()).toArray(Targettable[]::new)));
     }
 
-    public void selectColor(int index) {
-        game.enqueue(null);
+    public void selectColor(int color) {
+        game.enqueue(new SelectColorEvent(this, color));
     }
 
     public void selectAction(int index) {
-        game.enqueue(null);
+        game.enqueue(new SelectActionEvent(this, null));
     }
 }

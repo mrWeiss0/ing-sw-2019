@@ -75,7 +75,6 @@ public class GameController implements Runnable {
         try {
             eventQueue.take().accept(this);
         } catch (InterruptedException ignore) {
-
         }
     }
 
@@ -332,7 +331,6 @@ public class GameController implements Runnable {
 
     private class FireState implements State {
         private FireSequence fireSequence;
-        private List<Targettable> choices;
 
         public FireState(FireSequence fireSequence) {
             this.fireSequence = fireSequence;
@@ -340,11 +338,10 @@ public class GameController implements Runnable {
 
         @Override
         public void onEnter() {
-            choices = new ArrayList<>(fireSequence.getTargets());
+            game.currentPlayer().getFigure().setPossibleTargets(fireSequence.getTargets());
             //game.currentPlayer().getClient().send(new String("possibili targets"));
-            System.out.println(choices);
         }
-
+        /*
         @Override
         public void select(int[] selection, Player player) {
             if (Arrays.stream(selection).distinct().anyMatch(x -> x < 0 || x >= choices.size())) return;
@@ -366,7 +363,7 @@ public class GameController implements Runnable {
                     nextState();
                 }
             }
-        }
+        }*/
     }
 
     private class ReloadState implements State {

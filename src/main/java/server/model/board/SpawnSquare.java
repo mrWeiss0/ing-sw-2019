@@ -4,9 +4,7 @@ import server.model.Game;
 import server.model.Grabbable;
 import server.model.weapon.Weapon;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The <code>SpawnSquare</code> class extends <code>AbstractSquare</code> and
@@ -15,7 +13,7 @@ import java.util.Set;
  */
 public class SpawnSquare extends AbstractSquare {
     private final int capacity;
-    private final Set<Weapon> weapons = new HashSet<>();
+    private final List<Weapon> weapons = new ArrayList<>();
 
     /**
      * Constructs an empty square that is contained in the specified room,
@@ -88,7 +86,7 @@ public class SpawnSquare extends AbstractSquare {
      * @return this square's weapon set
      */
     @Override
-    public Set<Grabbable> peek() {
-        return new HashSet<>(weapons);
+    public List<Grabbable> peek() {
+        return new ArrayList<>(weapons);
     }
 }

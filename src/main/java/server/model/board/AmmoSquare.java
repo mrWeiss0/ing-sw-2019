@@ -4,6 +4,7 @@ import server.model.AmmoTile;
 import server.model.Game;
 import server.model.Grabbable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -82,7 +83,7 @@ public class AmmoSquare extends AbstractSquare {
      * @return this square's <code>AmmoTile</code>
      */
     @Override
-    public Set<Grabbable> peek() {
-        return Optional.ofNullable(ammoTile).map(Stream::of).orElseGet(Stream::empty).collect(Collectors.toSet());
+    public List<Grabbable> peek() {
+        return Optional.ofNullable(ammoTile).map(Stream::of).orElseGet(Stream::empty).collect(Collectors.toList());
     }
 }
