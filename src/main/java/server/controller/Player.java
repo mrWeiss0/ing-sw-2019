@@ -1,6 +1,7 @@
 package server.controller;
 
 import server.connection.VirtualClient;
+import server.model.PowerUp;
 import server.model.board.Figure;
 
 public class Player {
@@ -66,5 +67,31 @@ public class Player {
 
     public void setGame(GameController game) {
         this.game = game;
+    }
+
+    public void selectPowerUp(int[] index) {
+        PowerUp[] powerUps = figure.getPowerUps().toArray(PowerUp[]::new);
+        game.enqueue(new SelectPowerUpEvent(this, powerUps));
+    }
+
+    public void selectWeapon(int[] index) {
+        game.enqueue(null);
+    }
+
+    public void selectGrabbable(int[] index) {
+        game.enqueue(null);
+    }
+
+    public void selectTargettable(int[] index) {
+
+        game.enqueue(null);
+    }
+
+    public void selectColor(int index) {
+        game.enqueue(null);
+    }
+
+    public void selectAction(int index) {
+        game.enqueue(null);
     }
 }

@@ -40,4 +40,5 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     public void login(String username) {
         lobbyList.registerPlayer(username, this);
     }
+
 }
