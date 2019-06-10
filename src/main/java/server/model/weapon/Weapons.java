@@ -37,7 +37,7 @@ public enum Weapons{
     FLAMETHROWER(new Weapon.Builder().pickupCost(new AmmoCube(1,0,0)).fireModes(flamethrowerModes)),
 
     GRENADE_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1,0,0)).fireModes(grenadeLauncherModes)
-            .dependency(grenadeLauncherModes[1],grenadeLauncherModes[0]).dependency(grenadeLauncherModes[2],grenadeLauncherModes[0])),
+            .dependency(grenadeLauncherModes[1],grenadeLauncherModes[0])),
 
     ROCKET_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1,0,0)).reloadCost(new AmmoCube(1,0,0)).fireModes(rocketLauncherModes)
             .dependency(rocketLauncherModes[2],rocketLauncherModes[0])),

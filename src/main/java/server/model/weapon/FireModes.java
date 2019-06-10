@@ -141,15 +141,18 @@ public class FireModes {
             new FireMode(
                     new FireStep(1,1,
                             TargetGens.visibleFigures(),
-                            Effects.damageCurr(1).and(Effects.addCurrToLast()))),
-            new FireMode(
-                    new FireStep(1,1,
-                            TargetGens.maxDistanceFromLastSquares(1),
-                            Effects.moveLastToCurr())),
+                            Effects.damageCurr(1).and(Effects.addCurrToLast())),
+                    new FireStep(0,1,
+                            TargetGens.maxDistanceFromLastFigureSquare(1).less(TargetGens.maxDistanceFromLastFigureSquare(0)),
+                            Effects.moveLastToCurr().and(Effects.addCurrToLast()))),
             new FireMode(new AmmoCube(1,0,0),
                     new FireStep(1,1,
                             TargetGens.visibleSquares(),
-                            Effects.damageCurr(1)))
+                            Effects.damageCurr(1)),
+                    new FireStep(0,1,
+                            TargetGens.maxDistanceFromLastFigureSquare(1).less(TargetGens.maxDistanceFromLastFigureSquare(0))
+                                    .and(TargetGens.ifNotMoved()),
+                            Effects.moveFirstLastToCurr()))
     };
 
     static final FireMode[] rocketLauncherModes = new FireMode[]{
@@ -191,8 +194,7 @@ public class FireModes {
             new FireMode(
                     new FireStep(1,1,
                             TargetGens.maxDistanceFigures(0),
-                            Effects.damageCurr(1).and(Effects.addCurrToLast())
-                    )),
+                            Effects.damageCurr(2).and(Effects.addCurrToLast()))),
             new FireMode(
                     new FireStep(1,1,
                             TargetGens.maxDistanceSquares(1),
@@ -253,10 +255,10 @@ public class FireModes {
             new FireMode(
                     new FireStep(1,1,
                             TargetGens.maxDistanceFigures(1).less(TargetGens.maxDistanceFigures(0)),
-                            Effects.damageCurr(1).and(Effects.addShooterSquareToLast())),
+                            Effects.damageCurr(1).and(Effects.addCurrFigureSquareToLast())),
                     new FireStep(0,1,
-                            TargetGens.maxDistanceFigures(1).less(TargetGens.maxDistanceFigures(0)).less(TargetGens.onLastFigures()),
-                            Effects.damageCurr(1).and(Effects.addShooterSquareToLast())),
+                            TargetGens.maxDistanceFigures(1).less(TargetGens.onLastFigures()).less(TargetGens.maxDistanceFigures(0)),
+                            Effects.damageCurr(1).and(Effects.addCurrFigureSquareToLast())),
                     new FireStep(0,1,
                             TargetGens.maxDistanceFigures(1).less(TargetGens.maxDistanceFigures(0)).less(TargetGens.onLastFigures()),
                             Effects.damageCurr(1))),
@@ -269,12 +271,12 @@ public class FireModes {
     static final FireMode[] sledgehammer = new FireMode[]{
             new FireMode(
                     new FireStep(1,1,
-                            TargetGens.maxDistanceFigures(1).less(TargetGens.maxDistanceFigures(0)),
+                            TargetGens.maxDistanceFigures(0),
                             Effects.damageCurr(2))
             ),
             new FireMode(new AmmoCube(1,0,0),
                     new FireStep(1,1,
-                            TargetGens.maxDistanceFigures(1).less(TargetGens.maxDistanceFigures(0)),
+                            TargetGens.maxDistanceFigures(0),
                             Effects.damageCurr(3).and(Effects.addCurrToLast())),
                     new FireStep(1,1,
                             TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(2)),

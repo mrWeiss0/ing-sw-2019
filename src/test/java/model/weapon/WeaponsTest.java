@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -44,37 +45,39 @@ class WeaponsTest {
     }
 
     @Test
-    void testPowerGloveBase(){
-        Weapon pglove = Weapons.POWER_GLOVE.build();
-        assertEquals(2, pglove.getFireModes().size());
-        FireMode base = pglove.getFireModes().get(0);
-        FireSequence fs = new FireSequence(figures[0],board,FireMode.flatSteps(Collections.singletonList(base)));
-        assertEquals(Stream.of(figures[1],figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertNotEquals(figures[1].getLocation(),figures[0].getLocation());
+    void grenadeLauncherTestMoveFirst(){
+        Weapon gLauncher = Weapons.GRENADE_LAUNCHER.build();
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(
+                gLauncher.getFireModes().get(0),gLauncher.getFireModes().get(1))));
+        assertEquals(Stream.of(figures[1],figures[2],figures[4]).collect(Collectors.toSet()), fs.getTargets());
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertEquals(1, figures[1].getDamages().size());
-        assertEquals(figures[1].getLocation(),figures[0].getLocation());
-        board.applyMarks();
-        figures[1].damageFrom(figures[0],1);
-        assertEquals(4, figures[1].getDamages().size());
+        assertEquals(Stream.of(figures[0].getLocation(),figures[2].getLocation()).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(figures[2].getLocation(),figures[1].getLocation());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(2,figures[1].getDamages().size());
+        assertEquals(1,figures[2].getDamages().size());
+        assertEquals(Collections.emptySet(),fs.getTargets());
+        fs.run(Collections.emptySet());
+        assertFalse(fs.hasNext());
     }
 
     @Test
-    void testPowerGloveRocket(){
-        Weapon pglove = Weapons.POWER_GLOVE.build();
-        FireSequence fs = new FireSequence(figures[0], board,FireMode
-                .flatSteps(Collections.singletonList(pglove.getFireModes().get(1))));
-        assertEquals(Stream.of(figures[1].getLocation(),figures[4].getLocation()).collect(Collectors.toSet()), fs.getTargets());
-        fs.run(Stream.of(figures[1].getLocation()).collect(Collectors.toSet()));
-        assertEquals(figures[1].getLocation(),figures[0].getLocation());
-        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()),fs.getTargets());
+    void grenadeLauncherTestMoveAfter(){
+        Weapon gLauncher = Weapons.GRENADE_LAUNCHER.build();
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(
+                gLauncher.getFireModes().get(0), gLauncher.getFireModes().get(1))));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
-        assertEquals(2, figures[1].getDamages().size());
-        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Collections.emptySet());
         fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
-        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()), fs.getTargets());
-        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
-        assertEquals(2, figures[2].getDamages().size());
+        assertEquals(1, figures[2].getDamages().size());
+        assertEquals(1, figures[1].getDamages().size());
+        assertEquals(Stream.of(figures[0].getLocation(),figures[2].getLocation()).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(figures[2].getLocation(),figures[1].getLocation());
+        assertFalse(fs.hasNext());
+
     }
 
     @Test
@@ -127,5 +130,131 @@ class WeaponsTest {
         fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertEquals(2,figures[2].getDamages().size());
     }
+
+    @Test
+    void testCyberBlade(){
+        Weapon cBlade = Weapons.CYBERBLADE.build();
+        figures[0].moveTo(figures[1].getLocation());
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(
+            cBlade.getFireModes().get(0),cBlade.getFireModes().get(1), cBlade.getFireModes().get(2))));
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(2, figures[1].getDamages().size());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(figures[2].getLocation(),figures[0].getLocation());
+        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
+        assertEquals(2,figures[2].getDamages().size());
+    }
+
+    @Test
+    void testCyberBladeMoveFirst(){
+        Weapon cBlade = Weapons.CYBERBLADE.build();
+        figures[2].moveTo(figures[1].getLocation());
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(
+                cBlade.getFireModes().get(1),cBlade.getFireModes().get(0), cBlade.getFireModes().get(2))));
+        assertEquals(Stream.of(figures[0].getLocation(),figures[1].getLocation(),figures[4].getLocation()).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1].getLocation()).collect(Collectors.toSet()));
+        assertEquals(Stream.of(figures[1],figures[2]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(2, figures[1].getDamages().size());
+        assertEquals(0, figures[2].getDamages().size());
+        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
+        assertEquals(2,figures[2].getDamages().size());
+        assertEquals(2,figures[1].getDamages().size());
+        assertFalse(fs.hasNext());
+    }
+
+    @Test
+    void shotgunBaseTest(){
+        Weapon shotgun = Weapons.SHOTGUN.build();
+        figures[0].moveTo(figures[1].getLocation());
+        FireSequence fs = new FireSequence(figures[0], board, FireMode
+                .flatSteps(Collections.singletonList(shotgun.getFireModes().get(0))));
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(3, figures[1].getDamages().size());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(figures[2].getLocation(),figures[1].getLocation());
+        assertFalse(fs.hasNext());
+    }
+
+    @Test
+    void shotgunLongBarrelTest(){
+        Weapon shotgun = Weapons.SHOTGUN.build();
+        FireSequence fs = new FireSequence(figures[0], board, FireMode
+                .flatSteps(Collections.singletonList(shotgun.getFireModes().get(1))));
+        assertEquals(Stream.of(figures[1],figures[4]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(2,figures[1].getDamages().size());
+        assertFalse(fs.hasNext());
+    }
+
+    @Test
+    void testPowerGloveBase(){
+        Weapon pglove = Weapons.POWER_GLOVE.build();
+        assertEquals(2, pglove.getFireModes().size());
+        FireMode base = pglove.getFireModes().get(0);
+        FireSequence fs = new FireSequence(figures[0],board,FireMode.flatSteps(Collections.singletonList(base)));
+        assertEquals(Stream.of(figures[1],figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertNotEquals(figures[1].getLocation(),figures[0].getLocation());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(1, figures[1].getDamages().size());
+        assertEquals(figures[1].getLocation(),figures[0].getLocation());
+        board.applyMarks();
+        figures[1].damageFrom(figures[0],1);
+        assertEquals(4, figures[1].getDamages().size());
+    }
+
+    @Test
+    void testPowerGloveRocket(){
+        Weapon pglove = Weapons.POWER_GLOVE.build();
+        FireSequence fs = new FireSequence(figures[0], board,FireMode
+                .flatSteps(Collections.singletonList(pglove.getFireModes().get(1))));
+        assertEquals(Stream.of(figures[1].getLocation(),figures[4].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(figures[1].getLocation()).collect(Collectors.toSet()));
+        assertEquals(figures[1].getLocation(),figures[0].getLocation());
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(2, figures[1].getDamages().size());
+        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
+        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
+        assertEquals(2, figures[2].getDamages().size());
+    }
+
+    @Test
+    void testShockwaveBase(){
+        Weapon shock = Weapons.SHOCKWAVE.build();
+        FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Collections.singletonList(shock.getFireModes().get(0))));
+        assertEquals(Stream.of(figures[1], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
+        assertEquals(1, figures[1].getDamages().size());
+        assertEquals(Stream.of(figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
+        assertEquals(1,figures[4].getDamages().size());
+        fs.run(Collections.emptySet());
+        assertFalse(fs.hasNext());
+    }
+
+    @Test
+    void sledgeHammerTest(){
+        Weapon hammer = Weapons.SLEDGEHAMMER.build();
+        AbstractSquare square = figures[3].getLocation();
+        figures[3].moveTo(figures[0].getLocation());
+        FireSequence fs = new FireSequence(figures[0], board, FireMode
+                .flatSteps(Collections.singletonList(hammer.getFireModes().get(1))));
+        assertEquals(Stream.of(figures[3]).collect(Collectors.toSet()),fs.getTargets());
+        fs.run(Stream.of(figures[3]).collect(Collectors.toSet()));
+        assertEquals(3,figures[3].getDamages().size());
+        assertEquals(Stream.of(square,figures[0].getLocation(), figures[4].getLocation(), figures[1].getLocation(), figures[2].getLocation())
+                .collect(Collectors.toSet()), fs.getTargets());
+        fs.run(Stream.of(square).collect(Collectors.toSet()));
+        assertEquals(square,figures[3].getLocation());
+        assertFalse(fs.hasNext());
+    }
+
 
 }

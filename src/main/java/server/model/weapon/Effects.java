@@ -29,9 +29,22 @@ public class Effects {
     }
 
     public static Effect moveLastToCurr() {
-        return (shooter, currentTargets, lastTargets) -> ((Figure)lastTargets.get(lastTargets.size()-1))
-                .moveTo(((AbstractSquare) currentTargets.iterator().next()));
+        return (shooter, currentTargets, lastTargets) -> {
+            try{
+                ((Figure)lastTargets.get(lastTargets.size()-1))
+                        .moveTo(((AbstractSquare) currentTargets.iterator().next()));
+            }catch (NoSuchElementException  ignore){}
+        };
+    }
 
+    public static Effect moveFirstLastToCurr(){
+        return (shooter, currentTargets, lastTargets) -> {
+            try {
+                ((Figure) lastTargets.get(0))
+                        .moveTo(((AbstractSquare) currentTargets.iterator().next()));
+            }catch (NoSuchElementException ignore){
+            }
+        };
     }
 
     public static Effect addShooterSquareToLast() {

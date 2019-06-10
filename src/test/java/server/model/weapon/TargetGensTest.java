@@ -244,4 +244,13 @@ class TargetGensTest {
         assertTrue(targets.contains(figures[4]));
     }
 
+    @Test
+    void testMaxDistAndOnLast(){
+        Set<Targettable> targets = TargetGens.maxDistanceFigures(1)
+                .less(TargetGens.onLastFigures())
+                .less(TargetGens.maxDistanceFigures(0))
+                .get(figures[0], board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
+        assertFalse(targets.contains(figures[1]));
+    }
+
 }

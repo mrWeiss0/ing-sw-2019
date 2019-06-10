@@ -3,6 +3,7 @@ package server.model.weapon;
 import server.model.board.AbstractSquare;
 import server.model.board.Figure;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -187,6 +188,10 @@ public class TargetGens {
         return (shooter, board, lastTargets) -> new HashSet<>(((AbstractSquare) lastTargets.get(0)).atDistance(n));
     }
 
+    public static TargetGen maxDistanceFromLastFigureSquare(int n){
+        return (shooter, board, lastTargets) -> new HashSet<>(((Figure)lastTargets.get(0)).getLocation().atDistance(n));
+    }
+
     /**
      * Returns the <code>TargetGen</code> that generates all the figures
      * that are visible from the last figure in lastTargets
@@ -252,6 +257,10 @@ public class TargetGens {
      */
     public static TargetGen otherTarget() {
         return (shooter, board, last) -> last.stream().limit(2).filter(Objects::nonNull).collect(Collectors.toSet());
+    }
+
+    public static TargetGen ifNotMoved() {
+        return (shooter, board, lastTargets) -> lastTargets.stream().anyMatch(x-> board.getSquares().contains(x)) ? Collections.emptySet() : new HashSet<>(board.getSquares());
     }
 
 
