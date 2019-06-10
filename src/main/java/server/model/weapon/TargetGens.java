@@ -188,8 +188,8 @@ public class TargetGens {
         return (shooter, board, lastTargets) -> new HashSet<>(((AbstractSquare) lastTargets.get(0)).atDistance(n));
     }
 
-    public static TargetGen maxDistanceFromLastFigureSquare(int n){
-        return (shooter, board, lastTargets) -> new HashSet<>(((Figure)lastTargets.get(0)).getLocation().atDistance(n));
+    public static TargetGen maxDistanceFromLastFigureSquare(int n) {
+        return (shooter, board, lastTargets) -> new HashSet<>(((Figure) lastTargets.get(0)).getLocation().atDistance(n));
     }
 
     /**
@@ -235,16 +235,16 @@ public class TargetGens {
             int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
             if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
                     .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
             else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
                     .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
             else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
                     .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
             else return board.getSquares()
                         .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0])
-                        .map(AbstractSquare::getOccupants).collect(HashSet::new,HashSet::addAll,HashSet::addAll);
+                        .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
         };
     }
 
@@ -260,7 +260,7 @@ public class TargetGens {
     }
 
     public static TargetGen ifNotMoved() {
-        return (shooter, board, lastTargets) -> lastTargets.stream().anyMatch(x-> board.getSquares().contains(x)) ? Collections.emptySet() : new HashSet<>(board.getSquares());
+        return (shooter, board, lastTargets) -> lastTargets.stream().anyMatch(x -> board.getSquares().contains(x)) ? Collections.emptySet() : new HashSet<>(board.getSquares());
     }
 
 

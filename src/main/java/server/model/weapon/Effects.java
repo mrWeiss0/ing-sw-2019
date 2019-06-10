@@ -30,19 +30,20 @@ public class Effects {
 
     public static Effect moveLastToCurr() {
         return (shooter, currentTargets, lastTargets) -> {
-            try{
-                ((Figure)lastTargets.get(lastTargets.size()-1))
+            try {
+                ((Figure) lastTargets.get(lastTargets.size() - 1))
                         .moveTo(((AbstractSquare) currentTargets.iterator().next()));
-            }catch (NoSuchElementException  ignore){}
+            } catch (NoSuchElementException ignore) {
+            }
         };
     }
 
-    public static Effect moveFirstLastToCurr(){
+    public static Effect moveFirstLastToCurr() {
         return (shooter, currentTargets, lastTargets) -> {
             try {
                 ((Figure) lastTargets.get(0))
                         .moveTo(((AbstractSquare) currentTargets.iterator().next()));
-            }catch (NoSuchElementException ignore){
+            } catch (NoSuchElementException ignore) {
             }
         };
     }
@@ -55,16 +56,17 @@ public class Effects {
         return (shooter, currentTargets, lastTargets) -> {
             try {
                 shooter.moveTo((AbstractSquare) currentTargets.iterator().next());
-            }catch(NoSuchElementException ignore){
+            } catch (NoSuchElementException ignore) {
             }
-            };
+        };
     }
 
-    public static Effect moveToLast(){
+    public static Effect moveToLast() {
         return (shooter, currentTargets, lastTargets) -> {
             try {
                 shooter.moveTo((AbstractSquare) lastTargets.get(0));
-            }catch(IndexOutOfBoundsException ignore){}
+            } catch (IndexOutOfBoundsException ignore) {
+            }
         };
     }
 
@@ -85,13 +87,13 @@ public class Effects {
         return (shooter, currentTargets, lastTargets) -> lastTargets.clear();
     }
 
-    public static Effect fillLastToSize(int n){
+    public static Effect fillLastToSize(int n) {
         return (shooter, currentTargets, lastTargets) -> {
-            while(lastTargets.size()<n) lastTargets.add(null);
+            while (lastTargets.size() < n) lastTargets.add(null);
         };
     }
 
-    public static Effect damageOther(int n){
+    public static Effect damageOther(int n) {
         return (shooter, curr, last) -> {
             try {
                 Targettable current = curr.iterator().next();
@@ -103,8 +105,8 @@ public class Effects {
         };
     }
 
-    public static Effect damageNeighbours(int n){
-        return (shooter, currentTargets, lastTargets) -> shooter.getLocation().atDistance(1,1).forEach(x->x.damageFrom(shooter,n));
+    public static Effect damageNeighbours(int n) {
+        return (shooter, currentTargets, lastTargets) -> shooter.getLocation().atDistance(1, 1).forEach(x -> x.damageFrom(shooter, n));
     }
 
 

@@ -44,7 +44,7 @@ class FireSequenceTest {
         tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), Effects.damageOther(1)), new FireStep(0, 1,
                 TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
                 Effects.damageCurr(1)
-                ));
+        ));
     }
 
     @BeforeEach
@@ -54,7 +54,7 @@ class FireSequenceTest {
                 new Figure(10, 12, 3, 3, 3, 3),
                 new Figure(10, 12, 3, 3, 3, 3),
                 new Figure(10, 12, 3, 3, 3, 3),
-                new Figure(10, 12,3, 3, 3, 3)
+                new Figure(10, 12, 3, 3, 3, 3)
         };
         board = boardBuilder
                 .figures(Arrays.asList(figures))

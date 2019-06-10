@@ -245,7 +245,7 @@ class TargetGensTest {
     }
 
     @Test
-    void testMaxDistAndOnLast(){
+    void testMaxDistAndOnLast() {
         Set<Targettable> targets = TargetGens.maxDistanceFigures(1)
                 .less(TargetGens.onLastFigures())
                 .less(TargetGens.maxDistanceFigures(0))
