@@ -4,9 +4,10 @@ import server.controller.Player;
 import server.model.board.*;
 import server.model.weapon.Weapon;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.ObjIntConsumer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -39,43 +40,13 @@ public class Game {
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
 
-    private ObjIntConsumer<List<Figure>> normalPointGiver = (damages, deaths) -> {
-        List<Figure> toRemunerate =
-                damages.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).
-                        entrySet().stream().sorted((x, y) -> {
-                    if (x.getValue() > y.getValue()) return -1;
-                    else if (x.getValue() < y.getValue()) return 1;
-                    else return Integer.compare(damages.indexOf(x.getKey()), damages.indexOf(y.getKey()));
-                }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
-        List<Integer> pointSave = Arrays.stream(getKillPoints()).boxed().collect(Collectors.toList());
-        pointSave.subList(0, deaths - 1).clear();
-        damages.get(0).addPoints(1);
-        for (Figure figure : toRemunerate) {
-            if (!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
-            else figure.addPoints(1);
-        }
-        remainingKills--;
-    };
-    private ObjIntConsumer<List<Figure>> frenzyPointGiver = (damages, deaths) -> {
-        List<Figure> toRemunerate =
-                damages.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).
-                        entrySet().stream().sorted((x, y) -> {
-                    if (x.getValue() > y.getValue()) return -1;
-                    else if (x.getValue() < y.getValue()) return 1;
-                    else return Integer.compare(damages.indexOf(x.getKey()), damages.indexOf(y.getKey()));
-                }).map(Map.Entry::getKey).distinct().collect(Collectors.toList());
-        List<Integer> pointSave = Arrays.stream(getFrenzyPoints()).boxed().collect(Collectors.toList());
-        for (Figure figure : toRemunerate) {
-            if (!pointSave.isEmpty()) figure.addPoints(pointSave.remove(0));
-            else figure.addPoints(1);
-        }
-        remainingKills--;
-    };
-
     private Game(Builder builder) {
         remainingKills = builder.nKills;
         board = builder.boardBuilder.build();
-        board.getFigures().forEach(x -> x.setPointGiver(normalPointGiver));
+        board.getFigures().forEach(x -> {
+            x.setKillPoints(builder.killPoints);
+            x.setFirstBlood(true);
+        });
         players = Collections.unmodifiableList(builder.players);
         weaponDeck.discard(Arrays.asList(builder.weapons));
         powerUpDeck.discard(Arrays.stream(builder.powerUps)
@@ -99,7 +70,10 @@ public class Game {
     }
 
     public void toggleFrenzy() {
-        board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> x.setPointGiver(frenzyPointGiver));
+        board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> {
+            x.setKillPoints(frenzyPoints);
+            x.setFirstBlood(false);
+        });
     }
 
     /**
@@ -168,8 +142,9 @@ public class Game {
         square.refill(weaponDeck.draw());
     }
 
-    public void addKillCount(Figure f) {
-        killCount.add(f);
+    public void addKillCount(int val, Figure f) {
+        killCount.addAll(Collections.nCopies(val, f));
+        --remainingKills;
     }
 
     public int getRemainingKills() {
@@ -178,11 +153,6 @@ public class Game {
 
     public boolean isFrenzy() {
         return frenzyOn;
-    }
-
-    //TODO IF POSSIBLE REMOVE
-    private int[] getKillPoints() {
-        return killPoints;
     }
 
     private int[] getFrenzyPoints() {

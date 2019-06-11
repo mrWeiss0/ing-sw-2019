@@ -6,7 +6,11 @@ import server.model.*;
 import server.model.weapon.Weapon;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collectors;
 
 /**
  * The <code>Figure</code> class represents a player's figure, his location
@@ -48,7 +52,10 @@ public class Figure implements Targettable {
     private Player player;
     private boolean frenzyTurnLeft = true; // TODO ?
     private List<Targettable> possibleTargets;
-    private List<Action> possibleAction= new ArrayList<>();
+    private List<Action> possibleAction = new ArrayList<>();
+    private int[] killPoints;
+    private boolean firstBlood;
+
     /**
      * Constructs a figure with the given damage, marks, ammo, weapon and powerup limits.
      */
@@ -245,16 +252,50 @@ public class Figure implements Targettable {
 
     public void resolveDeath(Game game) {
         if (damages.size() >= killDamages) {
+            int val = 1;
+            if (damages.size() >= maxDamages) {
+                damages.get(maxDamages - 1).markFrom(this, 1);
+                val = 2;
+            }
+            game.addKillCount(val, damages.get(killDamages - 1));
+            givePoints();
             moveTo(null);
             ++deaths;
-            game.addKillCount(damages.get(maxDamages - 2));
-            if (damages.size() > killDamages) {
-                damages.get(maxDamages - 1).markFrom(this, 1);
-                game.addKillCount(damages.get(maxDamages - 1));
-            }
-            pointGiver.accept(damages, deaths);
             damages.clear();
         }
+    }
+
+    public void givePoints() {
+        damages.stream()
+                .collect(Collectors.groupingBy(
+                        Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Comparator
+                        .comparingLong((ToLongFunction<Map.Entry<Figure, Long>>) Map.Entry::getValue).reversed()
+                        .thenComparingInt(x -> damages.indexOf(x.getKey())))
+                .map(Map.Entry::getKey)
+                .forEach(new Consumer<>() {
+                             int i = deaths;
+
+                             @Override
+                             public void accept(Figure figure) {
+                                 figure.addPoints(killPoints[i]);
+                                 if (i < killPoints.length - 1)
+                                     ++i;
+                             }
+                         }
+                );
+        if (firstBlood)
+            damages.get(0).addPoints(1); // First blood
+    }
+
+    public void setKillPoints(int[] killPoints) {
+        this.killPoints = killPoints;
+    }
+
+    public void setFirstBlood(boolean blood) {
+        firstBlood = blood;
     }
 
     public int getPoints() {
@@ -273,12 +314,12 @@ public class Figure implements Targettable {
         return player;
     }
 
-    public List<Targettable> getPossibleTargets(){
+    public List<Targettable> getPossibleTargets() {
         return possibleTargets;
     }
 
-    public void setPossibleTargets(Set<Targettable> targets){
-        this.possibleTargets= new ArrayList<>(targets);
+    public void setPossibleTargets(Set<Targettable> targets) {
+        this.possibleTargets = new ArrayList<>(targets);
     }
 
     public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn) {

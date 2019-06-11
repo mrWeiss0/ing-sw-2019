@@ -8,7 +8,6 @@ import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class Player {
     private String name;
@@ -76,37 +75,64 @@ public class Player {
     }
 
     public void selectPowerUp(int[] index) {
-        PowerUp[] powerUps = Arrays.stream(index).mapToObj(x->figure.getPowerUps().get(x))
-                .collect(Collectors.toList()).toArray(PowerUp[]::new);
-        game.enqueue(new SelectPowerUpEvent(this, powerUps));
+        game.enqueue(new SelectPowerUpEvent(
+                this,
+                (PowerUp[]) Arrays.stream(index)
+                        .mapToObj(x -> figure.getPowerUps().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectWeaponToReload(int[] index) {
-        game.enqueue(
-                new SelectWeaponToReloadEvent(this, Arrays.stream(index)
-                        .mapToObj(x->figure.getWeapons().get(x)).collect(Collectors.toList()).toArray(Weapon[]::new))
-        );
+        game.enqueue(new SelectWeaponToReloadEvent(
+                this,
+                (Weapon[]) Arrays.stream(index)
+                        .mapToObj(x -> figure.getWeapons().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
-    public void selectWeaponFireMode(int index, int[] fm){
-        game.enqueue(new SelectWeaponFireModeEvent(this, figure.getWeapons().get(index), Arrays.stream(fm)
-                .mapToObj(x->figure.getWeapons().get(index).getFireModes().get(x)).collect(Collectors.toList()).toArray(FireMode[]::new)));
+    public void selectWeaponFireMode(int index, int[] fm) {
+        game.enqueue(new SelectWeaponFireModeEvent(
+                this,
+                figure.getWeapons().get(index),
+                (FireMode[]) Arrays.stream(fm)
+                        .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectGrabbable(int index) {
-        game.enqueue(new SelectGrabbableEvent(this, figure.getLocation().peek().get(index)));
+        game.enqueue(new SelectGrabbableEvent(
+                this,
+                figure.getLocation().peek().get(index)
+        ));
     }
 
     public void selectTargettable(int[] index) {
-        game.enqueue(new SelectTargettableEvent(this, Arrays.stream(index)
-                .mapToObj(x->figure.getPossibleTargets().get(x)).collect(Collectors.toList()).toArray(Targettable[]::new)));
+        game.enqueue(new SelectTargettableEvent(
+                this,
+                (Targettable[]) Arrays.stream(index)
+                        .mapToObj(x -> figure.getPossibleTargets().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectColor(int color) {
-        game.enqueue(new SelectColorEvent(this, color));
+        game.enqueue(new SelectColorEvent(
+                this,
+                color
+        ));
     }
 
     public void selectAction(int index) {
-        game.enqueue(new SelectActionEvent(this, null));
+        game.enqueue(new SelectActionEvent(
+                this,
+                null
+        ));
     }
 }

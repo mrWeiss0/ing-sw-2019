@@ -49,21 +49,21 @@ class GrabTest {
     @Test
     void testAmmo() {
         squares[0].refill(items[4]);
-        assertEquals(Stream.of(items[4]).collect(Collectors.toSet()), squares[0].peek());
+        assertEquals(Stream.of(items[4]).collect(Collectors.toList()), squares[0].peek());
     }
 
     @Test
     void testAmmoNot() {
         squares[0].refill(items[4]);
-        assertNotEquals(Stream.of(items[5]).collect(Collectors.toSet()), squares[0].peek());
-        assertNotEquals(Stream.of(items[3]).collect(Collectors.toSet()), squares[0].peek());
+        assertNotEquals(Stream.of(items[5]).collect(Collectors.toList()), squares[0].peek());
+        assertNotEquals(Stream.of(items[3]).collect(Collectors.toList()), squares[0].peek());
     }
 
     @Test
     void testSpawn() {
         squares[1].refill(items[0]);
         squares[1].refill(items[1]);
-        assertEquals(Stream.of(items[1], items[0]).collect(Collectors.toSet()), squares[1].peek());
+        assertEquals(Stream.of(items[0], items[1]).collect(Collectors.toList()), squares[1].peek());
     }
 
     @Test
@@ -84,7 +84,7 @@ class GrabTest {
     }
 
     @Test
-    void grab2WtestEapon() {
+    void testGrab2Weapon() {
         squares[1].refill(items[0]);
         squares[1].refill(items[1]);
         squares[1].refill(items[2]);

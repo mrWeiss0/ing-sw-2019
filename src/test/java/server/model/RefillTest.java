@@ -88,7 +88,7 @@ class RefillTest {
         square.refill(weapons[1]);
         square.refill(weapons[3]);
         assertThrows(IllegalStateException.class, () -> square.refill(weapons[0]));
-        assertEquals(Stream.of(weapons[2], weapons[1], weapons[3]).collect(Collectors.toSet()), square.peek());
+        assertEquals(Stream.of(weapons[2], weapons[1], weapons[3]).collect(Collectors.toList()), square.peek());
     }
 
     @Test
