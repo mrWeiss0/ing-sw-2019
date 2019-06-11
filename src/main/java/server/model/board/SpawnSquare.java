@@ -4,7 +4,9 @@ import server.model.Game;
 import server.model.Grabbable;
 import server.model.weapon.Weapon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * The <code>SpawnSquare</code> class extends <code>AbstractSquare</code> and
