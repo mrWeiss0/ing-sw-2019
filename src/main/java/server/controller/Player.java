@@ -76,7 +76,8 @@ public class Player {
     }
 
     public void selectPowerUp(int[] index) {
-        PowerUp[] powerUps = figure.getPowerUps().toArray(PowerUp[]::new);
+        PowerUp[] powerUps = Arrays.stream(index).mapToObj(x->figure.getPowerUps().get(x))
+                .collect(Collectors.toList()).toArray(PowerUp[]::new);
         game.enqueue(new SelectPowerUpEvent(this, powerUps));
     }
 
