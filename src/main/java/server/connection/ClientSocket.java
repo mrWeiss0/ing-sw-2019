@@ -38,6 +38,10 @@ public class ClientSocket extends VirtualClient implements Runnable {
         }
     }
 
+    public boolean ping(){
+        return !ostream.checkError();
+    }
+
     @Override
     public void run() {
         try (BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {

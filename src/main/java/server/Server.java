@@ -18,12 +18,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server implements Closeable {
+public class Server implements Closeable, RemoteConnection {
     private final ServerSocket serverSocket;
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
     private final Registry registry;
     private final LobbyList lobbyList = new LobbyList();
-    private final RemoteConnection serverRMI = this::rmiListener;
 
     public Server() throws IOException {
         registry = LocateRegistry.createRegistry(1099);
@@ -31,7 +30,7 @@ public class Server implements Closeable {
     }
 
     public void start() throws IOException {
-        registry.rebind("server.connection", UnicastRemoteObject.exportObject(serverRMI, 0));
+        registry.rebind("server.connection", UnicastRemoteObject.exportObject(this, 0));
         new Thread(this::socketListener).start();
     }
 
@@ -46,7 +45,7 @@ public class Server implements Closeable {
         threadPool.shutdownNow();
         // Close RMI
         try {
-            UnicastRemoteObject.unexportObject(serverRMI, true);
+            UnicastRemoteObject.unexportObject(this, true);
             registry.unbind("server.connection");
             UnicastRemoteObject.unexportObject(registry, true);
         } catch (RemoteException | NotBoundException e) {
@@ -63,7 +62,7 @@ public class Server implements Closeable {
         }
     }
 
-    private RemotePlayer rmiListener(RemoteClient remoteClient) throws RemoteException {
+    public RemotePlayer connectRMI(RemoteClient remoteClient) throws RemoteException {
         return (RemotePlayer) UnicastRemoteObject.exportObject(new ClientRMI(lobbyList, remoteClient), 0);
     }
 
