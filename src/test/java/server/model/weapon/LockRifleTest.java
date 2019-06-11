@@ -39,7 +39,7 @@ public class LockRifleTest {
                 Effects.damageCurr(2).and(Effects.markCurr(1).and(Effects.addCurrToLast()))));
 
         secondLock = new FireMode(new AmmoCube(0, 0, 1), new FireStep(1, 1,
-                TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
+                TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                 Effects.markCurr(1)));
     }
 

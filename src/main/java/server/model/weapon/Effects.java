@@ -6,7 +6,7 @@ import server.model.board.Targettable;
 
 import java.util.NoSuchElementException;
 
-public class Effects {
+public final class Effects {
 
     public static Effect damageCurr(int n) {
         return (shooter, currentTargets, lastTargets) -> currentTargets.forEach(x -> x.damageFrom(shooter, n));

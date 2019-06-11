@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class TargetGens {
+public final class TargetGens {
     /**
      * Returns the <code>TargetGen</code> that generates all visible squares by the shooter
      *
@@ -42,7 +42,7 @@ public class TargetGens {
 
     /**
      * Returns the <code>TargetGen</code> that generates all figures different from shooter,
-     * generally useful in combination with the less() composition
+     * generally useful in combination with the not() composition
      *
      * @return the TargetGen generating all figures different from shooter
      */

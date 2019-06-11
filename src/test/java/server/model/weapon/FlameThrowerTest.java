@@ -24,14 +24,14 @@ public class FlameThrowerTest {
     static void init() {
         base = new FireMode(
                 new FireStep(1, 1
-                        , TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(1).less(TargetGens.maxDistanceSquares(0)))
+                        , TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(1).not(TargetGens.maxDistanceSquares(0)))
                         , Effects.addCurrToLast())
                 , new FireStep(0, 1
                 , TargetGens.onLastFigures()
                 , Effects.damageCurr(1).and(Effects.clearLast()
                 .and(Effects.addShooterSquareToLast().and(Effects.addCurrFigureSquareToLast()))))
                 , new FireStep(0, 1
-                , TargetGens.sameDirectionAsLastSquares().and(TargetGens.maxDistanceFromLastSquares(2).less(TargetGens.inLast()))
+                , TargetGens.sameDirectionAsLastSquares().and(TargetGens.maxDistanceFromLastSquares(2).not(TargetGens.inLast()))
                 , Effects.clearLast().and(Effects.addCurrToLast()))
                 , new FireStep(0, 1
                 , TargetGens.onLastFigures()
@@ -40,10 +40,10 @@ public class FlameThrowerTest {
 
         barbecue = new FireMode(
                 new FireStep(1, 1,
-                        TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(1).less(TargetGens.maxDistanceSquares(0))),
+                        TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(1).not(TargetGens.maxDistanceSquares(0))),
                         Effects.damageCurr(2).and(Effects.addShooterSquareToLast().and(Effects.addCurrToLast()))),
                 new FireStep(0, 1,
-                        TargetGens.sameDirectionAsLastSquares().and(TargetGens.maxDistanceFromLastSquares(2).less(TargetGens.inLast())),
+                        TargetGens.sameDirectionAsLastSquares().and(TargetGens.maxDistanceFromLastSquares(2).not(TargetGens.inLast())),
                         Effects.damageCurr(2))
         );
 

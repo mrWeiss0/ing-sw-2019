@@ -42,7 +42,7 @@ class FireSequenceTest {
         focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), Effects.damageOther(1)));
 
         tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), Effects.damageOther(1)), new FireStep(0, 1,
-                TargetGens.visibleFigures().and(TargetGens.differentFigures().less(TargetGens.inLastFigure())),
+                TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                 Effects.damageCurr(1)
         ));
     }
