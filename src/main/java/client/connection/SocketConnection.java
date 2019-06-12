@@ -2,6 +2,7 @@ package client.connection;
 
 import client.Client;
 import server.Main;
+import tools.parser.Command;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.Parser;
@@ -12,13 +13,15 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SocketConnection implements Connection, Runnable {
     private final Client controller;
     private Socket socket;
     private PrintStream ostream;
-    private Parser parser;
+    private Parser parser = new Parser(new HashMap<>(), CMD_DELIMITER, ARG_DELIMITER);
     private static final String CMD_DELIMITER = " ";
     private static final String ARG_DELIMITER = " ";
 
