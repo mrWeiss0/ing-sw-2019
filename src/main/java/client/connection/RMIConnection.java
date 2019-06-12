@@ -129,7 +129,7 @@ public class RMIConnection implements Connection, RemoteClient {
 
     @Override
     public void send(String s) throws RemoteException {
-
+        controller.print(s);
     }
 
     @Override

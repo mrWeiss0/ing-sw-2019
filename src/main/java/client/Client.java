@@ -1,6 +1,7 @@
 package client;
 
 import client.connection.Connection;
+import client.connection.RMIConnection;
 import client.connection.SocketConnection;
 import client.view.CLICommandView;
 import client.view.View;
@@ -18,16 +19,15 @@ public class Client {
 
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
-        connection = new SocketConnection(this);
+        connection = new RMIConnection(this);
     }
 
     public void connect(String host){
         try{
             //TODO FROM FILE/CLI
-            connection.connect(host,9900);
+            connection.connect(host,1099);
         }catch(Exception e){
-            e.printStackTrace();
-            //view.print(e.toString());
+            view.print(e.getMessage());
         }
     }
 

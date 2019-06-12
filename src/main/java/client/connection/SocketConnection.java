@@ -34,7 +34,7 @@ public class SocketConnection implements Connection, Runnable {
     public void connect(String host, int port) throws Exception{
         socket = new Socket(host, port);
         ostream= new PrintStream(socket.getOutputStream());
-        run();
+        new Thread(this).start();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SocketConnection implements Connection, Runnable {
 
     @Override
     public void quitLobby(String name) {
-        send("quit"+CMD_DELIMITER+name);
+        send("quit_l"+CMD_DELIMITER+name);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class SocketConnection implements Connection, Runnable {
     public void run(){
         try (BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             while (!socket.isClosed())
-                parse(istream.readLine());
+                controller.print(istream.readLine());
         } catch (IOException e) {
             Main.LOGGER.info(e::toString);
         } finally {
@@ -118,7 +118,7 @@ public class SocketConnection implements Connection, Runnable {
         } catch (CommandExitException e) {
             close();
         } catch (CommandException e) {
-            send(e.toString());
+            controller.print(e.toString());
         }
     }
 
@@ -126,14 +126,14 @@ public class SocketConnection implements Connection, Runnable {
         try {
             socket.close();
         } catch (IOException e) {
-            Main.LOGGER.warning(e::toString);
+            controller.print(e.toString());
         }
     }
 
     public void send(String s) {
         ostream.println(s);
         if (ostream.checkError()) {
-            Main.LOGGER.warning("Socket send exception");
+            controller.print("Error in sending the command");
             close();
         }
     }

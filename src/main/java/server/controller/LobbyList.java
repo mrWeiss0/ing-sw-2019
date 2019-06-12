@@ -21,6 +21,7 @@ public class LobbyList {
             client.send("Username " + username + " already taken");
             return;
         } else player.setOnline();
+        client.send("Registered as " + username);
         client.setPlayer(player);
     }
 
@@ -28,17 +29,20 @@ public class LobbyList {
         if (!lobbyList.containsKey(name))
             throw new NoSuchElementException("No game with named " + name);
         lobbyList.get(name).join(player);
+        player.getClient().send("Joined lobby " + name);
     }
 
     public void remove(Player player, String name) {
         if (!lobbyList.containsKey(name))
             throw new NoSuchElementException("No game with named " + name);
         lobbyList.get(name).remove(player);
+        player.getClient().send("Deleted lobby " + name);
     }
 
     public void create(String name) {
         if (lobbyList.containsKey(name))
             throw new IllegalStateException("Name already present");
         lobbyList.put(name, new LobbyEntry(3, 5, 10, gameStartTimer));
+        players.values().forEach(x->x.getClient().send("Created lobby " + name));
     }
 }

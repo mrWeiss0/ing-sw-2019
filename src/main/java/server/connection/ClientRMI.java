@@ -14,6 +14,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     public ClientRMI(LobbyList lobbyList, RemoteClient remoteClient) {
         super(lobbyList);
         this.remoteClient = remoteClient;
+        send("Connected");
     }
 
     @Override

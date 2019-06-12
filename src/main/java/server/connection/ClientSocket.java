@@ -2,16 +2,14 @@ package server.connection;
 
 import server.Main;
 import server.controller.LobbyList;
-import tools.parser.CommandException;
-import tools.parser.CommandExitException;
-import tools.parser.CommandNotFoundException;
-import tools.parser.Parser;
+import tools.parser.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Map;
 
 public class ClientSocket extends VirtualClient implements Runnable {
@@ -19,8 +17,18 @@ public class ClientSocket extends VirtualClient implements Runnable {
     private final PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
             Map.entry("help", this::help),
-            Map.entry("login", this::login)
-    ), "\\s*:\\s*", "\\s*,\\s*");
+            Map.entry("login", this::login),
+            Map.entry("create", this::createLobby),
+            Map.entry("join", this::joinLobby),
+            Map.entry("quit_l", this::quitLobby),
+            Map.entry("pup", this::selectPowerUp),
+            Map.entry("weapon", this::selectWeapon),
+            Map.entry("fire", this::selectFireMode),
+            Map.entry("grab", this::selectGrabbable),
+            Map.entry("target", this::selectTargettable),
+            Map.entry("color",this::selectColor),
+            Map.entry("action", this::selectAction)
+    ), " ", " ");
 
     public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
         super(lobbyList);
@@ -88,5 +96,48 @@ public class ClientSocket extends VirtualClient implements Runnable {
         if (username.isEmpty())
             throw new CommandException("Choose a username");
         lobbyList.registerPlayer(username, this);
+    }
+
+    private void createLobby(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select a name for the lobby");
+        lobbyList.create(args[0]);
+    }
+
+    private void joinLobby(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select lobby");
+        lobbyList.join(player, args[0]);
+    }
+
+    private void quitLobby(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select the lobby name to exit from");
+        lobbyList.remove(player, args[0]);
+    }
+
+    private void selectPowerUp(String[] args) throws CommandException{
+        player.selectPowerUp(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void selectWeapon(String[] args) throws CommandException{
+        player.selectWeaponToReload(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void selectFireMode(String[] args) throws CommandException{
+        player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void selectGrabbable(String[] args) throws CommandException{
+        player.selectGrabbable(Integer.parseInt(args[0]));
+    }
+
+    private void selectTargettable(String[] args) throws CommandException{
+        player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void selectColor(String[] args) throws CommandException{
+        player.selectColor(Integer.parseInt(args[0]));
+    }
+
+    private void selectAction(String[] args) throws CommandException{
+        player.selectAction(Integer.parseInt(args[0]));
     }
 }
