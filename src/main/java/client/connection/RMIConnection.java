@@ -15,6 +15,7 @@ public class RMIConnection implements Connection, RemoteClient {
     private Registry registry;
     private RemoteConnection remote;
     private RemotePlayer player;
+    private static final String ERRORSTRING="Error, you are not connected, use connect";
 
     public RMIConnection(Client controller) {
         this.controller = controller;
@@ -34,6 +35,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.login(username);
         }catch (RemoteException e){
             controller.print("RemoteException");
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -43,7 +46,9 @@ public class RMIConnection implements Connection, RemoteClient {
             player.createLobby(name);
         }catch (RemoteException e){
             controller.print(e.toString());
-        }
+        }/*catch(NullPointerException e){
+            controller.print(ERRORSTRING);
+        }*/
     }
 
     @Override
@@ -52,6 +57,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.joinLobby(name);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -61,6 +68,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.quitLobby(name);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -70,6 +79,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectPowerUp(selected);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -79,6 +90,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectWeapon(selected);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -88,6 +101,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectFireMode(weaponIndex, selectedFireModes);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -97,6 +112,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectGrabbable(index);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -106,6 +123,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectTargettable(selected);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -115,6 +134,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectColor(color);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 
@@ -124,6 +145,8 @@ public class RMIConnection implements Connection, RemoteClient {
             player.selectAction(actionIndex);
         }catch (RemoteException e){
             controller.print(e.toString());
+        }catch(NullPointerException e){
+            controller.print(ERRORSTRING);
         }
     }
 

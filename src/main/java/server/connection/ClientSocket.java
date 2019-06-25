@@ -11,6 +11,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ClientSocket extends VirtualClient implements Runnable {
     private final Socket socket;
@@ -100,17 +101,29 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     private void createLobby(String[] args) throws CommandException{
         if (args.length<1) throw  new CommandException("Please select a name for the lobby");
-        lobbyList.create(args[0]);
+        try {
+            lobbyList.create(args[0]);
+        }catch (IllegalStateException e){
+            send(e.toString());
+        }
     }
 
     private void joinLobby(String[] args) throws CommandException{
         if (args.length<1) throw  new CommandException("Please select lobby");
-        lobbyList.join(player, args[0]);
+        try {
+            lobbyList.join(player, args[0]);
+        }catch (IllegalStateException | NoSuchElementException e){
+            send(e.toString());
+        }
     }
 
     private void quitLobby(String[] args) throws CommandException{
         if (args.length<1) throw  new CommandException("Please select the lobby name to exit from");
-        lobbyList.remove(player, args[0]);
+        try {
+            lobbyList.remove(player, args[0]);
+        }catch (IllegalStateException | NoSuchElementException e){
+            send(e.toString());
+        }
     }
 
     private void selectPowerUp(String[] args) throws CommandException{

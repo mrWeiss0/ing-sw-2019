@@ -19,13 +19,13 @@ public class Client {
 
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
-        connection = new RMIConnection(this);
+        connection = new SocketConnection(this);
     }
 
     public void connect(String host){
         try{
             //TODO FROM FILE/CLI
-            connection.connect(host,1099);
+            connection.connect(host,9900);
         }catch(Exception e){
             view.print(e.getMessage());
         }

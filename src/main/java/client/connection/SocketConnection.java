@@ -131,7 +131,12 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     public void send(String s) {
-        ostream.println(s);
+        try {
+            ostream.println(s);
+        }catch(NullPointerException e){
+            controller.print("Error, you are not connected, use connect first");
+            return;
+        }
         if (ostream.checkError()) {
             controller.print("Error in sending the command");
             close();

@@ -7,6 +7,7 @@ import server.controller.LobbyList;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.NoSuchElementException;
 
 public class ClientRMI extends VirtualClient implements RemotePlayer {
     private final RemoteClient remoteClient;
@@ -44,17 +45,29 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void createLobby(String name){
-        lobbyList.create(name);
+        try {
+            lobbyList.create(name);
+        }catch (IllegalStateException e){
+            send(e.toString());
+        }
     }
 
     @Override
     public void joinLobby(String name){
-        lobbyList.join(player, name);
+        try {
+            lobbyList.join(player, name);
+        }catch (IllegalStateException | NoSuchElementException e){
+            send(e.toString());
+        }
     }
 
     @Override
     public void quitLobby(String name){
-        lobbyList.remove(player, name);
+        try{
+            lobbyList.remove(player, name);
+        }catch (IllegalStateException | NoSuchElementException e){
+            send(e.toString());
+        }
     }
 
     @Override

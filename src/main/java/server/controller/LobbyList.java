@@ -10,7 +10,7 @@ import java.util.Timer;
 public class LobbyList {
     private final Map<String, Player> players = new HashMap<>();
     private final Timer gameStartTimer = new Timer(true);
-    private final Map<String, LobbyEntry> lobbyList = new HashMap<>();
+    private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
 
     public void registerPlayer(String username, VirtualClient client) {
         Player player = players.get(username);
@@ -26,23 +26,30 @@ public class LobbyList {
     }
 
     public void join(Player player, String name) {
-        if (!lobbyList.containsKey(name))
+        if(player==null)
+            throw new IllegalStateException("Not logged in");
+        if(!lobbyMap.containsKey(name))
             throw new NoSuchElementException("No game with named " + name);
-        lobbyList.get(name).join(player);
+        lobbyMap.values().forEach(x->x.remove(player));
+        lobbyMap.get(name).join(player);
         player.getClient().send("Joined lobby " + name);
     }
 
     public void remove(Player player, String name) {
-        if (!lobbyList.containsKey(name))
+        if(player==null)
+            throw new IllegalStateException("Not logged in");
+        if (!lobbyMap.containsKey(name))
             throw new NoSuchElementException("No game with named " + name);
-        lobbyList.get(name).remove(player);
-        player.getClient().send("Deleted lobby " + name);
+        if(!lobbyMap.get(name).isPresent(player))
+            throw new IllegalStateException("You are not in that lobby");
+        lobbyMap.get(name).remove(player);
+        player.getClient().send("Exit from lobby " + name);
     }
 
     public void create(String name) {
-        if (lobbyList.containsKey(name))
+        if (lobbyMap.containsKey(name))
             throw new IllegalStateException("Name already present");
-        lobbyList.put(name, new LobbyEntry(3, 5, 10, gameStartTimer));
+        lobbyMap.put(name, new LobbyEntry(3, 5, 10, gameStartTimer));
         players.values().forEach(x->x.getClient().send("Created lobby " + name));
     }
 }
