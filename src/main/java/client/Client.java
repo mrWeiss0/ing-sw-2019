@@ -27,7 +27,7 @@ public class Client {
             //TODO FROM FILE/CLI
             connection.connect(host,9900);
         }catch(Exception e){
-            view.print(e.getMessage());
+            view.print(e.toString());
         }
     }
 

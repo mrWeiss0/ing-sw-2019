@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Timer;
+import java.util.function.Predicate;
 
 public class LobbyList {
     private final Map<String, Player> players = new HashMap<>();
@@ -13,6 +14,10 @@ public class LobbyList {
     private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
 
     public void registerPlayer(String username, VirtualClient client) {
+        if(players.values().stream().map(Player::getClient).anyMatch(Predicate.isEqual(client))) {
+            client.send("You are already logged in");
+            return;
+        }
         Player player = players.get(username);
         if (player == null) {
             player = new Player(username);
@@ -29,17 +34,17 @@ public class LobbyList {
         if(player==null)
             throw new IllegalStateException("Not logged in");
         if(!lobbyMap.containsKey(name))
-            throw new NoSuchElementException("No game with named " + name);
+            throw new NoSuchElementException("No game with name: " + name);
         lobbyMap.values().forEach(x->x.remove(player));
         lobbyMap.get(name).join(player);
-        player.getClient().send("Joined lobby " + name);
+        player.getClient().send("Joined lobby with name: " + name);
     }
 
     public void remove(Player player, String name) {
         if(player==null)
             throw new IllegalStateException("Not logged in");
         if (!lobbyMap.containsKey(name))
-            throw new NoSuchElementException("No game with named " + name);
+            throw new NoSuchElementException("No game with name: " + name);
         if(!lobbyMap.get(name).isPresent(player))
             throw new IllegalStateException("You are not in that lobby");
         lobbyMap.get(name).remove(player);
@@ -47,9 +52,12 @@ public class LobbyList {
     }
 
     public void create(String name) {
-        if (lobbyMap.containsKey(name))
+        String trimmed=name.trim();
+        if (lobbyMap.containsKey(trimmed))
             throw new IllegalStateException("Name already present");
-        lobbyMap.put(name, new LobbyEntry(3, 5, 10, gameStartTimer));
-        players.values().forEach(x->x.getClient().send("Created lobby " + name));
+        if(trimmed.isEmpty())
+            throw new IllegalStateException("Name not valid");
+        lobbyMap.put(trimmed, new LobbyEntry(3, 5, 10, gameStartTimer));
+        players.values().forEach(x->x.getClient().send("Created lobby " + trimmed));
     }
 }

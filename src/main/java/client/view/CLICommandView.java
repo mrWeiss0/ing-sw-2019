@@ -67,10 +67,12 @@ public class CLICommandView extends CLIView {
     }
 
     private void selectFireMode(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select a fire mode");
         controller.selectFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectGrabbable(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select a grabbable");
         controller.selectGrabbable(Integer.parseInt(args[0]));
     }
 
@@ -79,10 +81,12 @@ public class CLICommandView extends CLIView {
     }
 
     private void selectColor(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select a color");
         controller.selectColor(Integer.parseInt(args[0]));
     }
 
     private void selectAction(String[] args) throws CommandException{
+        if (args.length<1) throw  new CommandException("Please select an action");
         controller.selectAction(Integer.parseInt(args[0]));
     }
 
