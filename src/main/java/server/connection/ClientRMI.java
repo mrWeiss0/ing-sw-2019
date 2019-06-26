@@ -15,7 +15,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     public ClientRMI(LobbyList lobbyList, RemoteClient remoteClient) {
         super(lobbyList);
         this.remoteClient = remoteClient;
-        send("Connected");
+        //send("Connected");
     }
 
     @Override
@@ -44,28 +44,28 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void createLobby(String name){
+    public void createLobby(String name) {
         try {
             lobbyList.create(name);
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             send(e.toString());
         }
     }
 
     @Override
-    public void joinLobby(String name){
+    public void joinLobby(String name) {
         try {
             lobbyList.join(player, name);
-        }catch (IllegalStateException | NoSuchElementException e){
+        } catch (IllegalStateException | NoSuchElementException e) {
             send(e.toString());
         }
     }
 
     @Override
-    public void quitLobby(String name){
-        try{
+    public void quitLobby(String name) {
+        try {
             lobbyList.remove(player, name);
-        }catch (IllegalStateException | NoSuchElementException e){
+        } catch (IllegalStateException | NoSuchElementException e) {
             send(e.toString());
         }
     }

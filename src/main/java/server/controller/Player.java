@@ -10,13 +10,13 @@ import server.model.weapon.Weapon;
 import java.util.Arrays;
 
 public class Player {
+    private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
     private String name;
     private VirtualClient client;
     private Figure figure;
     private GameController game;
     private boolean active = true;
     private boolean online = true;
-    private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
 
     public Player(String n) {
         name = n;
@@ -84,7 +84,7 @@ public class Player {
                             .distinct()
                             .toArray()
             ));
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
@@ -98,7 +98,7 @@ public class Player {
                             .distinct()
                             .toArray()
             ));
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
@@ -113,7 +113,7 @@ public class Player {
                             .distinct()
                             .toArray()
             ));
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
@@ -124,13 +124,13 @@ public class Player {
                     this,
                     figure.getLocation().peek().get(index)
             ));
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
 
     public void selectTargettable(int[] index) {
-        try{
+        try {
             game.enqueue(new SelectTargettableEvent(
                     this,
                     (Targettable[]) Arrays.stream(index)
@@ -138,7 +138,7 @@ public class Player {
                             .distinct()
                             .toArray()
             ));
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
@@ -149,18 +149,18 @@ public class Player {
                     this,
                     color
             ));
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }
 
     public void selectAction(int index) {
-        try{
+        try {
             game.enqueue(new SelectActionEvent(
                     this,
                     null
             ));
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             client.send(NOTSTARTEDMESSAGE);
         }
     }

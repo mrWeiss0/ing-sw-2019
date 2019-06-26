@@ -62,7 +62,7 @@ public class LobbyEntry {
         checkPlayerCount();
     }
 
-    public boolean isPresent(Player player){
+    public boolean isPresent(Player player) {
         return builder.getJoinedPlayers().contains(player);
     }
 

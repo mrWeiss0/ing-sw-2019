@@ -8,7 +8,6 @@ import server.model.Game;
 import server.model.PowerUpImage;
 import server.model.PowerUpType;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -145,7 +144,8 @@ class FigureDeathTest {
         figures[1].applyMarks();
         figures[1].damageFrom(figures[0], 1);
         assertEquals(2, figures[1].getDamages().size());
-        assertEquals(Arrays.asList(figures[1], figures[1]), game.getKillCount());
+        assertEquals(Collections.singletonList(figures[1]), game.getKillCount());
+        assertEquals(Collections.singletonList(true), game.getOverkills());
         assertEquals(7, game.getRemainingKills());
     }
 

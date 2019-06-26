@@ -33,60 +33,60 @@ public class CLICommandView extends CLIView {
         );
     }
 
-    private void connect(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Insert a host");
+    private void connect(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Insert a host");
         controller.connect(args[0]);
     }
 
-    private void login(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Insert an username");
+    private void login(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Insert an username");
         controller.login(args[0]);
     }
 
-    private void createLobby(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select a name for the lobby");
+    private void createLobby(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select a name for the lobby");
         controller.createLobby(args[0]);
     }
 
-    private void joinLobby(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select lobby");
+    private void joinLobby(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select lobby");
         controller.joinLobby(args[0]);
     }
 
-    private void quitLobby(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select the lobby name to exit from");
+    private void quitLobby(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select the lobby name to exit from");
         controller.quitLobby(args[0]);
     }
 
-    private void selectPowerUp(String[] args) throws CommandException{
+    private void selectPowerUp(String[] args) throws CommandException {
         controller.selectPowerUp(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectWeapon(String[] args) throws CommandException{
+    private void selectWeapon(String[] args) throws CommandException {
         controller.selectWeapon(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectFireMode(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select a fire mode");
+    private void selectFireMode(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select a fire mode");
         controller.selectFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectGrabbable(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select a grabbable");
+    private void selectGrabbable(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select a grabbable");
         controller.selectGrabbable(Integer.parseInt(args[0]));
     }
 
-    private void selectTargettable(String[] args) throws CommandException{
+    private void selectTargettable(String[] args) throws CommandException {
         controller.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectColor(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select a color");
+    private void selectColor(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select a color");
         controller.selectColor(Integer.parseInt(args[0]));
     }
 
-    private void selectAction(String[] args) throws CommandException{
-        if (args.length<1) throw  new CommandException("Please select an action");
+    private void selectAction(String[] args) throws CommandException {
+        if (args.length < 1) throw new CommandException("Please select an action");
         controller.selectAction(Integer.parseInt(args[0]));
     }
 
