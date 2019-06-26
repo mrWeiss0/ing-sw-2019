@@ -6,6 +6,7 @@ import tools.parser.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Map;
 
 public class CLIView implements View, Runnable {
@@ -46,6 +47,12 @@ public class CLIView implements View, Runnable {
     @Override
     public void exit() {
         thread.interrupt();
+    }
+
+    @Override
+    public void displayLobbyList(String[] lobbyList) {
+        print("Updated Lobby List: ");
+        Arrays.stream(lobbyList).forEach(this::print);
     }
 
     private void parse(String line) {

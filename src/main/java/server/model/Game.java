@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 public class Game {
     // Killshot Track
     private final List<Figure> killCount = new ArrayList<>(); // Kills and overkills done by players
+    private final List<Boolean> overkills = new ArrayList<>();
     private final List<Player> players;
     private final Deck<AmmoTile> ammoTileDeck = new Deck<>();
     private final Deck<Weapon> weaponDeck = new Deck<>();
@@ -143,8 +144,13 @@ public class Game {
     }
 
     public void addKillCount(int val, Figure f) {
-        killCount.addAll(Collections.nCopies(val, f));
+        killCount.add(f);
+        overkills.add(val > 1);
         --remainingKills;
+    }
+
+    public List<Boolean> getOverkills() {
+        return overkills;
     }
 
     public int getRemainingKills() {

@@ -2,14 +2,18 @@ package server.controller;
 
 import server.connection.VirtualClient;
 import server.model.PowerUp;
+import server.model.board.AbstractSquare;
 import server.model.board.Figure;
 import server.model.board.Targettable;
 import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class Player {
+    private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
     private String name;
     private VirtualClient client;
     private Figure figure;
@@ -75,64 +79,92 @@ public class Player {
     }
 
     public void selectPowerUp(int[] index) {
-        game.enqueue(new SelectPowerUpEvent(
-                this,
-                (PowerUp[]) Arrays.stream(index)
-                        .mapToObj(x -> figure.getPowerUps().get(x))
-                        .distinct()
-                        .toArray()
-        ));
+        try {
+            game.enqueue(new SelectPowerUpEvent(
+                    this,
+                    (PowerUp[]) Arrays.stream(index)
+                            .mapToObj(x -> figure.getPowerUps().get(x))
+                            .distinct()
+                            .toArray()
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 
     public void selectWeaponToReload(int[] index) {
-        game.enqueue(new SelectWeaponToReloadEvent(
-                this,
-                (Weapon[]) Arrays.stream(index)
-                        .mapToObj(x -> figure.getWeapons().get(x))
-                        .distinct()
-                        .toArray()
-        ));
+        try {
+            game.enqueue(new SelectWeaponToReloadEvent(
+                    this,
+                    (Weapon[]) Arrays.stream(index)
+                            .mapToObj(x -> figure.getWeapons().get(x))
+                            .distinct()
+                            .toArray()
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 
     public void selectWeaponFireMode(int index, int[] fm) {
-        game.enqueue(new SelectWeaponFireModeEvent(
-                this,
-                figure.getWeapons().get(index),
-                (FireMode[]) Arrays.stream(fm)
-                        .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
-                        .distinct()
-                        .toArray()
-        ));
+        try {
+            game.enqueue(new SelectWeaponFireModeEvent(
+                    this,
+                    figure.getWeapons().get(index),
+                    (FireMode[]) Arrays.stream(fm)
+                            .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
+                            .distinct()
+                            .toArray()
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 
     public void selectGrabbable(int index) {
-        game.enqueue(new SelectGrabbableEvent(
-                this,
-                figure.getLocation().peek().get(index)
-        ));
+        try {
+            game.enqueue(new SelectGrabbableEvent(
+                    this,
+                    figure.getLocation().peek().get(index)
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 
     public void selectTargettable(int[] index) {
+        if(game==null){
+            client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
+        }
         game.enqueue(new SelectTargettableEvent(
                 this,
-                (Targettable[]) Arrays.stream(index)
-                        .mapToObj(x -> figure.getPossibleTargets().get(x))
-                        .distinct()
-                        .toArray()
-        ));
+                    (Targettable[]) Arrays.stream(index)
+                            .mapToObj(game.getGame().getBoard()::resolveID)
+                            .distinct()
+                            .toArray()
+            ));
     }
 
     public void selectColor(int color) {
-        game.enqueue(new SelectColorEvent(
-                this,
-                color
-        ));
+        try {
+            game.enqueue(new SelectColorEvent(
+                    this,
+                    color
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 
     public void selectAction(int index) {
-        game.enqueue(new SelectActionEvent(
-                this,
-                null
-        ));
+        try {
+            game.enqueue(new SelectActionEvent(
+                    this,
+                    null
+            ));
+        } catch (NullPointerException e) {
+            client.sendMessage(NOTSTARTEDMESSAGE);
+        }
     }
 }

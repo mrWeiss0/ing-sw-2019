@@ -314,14 +314,6 @@ public class Figure implements Targettable {
         return player;
     }
 
-    public List<Targettable> getPossibleTargets() {
-        return possibleTargets;
-    }
-
-    public void setPossibleTargets(Set<Targettable> targets) {
-        this.possibleTargets = new ArrayList<>(targets);
-    }
-
     public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn) {
         List<String> possibleAction = new ArrayList<>();
         possibleAction.add("move");

@@ -3,6 +3,7 @@ package client;
 import client.connection.Connection;
 import client.connection.RMIConnection;
 import client.connection.SocketConnection;
+import client.model.MiniModel;
 import client.view.CLICommandView;
 import client.view.View;
 
@@ -10,6 +11,7 @@ public class Client {
     private Connection connection;
     private View view;
     private State state;
+    private MiniModel model;
     private State initState = new State() {
         @Override
         public void onEnter() {
@@ -19,59 +21,60 @@ public class Client {
 
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
-        connection = new RMIConnection(this);
+        connection = new SocketConnection(this);
+        model= new MiniModel(view);
     }
 
-    public void connect(String host){
-        try{
+    public void connect(String host) {
+        try {
             //TODO FROM FILE/CLI
-            connection.connect(host,1099);
-        }catch(Exception e){
-            view.print(e.getMessage());
+            connection.connect(host, 9900);
+        } catch (Exception e) {
+            view.print(e.toString());
         }
     }
 
-    public void login(String name){
+    public void login(String name) {
         connection.login(name);
     }
 
-    public void createLobby(String name){
+    public void createLobby(String name) {
         connection.createLobby(name);
     }
 
-    public void joinLobby(String name){
+    public void joinLobby(String name) {
         connection.joinLobby(name);
     }
 
-    public void quitLobby(String name){
+    public void quitLobby(String name) {
         connection.quitLobby(name);
     }
 
-    public void selectPowerUp(int[] selected){
+    public void selectPowerUp(int[] selected) {
         connection.selectPowerUp(selected);
     }
 
-    public void selectWeapon(int[] selected){
+    public void selectWeapon(int[] selected) {
         connection.selectWeapon(selected);
     }
 
-    public void selectFireMode(int weaponIndex, int[] selectedFireModes){
+    public void selectFireMode(int weaponIndex, int[] selectedFireModes) {
         connection.selectFireMode(weaponIndex, selectedFireModes);
     }
 
-    public void selectGrabbable(int index){
+    public void selectGrabbable(int index) {
         connection.selectGrabbable(index);
     }
 
-    public void selectTargettable(int[] selected){
+    public void selectTargettable(int[] selected) {
         connection.selectTargettable(selected);
     }
 
-    public void selectColor(int color){
+    public void selectColor(int color) {
         connection.selectColor(color);
     }
 
-    public void selectAction(int actionIndex){
+    public void selectAction(int actionIndex) {
         connection.selectAction(actionIndex);
     }
 
@@ -79,9 +82,18 @@ public class Client {
         view.start();
     }
 
-    public void print(String toPrint){
+    public void print(String toPrint) {
         view.print(toPrint);
     }
+
+    public void setLobbyList(String[] s){
+        model.setLobbyList(s);
+    }
+
+    public void displayLobby() {
+        view.displayLobbyList(model.getLobbyList());
+    }
+
     //TODO IMPLEMENT METHODS
     private interface State {
         default void onEnter() {

@@ -78,6 +78,10 @@ public class GameController implements Runnable {
         }
     }
 
+    public Game getGame(){
+        return game;
+    }
+
     void visit(SelectPowerUpEvent event) {
         state.selectPowerUp(event.getPlayer(), event.getPowerUps());
     }
@@ -132,11 +136,11 @@ public class GameController implements Runnable {
         default void logout(GameController controller, String id) {
             controller.getUsersByID().get(id).setInactive();
             for (Player u : controller.getUsersByID().values())
-                u.getClient().send(new String("Logout by a player"));
+                u.getClient().sendMessage("Logout by a player");
         }
 
         default void sendText(GameController controller, String text, String id) {
-            controller.getUsersByID().get(id).getClient().send(new String("Unrecognised command"));
+            controller.getUsersByID().get(id).getClient().sendMessage("Unrecognised command");
         }
 
 
@@ -338,7 +342,7 @@ public class GameController implements Runnable {
 
         @Override
         public void onEnter() {
-            game.currentPlayer().getFigure().setPossibleTargets(fireSequence.getTargets());
+            //game.currentPlayer().getFigure().setPossibleTargets(fireSequence.getTargets());
             //game.currentPlayer().getClient().send(new String("possibili targets"));
         }
         /*
