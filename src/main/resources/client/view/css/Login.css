@@ -1,0 +1,16 @@
+.root {
+    -fx-background-image: url("../images/titlecard640x480.png");
+}
+
+
+.outline.label.text {
+    -fx-stroke: black;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+#failedLogin {
+    -fx-text-fill: red;
+}

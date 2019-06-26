@@ -1,0 +1,8 @@
+.root {
+    -fx-background-image: url("../images/titlecard640x480.png");
+}
+
+
+.label {
+    -fx-text-fill: white;
+}

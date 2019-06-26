@@ -4,7 +4,7 @@ import client.connection.Connection;
 import client.connection.RMIConnection;
 import client.connection.SocketConnection;
 import client.model.*;
-import client.view.CLICommandView;
+import client.view.commandLine.CLICommandView;
 import client.view.View;
 
 import java.io.IOException;

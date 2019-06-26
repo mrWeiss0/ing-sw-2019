@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.sceneController.Settings">
+
+    <top>
+        <StackPane>
+            <children>
+                <VBox maxWidth="0" prefHeight="130.0" prefWidth="75.0" spacing="10.0">
+                    <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
+                    <children>
+                        <ImageView fx:id="quitButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/ICONquit.png" />
+                        </ImageView>
+                        <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/ICONback.png" />
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </ImageView>
+                    </children>
+                    <StackPane.margin>
+                        <Insets left="565.0" />
+                    </StackPane.margin>
+                </VBox>
+
+                <ImageView fx:id="LOGOadrenalina" fitHeight="125.0" fitWidth="565.0" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                    <Image url="@../images/LOGOadrenaline.png" />
+                </ImageView>
+            </children>
+        </StackPane>
+    </top>
+
+    <center>
+        <GridPane prefHeight="60.0" prefWidth="400.0">
+         <columnConstraints>
+            <ColumnConstraints prefWidth="250.0" />
+            <ColumnConstraints prefWidth="150.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints prefHeight="30.0" />
+            <RowConstraints prefHeight="30.0" />
+            <RowConstraints prefHeight="30.0" />
+            <RowConstraints prefHeight="30.0" />
+            <RowConstraints prefHeight="30.0" />
+         </rowConstraints>
+         <children>
+            <Label fx:id="connectionChoiceLabel" prefHeight="30.0" prefWidth="250.0" text="Connection through" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+            <ChoiceBox fx:id="connectionChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+            <CheckBox fx:id="fullscreen" mnemonicParsing="false" text="Fullscreen" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+            <Label fx:id="serverIPLabel" text="Server IP" GridPane.rowIndex="1" />
+            <Label fx:id="serverPortLabel" text="Server Port" GridPane.rowIndex="2" />
+            <TextField fx:id="serverIP" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="serverPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="save" text="Save" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="125.0" right="125.0" top="100.0" />
+         </BorderPane.margin></GridPane>
+    </center>
+
+    <bottom>
+        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="BOTTOM_RIGHT">
+            <image><Image url="@../images/LOGOcranio.png" /></image></ImageView>
+    </bottom>
+
+    <stylesheets>
+        <URL value="@../css/Settings.css" />
+    </stylesheets>
+</BorderPane>

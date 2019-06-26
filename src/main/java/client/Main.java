@@ -1,6 +1,5 @@
 package client;
 
-
 import tools.FileParser;
 
 import java.io.FileNotFoundException;

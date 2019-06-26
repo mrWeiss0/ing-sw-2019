@@ -1,7 +1,8 @@
-package client.view;
+package client.view.commandLine;
 
 import client.Client;
 import client.model.*;
+import client.view.View;
 import tools.parser.*;
 
 import java.io.BufferedReader;

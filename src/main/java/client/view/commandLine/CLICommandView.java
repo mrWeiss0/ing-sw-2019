@@ -1,4 +1,4 @@
-package client.view;
+package client.view.commandLine;
 
 import client.Client;
 import tools.parser.Command;
