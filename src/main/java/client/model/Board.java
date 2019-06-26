@@ -9,5 +9,5 @@ public class Board {
     private int[] possibleActions; //riferimenti agli indici nella lista delle azioni possibili della figure
     private int[] killTrack; //le figure che hanno ucciso e hanno preso un teschio
     private boolean[] overkills; //array che dice per ogni posizione se c'è overkill
-    //TODO POWERUPS
+    private PowerUp[] powerups;
 }

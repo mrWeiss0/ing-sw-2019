@@ -117,9 +117,9 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void selectTargettable(int[] selected) {
+    public void selectTargettable(int type, int[] selected) {
         try {
-            player.selectTargettable(selected);
+            player.selectTargettable(type, selected);
         } catch (RemoteException e) {
             controller.print(e.toString());
         } catch (NullPointerException e) {

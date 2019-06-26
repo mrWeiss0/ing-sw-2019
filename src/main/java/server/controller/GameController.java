@@ -78,6 +78,10 @@ public class GameController implements Runnable {
         }
     }
 
+    public Game getGame(){
+        return game;
+    }
+
     void visit(SelectPowerUpEvent event) {
         state.selectPowerUp(event.getPlayer(), event.getPowerUps());
     }
@@ -338,7 +342,7 @@ public class GameController implements Runnable {
 
         @Override
         public void onEnter() {
-            game.currentPlayer().getFigure().setPossibleTargets(fireSequence.getTargets());
+            //game.currentPlayer().getFigure().setPossibleTargets(fireSequence.getTargets());
             //game.currentPlayer().getClient().send(new String("possibili targets"));
         }
         /*

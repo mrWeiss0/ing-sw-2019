@@ -2,12 +2,15 @@ package server.controller;
 
 import server.connection.VirtualClient;
 import server.model.PowerUp;
+import server.model.board.AbstractSquare;
 import server.model.board.Figure;
 import server.model.board.Targettable;
 import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class Player {
     private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
@@ -129,18 +132,24 @@ public class Player {
         }
     }
 
-    public void selectTargettable(int[] index) {
-        try {
-            game.enqueue(new SelectTargettableEvent(
-                    this,
+    public void selectTargettable(int type, int[] index) {
+        if(game==null){
+            client.send(NOTSTARTEDMESSAGE);
+            return;
+        }
+        List<Targettable> list = ((Supplier<List<Targettable>>) new Supplier[]{
+                game.getGame().getBoard()::getSquares,
+                game.getGame().getBoard()::getFigures,
+                game.getGame().getBoard()::getRooms
+        }[type]).get();
+
+        game.enqueue(new SelectTargettableEvent(
+                this,
                     (Targettable[]) Arrays.stream(index)
-                            .mapToObj(x -> figure.getPossibleTargets().get(x))
+                            .mapToObj(list::get)
                             .distinct()
                             .toArray()
             ));
-        } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
-        }
     }
 
     public void selectColor(int color) {

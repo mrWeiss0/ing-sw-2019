@@ -1,6 +1,7 @@
 package client;
 
 import client.connection.Connection;
+import client.connection.RMIConnection;
 import client.connection.SocketConnection;
 import client.view.CLICommandView;
 import client.view.View;
@@ -62,8 +63,8 @@ public class Client {
         connection.selectGrabbable(index);
     }
 
-    public void selectTargettable(int[] selected) {
-        connection.selectTargettable(selected);
+    public void selectTargettable(int type, int[] selected) {
+        connection.selectTargettable(type, selected);
     }
 
     public void selectColor(int color) {

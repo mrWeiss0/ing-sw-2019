@@ -19,7 +19,7 @@ public interface Connection {
 
     void selectGrabbable(int index);
 
-    void selectTargettable(int[] selected);
+    void selectTargettable(int type, int[] selected);
 
     void selectColor(int color);
 

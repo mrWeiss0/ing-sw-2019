@@ -91,8 +91,8 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void selectTargettable(int[] selected) throws RemoteException {
-        player.selectTargettable(selected);
+    public void selectTargettable(int type, int[] selected) throws RemoteException {
+        player.selectTargettable(type, selected);
     }
 
     @Override

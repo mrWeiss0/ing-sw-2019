@@ -81,8 +81,8 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     @Override
-    public void selectTargettable(int[] selected) {
-        send("target" + CMD_DELIMITER + Arrays.stream(selected)
+    public void selectTargettable(int type, int[] selected) {
+        send("target" + CMD_DELIMITER +type+ARG_DELIMITER +Arrays.stream(selected)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }

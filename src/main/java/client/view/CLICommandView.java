@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class CLICommandView extends CLIView {
+    private final String NUMBERERROR="Argument invalid: please type numbers after the command";
     public CLICommandView(Client controller, String cmdDelimiter, String argsDelimiter) {
         super(controller, cmdDelimiter, argsDelimiter);
     }
@@ -59,35 +60,63 @@ public class CLICommandView extends CLIView {
     }
 
     private void selectPowerUp(String[] args) throws CommandException {
-        controller.selectPowerUp(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        try {
+            controller.selectPowerUp(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectWeapon(String[] args) throws CommandException {
-        controller.selectWeapon(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        try {
+            controller.selectWeapon(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectFireMode(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select a fire mode");
-        controller.selectFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
+        try {
+            controller.selectFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectGrabbable(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select a grabbable");
-        controller.selectGrabbable(Integer.parseInt(args[0]));
+        try {
+            controller.selectGrabbable(Integer.parseInt(args[0]));
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectTargettable(String[] args) throws CommandException {
-        controller.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        try {
+            controller.selectTargettable(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectColor(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select a color");
-        controller.selectColor(Integer.parseInt(args[0]));
+        try {
+            controller.selectColor(Integer.parseInt(args[0]));
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void selectAction(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select an action");
-        controller.selectAction(Integer.parseInt(args[0]));
+        try {
+            controller.selectAction(Integer.parseInt(args[0]));
+        }catch (NumberFormatException e){
+            throw new CommandException(NUMBERERROR);
+        }
     }
 
     private void quit(String[] args) throws CommandExitException {

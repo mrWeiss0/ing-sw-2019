@@ -146,7 +146,9 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectTargettable(String[] args) throws CommandException {
-        player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        if(args[1].equals(""))
+            args=new String[]{args[0]};
+        player.selectTargettable(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectColor(String[] args) throws CommandException {

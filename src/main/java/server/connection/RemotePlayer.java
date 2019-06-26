@@ -20,7 +20,7 @@ public interface RemotePlayer extends Remote {
 
     void selectGrabbable(int index) throws RemoteException;
 
-    void selectTargettable(int[] selected) throws RemoteException;
+    void selectTargettable(int type, int[] selected) throws RemoteException;
 
     void selectColor(int color) throws RemoteException;
 
