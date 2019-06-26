@@ -70,6 +70,19 @@ public class Board {
         figures.forEach(Figure::applyMarks);
     }
 
+    public int getID(Targettable t){
+        int i=Collections.binarySearch(rooms,t,Comparator.comparingInt(Object::hashCode));
+        if(i>=0)
+            return i*3;
+        i=Collections.binarySearch(squares,t,Comparator.comparingInt(Object::hashCode));
+        if(i>=0)
+            return (i*3)+1;
+        i=Collections.binarySearch(figures,t,Comparator.comparingInt(Object::hashCode));
+        if(i>=0)
+            return (i*3)+2;
+        return i;
+    }
+
     /**
      * The <code>Board.Builder</code> class allows the construction of a new
      * <code>Board</code>.

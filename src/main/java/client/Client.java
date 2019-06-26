@@ -90,6 +90,10 @@ public class Client {
         model.setLobbyList(s);
     }
 
+    public void displayLobby() {
+        view.displayLobbyList(model.getLobbyList());
+    }
+
     //TODO IMPLEMENT METHODS
     private interface State {
         default void onEnter() {

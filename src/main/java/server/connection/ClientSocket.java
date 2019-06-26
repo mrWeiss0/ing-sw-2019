@@ -2,6 +2,8 @@ package server.connection;
 
 import server.Main;
 import server.controller.LobbyList;
+import server.model.board.Board;
+import server.model.board.Targettable;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.CommandNotFoundException;
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -60,6 +63,12 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Main.LOGGER.warning("Socket send exception");
             close();
         }
+    }
+
+    @Override
+    public void sendTargets(List<Targettable> targets, Board board){
+        board.getRooms().contains(targets.get(0));
+        send("targets"+CMD_DELIMITER);
     }
 
     @Override

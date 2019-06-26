@@ -30,7 +30,8 @@ public class CLICommandView extends CLIView {
                 Map.entry("grab", Command.documented(this::selectGrabbable, "Tell the server the grabbable on the figure square that is being selected")),
                 Map.entry("target", Command.documented(this::selectTargettable, "Tell the server the targets that are being selected")),
                 Map.entry("color", Command.documented(this::selectColor, "Tell the server the color that is being selected")),
-                Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected"))
+                Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected")),
+                Map.entry("lobby_list", Command.documented(this::displayLobby,"Show the lobby list saved in local (Could be not updated)"))
         );
     }
 
@@ -117,6 +118,10 @@ public class CLICommandView extends CLIView {
         }catch (NumberFormatException e){
             throw new CommandException(NUMBERERROR);
         }
+    }
+
+    private void displayLobby(String[] args) throws CommandException{
+        controller.displayLobby();
     }
 
     private void quit(String[] args) throws CommandExitException {

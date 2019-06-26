@@ -142,7 +142,6 @@ public class Player {
                 game.getGame().getBoard()::getFigures,
                 game.getGame().getBoard()::getRooms
         }[type]).get();
-
         game.enqueue(new SelectTargettableEvent(
                 this,
                     (Targettable[]) Arrays.stream(index)
