@@ -13,15 +13,20 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SocketConnection implements Connection, Runnable {
-    private static final String CMD_DELIMITER = " ";
-    private static final String ARG_DELIMITER = " ";
+    private static final String CMD_DELIMITER = "&&";
+    private static final String ARG_DELIMITER = "--";
     private final Client controller;
     private Socket socket;
     private PrintStream ostream;
-    private Parser parser = new Parser(new HashMap<>(), CMD_DELIMITER, ARG_DELIMITER);
+    private Parser parser = new Parser(Map.ofEntries(
+            Map.entry("message", this::print),
+            Map.entry("lobby",this::sendLobbyList)
+
+    ), CMD_DELIMITER, ARG_DELIMITER);
 
 
     public SocketConnection(Client controller) {
@@ -101,7 +106,7 @@ public class SocketConnection implements Connection, Runnable {
     public void run() {
         try (BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             while (!socket.isClosed())
-                controller.print(istream.readLine());
+                parse(istream.readLine());
         } catch (IOException e) {
             Main.LOGGER.info(e::toString);
         } finally {
@@ -117,6 +122,13 @@ public class SocketConnection implements Connection, Runnable {
         } catch (CommandException e) {
             controller.print(e.toString());
         }
+    }
+
+    private void print(String[] args){
+        controller.print(String.join(ARG_DELIMITER, args));
+    }
+    private void sendLobbyList(String[] args){
+        controller.setLobbyList(args);
     }
 
     public void close() {

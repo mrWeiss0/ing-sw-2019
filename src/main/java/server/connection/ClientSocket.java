@@ -15,8 +15,11 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class ClientSocket extends VirtualClient implements Runnable {
+    private static final String CMD_DELIMITER = "&&";
+    private static final String ARG_DELIMITER = "--";
     private final Socket socket;
     private final PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
@@ -32,13 +35,13 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Map.entry("target", this::selectTargettable),
             Map.entry("color", this::selectColor),
             Map.entry("action", this::selectAction)
-    ), " ", " ");
+    ), CMD_DELIMITER, ARG_DELIMITER);
 
     public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
         super(lobbyList);
         this.socket = socket;
         ostream = new PrintStream(socket.getOutputStream());
-        send("Connected");
+        sendMessage("Connected");
     }
 
     @Override
@@ -48,6 +51,20 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Main.LOGGER.warning("Socket send exception");
             close();
         }
+    }
+
+    @Override
+    public void sendLobbyList(String[] s){
+        send("lobby"+CMD_DELIMITER+ String.join(ARG_DELIMITER,s));
+        if (ostream.checkError()) {
+            Main.LOGGER.warning("Socket send exception");
+            close();
+        }
+    }
+
+    @Override
+    public void sendMessage(String s){
+        send("message"+CMD_DELIMITER+s);
     }
 
     public boolean ping() {
@@ -82,15 +99,15 @@ public class ClientSocket extends VirtualClient implements Runnable {
         } catch (CommandExitException e) {
             close();
         } catch (CommandException e) {
-            send(e.toString());
+            sendMessage(e.toString());
         }
     }
 
     public void help(String[] args) throws CommandNotFoundException {
         if (args.length == 0 || args[0].isEmpty())
-            send(parser.help());
+            sendMessage(parser.help());
         else
-            send(parser.help(args[0]));
+            sendMessage(parser.help(args[0]));
     }
 
     private void login(String[] args) throws CommandException {
@@ -107,7 +124,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         try {
             lobbyList.create(args[0]);
         } catch (IllegalStateException e) {
-            send(e.toString());
+            sendMessage(e.toString());
         }
     }
 
@@ -116,7 +133,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         try {
             lobbyList.join(player, args[0]);
         } catch (IllegalStateException | NoSuchElementException e) {
-            send(e.toString());
+            sendMessage(e.toString());
         }
     }
 
@@ -125,7 +142,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         try {
             lobbyList.remove(player, args[0]);
         } catch (IllegalStateException | NoSuchElementException e) {
-            send(e.toString());
+            sendMessage(e.toString());
         }
     }
 

@@ -88,7 +88,7 @@ public class Player {
                             .toArray()
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 
@@ -102,7 +102,7 @@ public class Player {
                             .toArray()
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 
@@ -117,7 +117,7 @@ public class Player {
                             .toArray()
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 
@@ -128,13 +128,13 @@ public class Player {
                     figure.getLocation().peek().get(index)
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 
     public void selectTargettable(int type, int[] index) {
         if(game==null){
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
             return;
         }
         List<Targettable> list = ((Supplier<List<Targettable>>) new Supplier[]{
@@ -159,7 +159,7 @@ public class Player {
                     color
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 
@@ -170,7 +170,7 @@ public class Player {
                     null
             ));
         } catch (NullPointerException e) {
-            client.send(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
 }

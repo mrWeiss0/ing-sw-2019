@@ -66,7 +66,6 @@ public class LobbyEntry {
         return builder.getJoinedPlayers().contains(player);
     }
 
-
     private void setCountdown() {
         countdown = new TimerTask() {
             private int c = timeout;
@@ -85,5 +84,9 @@ public class LobbyEntry {
         if (countdown != null)
             countdown.cancel();
         countdown = null;
+    }
+
+    public String getOccupancy(){
+        return Integer.toString(builder.getJoinedPlayers().size())+"/"+Integer.toString(maxPlayers);
     }
 }

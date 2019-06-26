@@ -16,10 +16,14 @@ public abstract class VirtualClient implements Closeable {
     public void setPlayer(Player player) {
         this.player = player;
         player.setClient(this);
-        send("Logged in as " + player.getName());
+        sendMessage("Logged in as " + player.getName());
     }
 
     public abstract void send(String s);
+
+    public abstract void sendMessage(String s);
+
+    public abstract void sendLobbyList(String[] s);
 
     @Override
     public abstract void close();

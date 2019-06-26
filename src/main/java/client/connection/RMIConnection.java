@@ -149,9 +149,16 @@ public class RMIConnection implements Connection, RemoteClient {
         }
     }
 
+
+    //TODO SERVER->CLIENT
     @Override
     public void send(String s) throws RemoteException {
         controller.print(s);
+    }
+
+    @Override
+    public void sendLobbyList(String[] s){
+        controller.setLobbyList(s);
     }
 
     @Override

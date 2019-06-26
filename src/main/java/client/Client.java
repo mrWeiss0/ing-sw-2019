@@ -3,6 +3,7 @@ package client;
 import client.connection.Connection;
 import client.connection.RMIConnection;
 import client.connection.SocketConnection;
+import client.model.MiniModel;
 import client.view.CLICommandView;
 import client.view.View;
 
@@ -10,6 +11,7 @@ public class Client {
     private Connection connection;
     private View view;
     private State state;
+    private MiniModel model;
     private State initState = new State() {
         @Override
         public void onEnter() {
@@ -20,6 +22,7 @@ public class Client {
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
         connection = new SocketConnection(this);
+        model= new MiniModel(view);
     }
 
     public void connect(String host) {
@@ -81,6 +84,10 @@ public class Client {
 
     public void print(String toPrint) {
         view.print(toPrint);
+    }
+
+    public void setLobbyList(String[] s){
+        model.setLobbyList(s);
     }
 
     //TODO IMPLEMENT METHODS
