@@ -13,8 +13,10 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SocketConnection implements Connection, Runnable {
     private static final String CMD_DELIMITER = "&&";
@@ -25,7 +27,12 @@ public class SocketConnection implements Connection, Runnable {
     private Parser parser = new Parser(Map.ofEntries(
             Map.entry("message", this::print),
             Map.entry("lobby",this::sendLobbyList),
-            Map.entry("targets",this::sendTargets)
+            Map.entry("targets",this::sendTargets),
+            Map.entry("pups",this::sendPowerUps),
+            Map.entry("curr_p",this::sendCurrentPlayer),
+            Map.entry("actions",this::sendPossibleActions),
+            Map.entry("game_p",this::sendGameParams),
+            Map.entry("killtrack",this::sendKillTrack)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
 
@@ -133,7 +140,34 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     private void sendTargets(String[] args){
-        controller.setPossibleTargets(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        controller.setPossibleTargets(Integer.parseInt(args[0]), Integer.parseInt(args[1]),Arrays.stream(args).skip(2).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void sendPowerUps(String[] args){
+        controller.setPowerUps((int[][])IntStream.range(0,args.length/2)
+                .mapToObj(x->new int[]{Integer.parseInt(args[x]),Integer.parseInt(args[x+1])})
+                .toArray());
+    }
+
+    private void sendCurrentPlayer(String[] args){
+        controller.setCurrentPlayer(Integer.parseInt(args[0]));
+    }
+
+    private void sendPossibleActions(String[] args){
+        controller.setPossibleActions(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void sendGameParams(String[] args){
+        controller.setGameParams(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+    }
+
+    private void sendKillTrack(String[] args){
+        Boolean[] wrapper= Arrays.stream(args).map(x->x.startsWith("+")).toArray(Boolean[]::new);
+        boolean[] overkills= new boolean[wrapper.length];
+        for(int i=0;i<wrapper.length;i++)
+            overkills[i]=wrapper[i];
+        controller.setKillTrack(Arrays.stream(args).mapToInt(Integer::parseInt).toArray(),
+                overkills);
     }
 
     public void close() {

@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.List;
 
 public class RMIConnection implements Connection, RemoteClient {
@@ -168,7 +169,32 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendTargets(List<Integer> targets) throws RemoteException {
-        controller.setPossibleTargets(targets.stream().mapToInt(Integer::intValue).toArray());
+    public void sendTargets(int min, int max, List<Integer> targets) throws RemoteException {
+        controller.setPossibleTargets(min, max, targets.stream().mapToInt(Integer::intValue).toArray());
+    }
+
+    @Override
+    public void sendPowerUps(List<Integer[]> powerUps){
+        controller.setPowerUps((int[][])powerUps.stream().map(x-> Arrays.stream(x).mapToInt(Integer::intValue).toArray()).toArray());
+    }
+
+    @Override
+    public void sendCurrentPlayer(int currentPlayer){
+        controller.setCurrentPlayer(currentPlayer);
+    }
+
+    @Override
+    public void sendPossibleActions(List<Integer> possibleActions){
+        controller.setPossibleActions(possibleActions.stream().mapToInt(Integer::intValue).toArray());
+    }
+
+    @Override
+    public void sendGameParams(List<Integer> gameParams){
+        controller.setGameParams(gameParams.stream().mapToInt(Integer::intValue).toArray());
+    }
+
+    @Override
+    public void sendKillTrack(int[] killtrack, boolean[] overkills){
+        controller.setKillTrack(killtrack,overkills);
     }
 }

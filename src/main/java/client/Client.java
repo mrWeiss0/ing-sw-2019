@@ -4,8 +4,11 @@ import client.connection.Connection;
 import client.connection.RMIConnection;
 import client.connection.SocketConnection;
 import client.model.MiniModel;
+import client.model.PowerUp;
 import client.view.CLICommandView;
 import client.view.View;
+
+import java.util.List;
 
 public class Client {
     private Connection connection;
@@ -33,6 +36,8 @@ public class Client {
             view.print(e.toString());
         }
     }
+
+    //CLIENT->SERVER METHODS:
 
     public void login(String name) {
         connection.login(name);
@@ -78,6 +83,8 @@ public class Client {
         connection.selectAction(actionIndex);
     }
 
+    //END
+
     public void start() {
         view.start();
     }
@@ -90,8 +97,32 @@ public class Client {
         model.setLobbyList(s);
     }
 
-    public void setPossibleTargets(int[] targets){
+    public void setPossibleTargets(int min, int max, int[] targets){
+        model.setMinToSelect(min);
+        model.setMaxToSelect(max);
         model.setPossibleTargets(targets);
+    }
+
+    public void setPowerUps(int[][] powerUps){
+        model.setPowerups(powerUps);
+    }
+
+    public void setCurrentPlayer(int currentPlayer){
+        model.setCurrentPlayer(currentPlayer);
+    }
+
+    public void setPossibleActions(int[] possibleActions){
+        model.setPossibleActions(possibleActions);
+    }
+
+    public void setGameParams(int[] gameParams){
+        model.getBoard().setMapType(gameParams[0]);
+        model.getBoard().setMaxKills(gameParams[1]);
+    }
+
+    public void setKillTrack(int[] killTrack, boolean[] overkills){
+        model.getBoard().setKillTrack(killTrack);
+        model.getBoard().setOverkills(overkills);
     }
 
     public void displayLobby() {

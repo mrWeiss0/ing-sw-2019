@@ -2,7 +2,9 @@ package server.connection;
 
 import server.Main;
 import server.controller.LobbyList;
+import server.model.PowerUp;
 import server.model.board.Board;
+import server.model.board.Figure;
 import server.model.board.Targettable;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ClientSocket extends VirtualClient implements Runnable {
     private static final String CMD_DELIMITER = "&&";
@@ -66,11 +69,52 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendTargets(List<Targettable> targets, Board board){
-        send("targets"+CMD_DELIMITER+targets.stream()
+    public void sendTargets(int min, int max, List<Targettable> targets, Board board){
+        send("targets"+CMD_DELIMITER
+                +Integer.toString(min)+ARG_DELIMITER
+                +Integer.toString(max)+ARG_DELIMITER
+                +targets.stream()
                 .map(board::getID)
                 .map(x->Integer.toString(x))
                 .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendPowerUps(List<PowerUp> powerUps){
+        send("pups"+CMD_DELIMITER
+            +powerUps.stream()
+                .map(x->x.getType().ordinal()+ARG_DELIMITER+x.getColor())
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendCurrentPlayer(int currentPlayer){
+        send("curr_p"+CMD_DELIMITER+currentPlayer);
+    }
+
+    @Override
+    public void sendPossibleActions(List<Integer> possibleActions){
+        send("actions"+CMD_DELIMITER+possibleActions.stream()
+                .map(x->x.toString())
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendGameParams(List<Integer> gameParams){
+        send("game_p"+CMD_DELIMITER+gameParams.stream()
+                .map(x->x.toString())
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills){
+        String[] res = killTrack.stream()
+                .map(x->Integer.toString(player.getGame().getGame().getBoard().getFigures().indexOf(x)))
+                .toArray(String[]::new);
+        IntStream.range(0,overkills.size()).forEach(x->{
+            if(overkills.get(x)) res[x]="+"+res[x];
+        });
+        send("killtrack"+CMD_DELIMITER+ String.join(ARG_DELIMITER, res));
     }
 
     @Override

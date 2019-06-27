@@ -2,7 +2,9 @@ package server.connection;
 
 import server.controller.LobbyList;
 import server.controller.Player;
+import server.model.PowerUp;
 import server.model.board.Board;
+import server.model.board.Figure;
 import server.model.board.Targettable;
 
 import java.io.Closeable;
@@ -28,7 +30,18 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendLobbyList(String[] s);
 
-    public abstract void sendTargets(List<Targettable> targets, Board board);
+    public abstract void sendTargets(int min, int max, List<Targettable> targets, Board board);
+
+    public abstract void sendPowerUps(List<PowerUp> powerUps);
+
+    public abstract void sendCurrentPlayer(int currentPlayer);
+
+    public abstract void sendPossibleActions(List<Integer> possibleActions);
+
+    //0:map_type, 1:max_kills
+    public abstract void sendGameParams(List<Integer> gameParams);
+
+    public abstract void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills);
 
     @Override
     public abstract void close();

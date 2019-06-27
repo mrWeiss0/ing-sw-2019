@@ -3,12 +3,15 @@ package server.connection;
 import client.connection.RemoteClient;
 import server.Main;
 import server.controller.LobbyList;
+import server.model.PowerUp;
 import server.model.board.Board;
+import server.model.board.Figure;
 import server.model.board.Targettable;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -49,9 +52,67 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void sendTargets(List<Targettable> targets, Board board){
+    public void sendTargets(int min, int max, List<Targettable> targets, Board board){
         try {
-            remoteClient.sendTargets(targets.stream().map(board::getID).collect(Collectors.toList()));
+            remoteClient.sendTargets(min,max,targets.stream().map(board::getID).collect(Collectors.toList()));
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendCurrentPlayer(int currentPlayer){
+        try {
+            remoteClient.sendCurrentPlayer(currentPlayer);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPossibleActions(List<Integer> possibleActions){
+        try {
+            remoteClient.sendPossibleActions(possibleActions);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPowerUps(List<PowerUp> powerUps){
+        try {
+            remoteClient.sendPowerUps(powerUps.stream()
+                    .map(x->new Integer[]{x.getType().ordinal(),x.getColor()})
+                    .collect(Collectors.toList()));
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendGameParams(List<Integer> gameParams){
+        try {
+            remoteClient.sendGameParams(gameParams);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills){
+        Boolean[] wrapper= overkills.toArray(Boolean[]::new);
+        boolean[] ok= new boolean[wrapper.length];
+        for(int i=0;i<wrapper.length;i++)
+            ok[i]=wrapper[i];
+        try {
+            remoteClient.sendKillTrack(killTrack.stream()
+                    .mapToInt(x->player.getGame().getGame().getBoard().getFigures().indexOf(x)).toArray()
+                    ,ok);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
