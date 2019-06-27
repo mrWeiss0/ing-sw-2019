@@ -1,6 +1,6 @@
 package client.view.graphic;
 
-import client.view.graphic.loader.Scenes;
+import client.view.graphic.loaders.Scenes;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;

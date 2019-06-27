@@ -1,6 +1,6 @@
-package client.view.graphic.sceneController;
+package client.view.graphic.controllers;
 
-import client.view.graphic.loader.Scenes;
+import client.view.graphic.loaders.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +45,7 @@ public class LobbyChoice {
 
         //sets actions
         createButton.setOnAction(create -> lobbies.setItems(FXCollections.observableArrayList("Lobby 1")));
-        //joinButton.setOnAction();
+        joinButton.setOnAction(join -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()));
     }
 
     public void displayLobbies(List<String> lobbyList) {

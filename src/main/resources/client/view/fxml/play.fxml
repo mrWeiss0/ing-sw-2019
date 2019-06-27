@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Play">
+   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1024.0" StackPane.alignment="BOTTOM_CENTER">
+      <children>
+         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="700.0" StackPane.alignment="TOP_LEFT" />
+         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="700.0" StackPane.alignment="BOTTOM_LEFT" />
+         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="324.0" StackPane.alignment="TOP_RIGHT" />
+      </children>
+   </StackPane>
+   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
+
+    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
+        <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
+        <children>
+            <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../images/ICONback.png" />
+            </ImageView>
+        </children>
+    </VBox>
+
+    <stylesheets>
+        <URL value="@../css/Play.css" />
+    </stylesheets>
+</StackPane>

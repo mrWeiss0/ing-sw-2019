@@ -1,8 +1,8 @@
-package client.view.graphic.loader;
+package client.view.graphic.loaders;
 
 import client.ConnectionType;
-import client.view.graphic.sceneController.Confirm;
-import client.view.graphic.sceneController.Settings;
+import client.view.graphic.controllers.Confirm;
+import client.view.graphic.controllers.Settings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +15,7 @@ public class Scenes {
     //Main scenes
     private static Scene loginScreen;
     private static Scene settingsScreen;
-    private static Scene lobbyScreen;
+    private static Scene lobbyChoiceScreen;
 
     //Confirm scene
     private static Scene confirmScreen;
@@ -37,8 +37,8 @@ public class Scenes {
         loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
         Parent settingsRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/settings.fxml"));
         settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
-        Parent lobbyRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/lobbyChoice.fxml"));
-        lobbyScreen = new Scene(lobbyRoot, windowWidth, windowHeight);
+        Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/lobbyChoice.fxml"));
+        lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
 
         FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../client/view/fxml/confirm.fxml"));
         Parent confirmRoot = confirmLoader.load();
@@ -52,7 +52,7 @@ public class Scenes {
 
     public static Scene getSettingsScreen() { return settingsScreen; }
 
-    public static Scene getLobbyScreen() { return lobbyScreen;  }
+    public static Scene getLobbyChoiceScreen() { return lobbyChoiceScreen;  }
 
     public static Scene getConfirmScreen() { return confirmScreen; }
 

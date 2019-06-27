@@ -1,7 +1,7 @@
-package client.view.graphic.sceneController;
+package client.view.graphic.controllers;
 
 import client.ConnectionType;
-import client.view.graphic.loader.Scenes;
+import client.view.graphic.loaders.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

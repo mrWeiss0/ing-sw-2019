@@ -1,6 +1,6 @@
-package client.view.graphic.sceneController;
+package client.view.graphic.controllers;
 
-import client.view.graphic.loader.Scenes;
+import client.view.graphic.loaders.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,12 +40,12 @@ public class Login {
 
         //sets actions
         //TODO sends login message
-        loginButton.setOnAction(event -> ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyScreen()));
+        loginButton.setOnAction(event -> ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()));
     }
 
     @FXML public void handleLoginError() {
         failedLogin.setVisible(true);
     }
 
-    @FXML public void handleLoginSuccess() { ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyScreen()); }
+    @FXML public void handleLoginSuccess() { ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()); }
 }
