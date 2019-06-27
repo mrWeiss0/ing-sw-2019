@@ -133,7 +133,7 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     private void sendTargets(String[] args){
-        //TODO
+        controller.setPossibleTargets(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
     public void close() {

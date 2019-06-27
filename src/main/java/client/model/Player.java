@@ -11,4 +11,8 @@ public class Player {
     private int nPowerup; //n° powerup da mostrare agli altri giocatori
     private int[] coordinates; //coordinate per displayarlo su una cella nella mappa
     private int character;//il personaggio scelto
+
+    public String toString(){
+        return name+" - "+character;
+    }
 }

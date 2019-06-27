@@ -90,6 +90,10 @@ public class Client {
         model.setLobbyList(s);
     }
 
+    public void setPossibleTargets(int[] targets){
+        model.setPossibleTargets(targets);
+    }
+
     public void displayLobby() {
         view.displayLobbyList(model.getLobbyList());
     }

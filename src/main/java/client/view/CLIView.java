@@ -1,6 +1,8 @@
 package client.view;
 
 import client.Client;
+import client.model.Player;
+import client.model.Square;
 import tools.parser.*;
 
 import java.io.BufferedReader;
@@ -53,6 +55,21 @@ public class CLIView implements View, Runnable {
     public void displayLobbyList(String[] lobbyList) {
         print("Updated Lobby List: ");
         Arrays.stream(lobbyList).forEach(this::print);
+    }
+
+    @Override
+    public void displayPossibleRoom(int id, Room room) {
+        print(id+" room: "+room.toString());
+    }
+
+    @Override
+    public void displayPossibleFigure(int id, Player player) {
+        print(id+" figure: "+player.toString());
+    }
+
+    @Override
+    public void displayPossibleSquare(int id, Square square) {
+        print(id+" square: "+square.toString());
     }
 
     private void parse(String line) {

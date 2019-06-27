@@ -169,6 +169,6 @@ public class RMIConnection implements Connection, RemoteClient {
 
     @Override
     public void sendTargets(List<Integer> targets) throws RemoteException {
-        //TODO
+        controller.setPossibleTargets(targets.stream().mapToInt(Integer::intValue).toArray());
     }
 }

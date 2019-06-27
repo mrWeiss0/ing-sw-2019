@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class ClientRMI extends VirtualClient implements RemotePlayer {
     private final RemoteClient remoteClient;
+    private final String RMI_ERROR ="RMI send exception";
 
     public ClientRMI(LobbyList lobbyList, RemoteClient remoteClient) {
         super(lobbyList);
@@ -27,7 +28,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         try {
             remoteClient.send(s);
         } catch (RemoteException e) {
-            Main.LOGGER.warning("RMI send exception");
+            Main.LOGGER.warning(RMI_ERROR);
             close();
         }
     }
@@ -42,7 +43,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         try {
             remoteClient.sendLobbyList(s);
         } catch (RemoteException e) {
-            Main.LOGGER.warning("RMI send exception");
+            Main.LOGGER.warning(RMI_ERROR);
             close();
         }
     }
@@ -52,7 +53,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         try {
             remoteClient.sendTargets(targets.stream().map(board::getID).collect(Collectors.toList()));
         } catch (RemoteException e) {
-            Main.LOGGER.warning("RMI send exception");
+            Main.LOGGER.warning(RMI_ERROR);
             close();
         }
     }
