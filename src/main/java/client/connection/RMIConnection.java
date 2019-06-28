@@ -207,4 +207,49 @@ public class RMIConnection implements Connection, RemoteClient {
     public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons){
         controller.setSquareContent(squareID, ammo, powerUp, weapons);
     }
+
+    @Override
+    public void sendPlayers(int[] avatars, String[] names){
+        controller.setPlayers(avatars,names);
+    }
+
+    @Override
+    public void sendPlayerDamages(int id, int[] damages){
+        controller.setPlayerDamages(id, damages);
+    }
+
+    @Override
+    public void sendPlayerMarks(int id, int[] marks){
+        controller.setPlayerMarks(id, marks);
+    }
+
+    @Override
+    public void sendPlayerLocation(int id, int[] coords){
+        controller.setPlayerLocation(id, coords);
+    }
+
+    @Override
+    public void sendPlayerPoints(int id, int points){
+        controller.setPlayerPoints(id, points);
+    }
+
+    @Override
+    public void sendPlayerDeaths(int id, int deaths){
+        controller.setPlayerDeaths(id,deaths);
+    }
+
+    @Override
+    public void sendPlayerAmmo(int id, int[] ammo){
+        controller.setPlayerAmmo(id, ammo);
+    }
+
+    @Override
+    public void sendPlayerNPowerUps(int id, int nPowerUps){
+        controller.setPlayerNPowerUps(id, nPowerUps);
+    }
+
+    @Override
+    public void sendPlayerWeapons(int id, int[] weaponsIDs, boolean[] charges){
+        controller.setPlayerWeapons(id,weaponsIDs,charges);
+    }
 }

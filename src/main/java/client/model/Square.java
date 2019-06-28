@@ -7,9 +7,9 @@ public class Square {
     private int[] coordinates;// per displayare (identificato in base a indice nella lista lato server) V
     private boolean spawn; //se spawn o no V
     private int room;// V
-    private int[] ammo; //le ammo dell'ammotile
-    private boolean powerup; //se c'è o no powerup nell'ammotile
-    private int[] weapons; //id delle weapon nello square(cariche)
+    private int[] ammo; //le ammo dell'ammotile V
+    private boolean powerup; //se c'è o no powerup nell'ammotile V
+    private int[] weapons; //id delle weapon nello square(cariche) V
 
 
     public Square(int[] coordinates, boolean spawn, int room){

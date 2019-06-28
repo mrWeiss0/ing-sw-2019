@@ -34,7 +34,16 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("game_p",this::sendGameParams),
             Map.entry("killtrack",this::sendKillTrack),
             Map.entry("squares",this::sendSquares),
-            Map.entry("fill", this::sendSquareContent)
+            Map.entry("fill", this::sendSquareContent),
+            Map.entry("players", this::sendPlayers),
+            Map.entry("damages",this::sendPlayerDamages),
+            Map.entry("marks",this::sendPlayerMarks),
+            Map.entry("location",this::sendPlayerLocation),
+            Map.entry("points",this::sendPlayerPoints),
+            Map.entry("deaths",this::sendPlayerDeaths),
+            Map.entry("ammo", this::sendPlayerAmmo),
+            Map.entry("npups",this::sendPlayerNPowerUps),
+            Map.entry("weapons",this::sendPlayerWeapons)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
 
@@ -197,6 +206,65 @@ public class SocketConnection implements Connection, Runnable {
                 .mapToInt(Integer::parseInt)
                 .toArray();
         controller.setSquareContent(squareID,ammo,powerup,weapons);
+    }
+
+    //example ["0", "mario", "1", "luigi"]
+    private void sendPlayers(String[] args){
+        int[] avatars = IntStream.range(0,args.length).filter(x->x%2!=0).map(x->Integer.parseInt(args[x])).toArray();
+        String[] names = IntStream.range(0,args.length).filter(x->x%2==0).mapToObj(x->args[x]).toArray(String[]::new);
+        controller.setPlayers(avatars,names);
+    }
+
+    private void sendPlayerDamages(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int[] values= Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
+        controller.setPlayerDamages(id,values);
+    }
+
+    private void sendPlayerMarks(String [] args){
+        int id=Integer.parseInt(args[0]);
+        int[] values= Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
+        controller.setPlayerMarks(id,values);
+    }
+
+    private void sendPlayerLocation(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int[] values= Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
+        controller.setPlayerLocation(id,values);
+    }
+
+    private void sendPlayerPoints(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int points=Integer.parseInt(args[1]);
+        controller.setPlayerPoints(id,points);
+    }
+
+    private void sendPlayerDeaths(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int deaths=Integer.parseInt(args[1]);
+        controller.setPlayerDeaths(id,deaths);
+    }
+
+    private void sendPlayerAmmo(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int[] ammo= Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
+        controller.setPlayerAmmo(id,ammo);
+    }
+
+    private void sendPlayerNPowerUps(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int nPowerUps=Integer.parseInt(args[1]);
+        controller.setPlayerDeaths(id,nPowerUps);
+    }
+
+    private void sendPlayerWeapons(String[] args){
+        int id=Integer.parseInt(args[0]);
+        int[] wIDs =Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
+        Boolean[] wrapper = Arrays.stream(args).skip(1).map(x->x.startsWith("+")).toArray(Boolean[]::new);
+        boolean[] charges= new boolean[wrapper.length];
+        for(int i=0;i<wrapper.length;i++)
+            charges[i]=wrapper[i];
+        controller.setPlayerWeapons(id, wIDs,charges);
     }
 
     public void close() {

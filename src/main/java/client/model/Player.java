@@ -1,10 +1,10 @@
 package client.model;
 
 public class Player {
-    private String name;// nome
-    private int character;//il personaggio scelto
+    private String name;// nome V
+    private int avatar;//il personaggio scelto V
 
-    private int[] damages;
+    private int[] damages;//
     private int[] marks; //marchi indicati come id dei giocatori(pos nella lista di player)
     private int points; //n° punti
     private int deaths; //n° morti da displayare
@@ -13,15 +13,45 @@ public class Player {
     private int nPowerup; //n° powerup da mostrare agli altri giocatori
     private int[] coordinates; //coordinate per displayarlo su una cella nella mappa
 
-    public Player(String name, int character, int points, int deaths, Weapon[] weapons, int[] ammo, int nPowerup, int[] coordinates){
+    public Player(String name, int avatar){
         this.name=name;
-        this.character=character;
-        this.points=points;
-        this.deaths=deaths;
+        this.avatar=avatar;
+    }
+
+    public void setDamages(int[] damages) {
+        this.damages = damages;
+    }
+
+    public void setMarks(int[] marks) {
+        this.marks = marks;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public void setWeapons(Weapon[] weapons) {
+        this.weapons = weapons;
+    }
+
+    public void setAmmo(int[] ammo) {
+        this.ammo = ammo;
+    }
+
+    public void setnPowerup(int nPowerup) {
+        this.nPowerup = nPowerup;
+    }
+
+    public void setCoordinates(int[] coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String toString(){
-        return name+" - "+character;
+        return name+" - "+avatar;
     }
 
 

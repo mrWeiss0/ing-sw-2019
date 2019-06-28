@@ -15,6 +15,15 @@ public interface RemoteClient extends Remote {
     void sendKillTrack(int[] killTrack, boolean[] overkills)throws RemoteException;
     void sendSquares(int[][] coordinates, int[] rooms, boolean[] spawn) throws RemoteException;
     void sendSquareContent(int squareID, int[] ammo, boolean powerup, int[] weapons) throws RemoteException;
+    void sendPlayers(int[] avatars, String[] names) throws RemoteException;
+    void sendPlayerDamages(int id, int[] damages) throws RemoteException;
+    void sendPlayerMarks(int id,int[] marks) throws RemoteException;
+    void sendPlayerLocation(int id, int[] coords) throws RemoteException;
+    void sendPlayerPoints(int id, int points) throws RemoteException;
+    void sendPlayerNPowerUps(int id, int nPowerUps) throws RemoteException;
+    void sendPlayerDeaths(int id, int deaths) throws RemoteException;
+    void sendPlayerAmmo(int id, int[] ammo) throws RemoteException;
+    void sendPlayerWeapons(int id, int[] weaponIDs, boolean[] charges) throws RemoteException;
     boolean ping() throws RemoteException;
 
 

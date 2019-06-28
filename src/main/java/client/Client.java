@@ -3,12 +3,11 @@ package client;
 import client.connection.Connection;
 import client.connection.RMIConnection;
 import client.connection.SocketConnection;
-import client.model.MiniModel;
-import client.model.PowerUp;
-import client.model.Square;
+import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -137,6 +136,47 @@ public class Client {
         model.getBoard().getSquares()[squareID].setAmmo(ammo);
         model.getBoard().getSquares()[squareID].setPowerup(powerUp);
         model.getBoard().getSquares()[squareID].setWeapons(weapons);
+    }
+
+    public void setPlayers(int[] avatars, String[] names){
+        model.getBoard().setPlayers(IntStream
+                .range(0,avatars.length)
+                .mapToObj(x->new Player(names[x],avatars[x]))
+                .toArray(Player[]::new));
+    }
+
+    public void setPlayerDamages(int id, int[] damages){
+        model.getBoard().getPlayers()[id].setDamages(damages);
+    }
+
+    public void setPlayerMarks(int id, int[] marks){
+        model.getBoard().getPlayers()[id].setMarks(marks);
+    }
+
+    public void setPlayerLocation(int id, int[] coords){
+        model.getBoard().getPlayers()[id].setCoordinates(coords);
+    }
+
+    public void setPlayerPoints(int id, int points){
+        model.getBoard().getPlayers()[id].setPoints(points);
+    }
+
+    public void setPlayerNPowerUps(int id, int nPowerUps){
+        model.getBoard().getPlayers()[id].setnPowerup(nPowerUps);
+    }
+
+    public void setPlayerDeaths(int id, int deaths){
+        model.getBoard().getPlayers()[id].setDeaths(deaths);
+    }
+
+    public void setPlayerAmmo(int id, int[] ammo){
+        model.getBoard().getPlayers()[id].setAmmo(ammo);
+    }
+
+    public void setPlayerWeapons(int id, int[] weaponIDs, boolean[] charges){
+        Weapon[] weapons= Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
+        IntStream.range(0,weapons.length).forEach(x->weapons[x].setLoaded(charges[x]));
+        model.getBoard().getPlayers()[id].setWeapons(weapons);
     }
 
     public void displayLobby() {

@@ -3,8 +3,12 @@ package server.connection;
 import client.connection.RemoteClient;
 import server.Main;
 import server.controller.LobbyList;
+import server.controller.Player;
+import server.model.AmmoCube;
+import server.model.AmmoTile;
 import server.model.PowerUp;
 import server.model.board.*;
+import server.model.weapon.Weapon;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
@@ -135,7 +139,139 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendSquareContent(AbstractSquare square){
-        //TODO
+        int id=player.getGame().getGame().getBoard().getSquares().indexOf(square);
+        int[] ammo=new int[]{0,0,0};
+        boolean powerup=false;
+        int[] weapons=null;
+        AmmoCube ammoCube;
+        if(square.peek().get(0) instanceof Weapon)
+            weapons=square.peek().stream().mapToInt(x->((Weapon)x).getID()).toArray();
+        else {
+            ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
+            for(int i=0;i<3;i++)
+                ammo[i]=ammoCube.value(i);
+            powerup=((AmmoTile)square.peek().get(0)).getPowerUp().isPresent();
+        }
+        try {
+            remoteClient.sendSquareContent(id,ammo,powerup,weapons);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayers(List<Player> players){
+        int[] avatars = players.stream().mapToInt(x->x.getGame().getGame().getPlayers().indexOf(x)).toArray();
+        String[] names=players.stream().map(x->x.getName()).toArray(String[]::new);
+        try {
+            remoteClient.sendPlayers(avatars,names);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerDamages(Player player){
+        int id= player.getGame().getGame().getPlayers().indexOf(player);
+        int[] damages = player.getFigure().getDamages().stream()
+                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .toArray();
+        try {
+            remoteClient.sendPlayerDamages(id,damages);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerMarks(Player player){
+        int id= player.getGame().getGame().getPlayers().indexOf(player);
+        int[] marks = player.getFigure().getMarks().stream()
+                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .toArray();
+        try {
+            remoteClient.sendPlayerMarks(id,marks);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerLocation(Player player){
+        int id= player.getGame().getGame().getPlayers().indexOf(player);
+        int[] coords = player.getFigure().getLocation().getCoordinates();
+        try {
+            remoteClient.sendPlayerLocation(id,coords);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerPoints(Player player){
+        try {
+            remoteClient.sendPlayerPoints(player.getGame().getGame().getPlayers().indexOf(player)
+                    ,player.getFigure().getPoints());
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerDeaths(Player player){
+        try {
+            remoteClient.sendPlayerDeaths(player.getGame().getGame().getPlayers().indexOf(player)
+                    ,player.getFigure().getDeaths());
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerAmmo(Player player){
+        int[] ammo=new int[]{0,0,0};
+        for(int i=0;i<3;i++)
+            ammo[i]=player.getFigure().getAmmo().value(i);
+        try {
+            remoteClient.sendPlayerAmmo(player.getGame().getGame().getPlayers().indexOf(player), ammo);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerNPowerUps(Player player){
+        try {
+            remoteClient.sendPlayerNPowerUps(player.getGame().getGame().getPlayers().indexOf(player)
+                    , player.getFigure().getPowerUps().size());
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerWeapons(Player player){
+        int[] weaponsIDs = player.getFigure().getWeapons().stream().mapToInt(Weapon::getID).toArray();
+        Boolean[] wrapper= player.getFigure().getWeapons().stream().map(Weapon::isLoaded).toArray(Boolean[]::new);
+        boolean[] charges= new boolean[wrapper.length];
+        for(int i=0;i<wrapper.length;i++)
+            charges[i]=wrapper[i];
+        try {
+            remoteClient.sendPlayerWeapons(player.getGame().getGame().getPlayers().indexOf(player)
+                    ,weaponsIDs,charges);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
     }
 
     @Override

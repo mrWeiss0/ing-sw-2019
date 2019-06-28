@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.model.AmmoCube;
 
+import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,5 +74,19 @@ class FigureTest {
         assertThrows(IllegalStateException.class, () -> figure.subAmmo(c));
         figure.subAmmo(b);
         assertTrue(IntStream.range(0, 3).allMatch(i -> d.value(i) == figure.getAmmo().value(i)));
+    }
+
+    @Test
+    void testGetMarks(){
+        Figure f1= new Figure(11,12,3,3,3,3);
+        Figure f2= new Figure(11,12,3,3,3,3);
+        Figure f3= new Figure(11,12,3,3,3,3);
+        f1.markFrom(f2,3);
+        f1.markFrom(f3,1);
+        f1.applyMarks();
+        assertEquals(4,f1.getMarks().size());
+        f1.markFrom(f2,2);
+        f1.applyMarks();
+        assertEquals(4,f1.getMarks().size());
     }
 }

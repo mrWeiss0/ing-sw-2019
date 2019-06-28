@@ -93,6 +93,17 @@ public class Figure implements Targettable {
         return damages;
     }
 
+    public List<Figure> getMarks(){
+        List<Figure> result= new ArrayList<>();
+        for(Figure f: marks.keySet())
+            result.addAll(Collections.nCopies(marks.get(f),f));
+        return result;
+    }
+
+    public int getDeaths(){
+        return deaths;
+    }
+
     /**
      * Returns this figure's ammo.
      *

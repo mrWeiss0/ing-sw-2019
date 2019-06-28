@@ -11,7 +11,7 @@ public class Board {
     private int[] killTrack; //le figure che hanno ucciso e hanno preso un teschio V
     private boolean[] overkills; //array che dice per ogni posizione se c'è overkill V
     private Player[] players; //giocatori da displayare
-    private Square[] squares; //gli square della mappa
+    private Square[] squares; //gli square della mappa V
 
 
     public Board(View view){
@@ -36,6 +36,10 @@ public class Board {
 
     public void setSquares(Square[] squares){
         this.squares=squares;
+    }
+
+    public void setPlayers(Player[] players){
+        this.players=players;
     }
 
     public int getMapType() {

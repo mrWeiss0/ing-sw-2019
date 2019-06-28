@@ -2,6 +2,7 @@ package server.connection;
 
 import server.Main;
 import server.controller.LobbyList;
+import server.controller.Player;
 import server.model.AmmoCube;
 import server.model.AmmoTile;
 import server.model.PowerUp;
@@ -133,6 +134,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void sendSquareContent(AbstractSquare square){
+        int id=player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int[] ammo=new int[]{0,0,0};
         boolean powerup=false;
         int[] weapons=null;
@@ -145,7 +147,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
                 ammo[i]=ammoCube.value(i);
             powerup=((AmmoTile)square.peek().get(0)).getPowerUp().isPresent();
         }
-        send("fill"+CMD_DELIMITER+ Arrays.stream(ammo)
+        send("fill"+CMD_DELIMITER+ Integer.toString(id)
+                +ARG_DELIMITER+Arrays.stream(ammo)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER))
                 +ARG_DELIMITER+(powerup?"+":"-")
@@ -157,8 +160,99 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
+    public void sendPlayers(List<Player> players){
+        send("players"+CMD_DELIMITER
+            +players.stream()
+                        .map(x->x.getGame().getGame().getPlayers().indexOf(x)+ARG_DELIMITER +x.getName())
+                        .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
     public void sendMessage(String s){
         send("message"+CMD_DELIMITER+s);
+    }
+
+    @Override
+    public void sendPlayerDamages(Player player){
+        int id= player.getGame().getGame().getPlayers().indexOf(player);
+        int[] damages = player.getFigure().getDamages().stream()
+                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .toArray();
+        send("damages"+CMD_DELIMITER
+                +Integer.toString(id)+ARG_DELIMITER
+                +Arrays.stream(damages)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER))
+        );
+    }
+
+    @Override
+    public void sendPlayerMarks(Player player){
+        int id= player.getGame().getGame().getPlayers().indexOf(player);
+        int[] marks = player.getFigure().getMarks().stream()
+                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .toArray();
+        send("marks"+CMD_DELIMITER
+                +Integer.toString(id) +ARG_DELIMITER
+                + Arrays.stream(marks)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER))
+        );
+    }
+
+    @Override
+    public void sendPlayerLocation(Player player){
+        send("location"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                + Arrays.stream(player.getFigure().getLocation().getCoordinates())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER))
+        );
+    }
+
+    @Override
+    public void sendPlayerPoints(Player player){
+        send("points"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                +Integer.toString(player.getFigure().getPoints())
+        );
+    }
+
+    @Override
+    public void sendPlayerDeaths(Player player){
+        send("deaths"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                +Integer.toString(player.getFigure().getDeaths())
+        );
+    }
+
+    @Override
+    public void sendPlayerAmmo(Player player){
+        int[] ammo=new int[]{0,0,0};
+        for(int i=0;i<3;i++)
+            ammo[i]=player.getFigure().getAmmo().value(i);
+        send("ammo"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                + Arrays.stream(ammo).mapToObj(Integer::toString).collect(Collectors.joining(ARG_DELIMITER))
+        );
+    }
+
+    @Override
+    public void sendPlayerNPowerUps(Player player){
+        send("npups"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                +Integer.toString(player.getFigure().getPowerUps().size())
+        );
+    }
+
+    @Override
+    public void sendPlayerWeapons(Player player){
+        send("weapons"+CMD_DELIMITER
+                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+                +player.getFigure().getWeapons().stream()
+                .map(x->(x.isLoaded()?"+":"")+Integer.toString(x.getID()))
+                .collect(Collectors.joining(ARG_DELIMITER))
+        );
     }
 
     public boolean ping() {

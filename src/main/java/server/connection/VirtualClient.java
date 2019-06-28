@@ -50,6 +50,24 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendSquareContent(AbstractSquare square);
 
+    public abstract void sendPlayers(List<Player> players);
+
+    public abstract void sendPlayerDamages(Player player);
+
+    public abstract void sendPlayerMarks(Player player);
+
+    public abstract void sendPlayerLocation(Player player);
+
+    public abstract void sendPlayerPoints(Player player);
+
+    public abstract void sendPlayerNPowerUps(Player player);
+
+    public abstract void sendPlayerDeaths(Player player);
+
+    public abstract void sendPlayerAmmo(Player player);
+
+    public abstract void sendPlayerWeapons(Player player);
+
     @Override
     public abstract void close();
 }
