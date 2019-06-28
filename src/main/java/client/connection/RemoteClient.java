@@ -13,6 +13,8 @@ public interface RemoteClient extends Remote {
     void sendPossibleActions(List<Integer> possibleActions) throws RemoteException;
     void sendGameParams(List<Integer> gameParams) throws RemoteException;
     void sendKillTrack(int[] killTrack, boolean[] overkills)throws RemoteException;
+    void sendSquares(int[][] coordinates, int[] rooms, boolean[] spawn) throws RemoteException;
+    void sendSquareContent(int squareID, int[] ammo, boolean powerup, int[] weapons) throws RemoteException;
     boolean ping() throws RemoteException;
 
 

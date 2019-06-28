@@ -4,9 +4,7 @@ import client.connection.RemoteClient;
 import server.Main;
 import server.controller.LobbyList;
 import server.model.PowerUp;
-import server.model.board.Board;
-import server.model.board.Figure;
-import server.model.board.Targettable;
+import server.model.board.*;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
@@ -117,6 +115,27 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
             Main.LOGGER.warning(RMI_ERROR);
             close();
         }
+    }
+
+    @Override
+    public void sendSquares(List<AbstractSquare> squares){
+        int[][] coordinates= squares.stream().map(AbstractSquare::getCoordinates).toArray(int[][]::new);
+        int[] rooms= squares.stream().mapToInt(x->player.getGame().getGame().getBoard().getRooms().indexOf(x.getRoom())).toArray();
+        Boolean[] wrapper= squares.stream().map(x->x instanceof SpawnSquare).toArray(Boolean[]::new);
+        boolean[] spawn= new boolean[wrapper.length];
+        for(int i=0;i<wrapper.length;i++)
+            spawn[i]=wrapper[i];
+        try {
+            remoteClient.sendSquares(coordinates,rooms,spawn);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendSquareContent(AbstractSquare square){
+        //TODO
     }
 
     @Override

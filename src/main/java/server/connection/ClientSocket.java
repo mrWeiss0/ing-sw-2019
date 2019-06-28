@@ -2,10 +2,11 @@ package server.connection;
 
 import server.Main;
 import server.controller.LobbyList;
+import server.model.AmmoCube;
+import server.model.AmmoTile;
 import server.model.PowerUp;
-import server.model.board.Board;
-import server.model.board.Figure;
-import server.model.board.Targettable;
+import server.model.board.*;
+import server.model.weapon.Weapon;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.CommandNotFoundException;
@@ -115,6 +116,44 @@ public class ClientSocket extends VirtualClient implements Runnable {
             if(overkills.get(x)) res[x]="+"+res[x];
         });
         send("killtrack"+CMD_DELIMITER+ String.join(ARG_DELIMITER, res));
+    }
+
+    @Override
+    public void sendSquares(List<AbstractSquare> squares){
+        send("squares"+CMD_DELIMITER
+                +squares.stream()
+                .map(x->{
+                    int[] coord= x.getCoordinates();
+                    String s=Integer.toString(player.getGame().getGame().getBoard().getRooms().indexOf(x.getRoom()));
+                    String pre=coord[0]+ARG_DELIMITER+coord[1]+ARG_DELIMITER;
+                    return pre+(x instanceof SpawnSquare?"+"+s:s);
+                })
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendSquareContent(AbstractSquare square){
+        int[] ammo=new int[]{0,0,0};
+        boolean powerup=false;
+        int[] weapons=null;
+        AmmoCube ammoCube;
+        if(square.peek().get(0) instanceof Weapon)
+            weapons=square.peek().stream().mapToInt(x->((Weapon)x).getID()).toArray();
+        else {
+            ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
+            for(int i=0;i<3;i++)
+                ammo[i]=ammoCube.value(i);
+            powerup=((AmmoTile)square.peek().get(0)).getPowerUp().isPresent();
+        }
+        send("fill"+CMD_DELIMITER+ Arrays.stream(ammo)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER))
+                +ARG_DELIMITER+(powerup?"+":"-")
+                + (weapons==null?"":ARG_DELIMITER
+                +Arrays.stream(weapons)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER)))
+        );
     }
 
     @Override

@@ -197,4 +197,14 @@ public class RMIConnection implements Connection, RemoteClient {
     public void sendKillTrack(int[] killtrack, boolean[] overkills){
         controller.setKillTrack(killtrack,overkills);
     }
+
+    @Override
+    public void sendSquares(int[][] coordinates,int[] rooms, boolean[] spawn){
+        controller.setSquares(coordinates,rooms,spawn);
+    }
+
+    @Override
+    public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons){
+        controller.setSquareContent(squareID, ammo, powerUp, weapons);
+    }
 }

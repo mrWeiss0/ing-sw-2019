@@ -5,10 +5,12 @@ import client.connection.RMIConnection;
 import client.connection.SocketConnection;
 import client.model.MiniModel;
 import client.model.PowerUp;
+import client.model.Square;
 import client.view.CLICommandView;
 import client.view.View;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Client {
     private Connection connection;
@@ -123,6 +125,18 @@ public class Client {
     public void setKillTrack(int[] killTrack, boolean[] overkills){
         model.getBoard().setKillTrack(killTrack);
         model.getBoard().setOverkills(overkills);
+    }
+
+    public void setSquares(int[][] coords, int[] rooms,boolean[] spawn ){
+        model.getBoard().setSquares(IntStream.range(0,coords.length)
+                .mapToObj(x->new Square(coords[x],spawn[x],rooms[x]))
+                .toArray(Square[]::new));
+    }
+
+    public void setSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons){
+        model.getBoard().getSquares()[squareID].setAmmo(ammo);
+        model.getBoard().getSquares()[squareID].setPowerup(powerUp);
+        model.getBoard().getSquares()[squareID].setWeapons(weapons);
     }
 
     public void displayLobby() {

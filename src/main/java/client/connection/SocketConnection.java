@@ -32,7 +32,9 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("curr_p",this::sendCurrentPlayer),
             Map.entry("actions",this::sendPossibleActions),
             Map.entry("game_p",this::sendGameParams),
-            Map.entry("killtrack",this::sendKillTrack)
+            Map.entry("killtrack",this::sendKillTrack),
+            Map.entry("squares",this::sendSquares),
+            Map.entry("fill", this::sendSquareContent)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
 
@@ -145,7 +147,7 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendPowerUps(String[] args){
         controller.setPowerUps((int[][])IntStream.range(0,args.length/2)
-                .mapToObj(x->new int[]{Integer.parseInt(args[x]),Integer.parseInt(args[x+1])})
+                .mapToObj(x->new int[]{Integer.parseInt(args[2*x]),Integer.parseInt(args[2*x+1])})
                 .toArray());
     }
 
@@ -168,6 +170,33 @@ public class SocketConnection implements Connection, Runnable {
             overkills[i]=wrapper[i];
         controller.setKillTrack(Arrays.stream(args).mapToInt(Integer::parseInt).toArray(),
                 overkills);
+    }
+
+    //example: ["1", "1", "+0", "3", "4", "0", "2", "5", "1"] ->
+    //  [((1,1), spawn, room 0),((3,4), no spawn, room 0),((2,5), no spawn, room 1)]
+    private void sendSquares(String[] args){
+        int numOfSquares=args.length/3;
+        int[][] coordinates= new int[numOfSquares][];
+        int[] rooms= new int[numOfSquares];
+        boolean[] spawn= new boolean[numOfSquares];
+        for(int i=0;i<numOfSquares;i++){
+            coordinates[i]=new int[]{Integer.parseInt(args[3*i],Integer.parseInt(args[3*i+1]))};
+            rooms[i]=Integer.parseInt(args[3*i+2]);
+            spawn[i]=args[3*i+2].startsWith("+");
+        }
+        controller.setSquares(coordinates,rooms,spawn);
+    }
+    //example ["4", "0", "0", "2", "+"] -> fill square 4 with ammotile 2 blue & powerup
+    //or ["5", "0", "0", "0", "-", "3", "4", "17"] -> fill square 5 with weapons 3, 4, 17
+    private void sendSquareContent(String[] args){
+        int squareID = Integer.parseInt(args[0]);
+        int[] ammo = new int[]{Integer.parseInt(args[1]),Integer.parseInt(args[2]),Integer.parseInt(args[3])};
+        boolean powerup = args[4].startsWith("+");
+        int[] weapons= Arrays.stream(args)
+                .skip(5)
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        controller.setSquareContent(squareID,ammo,powerup,weapons);
     }
 
     public void close() {

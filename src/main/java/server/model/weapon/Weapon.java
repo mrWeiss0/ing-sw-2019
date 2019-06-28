@@ -24,6 +24,7 @@ import java.util.*;
 public class Weapon implements Grabbable {
     private final AmmoCube pickupCost;
     private final AmmoCube reloadCost;
+    private final int id;
     private final List<FireMode> fireModes;
     private boolean loaded = false;
 
@@ -36,6 +37,7 @@ public class Weapon implements Grabbable {
         pickupCost = builder.pickupCost;
         reloadCost = builder.reloadCost;
         fireModes = Collections.unmodifiableList(builder.fireModes);
+        id=builder.id;
     }
 
     /**
@@ -63,6 +65,10 @@ public class Weapon implements Grabbable {
      */
     public AmmoCube getReloadCost() {
         return reloadCost;
+    }
+
+    public int getID() {
+        return id;
     }
 
     /**
@@ -108,6 +114,7 @@ public class Weapon implements Grabbable {
         private final List<FireMode> fireModes = new ArrayList<>();
         private AmmoCube pickupCost = new AmmoCube();
         private AmmoCube reloadCost = new AmmoCube();
+        private int id;
 
         /**
          * Sets the pickup cost for the weapon to be built.
@@ -150,6 +157,11 @@ public class Weapon implements Grabbable {
          */
         public Builder fireModes(Collection<FireMode> fireModes) {
             this.fireModes.addAll(fireModes);
+            return this;
+        }
+
+        public Builder id(int id){
+            this.id=id;
             return this;
         }
 

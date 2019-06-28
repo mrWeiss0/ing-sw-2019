@@ -2,10 +2,13 @@ package server.connection;
 
 import server.controller.LobbyList;
 import server.controller.Player;
+import server.model.AmmoTile;
 import server.model.PowerUp;
+import server.model.board.AbstractSquare;
 import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.Targettable;
+import server.model.weapon.Weapon;
 
 import java.io.Closeable;
 import java.util.List;
@@ -42,6 +45,10 @@ public abstract class VirtualClient implements Closeable {
     public abstract void sendGameParams(List<Integer> gameParams);
 
     public abstract void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills);
+
+    public abstract void sendSquares(List<AbstractSquare> squares);
+
+    public abstract void sendSquareContent(AbstractSquare square);
 
     @Override
     public abstract void close();

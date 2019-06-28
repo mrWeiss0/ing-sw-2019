@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Square {
-    private int[] coordinates;// per displayare (identificato in base a indice nella lista lato server)
-    private boolean spawn; //se spawn o no
-    private int room;
-    private int[] ammo;
-    private boolean powerup;
-    private Weapon[] weapons;
+    private int[] coordinates;// per displayare (identificato in base a indice nella lista lato server) V
+    private boolean spawn; //se spawn o no V
+    private int room;// V
+    private int[] ammo; //le ammo dell'ammotile
+    private boolean powerup; //se c'è o no powerup nell'ammotile
+    private int[] weapons; //id delle weapon nello square(cariche)
 
 
     public Square(int[] coordinates, boolean spawn, int room){
@@ -34,7 +34,7 @@ public class Square {
         return ammo;
     }
 
-    public Weapon[] getWeapons() {
+    public int[] getWeapons() {
         return weapons;
     }
 
@@ -42,7 +42,7 @@ public class Square {
         this.ammo = ammo;
     }
 
-    public void setWeapons(Weapon[] weapons) {
+    public void setWeapons(int[] weapons) {
         this.weapons = weapons;
     }
 
@@ -54,7 +54,7 @@ public class Square {
     public String toString() {
         return "s: "+spawn+" at ("+coordinates[0]+","+coordinates[1]+") : "+(spawn?
                 Arrays.stream(weapons)
-                        .map(Weapon::toString)
+                        .mapToObj(Integer::toString)
                         .collect(Collectors.joining(" "))
                 :Arrays.stream(ammo)
                         .mapToObj(Integer::toString)

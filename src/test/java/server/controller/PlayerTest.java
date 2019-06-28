@@ -19,7 +19,7 @@ class PlayerTest {
     @BeforeEach
     void init() {
         f = new Figure(0, 0, 0, 0, 0, 0);
-        c = new ClientRMI(null, null);
+        c = null;
         g = new GameController(new Game.Builder().build());
         player.setFigure(f);
         player.setClient(c);
