@@ -33,14 +33,14 @@ public class Scenes {
 
         FXMLLoader loader = new FXMLLoader();
 
-        Parent loginRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/login.fxml"));
+        Parent loginRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
         loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
-        Parent settingsRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/settings.fxml"));
+        Parent settingsRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
         settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
-        Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../client/view/fxml/lobbyChoice.fxml"));
+        Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
         lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
 
-        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../client/view/fxml/confirm.fxml"));
+        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
         Parent confirmRoot = confirmLoader.load();
         confirmController = confirmLoader.getController();
         confirmScreen = new Scene(confirmRoot, 300, 150);
@@ -59,11 +59,11 @@ public class Scenes {
     public static Confirm getConfirmController() { return confirmController; }
 
     public static Font getRegularFont(double size) {
-        return Font.loadFont(Scenes.class.getResourceAsStream("../../../client/view/fonts/ethnocentric/ethnocentric rg.tff"), size);
+        return Font.loadFont(Scenes.class.getResourceAsStream("../../../../client/view/fonts/ethnocentric/ethnocentric rg.tff"), size);
     }
 
     public static Font getItalicFont(double size) {
-        return Font.loadFont(Scenes.class.getResourceAsStream("../../../client/view/fonts/ethnocentric/ethnocentric rg it.ttf"), size);
+        return Font.loadFont(Scenes.class.getResourceAsStream("../../../../client/view/fonts/ethnocentric/ethnocentric rg it.ttf"), size);
     }
 
 
