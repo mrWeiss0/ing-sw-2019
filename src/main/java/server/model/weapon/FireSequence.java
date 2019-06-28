@@ -99,4 +99,13 @@ public class FireSequence {
         } else
             hasNext = false;
     }
+
+    /**
+     * Returns the shooter of the fire sequence.
+     *
+     * @return the shooter of this sequence
+     */
+    public Figure getShooter() {
+        return shooter;
+    }
 }

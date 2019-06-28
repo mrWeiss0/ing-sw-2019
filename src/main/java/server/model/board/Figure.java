@@ -137,6 +137,14 @@ public class Figure implements Targettable {
         return powerUps;
     }
 
+    public AmmoCube getTotalAmmo() {
+        return getPowerUps().stream()
+                .map(PowerUp::getAmmo)
+                .reduce(AmmoCube::add)
+                .orElseGet(AmmoCube::new)
+                .add(player.getFigure().getAmmo());
+    }
+
     /**
      * Sets the current location to the one given and takes care of removing
      * and adding this figure from the occupants list of the respective squares.
@@ -312,44 +320,5 @@ public class Figure implements Targettable {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public List<String> getPossibleActions(boolean beforeFirstPlayer, boolean finalFrenzyOn) {
-        List<String> possibleAction = new ArrayList<>();
-        possibleAction.add("move");
-        possibleAction.add("grab");
-        if (damages.size() >= 3) {
-            possibleAction.remove("grab");
-            possibleAction.add("grab_a");
-        }
-        if (!weapons.isEmpty()) {
-            possibleAction.add("shoot");
-            if (damages.size() >= 6) {
-                possibleAction.remove("shoot");
-                possibleAction.add("shoot_a");
-            }
-        }
-        if (finalFrenzyOn) {
-            possibleAction.clear();
-
-            if (!weapons.isEmpty())
-                possibleAction.add("shoot_f2");
-            possibleAction.add("grab_f2");
-
-            if (beforeFirstPlayer) {
-                possibleAction.clear();
-                if (!weapons.isEmpty())
-                    possibleAction.add("shoot_f1");
-                possibleAction.add("move_f1");
-                possibleAction.add("grab_f1");
-            }
-        }
-        if (powerUps.stream().anyMatch(x -> x.getType().equals(PowerUpType.NEWTON))) {
-            possibleAction.add("newton");
-        }
-        if (powerUps.stream().anyMatch(x -> x.getType().equals(PowerUpType.TELEPORTER))) {
-            possibleAction.add("teleporter");
-        }
-        return possibleAction;
     }
 }
