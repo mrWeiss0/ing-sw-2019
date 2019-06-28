@@ -45,14 +45,9 @@ public class Figure implements Targettable {
     private AbstractSquare location = null;
     private boolean damaged = false;
     private int deaths;
-    private int remainingActions;
     private int points;
     private AmmoCube ammo = new AmmoCube();
-    private ObjIntConsumer<List<Figure>> pointGiver; // TODO ?
     private Player player;
-    private boolean frenzyTurnLeft = true; // TODO ?
-    private List<Targettable> possibleTargets;
-    private List<Action> possibleAction = new ArrayList<>();
     private int[] killPoints;
     private boolean firstBlood;
 
@@ -242,22 +237,6 @@ public class Figure implements Targettable {
         damaged = false;
     }
 
-    public boolean isFrenzyTurnLeft() {
-        return frenzyTurnLeft;
-    } // TODO ?
-
-    public void setFrenzyTurnLeft(boolean frenzyTurnLeft) {
-        this.frenzyTurnLeft = frenzyTurnLeft;
-    } // TODO ?
-
-    public int getRemainingActions() {
-        return remainingActions;
-    } // TODO ?
-
-    public void setRemainingActions(int remainingActions) {
-        this.remainingActions = remainingActions;
-    }
-
     public void resolveDeath(Game game) {
         if (damages.size() >= killDamages) {
             int val = 1;
@@ -276,7 +255,8 @@ public class Figure implements Targettable {
     public void givePoints() {
         damages.stream()
                 .collect(Collectors.groupingBy(
-                        Function.identity(), Collectors.counting()))
+                        Function.identity(),
+                        Collectors.counting()))
                 .entrySet()
                 .stream()
                 .sorted(Comparator
@@ -314,11 +294,11 @@ public class Figure implements Targettable {
         this.points += points;
     }
 
-    public void setPointGiver(ObjIntConsumer<List<Figure>> consumer) {
-        this.pointGiver = consumer;
-    }
-
     public Player getPlayer() {
         return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

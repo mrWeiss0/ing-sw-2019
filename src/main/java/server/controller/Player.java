@@ -43,6 +43,7 @@ public class Player {
 
     public void setFigure(Figure figure) {
         this.figure = figure;
+        figure.setPlayer(this);
     }
 
     public boolean isActive() {

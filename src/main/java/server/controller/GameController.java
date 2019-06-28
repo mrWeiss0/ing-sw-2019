@@ -124,8 +124,17 @@ public class GameController implements Runnable {
                 stateStack.add(this);
                 setState(new SelectSpawnState(current));
             }
-            if(remainingActions-- <= 0)
-                setState(new TurnState());
+            if (remainingActions-- <= 0){
+                // TODO stop timer
+                stateStack.add(new TurnState());
+                game.getBoard().getFigures().stream()
+                        .peek(figure -> figure.resolveDeath(game))
+                        .filter(figure -> figure.getLocation() == null)
+                        .forEach(figure -> stateStack.add(new SelectSpawnState(figure.getPlayer())));
+                // TODO timerino 2 ?
+                stateStack.add(new SelectReloadState(current));
+                nextState();
+            }
         }
 
         @Override
@@ -303,9 +312,10 @@ public class GameController implements Runnable {
             fireSequence.run(targets);
             if (fireSequence.hasNext())
                 setState(this);
-            else{
+            else {
                 game.getBoard().applyMarks();
-                nextState();
+                stateStack.add(new ScopeState(player));
+                setState(new TagbackState(player, game.getBoard().getDamaged()));
             }
         }
     }
@@ -332,7 +342,7 @@ public class GameController implements Runnable {
             if (player != current)
                 return;
             stateStack.add(new GrabState(current, grabbable));
-            if(grabbable instanceof Weapon)
+            if (grabbable instanceof Weapon)
                 setState(new PayState(current, ((Weapon) grabbable).getPickupCost()));
             else
                 nextState();
@@ -355,7 +365,7 @@ public class GameController implements Runnable {
 
             try {
                 figure.getLocation().grab(figure, grabbable);
-                if(discard != null) figure.getLocation().refill(discard);
+                if (discard != null) figure.getLocation().refill(discard);
                 nextState();
             } catch (IllegalStateException e) {
                 // TODO "you have to discard"
@@ -371,6 +381,59 @@ public class GameController implements Runnable {
                 current.getFigure().getWeapons().remove(discard);
             }
             setState(this);
+        }
+    }
+
+    private class ScopeState implements State {
+        private final Player current;
+
+        public ScopeState(Player player) {
+            current = player;
+        }
+
+        @Override
+        public void selectPowerUp(Player player, PowerUp[] powerUps) {
+            if (player != current)
+                return;
+            if (powerUps.length < 1) {
+                nextState();
+                return;
+            }
+            PowerUpType type = powerUps[0].getType();
+            if (type != PowerUpType.SCOPE)
+                return;
+            stateStack.add(this);
+            stateStack.add(new FireState(current, type.getStepList()));
+            setState(new PayAnyColorState(current));
+        }
+    }
+
+    private class TagbackState implements State {
+        private final Player current;
+        private final Set<Figure> damaged;
+
+        public TagbackState(Player player, Set<Figure> damaged) {
+            current = player;
+            this.damaged = damaged;
+        }
+
+        @Override
+        public void onEnter() {
+            // TODO add timer nextState();
+        }
+
+        @Override
+        public void selectPowerUp(Player player, PowerUp[] powerUps) {
+            if (!damaged.contains(player.getFigure()))
+                return;
+            Arrays.stream(powerUps).filter(x -> x.getType() == PowerUpType.TAGBACK).forEach(
+                    powerUp -> {
+                        player.getFigure().getPowerUps().remove(powerUp);
+                        powerUp.discard();
+                        FireSequence fs = new FireSequence(player.getFigure(), game.getBoard(), powerUp.getType().getStepList());
+                        fs.run(fs.getTargets());
+                    }
+            );
         }
     }
 }

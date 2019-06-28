@@ -35,7 +35,6 @@ public class Game {
     private final Deck<Weapon> weaponDeck = new Deck<>();
     private final Deck<PowerUp> powerUpDeck = new Deck<>();
     private final boolean frenzyOn;
-    private final int[] killPoints;
     private final int[] frenzyPoints;
     private final Board board;
     private int remainingKills; // Kills to finish game
@@ -64,7 +63,6 @@ public class Game {
                         new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null,
                         ammoTileDeck::discard))
                 .collect(Collectors.toList()));
-        killPoints = builder.killPoints;
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
         players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
