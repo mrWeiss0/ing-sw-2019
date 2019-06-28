@@ -2,27 +2,184 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Play">
-   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1024.0" StackPane.alignment="BOTTOM_CENTER">
+   <StackPane fx:id="bottom" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1024.0" StackPane.alignment="BOTTOM_CENTER">
       <children>
-         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="700.0" StackPane.alignment="TOP_LEFT" />
-         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="700.0" StackPane.alignment="BOTTOM_LEFT" />
-         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="324.0" StackPane.alignment="TOP_RIGHT" />
+         <StackPane fx:id="bottomRight" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="324.0" StackPane.alignment="TOP_RIGHT">
+            <children>
+               <VBox prefHeight="688.0" prefWidth="324.0" />
+            </children>
+         </StackPane>
+         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="700.0" StackPane.alignment="CENTER_LEFT">
+            <children>
+               <ImageView fitHeight="420.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                   <Image url="@../images/maps/map3.png" />
+               </ImageView>
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="560.0" StackPane.alignment="TOP_LEFT">
+                 <columnConstraints>
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  </children>
+               </GridPane>
+               <VBox fx:id="weapons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="140.0" StackPane.alignment="TOP_RIGHT">
+                  <StackPane.margin>
+                     <Insets left="5.0" right="5.0" />
+                  </StackPane.margin>
+                  <children>
+                     <Accordion fx:id="redWeapons" maxHeight="-Infinity" maxWidth="-Infinity">
+                       <panes>
+                         <TitledPane fx:id="firstRed" text="untitled 1">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                         <TitledPane fx:id="secondRed" text="untitled 2">
+                              <content>
+                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                  </ImageView>
+                              </content>
+                           </TitledPane>
+                           <TitledPane fx:id="thirdRed" text="untitled 3">
+                              <content>
+                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                  </ImageView>
+                              </content>
+                           </TitledPane>
+                       </panes>
+                     </Accordion>
+                     <Accordion fx:id="yellowWeapons" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity">
+                        <panes>
+                           <TitledPane fx:id="firstYellow" text="untitled 1">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                           <TitledPane fx:id="secondYellow" text="untitled 2">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                           <TitledPane fx:id="thirdYellow" text="untitled 3">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                        </panes>
+                     </Accordion>
+                     <Accordion fx:id="blueWeapons" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity">
+                        <panes>
+                           <TitledPane fx:id="firstBlue" text="untitled 1">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                           <TitledPane fx:id="secondBlue" text="untitled 2">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                           <TitledPane fx:id="thirdBlue" text="untitled 3">
+                              <content>
+                                 <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                    </image>
+                                 </ImageView>
+                              </content>
+                           </TitledPane>
+                        </panes>
+                     </Accordion>
+                  </children>
+               </VBox>
+               <ImageView fitHeight="145.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT" />
+               <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="268.0" prefWidth="420.0" StackPane.alignment="BOTTOM_LEFT">
+                  <children>
+                     <HBox prefHeight="105.0" prefWidth="420.0">
+                        <children>
+                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="105.0" fitWidth="140.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="105.0" fitWidth="140.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="105.0" prefWidth="420.0">
+                        <children>
+                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                        </children>
+                     </HBox>
+                     <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="58.0" prefWidth="420.0" />
+                  </children>
+               </VBox>
+            </children>
+         </StackPane>
       </children>
    </StackPane>
-   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
 
-    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
+    <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
+    <VBox fx:id="controlPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
         <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
         <children>
-            <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/ICONback.png" />
-            </ImageView>
+        <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/ICONback.png" />
+        </ImageView>
         </children>
     </VBox>
 

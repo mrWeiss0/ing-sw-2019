@@ -16,6 +16,8 @@ public class Scenes {
     private static Scene loginScreen;
     private static Scene settingsScreen;
     private static Scene lobbyChoiceScreen;
+    private static Scene lobbyScreen;
+    private static Scene playScreen;
 
     //Confirm scene
     private static Scene confirmScreen;
@@ -24,6 +26,8 @@ public class Scenes {
     //Settings
     private static int windowHeight = 480;
     private static int windowWidth = 640;
+    private static int playWindowHeight = 768;
+    private static int playWindowWidth = 1024;
     private static boolean fullscreen = false;
     private static ConnectionType connectionChoice = ConnectionType.SOCKET;
     private static String serverIP = "localhost";
@@ -39,6 +43,8 @@ public class Scenes {
         settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
         Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
         lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
+        Parent playRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
+        playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);
 
         FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
         Parent confirmRoot = confirmLoader.load();
@@ -53,6 +59,8 @@ public class Scenes {
     public static Scene getSettingsScreen() { return settingsScreen; }
 
     public static Scene getLobbyChoiceScreen() { return lobbyChoiceScreen;  }
+
+    public static Scene getPlayScreen() { return playScreen; }
 
     public static Scene getConfirmScreen() { return confirmScreen; }
 
@@ -69,10 +77,6 @@ public class Scenes {
 
     //TODO
     public static void saveSettings (Settings settingScene) {  }
-
-    public static int getWindowWidth () { return windowWidth; }
-
-    public static int getWindowHeight () { return windowHeight; }
 
     public static boolean getFullscreen () { return fullscreen; }
 

@@ -45,7 +45,7 @@ public class LobbyChoice {
 
         //sets actions
         createButton.setOnAction(create -> lobbies.setItems(FXCollections.observableArrayList("Lobby 1")));
-        joinButton.setOnAction(join -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()));
+        joinButton.setOnAction(join -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getPlayScreen()));
     }
 
     public void displayLobbies(List<String> lobbyList) {

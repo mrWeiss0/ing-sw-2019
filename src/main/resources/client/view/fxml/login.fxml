@@ -30,9 +30,6 @@
                                 <Image url="@../images/ICONsettings.png" />
                             </ImageView>
                         </children>
-                       <StackPane.margin>
-                            <Insets />
-                       </StackPane.margin>
                 </VBox>
 
                 <ImageView fx:id="LOGOadrenalina" fitHeight="130.0" fitWidth="565.0" preserveRatio="true" StackPane.alignment="CENTER_LEFT">

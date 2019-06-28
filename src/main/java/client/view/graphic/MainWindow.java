@@ -16,7 +16,7 @@ public class MainWindow extends Application implements ConfirmHandler {
         this.mainWindow = stage;
         stage.setTitle("Adrenaline");
         stage.setResizable(false);
-        stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
 
         //initialize scenes
         Scenes.initScenes();
