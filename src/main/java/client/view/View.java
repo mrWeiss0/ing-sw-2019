@@ -60,5 +60,4 @@ public interface View {
     void displayPlayerLocation(Player player);
 
     void displaySquareContent(Square square);
-
 }

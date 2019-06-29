@@ -129,7 +129,7 @@ public class Client {
 
     public void setSquares(int[][] coords, int[] rooms, boolean[] spawn) {
         model.getBoard().setSquares(IntStream.range(0, coords.length)
-                .mapToObj(x -> new Square(coords[x], spawn[x], rooms[x]))
+                .mapToObj(x -> new Square(view,coords[x], spawn[x], rooms[x]))
                 .toArray(Square[]::new));
     }
 
@@ -142,7 +142,7 @@ public class Client {
     public void setPlayers(int[] avatars, String[] names) {
         model.getBoard().setPlayers(IntStream
                 .range(0, avatars.length)
-                .mapToObj(x -> new Player(names[x], avatars[x]))
+                .mapToObj(x -> new Player(view, names[x], avatars[x]))
                 .toArray(Player[]::new));
     }
 

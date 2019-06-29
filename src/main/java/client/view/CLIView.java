@@ -4,6 +4,7 @@ import client.Client;
 import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
+import client.model.Weapon;
 import tools.parser.*;
 
 import java.io.BufferedReader;
@@ -145,6 +146,79 @@ public class CLIView implements View, Runnable {
         print("Squares: " + Arrays.stream(squares)
                 .map(Square::toString)
                 .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerDamage(Player player) {
+        print("Player damages of "+player.toString()+ Arrays.stream(player.getDamages())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerMarks(Player player) {
+        print("Player marks of "+player.toString()+ Arrays.stream(player.getMarks())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerPoints(Player player) {
+        print(player.toString()+" has "+player.getPoints()+" points");
+    }
+
+    @Override
+    public void displayPlayerDeaths(Player player) {
+        print(player.toString()+" has "+player.getDeaths()+" deaths");
+    }
+
+    @Override
+    public void displayPlayerWeapons(Player player) {
+        print(player.toString() +" has these weapons: "+ Arrays.stream(player.getWeapons())
+                .map(Weapon::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerAmmo(Player player) {
+        print(player.toString()+"has these ammo: ["
+                +Arrays.stream(player.getAmmo())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", "))+"]");
+    }
+
+    @Override
+    public void displayPlayerNPowerUps(Player player) {
+        print(player.toString()+" has "+player.getnPowerup()+" powerups");
+    }
+
+    @Override
+    public void displayPlayerLocation(Player player) {
+        print(player.toString()+" is at ("+player.getCoordinates()[0]+","+player.getCoordinates()[1]+")");
+    }
+
+    @Override
+    public void displaySquareContent(Square square) {
+        if(square.isSpawn())
+            print("Spawn square at ("+ Arrays.stream(square.getCoordinates())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(","))+") contains weapons: ["
+                    + Arrays.stream(square.getWeapons())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(", "))+"]"
+            );
+        else
+            print("Normal square at ("
+                    + Arrays.stream(square.getCoordinates())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(", "))
+                    +") contains ammotile: ["
+                    +(square.getPowerUp()?" PowerUp + ":"")
+                    + Arrays.stream(square.getAmmo())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(", "))
+                    +"]"
+            );
     }
 
 

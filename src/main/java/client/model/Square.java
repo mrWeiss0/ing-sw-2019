@@ -47,8 +47,13 @@ public class Square {
         return weapons;
     }
 
+    public boolean getPowerUp(){
+        return powerup;
+    }
+
     public void setWeapons(int[] weapons) {
         this.weapons = weapons;
+        view.displaySquareContent(this);
     }
 
     public void setPowerup(boolean powerup) {
@@ -65,6 +70,4 @@ public class Square {
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(" ")) + " pup: " + powerup);
     }
-
-
 }
