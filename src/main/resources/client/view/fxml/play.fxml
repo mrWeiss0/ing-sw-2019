@@ -152,34 +152,87 @@
                   <children>
                      <HBox fx:id="yourActions" prefHeight="145.0" prefWidth="100.0">
                         <children>
-                           <VBox fx:id="yourVariableActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="50.0" />
-                           <ImageView fx:id="yourReload" fitHeight="145.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                           <VBox fx:id="yourVariableActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="50.0">
+                              <children>
+                                 <ImageView fx:id="yourAction0" fitHeight="30.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                    <VBox.margin>
+                                       <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </VBox.margin>
+                                 </ImageView>
+                                 <ImageView fx:id="yourAction1" fitHeight="30.0" fitWidth="45.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourAction2" fitHeight="30.0" fitWidth="45.0" layoutX="12.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                              <padding>
+                                 <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
+                              </padding></VBox>
+                           <ImageView fx:id="yourReload" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                               <Image url="@../images/actions/reload.png" />
+                           </ImageView>
                         </children>
                      </HBox>
-                     <ImageView fx:id="yourPotrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                     <StackPane>
+                        <children>
+                           <ImageView fx:id="yourPortrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@../images/characters/blue.png" />
+                           </ImageView>
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="BOTTOM_RIGHT">
+                              <children>
+                                 <ImageView fx:id="yourRedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../images/ammocubes/RED1.png" />
+                                 </ImageView>
+                                 <ImageView fx:id="yourYellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../images/ammocubes/YELLOW2.png" />
+                                 </ImageView>
+                                 <ImageView fx:id="yourBlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../images/ammocubes/BLUE3.png" />
+                                 </ImageView>
+                              </children>
+                           </HBox>
+                        </children>
+                     </StackPane>
                   </children>
                </HBox>
                <VBox fx:id="lifeAndCards" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="268.0" prefWidth="420.0" StackPane.alignment="BOTTOM_LEFT">
                   <children>
                      <HBox fx:id="yourPowerUps" prefHeight="105.0" prefWidth="420.0">
                         <children>
-                           <ImageView fx:id="yourPowerUp1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fx:id="yourPowerUp2" fitHeight="105.0" fitWidth="140.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fx:id="yourPowerUp3" fitHeight="105.0" fitWidth="140.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp0" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp1" fitHeight="105.0" fitWidth="140.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp2" fitHeight="105.0" fitWidth="140.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                         </children>
                      </HBox>
                      <HBox fx:id="yourWeapons" prefHeight="105.0" prefWidth="420.0">
                         <children>
+                           <ImageView fx:id="yourWeapon0" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
                            <ImageView fx:id="yourWeapon1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
                            <ImageView fx:id="yourWeapon2" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fx:id="yourWeapon3" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
                         </children>
                      </HBox>
                      <StackPane fx:id="yourLife" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="58.0" prefWidth="420.0">
                         <children>
-                           <ImageView fx:id="lifebarImage" fitHeight="50.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
-                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" StackPane.alignment="CENTER" />
-                        </children></StackPane>
+                           <ImageView fx:id="lifebarImage" fitHeight="50.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                                   <Image url="@../images/lifebar/lifebar.png" />
+                           </ImageView>
+                           <HBox fx:id="yourDamages" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" spacing="1.1" StackPane.alignment="CENTER">
+                              <children>
+                                 <ImageView fx:id="yourDamage0" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage1" fitHeight="50.0" fitWidth="32.0" layoutX="11.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage2" fitHeight="50.0" fitWidth="32.0" layoutX="44.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage3" fitHeight="50.0" fitWidth="32.0" layoutX="77.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage4" fitHeight="50.0" fitWidth="32.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage5" fitHeight="50.0" fitWidth="32.0" layoutX="143.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage6" fitHeight="50.0" fitWidth="32.0" layoutX="176.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage7" fitHeight="50.0" fitWidth="32.0" layoutX="209.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage8" fitHeight="50.0" fitWidth="32.0" layoutX="242.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage9" fitHeight="50.0" fitWidth="32.0" layoutX="275.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage10" fitHeight="50.0" fitWidth="32.0" layoutX="308.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="yourDamage11" fitHeight="50.0" fitWidth="32.0" layoutX="341.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                              <padding>
+                                 <Insets left="1.0" right="1.0" />
+                              </padding></HBox>
+                        </children>
+                     </StackPane>
                   </children>
                </VBox>
             </children>
@@ -188,18 +241,28 @@
    </StackPane>
    <StackPane fx:id="top" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="1024.0" StackPane.alignment="TOP_LEFT">
       <children>
-          <VBox fx:id="controlPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
-              <padding>
+         <HBox fx:id="controlPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="130.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
+            <StackPane.margin>
+               <Insets />
+            </StackPane.margin>
+            <padding>
                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
-              <children>
+            <children>
+               <ImageView fx:id="confirmButton" fitHeight="45.0" fitWidth="45.0" layoutX="25.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/ICONconfirm.png" />
+                  </image>
+               </ImageView>
               <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                   <Image url="@../images/ICONback.png" />
               </ImageView>
-              </children>
-          </VBox>
-      
-                      <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
+            </children>
+         </HBox>
+          <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="440.0" StackPane.alignment="TOP_LEFT">
+            <children>
+               <ImageView fitHeight="76.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true" />
+            </children></StackPane>
       </children>
    </StackPane>
 
