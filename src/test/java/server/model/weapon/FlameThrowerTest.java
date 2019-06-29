@@ -1,10 +1,12 @@
 package server.model.weapon;
 
-import server.model.board.*;
-import server.model.weapon.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.model.board.AbstractSquare;
+import server.model.board.Board;
+import server.model.board.BoardBuilderTest;
+import server.model.board.Figure;
 
 import java.util.Arrays;
 import java.util.Collections;

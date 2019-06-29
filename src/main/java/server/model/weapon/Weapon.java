@@ -37,7 +37,7 @@ public class Weapon implements Grabbable {
         pickupCost = builder.pickupCost;
         reloadCost = builder.reloadCost;
         fireModes = Collections.unmodifiableList(builder.fireModes);
-        id=builder.id;
+        id = builder.id;
     }
 
     /**
@@ -160,8 +160,8 @@ public class Weapon implements Grabbable {
             return this;
         }
 
-        public Builder id(int id){
-            this.id=id;
+        public Builder id(int id) {
+            this.id = id;
             return this;
         }
 

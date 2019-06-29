@@ -64,9 +64,9 @@ public class LobbyList {
         players.values().forEach(x -> x.getClient().sendLobbyList(repr()));
     }
 
-    private String[] repr(){
+    private String[] repr() {
         return lobbyMap.keySet().stream()
-                .map(y->y+":"+lobbyMap.get(y).getOccupancy())
+                .map(y -> y + ":" + lobbyMap.get(y).getOccupancy())
                 .collect(Collectors.toList())
                 .toArray(String[]::new);
     }

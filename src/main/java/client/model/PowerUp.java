@@ -1,12 +1,12 @@
 package client.model;
 
 public class PowerUp {
-    private int color;
-    private int type;
+    private final int color;
+    private final int type;
 
-    public PowerUp(int type, int color){
-        this.color=color;
-        this.type=type;
+    public PowerUp(int type, int color) {
+        this.color = color;
+        this.type = type;
     }
 
     public int getColor() {
@@ -19,6 +19,6 @@ public class PowerUp {
 
     @Override
     public String toString() {
-        return type+" "+color;
+        return type + " " + color;
     }
 }

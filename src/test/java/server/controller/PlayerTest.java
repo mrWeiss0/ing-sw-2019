@@ -2,7 +2,6 @@ package server.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.connection.ClientRMI;
 import server.connection.VirtualClient;
 import server.model.Game;
 import server.model.board.Figure;

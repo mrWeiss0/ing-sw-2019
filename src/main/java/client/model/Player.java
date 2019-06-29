@@ -1,8 +1,8 @@
 package client.model;
 
 public class Player {
-    private String name;
-    private int avatar;
+    private final String name;
+    private final int avatar;
     private int[] damages;
     private int[] marks;
     private int points;
@@ -12,9 +12,9 @@ public class Player {
     private int nPowerup;
     private int[] coordinates;
 
-    public Player(String name, int avatar){
-        this.name=name;
-        this.avatar=avatar;
+    public Player(String name, int avatar) {
+        this.name = name;
+        this.avatar = avatar;
     }
 
     public void setDamages(int[] damages) {
@@ -49,11 +49,9 @@ public class Player {
         this.coordinates = coordinates;
     }
 
-    public String toString(){
-        return name+" - "+avatar;
+    public String toString() {
+        return name + " - " + avatar;
     }
-
-
 
 
 }

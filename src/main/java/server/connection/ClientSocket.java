@@ -62,8 +62,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendLobbyList(String[] s){
-        send("lobby"+CMD_DELIMITER+ String.join(ARG_DELIMITER,s));
+    public void sendLobbyList(String[] s) {
+        send("lobby" + CMD_DELIMITER + String.join(ARG_DELIMITER, s));
         if (ostream.checkError()) {
             Main.LOGGER.warning("Socket send exception");
             close();
@@ -71,129 +71,129 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendTargets(int min, int max, List<Targettable> targets, Board board){
-        send("targets"+CMD_DELIMITER
-                +Integer.toString(min)+ARG_DELIMITER
-                +Integer.toString(max)+ARG_DELIMITER
-                +targets.stream()
+    public void sendTargets(int min, int max, List<Targettable> targets, Board board) {
+        send("targets" + CMD_DELIMITER
+                + min + ARG_DELIMITER
+                + max + ARG_DELIMITER
+                + targets.stream()
                 .map(board::getID)
-                .map(x->Integer.toString(x))
+                .map(x -> Integer.toString(x))
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendPowerUps(List<PowerUp> powerUps){
-        send("pups"+CMD_DELIMITER
-            +powerUps.stream()
-                .map(x->x.getType().ordinal()+ARG_DELIMITER+x.getColor())
+    public void sendPowerUps(List<PowerUp> powerUps) {
+        send("pups" + CMD_DELIMITER
+                + powerUps.stream()
+                .map(x -> x.getType().ordinal() + ARG_DELIMITER + x.getColor())
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendCurrentPlayer(int currentPlayer){
-        send("curr_p"+CMD_DELIMITER+currentPlayer);
+    public void sendCurrentPlayer(int currentPlayer) {
+        send("curr_p" + CMD_DELIMITER + currentPlayer);
     }
 
     @Override
-    public void sendPossibleActions(List<Integer> possibleActions){
-        send("actions"+CMD_DELIMITER+possibleActions.stream()
-                .map(x->x.toString())
+    public void sendPossibleActions(List<Integer> possibleActions) {
+        send("actions" + CMD_DELIMITER + possibleActions.stream()
+                .map(x -> x.toString())
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendGameParams(List<Integer> gameParams){
-        send("game_p"+CMD_DELIMITER+gameParams.stream()
-                .map(x->x.toString())
+    public void sendGameParams(List<Integer> gameParams) {
+        send("game_p" + CMD_DELIMITER + gameParams.stream()
+                .map(x -> x.toString())
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills){
+    public void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills) {
         String[] res = killTrack.stream()
-                .map(x->Integer.toString(player.getGame().getGame().getBoard().getFigures().indexOf(x)))
+                .map(x -> Integer.toString(player.getGame().getGame().getBoard().getFigures().indexOf(x)))
                 .toArray(String[]::new);
-        IntStream.range(0,overkills.size()).forEach(x->{
-            if(overkills.get(x)) res[x]="+"+res[x];
+        IntStream.range(0, overkills.size()).forEach(x -> {
+            if (overkills.get(x)) res[x] = "+" + res[x];
         });
-        send("killtrack"+CMD_DELIMITER+ String.join(ARG_DELIMITER, res));
+        send("killtrack" + CMD_DELIMITER + String.join(ARG_DELIMITER, res));
     }
 
     @Override
-    public void sendSquares(List<AbstractSquare> squares){
-        send("squares"+CMD_DELIMITER
-                +squares.stream()
-                .map(x->{
-                    int[] coord= x.getCoordinates();
-                    String s=Integer.toString(player.getGame().getGame().getBoard().getRooms().indexOf(x.getRoom()));
-                    String pre=coord[0]+ARG_DELIMITER+coord[1]+ARG_DELIMITER;
-                    return pre+(x instanceof SpawnSquare?"+"+s:s);
+    public void sendSquares(List<AbstractSquare> squares) {
+        send("squares" + CMD_DELIMITER
+                + squares.stream()
+                .map(x -> {
+                    int[] coord = x.getCoordinates();
+                    String s = Integer.toString(player.getGame().getGame().getBoard().getRooms().indexOf(x.getRoom()));
+                    String pre = coord[0] + ARG_DELIMITER + coord[1] + ARG_DELIMITER;
+                    return pre + (x instanceof SpawnSquare ? "+" + s : s);
                 })
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendSquareContent(AbstractSquare square){
-        int id=player.getGame().getGame().getBoard().getSquares().indexOf(square);
-        int[] ammo=new int[]{0,0,0};
-        boolean powerup=false;
-        int[] weapons=null;
+    public void sendSquareContent(AbstractSquare square) {
+        int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
+        int[] ammo = new int[]{0, 0, 0};
+        boolean powerup = false;
+        int[] weapons = null;
         AmmoCube ammoCube;
-        if(square.peek().get(0) instanceof Weapon)
-            weapons=square.peek().stream().mapToInt(x->((Weapon)x).getID()).toArray();
+        if (square.peek().get(0) instanceof Weapon)
+            weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
             ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
-            for(int i=0;i<3;i++)
-                ammo[i]=ammoCube.value(i);
-            powerup=((AmmoTile)square.peek().get(0)).getPowerUp().isPresent();
+            for (int i = 0; i < 3; i++)
+                ammo[i] = ammoCube.value(i);
+            powerup = ((AmmoTile) square.peek().get(0)).getPowerUp().isPresent();
         }
-        send("fill"+CMD_DELIMITER+ Integer.toString(id)
-                +ARG_DELIMITER+Arrays.stream(ammo)
+        send("fill" + CMD_DELIMITER + id
+                + ARG_DELIMITER + Arrays.stream(ammo)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER))
-                +ARG_DELIMITER+(powerup?"+":"-")
-                + (weapons==null?"":ARG_DELIMITER
-                +Arrays.stream(weapons)
+                + ARG_DELIMITER + (powerup ? "+" : "-")
+                + (weapons == null ? "" : ARG_DELIMITER
+                + Arrays.stream(weapons)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER)))
         );
     }
 
     @Override
-    public void sendPlayers(List<Player> players){
-        send("players"+CMD_DELIMITER
-            +players.stream()
-                        .map(x->x.getGame().getGame().getPlayers().indexOf(x)+ARG_DELIMITER +x.getName())
-                        .collect(Collectors.joining(ARG_DELIMITER)));
+    public void sendPlayers(List<Player> players) {
+        send("players" + CMD_DELIMITER
+                + players.stream()
+                .map(x -> x.getGame().getGame().getPlayers().indexOf(x) + ARG_DELIMITER + x.getName())
+                .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
-    public void sendMessage(String s){
-        send("message"+CMD_DELIMITER+s);
+    public void sendMessage(String s) {
+        send("message" + CMD_DELIMITER + s);
     }
 
     @Override
-    public void sendPlayerDamages(Player player){
-        int id= player.getGame().getGame().getPlayers().indexOf(player);
+    public void sendPlayerDamages(Player player) {
+        int id = player.getGame().getGame().getPlayers().indexOf(player);
         int[] damages = player.getFigure().getDamages().stream()
-                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
                 .toArray();
-        send("damages"+CMD_DELIMITER
-                +Integer.toString(id)+ARG_DELIMITER
-                +Arrays.stream(damages)
+        send("damages" + CMD_DELIMITER
+                + id + ARG_DELIMITER
+                + Arrays.stream(damages)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER))
         );
     }
 
     @Override
-    public void sendPlayerMarks(Player player){
-        int id= player.getGame().getGame().getPlayers().indexOf(player);
+    public void sendPlayerMarks(Player player) {
+        int id = player.getGame().getGame().getPlayers().indexOf(player);
         int[] marks = player.getFigure().getMarks().stream()
-                .mapToInt(x->x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
                 .toArray();
-        send("marks"+CMD_DELIMITER
-                +Integer.toString(id) +ARG_DELIMITER
+        send("marks" + CMD_DELIMITER
+                + id + ARG_DELIMITER
                 + Arrays.stream(marks)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -201,9 +201,9 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendPlayerLocation(Player player){
-        send("location"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+    public void sendPlayerLocation(Player player) {
+        send("location" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
                 + Arrays.stream(player.getFigure().getLocation().getCoordinates())
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -211,53 +211,53 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendPlayerPoints(Player player){
-        send("points"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
-                +Integer.toString(player.getFigure().getPoints())
+    public void sendPlayerPoints(Player player) {
+        send("points" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getPoints()
         );
     }
 
     @Override
-    public void sendPlayerDeaths(Player player){
-        send("deaths"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
-                +Integer.toString(player.getFigure().getDeaths())
+    public void sendPlayerDeaths(Player player) {
+        send("deaths" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getDeaths()
         );
     }
 
     @Override
-    public void sendPlayerAmmo(Player player){
-        int[] ammo=new int[]{0,0,0};
-        for(int i=0;i<3;i++)
-            ammo[i]=player.getFigure().getAmmo().value(i);
-        send("ammo"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
+    public void sendPlayerAmmo(Player player) {
+        int[] ammo = new int[]{0, 0, 0};
+        for (int i = 0; i < 3; i++)
+            ammo[i] = player.getFigure().getAmmo().value(i);
+        send("ammo" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
                 + Arrays.stream(ammo).mapToObj(Integer::toString).collect(Collectors.joining(ARG_DELIMITER))
         );
     }
 
     @Override
-    public void sendPlayerNPowerUps(Player player){
-        send("npups"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
-                +Integer.toString(player.getFigure().getPowerUps().size())
+    public void sendPlayerNPowerUps(Player player) {
+        send("npups" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getPowerUps().size()
         );
     }
 
     @Override
-    public void sendPlayerWeapons(Player player){
-        send("weapons"+CMD_DELIMITER
-                +Integer.toString(player.getGame().getGame().getPlayers().indexOf(player))+ARG_DELIMITER
-                +player.getFigure().getWeapons().stream()
-                .map(x->(x.isLoaded()?"+":"")+Integer.toString(x.getID()))
+    public void sendPlayerWeapons(Player player) {
+        send("weapons" + CMD_DELIMITER
+                + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getWeapons().stream()
+                .map(x -> (x.isLoaded() ? "+" : "") + x.getID())
                 .collect(Collectors.joining(ARG_DELIMITER))
         );
     }
 
     @Override
-    public void sendRemainingActions(int remaining){
-        send("remaining"+CMD_DELIMITER +Integer.toString(remaining));
+    public void sendRemainingActions(int remaining) {
+        send("remaining" + CMD_DELIMITER + remaining);
     }
 
     public boolean ping() {
@@ -356,8 +356,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectTargettable(String[] args) throws CommandException {
-        if(args[1].equals(""))
-            args=new String[]{args[0]};
+        if (args[1].equals(""))
+            args = new String[]{args[0]};
         player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 

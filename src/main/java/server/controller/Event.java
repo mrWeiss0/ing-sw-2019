@@ -7,7 +7,7 @@ import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 public abstract class Event {
-    private Player player;
+    private final Player player;
 
     public Event(Player player) {
         this.player = player;
@@ -21,7 +21,7 @@ public abstract class Event {
 }
 
 class SelectPowerUpEvent extends Event {
-    private PowerUp[] powerUps;
+    private final PowerUp[] powerUps;
 
     SelectPowerUpEvent(Player player, PowerUp[] powerUps) {
         super(player);
@@ -39,7 +39,7 @@ class SelectPowerUpEvent extends Event {
 }
 
 class SelectWeaponToReloadEvent extends Event {
-    private Weapon[] weapons;
+    private final Weapon[] weapons;
 
     SelectWeaponToReloadEvent(Player player, Weapon[] weapons) {
         super(player);
@@ -57,8 +57,8 @@ class SelectWeaponToReloadEvent extends Event {
 }
 
 class SelectWeaponFireModeEvent extends Event {
-    private Weapon weapon;
-    private FireMode[] fireModes;
+    private final Weapon weapon;
+    private final FireMode[] fireModes;
 
     SelectWeaponFireModeEvent(Player player, Weapon weapon, FireMode[] fireModes) {
         super(player);
@@ -81,7 +81,7 @@ class SelectWeaponFireModeEvent extends Event {
 }
 
 class SelectGrabbableEvent extends Event {
-    private Grabbable grabbable;
+    private final Grabbable grabbable;
 
     SelectGrabbableEvent(Player player, Grabbable grabbable) {
         super(player);
@@ -99,7 +99,7 @@ class SelectGrabbableEvent extends Event {
 }
 
 class SelectActionEvent extends Event {
-    private Action action;
+    private final Action action;
 
     SelectActionEvent(Player player, Action action) {
         super(player);
@@ -117,7 +117,7 @@ class SelectActionEvent extends Event {
 }
 
 class SelectTargettableEvent extends Event {
-    private Targettable[] targettables;
+    private final Targettable[] targettables;
 
     SelectTargettableEvent(Player player, Targettable[] targettables) {
         super(player);
@@ -135,7 +135,7 @@ class SelectTargettableEvent extends Event {
 }
 
 class SelectColorEvent extends Event {
-    private int color;
+    private final int color;
 
     SelectColorEvent(Player player, int color) {
         super(player);

@@ -86,7 +86,7 @@ public class LobbyEntry {
         countdown = null;
     }
 
-    public String getOccupancy(){
-        return Integer.toString(builder.getJoinedPlayers().size())+"/"+Integer.toString(maxPlayers);
+    public String getOccupancy() {
+        return builder.getJoinedPlayers().size() + "/" + maxPlayers;
     }
 }

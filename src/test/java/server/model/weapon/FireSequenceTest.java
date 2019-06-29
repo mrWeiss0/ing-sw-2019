@@ -7,7 +7,6 @@ import server.model.AmmoCube;
 import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.SquareImage;
-import server.model.board.Targettable;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -39,9 +38,9 @@ class FireSequenceTest {
                 Effects.damageCurr(1).and(Effects.addCurrToLast().and(Effects.fillLastToSize(2)))
         ));
 
-        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), Effects.damageOther(1)));
+        focus = new FireMode(new AmmoCube(0, 1), new FireStep(1, 1, TargetGens.otherTarget(), Effects.damageOther()));
 
-        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), Effects.damageOther(1)), new FireStep(0, 1,
+        tripod = new FireMode(new AmmoCube(1), new FireStep(0, 1, TargetGens.otherTarget(), Effects.damageOther()), new FireStep(0, 1,
                 TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                 Effects.damageCurr(1)
         ));

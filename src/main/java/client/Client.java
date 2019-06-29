@@ -1,22 +1,23 @@
 package client;
 
 import client.connection.Connection;
-import client.connection.RMIConnection;
 import client.connection.SocketConnection;
-import client.model.*;
+import client.model.MiniModel;
+import client.model.Player;
+import client.model.Square;
+import client.model.Weapon;
 import client.view.CLICommandView;
 import client.view.View;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class Client {
-    private Connection connection;
-    private View view;
+    private final Connection connection;
+    private final View view;
     private State state;
-    private MiniModel model;
-    private State initState = new State() {
+    private final MiniModel model;
+    private final State initState = new State() {
         @Override
         public void onEnter() {
 
@@ -26,7 +27,7 @@ public class Client {
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
         connection = new SocketConnection(this);
-        model= new MiniModel(view);
+        model = new MiniModel(view);
     }
 
     public void connect(String host) {
@@ -94,92 +95,92 @@ public class Client {
         view.displayMessage(toPrint);
     }
 
-    public void setLobbyList(String[] s){
+    public void setLobbyList(String[] s) {
         model.setLobbyList(s);
     }
 
-    public void setPossibleTargets(int min, int max, int[] targets){
+    public void setPossibleTargets(int min, int max, int[] targets) {
         model.setMinToSelect(min);
         model.setMaxToSelect(max);
         model.setPossibleTargets(targets);
     }
 
-    public void setPowerUps(int[][] powerUps){
+    public void setPowerUps(int[][] powerUps) {
         model.setPowerups(powerUps);
     }
 
-    public void setCurrentPlayer(int currentPlayer){
+    public void setCurrentPlayer(int currentPlayer) {
         model.setCurrentPlayer(currentPlayer);
     }
 
-    public void setPossibleActions(int[] possibleActions){
+    public void setPossibleActions(int[] possibleActions) {
         model.setPossibleActions(possibleActions);
     }
 
-    public void setGameParams(int[] gameParams){
+    public void setGameParams(int[] gameParams) {
         model.getBoard().setMapType(gameParams[0]);
         model.getBoard().setMaxKills(gameParams[1]);
     }
 
-    public void setKillTrack(int[] killTrack, boolean[] overkills){
+    public void setKillTrack(int[] killTrack, boolean[] overkills) {
         model.getBoard().setKillTrack(killTrack);
         model.getBoard().setOverkills(overkills);
     }
 
-    public void setSquares(int[][] coords, int[] rooms,boolean[] spawn ){
-        model.getBoard().setSquares(IntStream.range(0,coords.length)
-                .mapToObj(x->new Square(coords[x],spawn[x],rooms[x]))
+    public void setSquares(int[][] coords, int[] rooms, boolean[] spawn) {
+        model.getBoard().setSquares(IntStream.range(0, coords.length)
+                .mapToObj(x -> new Square(coords[x], spawn[x], rooms[x]))
                 .toArray(Square[]::new));
     }
 
-    public void setSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons){
+    public void setSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
         model.getBoard().getSquares()[squareID].setAmmo(ammo);
         model.getBoard().getSquares()[squareID].setPowerup(powerUp);
         model.getBoard().getSquares()[squareID].setWeapons(weapons);
     }
 
-    public void setPlayers(int[] avatars, String[] names){
+    public void setPlayers(int[] avatars, String[] names) {
         model.getBoard().setPlayers(IntStream
-                .range(0,avatars.length)
-                .mapToObj(x->new Player(names[x],avatars[x]))
+                .range(0, avatars.length)
+                .mapToObj(x -> new Player(names[x], avatars[x]))
                 .toArray(Player[]::new));
     }
 
-    public void setPlayerDamages(int id, int[] damages){
+    public void setPlayerDamages(int id, int[] damages) {
         model.getBoard().getPlayers()[id].setDamages(damages);
     }
 
-    public void setPlayerMarks(int id, int[] marks){
+    public void setPlayerMarks(int id, int[] marks) {
         model.getBoard().getPlayers()[id].setMarks(marks);
     }
 
-    public void setPlayerLocation(int id, int[] coords){
+    public void setPlayerLocation(int id, int[] coords) {
         model.getBoard().getPlayers()[id].setCoordinates(coords);
     }
 
-    public void setPlayerPoints(int id, int points){
+    public void setPlayerPoints(int id, int points) {
         model.getBoard().getPlayers()[id].setPoints(points);
     }
 
-    public void setPlayerNPowerUps(int id, int nPowerUps){
+    public void setPlayerNPowerUps(int id, int nPowerUps) {
         model.getBoard().getPlayers()[id].setnPowerup(nPowerUps);
     }
 
-    public void setPlayerDeaths(int id, int deaths){
+    public void setPlayerDeaths(int id, int deaths) {
         model.getBoard().getPlayers()[id].setDeaths(deaths);
     }
 
-    public void setPlayerAmmo(int id, int[] ammo){
+    public void setPlayerAmmo(int id, int[] ammo) {
         model.getBoard().getPlayers()[id].setAmmo(ammo);
     }
 
-    public void setPlayerWeapons(int id, int[] weaponIDs, boolean[] charges){
-        Weapon[] weapons= Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
-        IntStream.range(0,weapons.length).forEach(x->weapons[x].setLoaded(charges[x]));
+    public void setPlayerWeapons(int id, int[] weaponIDs, boolean[] charges) {
+        Weapon[] weapons = Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
+        IntStream.range(0, weapons.length).forEach(x -> weapons[x].setLoaded(charges[x]));
         model.getBoard().getPlayers()[id].setWeapons(weapons);
     }
 
-    public void setRemainingActions(int remainingActions){
+    public void setRemainingActions(int remainingActions) {
         model.setRemainingActions(remainingActions);
     }
 

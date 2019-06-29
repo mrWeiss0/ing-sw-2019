@@ -10,7 +10,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
-    private Player[] players = new Player[]{
+    private final Player[] players = new Player[]{
             new Player(null),
             new Player(null),
             new Player(null),

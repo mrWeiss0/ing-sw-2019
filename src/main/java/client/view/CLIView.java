@@ -55,8 +55,8 @@ public class CLIView implements View, Runnable {
     }
 
     @Override
-    public void displayMessage(String message){
-        print("SYSTEM: "+message);
+    public void displayMessage(String message) {
+        print("SYSTEM: " + message);
     }
 
     @Override
@@ -67,84 +67,84 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayPossibleRoom(int id, Square[] squares) {
-        print(id+" room: "+ Arrays.stream(squares)
+        print(id + " room: " + Arrays.stream(squares)
                 .map(Square::toString)
                 .collect(Collectors.joining(" ")));
     }
 
     @Override
     public void displayPossibleFigure(int id, Player player) {
-        print(id+" figure: "+player.toString());
+        print(id + " figure: " + player.toString());
     }
 
     @Override
     public void displayPossibleSquare(int id, Square square) {
-        print(id+" square: "+square.toString());
+        print(id + " square: " + square.toString());
     }
 
     @Override
     public void displayMinToSelect(int min) {
-        print("Select a minimum of "+min+" targets");
+        print("Select a minimum of " + min + " targets");
     }
 
     @Override
     public void displayMaxToSelect(int max) {
-        print("Select a maximum of "+max+" targets");
+        print("Select a maximum of " + max + " targets");
     }
 
     @Override
     public void displayPowerUps(PowerUp[] powerUps) {
-        print("Owned PowerUps: "+Arrays.stream(powerUps)
+        print("Owned PowerUps: " + Arrays.stream(powerUps)
                 .map(PowerUp::toString)
                 .collect(Collectors.joining(", ")));
     }
 
     @Override
     public void displayPossibleActions(int[] actions) {
-        print("Possible actions: "+ Arrays.stream(actions)
+        print("Possible actions: " + Arrays.stream(actions)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(", ")));
     }
 
     @Override
     public void displayCurrentPlayer(int currPlayer) {
-        print("Current player is: "+currPlayer);
+        print("Current player is: " + currPlayer);
     }
 
     @Override
     public void displayRemainingActions(int remaining) {
-        print("Actions left: "+remaining);
+        print("Actions left: " + remaining);
     }
 
     @Override
     public void displayMapType(int mapID) {
-        print("Using map: "+mapID);
+        print("Using map: " + mapID);
     }
 
     @Override
     public void displayMaxKills(int max) {
-        print("Max kills: "+max);
+        print("Max kills: " + max);
     }
 
     @Override
     public void displayKillTrack(int[] killTrack, boolean[] overkills) {
-        print("KillTrack: "+ IntStream.range(0,killTrack.length)
-                .mapToObj(x->killTrack[x]+(overkills[x]?"x2":""))
+        print("KillTrack: " + IntStream.range(0, killTrack.length)
+                .mapToObj(x -> killTrack[x] + (overkills[x] ? "x2" : ""))
                 .collect(Collectors.joining(", ")));
     }
 
     @Override
     public void displayPlayers(Player[] players) {
-        print("Players: "+ Arrays.stream(players)
+        print("Players: " + Arrays.stream(players)
                 .map(Player::toString)
                 .collect(Collectors.joining(", ")));
     }
 
     @Override
     public void displaySquares(Square[] squares) {
-        print("Squares: "+ Arrays.stream(squares)
-            .map(Square::toString)
-            .collect(Collectors.joining(", ")));
+        print("Squares: " + Arrays.stream(squares)
+                .map(Square::toString)
+                .collect(Collectors.joining(", ")));
     }
 
 

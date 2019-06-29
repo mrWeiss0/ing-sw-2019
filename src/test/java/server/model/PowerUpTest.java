@@ -1,12 +1,10 @@
 package server.model;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 import server.model.board.Room;
 import server.model.board.SpawnSquare;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PowerUpTest {
     PowerUp discard;
@@ -23,29 +21,29 @@ class PowerUpTest {
     }
 
     @Test
-    void testColor(){
-        PowerUp powerUp= new PowerUp(PowerUpType.NEWTON
+    void testColor() {
+        PowerUp powerUp = new PowerUp(PowerUpType.NEWTON
                 , new AmmoCube(1)
                 , new SpawnSquare(new Room()
-                ,null
+                , null
                 , 0)
                 , this::discard);
 
         assertEquals(0, powerUp.getColor());
 
-        powerUp= new PowerUp(PowerUpType.NEWTON
-                , new AmmoCube(0,1)
+        powerUp = new PowerUp(PowerUpType.NEWTON
+                , new AmmoCube(0, 1)
                 , new SpawnSquare(new Room()
-                ,null
+                , null
                 , 0)
                 , this::discard);
 
         assertEquals(1, powerUp.getColor());
 
-        powerUp= new PowerUp(PowerUpType.NEWTON
-                , new AmmoCube(0,0,1)
+        powerUp = new PowerUp(PowerUpType.NEWTON
+                , new AmmoCube(0, 0, 1)
                 , new SpawnSquare(new Room()
-                ,null
+                , null
                 , 0)
                 , this::discard);
 

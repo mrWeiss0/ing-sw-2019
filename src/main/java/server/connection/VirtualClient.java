@@ -2,13 +2,11 @@ package server.connection;
 
 import server.controller.LobbyList;
 import server.controller.Player;
-import server.model.AmmoTile;
 import server.model.PowerUp;
 import server.model.board.AbstractSquare;
 import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.Targettable;
-import server.model.weapon.Weapon;
 
 import java.io.Closeable;
 import java.util.List;

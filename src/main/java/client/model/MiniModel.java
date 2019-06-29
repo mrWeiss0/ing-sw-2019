@@ -3,13 +3,12 @@ package client.model;
 import client.view.View;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class MiniModel {
-    private View view;
+    private final View view;
     private String[] lobbyList;
-    private Board board;
+    private final Board board;
     private PowerUp[] powerups;
     private int[] possibleActions;
     private int currentPlayer;
@@ -18,9 +17,13 @@ public class MiniModel {
     private int maxToSelect;
     private int remainingActions;
 
-    public MiniModel(View view){
-        this.view=view;
+    public MiniModel(View view) {
+        this.view = view;
         this.board = new Board(view);
+    }
+
+    public String[] getLobbyList() {
+        return lobbyList;
     }
 
     public void setLobbyList(String[] lobbyList) {
@@ -28,28 +31,35 @@ public class MiniModel {
         view.displayLobbyList(lobbyList);
     }
 
-    public void setCurrentPlayer(int currentPlayer) {
-        this.currentPlayer = currentPlayer;
-        view.displayCurrentPlayer(currentPlayer);
+    public Board getBoard() {
+        return board;
     }
 
-    public void setPossibleActions(int [] possibleActions){
-        this.possibleActions=possibleActions;
-        view.displayPossibleActions(possibleActions);
+    public PowerUp[] getPowerups() {
+        return powerups;
     }
 
-    public void setRemainingActions(int remainingActions){
-        this.remainingActions=remainingActions;
-        view.displayRemainingActions(remainingActions);
+    public void setPowerups(int[][] values) {
+        this.powerups = (PowerUp[]) Arrays.stream(values).map(x -> new PowerUp(x[0], x[1])).toArray();
+        view.displayPowerUps(powerups);
     }
+
+    public int[] getPossibleTargets() {
+        return possibleTargets;
+    }
+
     @SuppressWarnings("unchecked")
-    public void setPossibleTargets(int[] targets){
-        possibleTargets=targets;
-        Arrays.stream(targets).forEach(x->(new Consumer[]{
-                y->view.displayPossibleRoom((Integer) y, board.getRoom((Integer)y/3)),
-                y->view.displayPossibleSquare((Integer) y, board.getSquares()[((Integer) y)/3]),
-                y->view.displayPossibleFigure((Integer) y, board.getPlayers()[((Integer) y)/3])
-        })[x%3].accept(x));
+    public void setPossibleTargets(int[] targets) {
+        possibleTargets = targets;
+        Arrays.stream(targets).forEach(x -> (new Consumer[]{
+                y -> view.displayPossibleRoom((Integer) y, board.getRoom((Integer) y / 3)),
+                y -> view.displayPossibleSquare((Integer) y, board.getSquares()[((Integer) y) / 3]),
+                y -> view.displayPossibleFigure((Integer) y, board.getPlayers()[((Integer) y) / 3])
+        })[x % 3].accept(x));
+    }
+
+    public int getMinToSelect() {
+        return minToSelect;
     }
 
     public void setMinToSelect(int minToSelect) {
@@ -57,49 +67,39 @@ public class MiniModel {
         view.displayMinToSelect(minToSelect);
     }
 
+    public int getMaxToSelect() {
+        return maxToSelect;
+    }
+
     public void setMaxToSelect(int maxToSelect) {
         this.maxToSelect = maxToSelect;
         view.displayMaxToSelect(maxToSelect);
     }
 
-    public void setPowerups(int[][] values) {
-        this.powerups=(PowerUp[]) Arrays.stream(values).map(x->new PowerUp(x[0],x[1])).toArray();
-        view.displayPowerUps(powerups);
-    }
-
-    public String[] getLobbyList() {
-        return lobbyList;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public PowerUp[] getPowerups(){
-        return powerups;
-    }
-
-    public int[] getPossibleTargets(){
-        return possibleTargets;
-    }
-
-    public int getMinToSelect(){
-        return minToSelect;
-    }
-
-    public int getMaxToSelect(){
-        return maxToSelect;
-    }
-
-    public int getCurrentPlayer(){
+    public int getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public int[] getPossibleActions(){
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+        view.displayCurrentPlayer(currentPlayer);
+    }
+
+    public int[] getPossibleActions() {
         return possibleActions;
     }
 
-    public int getRemainingActions(){
+    public void setPossibleActions(int[] possibleActions) {
+        this.possibleActions = possibleActions;
+        view.displayPossibleActions(possibleActions);
+    }
+
+    public int getRemainingActions() {
         return remainingActions;
+    }
+
+    public void setRemainingActions(int remainingActions) {
+        this.remainingActions = remainingActions;
+        view.displayRemainingActions(remainingActions);
     }
 }

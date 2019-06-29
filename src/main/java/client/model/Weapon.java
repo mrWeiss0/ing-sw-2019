@@ -2,10 +2,10 @@ package client.model;
 
 public class Weapon {
     private boolean loaded;
-    private int id;
+    private final int id;
 
-    public Weapon(int id){
-        this.id=id;
+    public Weapon(int id) {
+        this.id = id;
     }
 
     public boolean isLoaded() {
@@ -22,6 +22,6 @@ public class Weapon {
 
     @Override
     public String toString() {
-        return id+": "+loaded;
+        return id + ": " + loaded;
     }
 }

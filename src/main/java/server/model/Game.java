@@ -138,7 +138,7 @@ public class Game {
     public void addKillCount(int val, Figure f) {
         killCount.add(f);
         overkills.add(val > 1);
-        if(lastPlayer != null && lastPlayer == currentPlayer())
+        if (lastPlayer != null && lastPlayer == currentPlayer())
             endGame();
         else if (--remainingKills == 0)
             toggleFrenzy();

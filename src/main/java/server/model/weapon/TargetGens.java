@@ -7,10 +7,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
 public final class TargetGens {
+    private TargetGens() {
+    }
+
     /**
      * Returns the <code>TargetGen</code> that generates all visible squares by the shooter
      *
@@ -233,18 +237,19 @@ public final class TargetGens {
         return (shooter, board, lastTargets) -> {
             int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
             int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
-            if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
-            else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
-            else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0])
-                    .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
-            else return board.getSquares()
-                        .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0])
-                        .map(AbstractSquare::getOccupants).collect(HashSet::new, HashSet::addAll, HashSet::addAll);
+            Predicate<AbstractSquare> p;
+            if (origin[0] == last[0] && origin[1] > last[1])
+                p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1];
+            else if (origin[0] == last[0] && origin[1] < last[1])
+                p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1];
+            else if (origin[1] == last[1] && origin[0] < last[0])
+                p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0];
+            else
+                p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0];
+            return board.getSquares().stream()
+                    .filter(p)
+                    .map(AbstractSquare::getOccupants)
+                    .collect(HashSet::new, HashSet::addAll, HashSet::addAll);
         };
     }
 

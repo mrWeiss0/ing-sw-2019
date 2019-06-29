@@ -14,10 +14,10 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class GameController implements Runnable {
-    private Game game;
+    private final Game game;
     private State state;
-    private ArrayBlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(5);
-    private Deque<State> stateStack = new ArrayDeque<>();
+    private final ArrayBlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(5);
+    private final Deque<State> stateStack = new ArrayDeque<>();
 
     public GameController(Game game) {
         this.game = game;

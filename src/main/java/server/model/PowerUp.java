@@ -3,7 +3,6 @@ package server.model;
 import server.model.board.SpawnSquare;
 
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 /**
  * The <code>PowerUp</code> class represents a generic PowerUp card containing
@@ -41,14 +40,15 @@ public class PowerUp {
         return ammo;
     }
 
-    public int getColor(){
-        int i=0;
-        if(new AmmoCube().greaterEqThan(ammo))
+    public int getColor() {
+        int i = 0;
+        if (new AmmoCube().greaterEqThan(ammo))
             return -1;
-        while(ammo.value(i)<=0)
+        while (ammo.value(i) <= 0)
             i++;
         return i;
     }
+
     /**
      * Returns the spawnpoint this PowerUp can be used to spawn at
      *

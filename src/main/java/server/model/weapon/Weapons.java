@@ -55,7 +55,7 @@ public enum Weapons {
 
     SLEDGEHAMMER(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).fireModes(sledgehammer));
 
-    private Weapon.Builder builder;
+    private final Weapon.Builder builder;
 
     Weapons(Weapon.Builder builder) {
         this.builder = builder;
@@ -68,6 +68,9 @@ public enum Weapons {
 }
 
 final class FireModes {
+    private FireModes() {
+    }
+
     static final FireMode[] lockRifleModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -92,10 +95,10 @@ final class FireModes {
                     Effects.damageCurr(1).and(Effects.addCurrToLast().and(Effects.fillLastToSize(2))))),
             new FireMode(new AmmoCube(0, 1, 0), new FireStep(1, 1,
                     TargetGens.otherTarget(),
-                    Effects.damageOther(1))),
+                    Effects.damageOther())),
             new FireMode(new AmmoCube(0, 0, 1), new FireStep(0, 1,
                     TargetGens.otherTarget(),
-                    Effects.damageOther(1)), new FireStep(0, 1,
+                    Effects.damageOther()), new FireStep(0, 1,
                     TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.damageCurr(1)))
     };

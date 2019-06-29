@@ -47,7 +47,7 @@ public class RMIConnection implements Connection, RemoteClient {
             player.createLobby(name);
         } catch (RemoteException e) {
             controller.print(e.toString());
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             controller.print(ERRORSTRING);
         }
     }
@@ -159,7 +159,7 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendLobbyList(String[] s) throws RemoteException{
+    public void sendLobbyList(String[] s) throws RemoteException {
         controller.setLobbyList(s);
     }
 
@@ -174,87 +174,87 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendPowerUps(List<Integer[]> powerUps){
-        controller.setPowerUps((int[][])powerUps.stream().map(x-> Arrays.stream(x).mapToInt(Integer::intValue).toArray()).toArray());
+    public void sendPowerUps(List<Integer[]> powerUps) {
+        controller.setPowerUps((int[][]) powerUps.stream().map(x -> Arrays.stream(x).mapToInt(Integer::intValue).toArray()).toArray());
     }
 
     @Override
-    public void sendCurrentPlayer(int currentPlayer){
+    public void sendCurrentPlayer(int currentPlayer) {
         controller.setCurrentPlayer(currentPlayer);
     }
 
     @Override
-    public void sendPossibleActions(List<Integer> possibleActions){
+    public void sendPossibleActions(List<Integer> possibleActions) {
         controller.setPossibleActions(possibleActions.stream().mapToInt(Integer::intValue).toArray());
     }
 
     @Override
-    public void sendGameParams(List<Integer> gameParams){
+    public void sendGameParams(List<Integer> gameParams) {
         controller.setGameParams(gameParams.stream().mapToInt(Integer::intValue).toArray());
     }
 
     @Override
-    public void sendKillTrack(int[] killtrack, boolean[] overkills){
-        controller.setKillTrack(killtrack,overkills);
+    public void sendKillTrack(int[] killtrack, boolean[] overkills) {
+        controller.setKillTrack(killtrack, overkills);
     }
 
     @Override
-    public void sendSquares(int[][] coordinates,int[] rooms, boolean[] spawn){
-        controller.setSquares(coordinates,rooms,spawn);
+    public void sendSquares(int[][] coordinates, int[] rooms, boolean[] spawn) {
+        controller.setSquares(coordinates, rooms, spawn);
     }
 
     @Override
-    public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons){
+    public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
         controller.setSquareContent(squareID, ammo, powerUp, weapons);
     }
 
     @Override
-    public void sendPlayers(int[] avatars, String[] names){
-        controller.setPlayers(avatars,names);
+    public void sendPlayers(int[] avatars, String[] names) {
+        controller.setPlayers(avatars, names);
     }
 
     @Override
-    public void sendPlayerDamages(int id, int[] damages){
+    public void sendPlayerDamages(int id, int[] damages) {
         controller.setPlayerDamages(id, damages);
     }
 
     @Override
-    public void sendPlayerMarks(int id, int[] marks){
+    public void sendPlayerMarks(int id, int[] marks) {
         controller.setPlayerMarks(id, marks);
     }
 
     @Override
-    public void sendPlayerLocation(int id, int[] coords){
+    public void sendPlayerLocation(int id, int[] coords) {
         controller.setPlayerLocation(id, coords);
     }
 
     @Override
-    public void sendPlayerPoints(int id, int points){
+    public void sendPlayerPoints(int id, int points) {
         controller.setPlayerPoints(id, points);
     }
 
     @Override
-    public void sendPlayerDeaths(int id, int deaths){
-        controller.setPlayerDeaths(id,deaths);
+    public void sendPlayerDeaths(int id, int deaths) {
+        controller.setPlayerDeaths(id, deaths);
     }
 
     @Override
-    public void sendPlayerAmmo(int id, int[] ammo){
+    public void sendPlayerAmmo(int id, int[] ammo) {
         controller.setPlayerAmmo(id, ammo);
     }
 
     @Override
-    public void sendPlayerNPowerUps(int id, int nPowerUps){
+    public void sendPlayerNPowerUps(int id, int nPowerUps) {
         controller.setPlayerNPowerUps(id, nPowerUps);
     }
 
     @Override
-    public void sendPlayerWeapons(int id, int[] weaponsIDs, boolean[] charges){
-        controller.setPlayerWeapons(id,weaponsIDs,charges);
+    public void sendPlayerWeapons(int id, int[] weaponsIDs, boolean[] charges) {
+        controller.setPlayerWeapons(id, weaponsIDs, charges);
     }
 
     @Override
-    public void sendRemainingActions(int remaining){
+    public void sendRemainingActions(int remaining) {
         controller.setRemainingActions(remaining);
     }
 }
