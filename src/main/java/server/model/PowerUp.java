@@ -18,11 +18,12 @@ public class PowerUp {
     private final PowerUpType type;
 
     /**
-     * TODO
      * Constructs a PowerUp with the specified ammo and spawnpoint.
      *
-     * @param ammo  the ammo that this PowerUp can be traded for
-     * @param spawn the spawnpoint that this PowerUp can be used to spawn at
+     * @param type    the type of this powerup
+     * @param ammo    the ammo that this PowerUp can be traded for
+     * @param spawn   the spawnpoint that this PowerUp can be used to spawn at
+     * @param discard the deck this powerup is discarded to
      */
     public PowerUp(PowerUpType type, AmmoCube ammo, SpawnSquare spawn, Consumer<PowerUp> discard) {
         this.type = type;
