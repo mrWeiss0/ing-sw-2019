@@ -43,4 +43,22 @@ public interface View {
 
     void displaySquares(Square[] squares);
 
+    void displayPlayerDamage(Player player);
+
+    void displayPlayerMarks(Player player);
+
+    void displayPlayerPoints(Player player);
+
+    void displayPlayerDeaths(Player player);
+
+    void displayPlayerWeapons(Player player);
+
+    void displayPlayerAmmo(Player player);
+
+    void displayPlayerNPowerUps(Player player);
+
+    void displayPlayerLocation(Player player);
+
+    void displaySquareContent(Square square);
+
 }

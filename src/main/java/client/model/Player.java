@@ -1,8 +1,11 @@
 package client.model;
 
+import client.view.View;
+
 public class Player {
-    private final String name;
-    private final int avatar;
+    private View view;
+    private String name;
+    private int avatar;
     private int[] damages;
     private int[] marks;
     private int points;
@@ -12,9 +15,10 @@ public class Player {
     private int nPowerup;
     private int[] coordinates;
 
-    public Player(String name, int avatar) {
-        this.name = name;
-        this.avatar = avatar;
+    public Player(String name, int avatar, View view){
+        this.name=name;
+        this.avatar=avatar;
+        this.view=view;
     }
 
     public void setDamages(int[] damages) {

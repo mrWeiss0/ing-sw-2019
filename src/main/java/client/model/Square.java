@@ -1,21 +1,26 @@
 package client.model;
 
+import client.view.View;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Square {
-    private final int[] coordinates;
-    private final boolean spawn;
-    private final int room;
+
+    private View view;
+    private int[] coordinates;
+    private boolean spawn;
+    private int room;
     private int[] ammo;
     private boolean powerup;
     private int[] weapons;
 
 
-    public Square(int[] coordinates, boolean spawn, int room) {
-        this.coordinates = coordinates;
-        this.spawn = spawn;
-        this.room = room;
+    public Square(View view, int[] coordinates, boolean spawn, int room){
+        this.coordinates=coordinates;
+        this.spawn=spawn;
+        this.room=room;
+        this.view=view;
     }
 
     public int[] getCoordinates() {
