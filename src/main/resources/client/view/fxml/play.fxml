@@ -22,12 +22,12 @@
                <VBox prefHeight="688.0" prefWidth="324.0" />
             </children>
          </StackPane>
-         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="700.0" StackPane.alignment="CENTER_LEFT">
+         <StackPane fx:id="bottomLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="700.0" StackPane.alignment="CENTER_LEFT">
             <children>
-               <ImageView fitHeight="420.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+               <ImageView fx:id="mapImage" fitHeight="420.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                    <Image url="@../images/maps/map3.png" />
                </ImageView>
-               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="560.0" StackPane.alignment="TOP_LEFT">
+               <GridPane fx:id="mapGrid" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="560.0" StackPane.alignment="TOP_LEFT">
                  <columnConstraints>
                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -40,21 +40,21 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                     <Button mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                     <Button fx:id="cell0_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
+                     <Button fx:id="cell0_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
+                     <Button fx:id="cell0_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
+                     <Button fx:id="cell0_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
+                     <Button fx:id="cell1_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
+                     <Button fx:id="cell1_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Button fx:id="cell1_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     <Button fx:id="cell1_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                     <Button fx:id="cell2_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
+                     <Button fx:id="cell2_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <Button fx:id="cell2_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     <Button fx:id="cell2_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
-               <VBox fx:id="weapons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="140.0" StackPane.alignment="TOP_RIGHT">
+               <VBox fx:id="mapWeapons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="140.0" StackPane.alignment="TOP_RIGHT">
                   <StackPane.margin>
                      <Insets left="5.0" right="5.0" />
                   </StackPane.margin>
@@ -148,40 +148,60 @@
                      </Accordion>
                   </children>
                </VBox>
-               <ImageView fitHeight="145.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT" />
-               <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="268.0" prefWidth="420.0" StackPane.alignment="BOTTOM_LEFT">
+               <HBox fx:id="yourPotraitAndActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="240.0" StackPane.alignment="BOTTOM_RIGHT">
                   <children>
-                     <HBox prefHeight="105.0" prefWidth="420.0">
+                     <HBox fx:id="yourActions" prefHeight="145.0" prefWidth="100.0">
                         <children>
-                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fitHeight="105.0" fitWidth="140.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fitHeight="105.0" fitWidth="140.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                           <VBox fx:id="yourVariableActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="50.0" />
+                           <ImageView fx:id="yourReload" fitHeight="145.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                         </children>
                      </HBox>
-                     <HBox prefHeight="105.0" prefWidth="420.0">
+                     <ImageView fx:id="yourPotrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                  </children>
+               </HBox>
+               <VBox fx:id="lifeAndCards" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="268.0" prefWidth="420.0" StackPane.alignment="BOTTOM_LEFT">
+                  <children>
+                     <HBox fx:id="yourPowerUps" prefHeight="105.0" prefWidth="420.0">
                         <children>
-                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                           <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp2" fitHeight="105.0" fitWidth="140.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourPowerUp3" fitHeight="105.0" fitWidth="140.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                         </children>
                      </HBox>
-                     <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="58.0" prefWidth="420.0" />
+                     <HBox fx:id="yourWeapons" prefHeight="105.0" prefWidth="420.0">
+                        <children>
+                           <ImageView fx:id="yourWeapon1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourWeapon2" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="yourWeapon3" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                        </children>
+                     </HBox>
+                     <StackPane fx:id="yourLife" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="58.0" prefWidth="420.0">
+                        <children>
+                           <ImageView fx:id="lifebarImage" fitHeight="50.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" StackPane.alignment="CENTER" />
+                        </children></StackPane>
                   </children>
                </VBox>
             </children>
          </StackPane>
       </children>
    </StackPane>
-
-    <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
-    <VBox fx:id="controlPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
-        <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
-        <children>
-        <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/ICONback.png" />
-        </ImageView>
-        </children>
-    </VBox>
+   <StackPane fx:id="top" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="1024.0" StackPane.alignment="TOP_LEFT">
+      <children>
+          <VBox fx:id="controlPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
+              <padding>
+               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+              <children>
+              <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../images/ICONback.png" />
+              </ImageView>
+              </children>
+          </VBox>
+      
+                      <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="949.0" StackPane.alignment="TOP_LEFT" />
+      </children>
+   </StackPane>
 
     <stylesheets>
         <URL value="@../css/Play.css" />
