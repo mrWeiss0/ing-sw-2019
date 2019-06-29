@@ -2,13 +2,15 @@ package client.model;
 
 import client.view.View;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class MiniModel {
     private final View view;
-    private String[] lobbyList;
     private final Board board;
+    private String[] lobbyList;
     private PowerUp[] powerups;
     private int[] possibleActions;
     private int currentPlayer;
@@ -16,6 +18,8 @@ public class MiniModel {
     private int minToSelect;
     private int maxToSelect;
     private int remainingActions;
+    private boolean ended = false;
+    private List<String[]> chat = new ArrayList<>();
 
     public MiniModel(View view) {
         this.view = view;
@@ -101,5 +105,19 @@ public class MiniModel {
     public void setRemainingActions(int remainingActions) {
         this.remainingActions = remainingActions;
         view.displayRemainingActions(remainingActions);
+    }
+
+    public void setEndGame(boolean value) {
+        ended = value;
+        view.displayEndGame(value);
+    }
+
+    public void addChatMessage(String user, String msg) {
+        chat.add(new String[]{user, msg});
+        view.displayChat(chat);
+    }
+
+    public List<String[]> getChat() {
+        return chat;
     }
 }

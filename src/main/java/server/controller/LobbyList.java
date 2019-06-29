@@ -64,6 +64,12 @@ public class LobbyList {
         players.values().forEach(x -> x.getClient().sendLobbyList(repr()));
     }
 
+    public void chatMessage(VirtualClient v, String msg) {
+        if (!players.values().contains(v.getPlayer()))
+            throw new IllegalStateException("Please choose an username first");
+        players.values().forEach(x -> x.getClient().sendChatMessage(v.getPlayer().getName(), msg));
+    }
+
     private String[] repr() {
         return lobbyMap.keySet().stream()
                 .map(y -> y + ":" + lobbyMap.get(y).getOccupancy())

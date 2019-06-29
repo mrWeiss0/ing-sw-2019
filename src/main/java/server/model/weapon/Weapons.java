@@ -68,9 +68,6 @@ public enum Weapons {
 }
 
 final class FireModes {
-    private FireModes() {
-    }
-
     static final FireMode[] lockRifleModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -79,7 +76,6 @@ final class FireModes {
                     TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.markCurr(1)))
     };
-
     static final FireMode[] electroscytheModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.maxDistanceSquares(0),
@@ -88,7 +84,6 @@ final class FireModes {
                     TargetGens.maxDistanceSquares(0),
                     Effects.damageCurr(2)))
     };
-
     static final FireMode[] machineGunModes = new FireMode[]{
             new FireMode(new FireStep(1, 2,
                     TargetGens.visibleFigures(),
@@ -102,7 +97,6 @@ final class FireModes {
                     TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.damageCurr(1)))
     };
-
     static final FireMode[] tractorBeamModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.atDistanceFromVisibleSquareFigures(2),
@@ -113,7 +107,6 @@ final class FireModes {
                     TargetGens.maxDistanceFigures(2),
                     Effects.addCurrFigureSquareToLast().and(Effects.moveCurrToLast().and(Effects.damageCurr(3)))))
     };
-
     static final FireMode[] thorModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -125,7 +118,6 @@ final class FireModes {
                     TargetGens.visibleFromLastFigures().not(TargetGens.inLast()),
                     Effects.damageCurr(2)))
     };
-
     static final FireMode[] plasmaGunModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -137,13 +129,11 @@ final class FireModes {
                     TargetGens.inLastFigure(),
                     Effects.damageLast(1)))
     };
-
     static final FireMode[] whisperModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures().not(TargetGens.maxDistanceFigures(1)),
                     Effects.damageCurr(3).and(Effects.markCurr(1))))
     };
-
     static final FireMode[] vortexModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleSquares().and(TargetGens.differentSquares()),
@@ -154,7 +144,6 @@ final class FireModes {
                     TargetGens.maxDistanceFromLastFigures(1).and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.moveCurrToLast().and(Effects.damageCurr(1))))
     };
-
     static final FireMode[] furnaceModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleRoom().and(TargetGens.differentRoom()),
@@ -163,13 +152,11 @@ final class FireModes {
                     TargetGens.maxDistanceSquares(1).not(TargetGens.maxDistanceFigures(0)),
                     Effects.damageCurr(1).and(Effects.markCurr(1))))
     };
-
     static final FireMode[] heatseekerModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.differentFigures().not(TargetGens.visibleFigures()),
                     Effects.damageCurr(3)))
     };
-
     static final FireMode[] hellionModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures().not(TargetGens.maxDistanceFigures(0)),
@@ -178,7 +165,6 @@ final class FireModes {
                     TargetGens.visibleFigures().not(TargetGens.maxDistanceFigures(0)),
                     Effects.damageCurr(1).and(Effects.addCurrFigureSquareToLast().and(Effects.markCurr(2)))))
     };
-
     static final FireMode[] flamethrowerModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -203,7 +189,6 @@ final class FireModes {
                             Effects.damageCurr(2))
             )
     };
-
     static final FireMode[] grenadeLauncherModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -221,7 +206,6 @@ final class FireModes {
                                     .and(TargetGens.ifNotMoved()),
                             Effects.moveFirstLastToCurr()))
     };
-
     static final FireMode[] rocketLauncherModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -240,7 +224,6 @@ final class FireModes {
                             TargetGens.inLast(),
                             Effects.damageLast(1)))
     };
-
     static final FireMode[] railgunModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -256,7 +239,6 @@ final class FireModes {
                             Effects.damageCurr(2))
             )
     };
-
     static final FireMode[] cyberbladeModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -271,7 +253,6 @@ final class FireModes {
                             TargetGens.maxDistanceFigures(0).not(TargetGens.inLast()),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] zx2Modes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -282,7 +263,6 @@ final class FireModes {
                             TargetGens.visibleFigures(),
                             Effects.markCurr(1)))
     };
-
     static final FireMode[] shotgunModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -296,7 +276,6 @@ final class FireModes {
                             TargetGens.maxDistanceFigures(1).not(TargetGens.maxDistanceFigures(0)),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] powerGloveModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -317,7 +296,6 @@ final class FireModes {
                             TargetGens.maxDistanceFigures(0).not(TargetGens.onLastFigures()),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] shockwaveModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -334,7 +312,6 @@ final class FireModes {
                             TargetGens.maxDistanceSquares(1),
                             Effects.damageNeighbours(1)))
     };
-
     static final FireMode[] sledgehammer = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -349,5 +326,8 @@ final class FireModes {
                             TargetGens.onCardinalSquare().and(TargetGens.maxDistanceSquares(2)),
                             Effects.moveLastToCurr()))
     };
+
+    private FireModes() {
+    }
 
 }

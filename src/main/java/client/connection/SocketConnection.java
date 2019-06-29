@@ -20,8 +20,6 @@ public class SocketConnection implements Connection, Runnable {
     private static final String CMD_DELIMITER = "&&";
     private static final String ARG_DELIMITER = "--";
     private final Client controller;
-    private Socket socket;
-    private PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
             Map.entry("message", this::print),
             Map.entry("lobby", this::sendLobbyList),
@@ -42,8 +40,12 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("ammo", this::sendPlayerAmmo),
             Map.entry("npups", this::sendPlayerNPowerUps),
             Map.entry("weapons", this::sendPlayerWeapons),
-            Map.entry("remaining", this::sendRemainingActions)
+            Map.entry("remaining", this::sendRemainingActions),
+            Map.entry("end", this::sendEndGame),
+            Map.entry("chat", this::sendChatMessage)
     ), CMD_DELIMITER, ARG_DELIMITER);
+    private Socket socket;
+    private PrintStream ostream;
 
 
     public SocketConnection(Client controller) {
@@ -117,6 +119,19 @@ public class SocketConnection implements Connection, Runnable {
     @Override
     public void selectAction(int actionIndex) {
         send("action" + CMD_DELIMITER + actionIndex);
+    }
+
+    //TODO fix arg_delimiter bug
+    @Override
+    public void sendChat(String msg) {
+        if (msg.contains(ARG_DELIMITER))
+            throw new IllegalArgumentException("Please don't use " + ARG_DELIMITER + " in your message");
+        send("chat" + CMD_DELIMITER + msg);
+    }
+
+    @Override
+    public void reconnect() {
+        send("reconnect");
     }
 
     @Override
@@ -269,6 +284,14 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendRemainingActions(String[] args) {
         controller.setRemainingActions(Integer.parseInt(args[0]));
+    }
+
+    private void sendEndGame(String[] args) {
+        controller.setEndGame(args[0].startsWith("+"));
+    }
+
+    private void sendChatMessage(String[] args) {
+        controller.addChatMessage(args[0], args[1]);
     }
 
     public void close() {

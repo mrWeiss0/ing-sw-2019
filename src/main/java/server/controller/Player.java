@@ -165,4 +165,8 @@ public class Player {
             client.sendMessage(NOTSTARTEDMESSAGE);
         }
     }
+
+    public void reconnect() {
+        this.active = true;
+    }
 }

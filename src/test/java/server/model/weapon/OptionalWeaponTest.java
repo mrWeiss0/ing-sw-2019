@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OptionalWeaponTest {
-    private static FireMode[] fm;
     private static final List<Weapon> weapons = new ArrayList<>();
+    private static FireMode[] fm;
 
     private static boolean ammoCubeEquals(AmmoCube a, AmmoCube b) {
         try {

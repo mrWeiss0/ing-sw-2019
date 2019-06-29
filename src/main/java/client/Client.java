@@ -15,7 +15,6 @@ import java.util.stream.IntStream;
 public class Client {
     private final Connection connection;
     private final View view;
-    private State state;
     private final MiniModel model;
     private final State initState = new State() {
         @Override
@@ -23,6 +22,7 @@ public class Client {
 
         }
     };
+    private State state;
 
     public Client() {
         view = new CLICommandView(this, "\\s+", "\\s+");
@@ -85,6 +85,14 @@ public class Client {
         connection.selectAction(actionIndex);
     }
 
+    public void chatMessage(String msg) {
+        connection.sendChat(msg);
+    }
+
+    public void reconnect() {
+        connection.reconnect();
+    }
+
     //END
 
     public void start() {
@@ -129,7 +137,7 @@ public class Client {
 
     public void setSquares(int[][] coords, int[] rooms, boolean[] spawn) {
         model.getBoard().setSquares(IntStream.range(0, coords.length)
-                .mapToObj(x -> new Square(view,coords[x], spawn[x], rooms[x]))
+                .mapToObj(x -> new Square(view, coords[x], spawn[x], rooms[x]))
                 .toArray(Square[]::new));
     }
 
@@ -178,6 +186,14 @@ public class Client {
         Weapon[] weapons = Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
         IntStream.range(0, weapons.length).forEach(x -> weapons[x].setLoaded(charges[x]));
         model.getBoard().getPlayers()[id].setWeapons(weapons);
+    }
+
+    public void setEndGame(boolean value) {
+        model.setEndGame(value);
+    }
+
+    public void addChatMessage(String name, String msg) {
+        model.addChatMessage(name, msg);
     }
 
     public void setRemainingActions(int remainingActions) {

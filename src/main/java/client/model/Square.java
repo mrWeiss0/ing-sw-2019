@@ -16,11 +16,11 @@ public class Square {
     private int[] weapons;
 
 
-    public Square(View view, int[] coordinates, boolean spawn, int room){
-        this.coordinates=coordinates;
-        this.spawn=spawn;
-        this.room=room;
-        this.view=view;
+    public Square(View view, int[] coordinates, boolean spawn, int room) {
+        this.coordinates = coordinates;
+        this.spawn = spawn;
+        this.room = room;
+        this.view = view;
     }
 
     public int[] getCoordinates() {
@@ -47,13 +47,13 @@ public class Square {
         return weapons;
     }
 
-    public boolean getPowerUp(){
-        return powerup;
-    }
-
     public void setWeapons(int[] weapons) {
         this.weapons = weapons;
         view.displaySquareContent(this);
+    }
+
+    public boolean getPowerUp() {
+        return powerup;
     }
 
     public void setPowerup(boolean powerup) {

@@ -42,7 +42,9 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Map.entry("grab", this::selectGrabbable),
             Map.entry("target", this::selectTargettable),
             Map.entry("color", this::selectColor),
-            Map.entry("action", this::selectAction)
+            Map.entry("action", this::selectAction),
+            Map.entry("reconnect", this::reconnect),
+            Map.entry("chat", this::chatMessage)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
     public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
@@ -260,6 +262,19 @@ public class ClientSocket extends VirtualClient implements Runnable {
         send("remaining" + CMD_DELIMITER + remaining);
     }
 
+    @Override
+    public void sendEndGame(boolean value) {
+        send("end" + CMD_DELIMITER + (value ? "+" : "-"));
+    }
+
+    @Override
+    public void sendChatMessage(String name, String msg) {
+        send("chat" + CMD_DELIMITER
+                + name + ARG_DELIMITER
+                + msg
+        );
+    }
+
     public boolean ping() {
         return !ostream.checkError();
     }
@@ -367,5 +382,17 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     private void selectAction(String[] args) throws CommandException {
         player.selectAction(Integer.parseInt(args[0]));
+    }
+
+    private void chatMessage(String[] args) throws CommandException {
+        try {
+            lobbyList.chatMessage(this, args[0]);
+        } catch (IllegalStateException e) {
+            sendMessage(e.getMessage());
+        }
+    }
+
+    private void reconnect(String[] args) throws CommandException {
+        player.reconnect();
     }
 }

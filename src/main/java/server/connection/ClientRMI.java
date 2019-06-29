@@ -284,6 +284,26 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
+    public void sendEndGame(boolean value) {
+        try {
+            remoteClient.sendEndGame(value);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendChatMessage(String name, String msg) {
+        try {
+            remoteClient.sendChatMessage(name, msg);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
     public void close() {
         player.setOffline();
         try {
@@ -360,4 +380,17 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         player.selectAction(actionIndex);
     }
 
+    @Override
+    public void chatMessage(String msg) {
+        try {
+            lobbyList.chatMessage(this, msg);
+        } catch (IllegalStateException e) {
+            sendMessage(e.getMessage());
+        }
+    }
+
+    @Override
+    public void reconnect() {
+        player.reconnect();
+    }
 }

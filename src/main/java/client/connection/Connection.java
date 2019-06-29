@@ -24,4 +24,8 @@ public interface Connection {
     void selectColor(int color);
 
     void selectAction(int actionIndex);
+
+    void sendChat(String msg);
+
+    void reconnect();
 }

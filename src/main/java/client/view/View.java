@@ -4,6 +4,8 @@ import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
 
+import java.util.List;
+
 public interface View {
     void start();
 
@@ -60,4 +62,8 @@ public interface View {
     void displayPlayerLocation(Player player);
 
     void displaySquareContent(Square square);
+
+    void displayEndGame(boolean value);
+
+    void displayChat(List<String[]> chat);
 }

@@ -32,7 +32,9 @@ public class CLICommandView extends CLIView {
                 Map.entry("target", Command.documented(this::selectTargettable, "Tell the server the targets that are being selected")),
                 Map.entry("color", Command.documented(this::selectColor, "Tell the server the color that is being selected")),
                 Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected")),
-                Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)"))
+                Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)")),
+                Map.entry("chat", Command.documented(this::chatMessage, "Send a message to everyone in the lobby")),
+                Map.entry("reconnect", Command.documented(this::reconnect, "If you go inactive because of the timer, use this command to return active"))
         );
     }
 
@@ -119,6 +121,18 @@ public class CLICommandView extends CLIView {
         } catch (NumberFormatException e) {
             throw new CommandException(NUMBERERROR);
         }
+    }
+
+    private void chatMessage(String[] args) throws CommandException {
+        try {
+            controller.chatMessage(String.join(" ", args));
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(e.getMessage());
+        }
+    }
+
+    private void reconnect(String[] args) throws CommandException {
+        controller.reconnect();
     }
 
     private void displayLobby(String[] args) throws CommandException {
