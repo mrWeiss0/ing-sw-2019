@@ -1,6 +1,7 @@
 package client.view;
 
 import client.model.Player;
+import client.model.PowerUp;
 import client.model.Square;
 
 public interface View {
@@ -10,6 +11,8 @@ public interface View {
 
     void exit();
 
+    void displayMessage(String message);
+
     void displayLobbyList(String[] lobbyList);
 
     void displayPossibleRoom(int id, Square[] squares);
@@ -17,4 +20,27 @@ public interface View {
     void displayPossibleFigure(int id, Player player);
 
     void displayPossibleSquare(int id, Square square);
+
+    void displayMinToSelect(int min);
+
+    void displayMaxToSelect(int max);
+
+    void displayPowerUps(PowerUp[] powerUps);
+
+    void displayPossibleActions(int[] actions);
+
+    void displayCurrentPlayer(int currPlayer);
+
+    void displayRemainingActions(int remaining);
+
+    void displayMapType(int mapID);
+
+    void displayMaxKills(int max);
+
+    void displayKillTrack(int[] killTrack, boolean[] overkills);
+
+    void displayPlayers(Player[] players);
+
+    void displaySquares(Square[] squares);
+
 }

@@ -6,12 +6,12 @@ import java.util.Arrays;
 
 public class Board {
     private View view;
-    private int mapType; //n° mappa da prendere V
-    private int maxKills; // la dimensione della kill track V
-    private int[] killTrack; //le figure che hanno ucciso e hanno preso un teschio V
-    private boolean[] overkills; //array che dice per ogni posizione se c'è overkill V
-    private Player[] players; //giocatori da displayare
-    private Square[] squares; //gli square della mappa V
+    private int mapType;
+    private int maxKills;
+    private int[] killTrack;
+    private boolean[] overkills;
+    private Player[] players;
+    private Square[] squares;
 
 
     public Board(View view){
@@ -20,10 +20,12 @@ public class Board {
 
     public void setMapType(int mapType){
         this.mapType=mapType;
+        view.displayMapType(mapType);
     }
 
     public void setMaxKills(int maxKills){
         this.maxKills=maxKills;
+        view.displayMaxKills(maxKills);
     }
 
     public void setKillTrack(int[] killTrack){
@@ -32,14 +34,17 @@ public class Board {
 
     public void setOverkills(boolean[] overkills){
         this.overkills=overkills;
+        view.displayKillTrack(killTrack,overkills);
     }
 
     public void setSquares(Square[] squares){
         this.squares=squares;
+        view.displaySquares(squares);
     }
 
     public void setPlayers(Player[] players){
         this.players=players;
+        view.displayPlayers(players);
     }
 
     public int getMapType() {

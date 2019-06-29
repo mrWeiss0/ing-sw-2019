@@ -91,7 +91,7 @@ public class Client {
     }
 
     public void print(String toPrint) {
-        view.print(toPrint);
+        view.displayMessage(toPrint);
     }
 
     public void setLobbyList(String[] s){

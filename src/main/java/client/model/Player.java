@@ -1,17 +1,16 @@
 package client.model;
 
 public class Player {
-    private String name;// nome V
-    private int avatar;//il personaggio scelto V
-
-    private int[] damages;//
-    private int[] marks; //marchi indicati come id dei giocatori(pos nella lista di player)
-    private int points; //n° punti
-    private int deaths; //n° morti da displayare
-    private Weapon[] weapons; //ID delle weapon possedute
+    private String name;
+    private int avatar;
+    private int[] damages;
+    private int[] marks;
+    private int points;
+    private int deaths;
+    private Weapon[] weapons;
     private int[] ammo;
-    private int nPowerup; //n° powerup da mostrare agli altri giocatori
-    private int[] coordinates; //coordinate per displayarlo su una cella nella mappa
+    private int nPowerup;
+    private int[] coordinates;
 
     public Player(String name, int avatar){
         this.name=name;

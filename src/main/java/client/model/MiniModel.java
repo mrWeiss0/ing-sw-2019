@@ -8,14 +8,14 @@ import java.util.function.Consumer;
 
 public class MiniModel {
     private View view;
-    private String[] lobbyList; // V
+    private String[] lobbyList;
     private Board board;
-    private PowerUp[] powerups; //player's powerups V
-    private int[] possibleActions; //player's possible actions V
-    private int currentPlayer; //game's current player V
-    private int[] possibleTargets; // possible targets V
-    private int minToSelect; //min targets to select V
-    private int maxToSelect; //max targets to select V
+    private PowerUp[] powerups;
+    private int[] possibleActions;
+    private int currentPlayer;
+    private int[] possibleTargets;
+    private int minToSelect;
+    private int maxToSelect;
     private int remainingActions;
 
     public MiniModel(View view){
@@ -30,14 +30,17 @@ public class MiniModel {
 
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
+        view.displayCurrentPlayer(currentPlayer);
     }
 
     public void setPossibleActions(int [] possibleActions){
         this.possibleActions=possibleActions;
+        view.displayPossibleActions(possibleActions);
     }
 
     public void setRemainingActions(int remainingActions){
         this.remainingActions=remainingActions;
+        view.displayRemainingActions(remainingActions);
     }
     @SuppressWarnings("unchecked")
     public void setPossibleTargets(int[] targets){
@@ -51,14 +54,17 @@ public class MiniModel {
 
     public void setMinToSelect(int minToSelect) {
         this.minToSelect = minToSelect;
+        view.displayMinToSelect(minToSelect);
     }
 
     public void setMaxToSelect(int maxToSelect) {
         this.maxToSelect = maxToSelect;
+        view.displayMaxToSelect(maxToSelect);
     }
 
     public void setPowerups(int[][] values) {
         this.powerups=(PowerUp[]) Arrays.stream(values).map(x->new PowerUp(x[0],x[1])).toArray();
+        view.displayPowerUps(powerups);
     }
 
     public String[] getLobbyList() {
@@ -91,5 +97,9 @@ public class MiniModel {
 
     public int[] getPossibleActions(){
         return possibleActions;
+    }
+
+    public int getRemainingActions(){
+        return remainingActions;
     }
 }
