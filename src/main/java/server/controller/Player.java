@@ -77,57 +77,57 @@ public class Player {
     }
 
     public void selectPowerUp(int[] index) {
-        try {
-            game.enqueue(new SelectPowerUpEvent(
-                    this,
-                    (PowerUp[]) Arrays.stream(index)
-                            .mapToObj(x -> figure.getPowerUps().get(x))
-                            .distinct()
-                            .toArray()
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectPowerUpEvent(
+                this,
+                (PowerUp[]) Arrays.stream(index)
+                        .mapToObj(x -> figure.getPowerUps().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectWeaponToReload(int[] index) {
-        try {
-            game.enqueue(new SelectWeaponToReloadEvent(
-                    this,
-                    (Weapon[]) Arrays.stream(index)
-                            .mapToObj(x -> figure.getWeapons().get(x))
-                            .distinct()
-                            .toArray()
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectWeaponToReloadEvent(
+                this,
+                (Weapon[]) Arrays.stream(index)
+                        .mapToObj(x -> figure.getWeapons().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectWeaponFireMode(int index, int[] fm) {
-        try {
-            game.enqueue(new SelectWeaponFireModeEvent(
-                    this,
-                    figure.getWeapons().get(index),
-                    (FireMode[]) Arrays.stream(fm)
-                            .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
-                            .distinct()
-                            .toArray()
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectWeaponFireModeEvent(
+                this,
+                figure.getWeapons().get(index),
+                (FireMode[]) Arrays.stream(fm)
+                        .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
+                        .distinct()
+                        .toArray()
+        ));
     }
 
     public void selectGrabbable(int index) {
-        try {
-            game.enqueue(new SelectGrabbableEvent(
-                    this,
-                    figure.getLocation().peek().get(index)
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectGrabbableEvent(
+                this,
+                figure.getLocation().peek().get(index)
+        ));
     }
 
     public void selectTargettable(int[] index) {
@@ -145,24 +145,24 @@ public class Player {
     }
 
     public void selectColor(int color) {
-        try {
-            game.enqueue(new SelectColorEvent(
-                    this,
-                    color
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectColorEvent(
+                this,
+                color
+        ));
     }
 
     public void selectAction(int index) {
-        try {
-            game.enqueue(new SelectActionEvent(
-                    this,
-                    null
-            ));
-        } catch (NullPointerException e) {
+        if (game == null) {
             client.sendMessage(NOTSTARTEDMESSAGE);
+            return;
         }
+        game.enqueue(new SelectActionEvent(
+                this,
+                null // TODO select action
+        ));
     }
 }
