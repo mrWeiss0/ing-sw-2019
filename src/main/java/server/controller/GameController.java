@@ -131,7 +131,7 @@ public class GameController implements Runnable {
                         .filter(figure -> figure.resolveDeath(game))
                         .peek(figure -> stateStack.add(new SelectSpawnState(figure.getPlayer())))
                         .count();
-                if(kills > 1)
+                if (kills > 1)
                     current.getFigure().addPoints(1);
                 // TODO timerino 2 ?
                 stateStack.add(new SelectReloadState(current));

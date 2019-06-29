@@ -39,6 +39,7 @@ public class Game {
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
+    private Player lastPlayer;
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
@@ -66,13 +67,6 @@ public class Game {
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
         players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
-    }
-
-    public void toggleFrenzy() {
-        board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> {
-            x.setKillPoints(frenzyPoints);
-            x.setFirstBlood(false);
-        });
     }
 
     /**
@@ -144,7 +138,25 @@ public class Game {
     public void addKillCount(int val, Figure f) {
         killCount.add(f);
         overkills.add(val > 1);
-        --remainingKills;
+        if(lastPlayer != null && lastPlayer == currentPlayer())
+            endGame();
+        else if (--remainingKills == 0)
+            toggleFrenzy();
+    }
+
+    public void toggleFrenzy() {
+        if (frenzyOn)
+            board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> {
+                x.setKillPoints(frenzyPoints);
+                x.setFirstBlood(false);
+                // TODO x.setActions(...);
+                lastPlayer = currentPlayer();
+            });
+        else endGame();
+    }
+
+    private void endGame() {
+        // TODO give last points, determine winner
     }
 
     public List<Boolean> getOverkills() {
@@ -153,14 +165,6 @@ public class Game {
 
     public int getRemainingKills() {
         return remainingKills;
-    }
-
-    public boolean isFrenzy() {
-        return frenzyOn;
-    }
-
-    private int[] getFrenzyPoints() {
-        return frenzyPoints;
     }
 
     public List<Figure> getKillCount() {
