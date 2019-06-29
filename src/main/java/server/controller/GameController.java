@@ -124,13 +124,15 @@ public class GameController implements Runnable {
                 stateStack.add(this);
                 setState(new SelectSpawnState(current));
             }
-            if (remainingActions-- <= 0){
+            if (remainingActions-- <= 0) {
                 // TODO stop timer
                 stateStack.add(new TurnState());
-                game.getBoard().getFigures().stream()
-                        .peek(figure -> figure.resolveDeath(game))
-                        .filter(figure -> figure.getLocation() == null)
-                        .forEach(figure -> stateStack.add(new SelectSpawnState(figure.getPlayer())));
+                int kills = (int) game.getBoard().getFigures().stream()
+                        .filter(figure -> figure.resolveDeath(game))
+                        .peek(figure -> stateStack.add(new SelectSpawnState(figure.getPlayer())))
+                        .count();
+                if(kills > 1)
+                    current.getFigure().addPoints(1);
                 // TODO timerino 2 ?
                 stateStack.add(new SelectReloadState(current));
                 nextState();

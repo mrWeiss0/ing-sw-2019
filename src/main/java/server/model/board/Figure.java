@@ -237,7 +237,7 @@ public class Figure implements Targettable {
         damaged = false;
     }
 
-    public void resolveDeath(Game game) {
+    public boolean resolveDeath(Game game) {
         if (damages.size() >= killDamages) {
             int val = 1;
             if (damages.size() >= maxDamages) {
@@ -249,7 +249,9 @@ public class Figure implements Targettable {
             moveTo(null);
             ++deaths;
             damages.clear();
+            return true;
         }
+        return false;
     }
 
     public void givePoints() {
