@@ -252,4 +252,9 @@ public class RMIConnection implements Connection, RemoteClient {
     public void sendPlayerWeapons(int id, int[] weaponsIDs, boolean[] charges){
         controller.setPlayerWeapons(id,weaponsIDs,charges);
     }
+
+    @Override
+    public void sendRemainingActions(int remaining){
+        controller.setRemainingActions(remaining);
+    }
 }

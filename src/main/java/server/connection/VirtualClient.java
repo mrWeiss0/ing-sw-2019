@@ -68,6 +68,8 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendPlayerWeapons(Player player);
 
+    public abstract void sendRemainingActions(int remaining);
+
     @Override
     public abstract void close();
 }

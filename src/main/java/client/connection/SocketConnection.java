@@ -43,7 +43,8 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("deaths",this::sendPlayerDeaths),
             Map.entry("ammo", this::sendPlayerAmmo),
             Map.entry("npups",this::sendPlayerNPowerUps),
-            Map.entry("weapons",this::sendPlayerWeapons)
+            Map.entry("weapons",this::sendPlayerWeapons),
+            Map.entry("remaining", this::sendRemainingActions)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
 
@@ -265,6 +266,10 @@ public class SocketConnection implements Connection, Runnable {
         for(int i=0;i<wrapper.length;i++)
             charges[i]=wrapper[i];
         controller.setPlayerWeapons(id, wIDs,charges);
+    }
+
+    private void sendRemainingActions(String[] args){
+        controller.setRemainingActions(Integer.parseInt(args[0]));
     }
 
     public void close() {

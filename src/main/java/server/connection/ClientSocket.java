@@ -255,6 +255,11 @@ public class ClientSocket extends VirtualClient implements Runnable {
         );
     }
 
+    @Override
+    public void sendRemainingActions(int remaining){
+        send("remaining"+CMD_DELIMITER +Integer.toString(remaining));
+    }
+
     public boolean ping() {
         return !ostream.checkError();
     }

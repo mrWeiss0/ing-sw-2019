@@ -275,6 +275,16 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
+    public void sendRemainingActions(int remaining){
+        try {
+            remoteClient.sendRemainingActions(remaining);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
     public void close() {
         player.setOffline();
         try {

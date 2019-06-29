@@ -24,6 +24,7 @@ public interface RemoteClient extends Remote {
     void sendPlayerDeaths(int id, int deaths) throws RemoteException;
     void sendPlayerAmmo(int id, int[] ammo) throws RemoteException;
     void sendPlayerWeapons(int id, int[] weaponIDs, boolean[] charges) throws RemoteException;
+    void sendRemainingActions(int remainingActions) throws RemoteException;
     boolean ping() throws RemoteException;
 
 

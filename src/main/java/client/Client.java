@@ -179,6 +179,10 @@ public class Client {
         model.getBoard().getPlayers()[id].setWeapons(weapons);
     }
 
+    public void setRemainingActions(int remainingActions){
+        model.setRemainingActions(remainingActions);
+    }
+
     public void displayLobby() {
         view.displayLobbyList(model.getLobbyList());
     }

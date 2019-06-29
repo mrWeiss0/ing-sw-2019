@@ -16,6 +16,7 @@ public class MiniModel {
     private int[] possibleTargets; // possible targets V
     private int minToSelect; //min targets to select V
     private int maxToSelect; //max targets to select V
+    private int remainingActions;
 
     public MiniModel(View view){
         this.view=view;
@@ -35,6 +36,9 @@ public class MiniModel {
         this.possibleActions=possibleActions;
     }
 
+    public void setRemainingActions(int remainingActions){
+        this.remainingActions=remainingActions;
+    }
     @SuppressWarnings("unchecked")
     public void setPossibleTargets(int[] targets){
         possibleTargets=targets;
