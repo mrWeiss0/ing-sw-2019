@@ -4,8 +4,10 @@ package server.model;
 public class AmmoTileImage {
     public int[] ammo;
     public boolean powerUp;
+    public int id;
 
-    public AmmoTileImage(boolean powerUp, int... ammo) {
+    public AmmoTileImage(int id, boolean powerUp, int... ammo) {
+        this.id=id;
         this.ammo = ammo;
         this.powerUp = powerUp;
     }

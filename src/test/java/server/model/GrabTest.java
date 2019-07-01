@@ -33,8 +33,8 @@ class GrabTest {
                 optionalWeapon.build(),
                 weapon.build(),
                 optionalWeapon.build(),
-                new AmmoTile(new AmmoCube(1, 2, 3), () -> pup, (i) -> discard = i),
-                new AmmoTile(new AmmoCube(1), () -> new PowerUp(null, null, null, null), (i) -> discard = i)
+                new AmmoTile(1, new AmmoCube(1, 2, 3), () -> pup, (i) -> discard = i),
+                new AmmoTile(2, new AmmoCube(1), () -> new PowerUp(null, null, null, null), (i) -> discard = i)
         };
     }
 

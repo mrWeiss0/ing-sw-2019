@@ -137,24 +137,16 @@ public class ClientSocket extends VirtualClient implements Runnable {
     @Override
     public void sendSquareContent(AbstractSquare square) {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
-        int[] ammo = new int[]{0, 0, 0};
-        boolean powerup = false;
+        int tileID = 0;
         int[] weapons = null;
-        AmmoCube ammoCube;
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
-            //TODO
-            ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
-            for (int i = 0; i < 3; i++)
-                ammo[i] = ammoCube.value(i);
-            powerup = ((AmmoTile) square.peek().get(0)).getPowerUp().isPresent();
+            tileID=((AmmoTile)square.peek().get(0)).getId();
         }
         send("fill" + CMD_DELIMITER + id
-                + ARG_DELIMITER + Arrays.stream(ammo)
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining(ARG_DELIMITER))
-                + ARG_DELIMITER + (powerup ? "+" : "-")
+                + ARG_DELIMITER + tileID
+                + ARG_DELIMITER
                 + (weapons == null ? "" : ARG_DELIMITER
                 + Arrays.stream(weapons)
                 .mapToObj(Integer::toString)
@@ -260,6 +252,11 @@ public class ClientSocket extends VirtualClient implements Runnable {
     @Override
     public void sendEndGame(boolean value) {
         send("end" + CMD_DELIMITER + (value ? "+" : "-"));
+    }
+
+    @Override
+    public void sendCountDown(int value) {
+        send("cd"+CMD_DELIMITER+value);
     }
 
     @Override

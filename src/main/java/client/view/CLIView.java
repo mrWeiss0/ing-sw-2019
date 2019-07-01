@@ -213,12 +213,7 @@ public class CLIView implements View, Runnable {
                     + Arrays.stream(square.getCoordinates())
                     .mapToObj(Integer::toString)
                     .collect(Collectors.joining(", "))
-                    + ") contains ammotile: ["
-                    + (square.getPowerUp() ? " PowerUp + " : "")
-                    + Arrays.stream(square.getAmmo())
-                    .mapToObj(Integer::toString)
-                    .collect(Collectors.joining(", "))
-                    + "]"
+                    + ") contains ammotile: "+square.getTileId()
             );
     }
 
@@ -228,6 +223,11 @@ public class CLIView implements View, Runnable {
             print("Game ended");
         else
             print("Game started");
+    }
+
+    @Override
+    public void displayRemainingTime(int v){
+        print("Remaining Time: "+v);
     }
 
     @Override

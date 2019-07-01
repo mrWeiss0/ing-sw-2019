@@ -20,6 +20,7 @@ public class AmmoTile implements Grabbable {
     private final AmmoCube ammo;
     private final Supplier<PowerUp> powerUp;
     private final Consumer<AmmoTile> discard;
+    private final int id;
 
     /**
      * Constructs an AmmoTile with the specified AmmoCube, a PowerUp supplier
@@ -29,10 +30,11 @@ public class AmmoTile implements Grabbable {
      * @param powerUp the supplier for the PowerUp
      * @param discard the consumer for the discard
      */
-    public AmmoTile(AmmoCube ammo, Supplier<PowerUp> powerUp, Consumer<AmmoTile> discard) {
+    public AmmoTile(int id, AmmoCube ammo, Supplier<PowerUp> powerUp, Consumer<AmmoTile> discard) {
         this.ammo = ammo;
         this.powerUp = powerUp;
         this.discard = discard;
+        this.id=id;
     }
 
     /**
@@ -60,5 +62,9 @@ public class AmmoTile implements Grabbable {
      */
     public void discard() {
         discard.accept(this);
+    }
+
+    public int getId(){
+        return id;
     }
 }

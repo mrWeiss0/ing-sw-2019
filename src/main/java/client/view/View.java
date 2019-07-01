@@ -66,4 +66,6 @@ public interface View {
     void displayEndGame(boolean value);
 
     void displayChat(List<String[]> chat);
+
+    void displayRemainingTime(int v);
 }

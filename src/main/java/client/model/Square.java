@@ -11,8 +11,7 @@ public class Square {
     private int[] coordinates;
     private boolean spawn;
     private int room;
-    private int[] ammo;
-    private boolean powerup;
+    private int tileID;
     private int[] weapons;
 
 
@@ -35,12 +34,8 @@ public class Square {
         return room;
     }
 
-    public int[] getAmmo() {
-        return ammo;
-    }
-
-    public void setAmmo(int[] ammo) {
-        this.ammo = ammo;
+    public void setTileID(int id) {
+        this.tileID=id;
     }
 
     public int[] getWeapons() {
@@ -52,12 +47,8 @@ public class Square {
         view.displaySquareContent(this);
     }
 
-    public boolean getPowerUp() {
-        return powerup;
-    }
-
-    public void setPowerup(boolean powerup) {
-        this.powerup = powerup;
+    public int getTileId() {
+        return tileID;
     }
 
     @Override
@@ -66,8 +57,6 @@ public class Square {
                 Arrays.stream(weapons)
                         .mapToObj(Integer::toString)
                         .collect(Collectors.joining(" "))
-                : Arrays.stream(ammo)
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining(" ")) + " pup: " + powerup);
+                : "TileID:"+tileID);
     }
 }

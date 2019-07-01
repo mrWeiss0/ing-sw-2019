@@ -141,9 +141,8 @@ public class Client {
                 .toArray(Square[]::new));
     }
 
-    public void setSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
-        model.getBoard().getSquares()[squareID].setAmmo(ammo);
-        model.getBoard().getSquares()[squareID].setPowerup(powerUp);
+    public void setSquareContent(int squareID, int tileID, int[] weapons) {
+        model.getBoard().getSquares()[squareID].setTileID(tileID);
         model.getBoard().getSquares()[squareID].setWeapons(weapons);
     }
 
@@ -190,6 +189,10 @@ public class Client {
 
     public void setEndGame(boolean value) {
         model.setEndGame(value);
+    }
+
+    public void setRemainingTime(int remainingTime){
+        model.setRemainingTime(remainingTime);
     }
 
     public void addChatMessage(String name, String msg) {

@@ -61,6 +61,7 @@ public class Game {
                 .collect(Collectors.toList()));
         ammoTileDeck.discard(Arrays.stream(builder.ammoTiles)
                 .map(tile -> new AmmoTile(
+                        tile.id,
                         new AmmoCube(tile.ammo), tile.powerUp ? powerUpDeck::draw : () -> null,
                         ammoTileDeck::discard))
                 .collect(Collectors.toList()));

@@ -18,6 +18,7 @@ public class MiniModel {
     private int minToSelect;
     private int maxToSelect;
     private int remainingActions;
+    private int remainingTime;
     private boolean ended = false;
     private List<String[]> chat = new ArrayList<>();
 
@@ -115,6 +116,11 @@ public class MiniModel {
     public void addChatMessage(String user, String msg) {
         chat.add(new String[]{user, msg});
         view.displayChat(chat);
+    }
+
+    public void setRemainingTime(int remaining){
+        remainingTime=remaining;
+        view.displayRemainingTime(remaining);
     }
 
     public List<String[]> getChat() {

@@ -56,9 +56,9 @@ class FileParserTest {
     @Test
     void testAmmoTiles() {
         assertTrue(reflectArrayEquals(new AmmoTileImage[]{
-                        new AmmoTileImage(true, 1),
-                        new AmmoTileImage(true, 0, 1),
-                        new AmmoTileImage(false, 1, 2)
+                        new AmmoTileImage(0,true, 1),
+                        new AmmoTileImage(0,true, 0, 1),
+                        new AmmoTileImage(0,false, 1, 2)
                 },
                 FileParser.readAmmoTiles(new StringReader("[" +
                         "{\"ammo\":[1],\"powerUp\":true}," +

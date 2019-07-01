@@ -221,8 +221,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
-        controller.setSquareContent(squareID, ammo, powerUp, weapons);
+    public void sendSquareContent(int squareID, int tileID, int[] weapons) {
+        controller.setSquareContent(squareID, tileID, weapons);
     }
 
     @Override
@@ -283,5 +283,10 @@ public class RMIConnection implements Connection, RemoteClient {
     @Override
     public void sendChatMessage(String name, String msg) {
         controller.addChatMessage(name, msg);
+    }
+
+    @Override
+    public void sendCountDown(int remaining){
+        controller.setRemainingTime(remaining);
     }
 }

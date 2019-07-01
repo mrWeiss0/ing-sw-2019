@@ -76,6 +76,7 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendEndGame(boolean value);
 
+    public abstract void sendCountDown(int value);
 
     @Override
     public abstract void close();

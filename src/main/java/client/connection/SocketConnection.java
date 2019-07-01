@@ -41,7 +41,8 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("weapons", this::sendPlayerWeapons),
             Map.entry("remaining", this::sendRemainingActions),
             Map.entry("end", this::sendEndGame),
-            Map.entry("chat", this::sendChatMessage)
+            Map.entry("chat", this::sendChatMessage),
+            Map.entry("cd",this::sendCountDown)
     ), CMD_DELIMITER, ARG_DELIMITER);
     private Socket socket;
     private PrintStream ostream;
@@ -210,13 +211,12 @@ public class SocketConnection implements Connection, Runnable {
     //or ["5", "0", "0", "0", "-", "3", "4", "17"] -> fill square 5 with weapons 3, 4, 17
     private void sendSquareContent(String[] args) {
         int squareID = Integer.parseInt(args[0]);
-        int[] ammo = new int[]{Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])};
-        boolean powerup = args[4].startsWith("+");
+        int tileID =Integer.parseInt(args[1]);
         int[] weapons = Arrays.stream(args)
-                .skip(5)
+                .skip(2)
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        controller.setSquareContent(squareID, ammo, powerup, weapons);
+        controller.setSquareContent(squareID, tileID, weapons);
     }
 
     //example ["0", "mario", "1", "luigi"]
@@ -288,6 +288,10 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendChatMessage(String[] args) {
         controller.addChatMessage(args[0], String.join(ARG_DELIMITER, Arrays.stream(args).skip(1).toArray(String[]::new)));
+    }
+
+    private void sendCountDown(String[] args){
+        controller.setRemainingTime(Integer.parseInt(args[0]));
     }
 
     public void close() {
