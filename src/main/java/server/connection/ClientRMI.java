@@ -173,12 +173,12 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendPlayerDamages(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
+        List<Player> players = player.getGame().getGame().getPlayers();
         int[] damages = player.getFigure().getDamages().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> players.indexOf(x.getPlayer()))
                 .toArray();
         try {
-            remoteClient.sendPlayerDamages(id, damages);
+            remoteClient.sendPlayerDamages(players.indexOf(player), damages);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
@@ -187,12 +187,12 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendPlayerMarks(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
+        List<Player> players = player.getGame().getGame().getPlayers();
         int[] marks = player.getFigure().getMarks().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> players.indexOf(x.getPlayer()))
                 .toArray();
         try {
-            remoteClient.sendPlayerMarks(id, marks);
+            remoteClient.sendPlayerMarks(players.indexOf(player), marks);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();

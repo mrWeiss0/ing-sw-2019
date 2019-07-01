@@ -177,28 +177,22 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void sendPlayerDamages(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
-        int[] damages = player.getFigure().getDamages().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
-                .toArray();
+        List<Player> players = player.getGame().getGame().getPlayers();
         send("damages" + CMD_DELIMITER
-                + id + ARG_DELIMITER
-                + Arrays.stream(damages)
-                .mapToObj(Integer::toString)
+                + players.indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getDamages().stream()
+                .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
         );
     }
 
     @Override
     public void sendPlayerMarks(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
-        int[] marks = player.getFigure().getMarks().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
-                .toArray();
+        List<Player> players = player.getGame().getGame().getPlayers();
         send("marks" + CMD_DELIMITER
-                + id + ARG_DELIMITER
-                + Arrays.stream(marks)
-                .mapToObj(Integer::toString)
+                + players.indexOf(player) + ARG_DELIMITER
+                + player.getFigure().getMarks().stream()
+                .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
         );
     }

@@ -1,7 +1,6 @@
 package client.connection;
 
 import client.Client;
-import server.Main;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.Parser;
@@ -137,7 +136,7 @@ public class SocketConnection implements Connection, Runnable {
             while (!socket.isClosed())
                 parse(istream.readLine());
         } catch (IOException e) {
-            Main.LOGGER.info(e::toString);
+            controller.print(e.toString());
         } finally {
             close();
         }
