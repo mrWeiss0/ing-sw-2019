@@ -1,5 +1,6 @@
 package tools;
 
+import client.model.Config;
 import com.google.gson.Gson;
 import server.model.AmmoTileImage;
 import server.model.PowerUpImage;
@@ -57,5 +58,9 @@ public final class FileParser {
      */
     public static PowerUpImage[] readPowerUps(Reader reader) {
         return gson.fromJson(reader, PowerUpImage[].class);
+    }
+
+    public static Config readConfig(Reader reader){
+        return gson.fromJson(reader, Config.class);
     }
 }

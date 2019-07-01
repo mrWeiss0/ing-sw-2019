@@ -1,21 +1,24 @@
 package client;
 
 import client.connection.Connection;
+import client.connection.RMIConnection;
 import client.connection.SocketConnection;
-import client.model.MiniModel;
-import client.model.Player;
-import client.model.Square;
-import client.model.Weapon;
+import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
+import tools.FileParser;
+import tools.parser.Parser;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleBiFunction;
 import java.util.stream.IntStream;
 
 public class Client {
     private final Connection connection;
     private final View view;
     private final MiniModel model;
+    private final Config config;
     private final State initState = new State() {
         @Override
         public void onEnter() {
@@ -24,16 +27,32 @@ public class Client {
     };
     private State state;
 
-    public Client() {
-        view = new CLICommandView(this, "\\s+", "\\s+");
-        connection = new SocketConnection(this);
+    public Client(Config config) {
+        this.config = config;
+        this.view = viewFactory();
+        this.connection = connectionFactory();
         model = new MiniModel(view);
+    }
+
+    private View viewFactory() {
+        Supplier<View>[] viewSupplier=new Supplier[]{
+                ()->new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
+                ()->null//TODO GUI
+        };
+        return viewSupplier[config.view_type].get();
+    }
+
+    private Connection connectionFactory() {
+        Supplier<Connection>[] connectionSupp=new Supplier[]{
+                ()->new SocketConnection(this),
+                ()->new RMIConnection(this)
+        };
+        return connectionSupp[config.connection_type].get();
     }
 
     public void connect(String host) {
         try {
-            //TODO FROM FILE/CLI
-            connection.connect(host, 9900);
+            connection.connect(host, config.port[config.connection_type]);
         } catch (Exception e) {
             view.print(e.toString());
         }
@@ -191,7 +210,7 @@ public class Client {
         model.setEndGame(value);
     }
 
-    public void setRemainingTime(int remainingTime){
+    public void setRemainingTime(int remainingTime) {
         model.setRemainingTime(remainingTime);
     }
 

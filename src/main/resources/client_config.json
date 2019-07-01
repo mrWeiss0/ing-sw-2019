@@ -1,0 +1,7 @@
+{
+  "port": [9900,1099],
+  "CMD_DELIMITER": "\\s+",
+  "ARG_DELIMITER": "\\s+",
+  "view_type": 0,
+  "connection_type": 1
+}
