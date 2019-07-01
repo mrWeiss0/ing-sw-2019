@@ -355,7 +355,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectPowerUp(String[] args) throws CommandException {
-        player.selectPowerUp(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        int[] received=Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray();
+        player.selectPowerUp(Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectWeapon(String[] args) throws CommandException {
@@ -386,7 +387,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     private void chatMessage(String[] args) throws CommandException {
         try {
-            lobbyList.chatMessage(this, args[0]);
+            lobbyList.chatMessage(this, String.join(ARG_DELIMITER, args));
         } catch (IllegalStateException e) {
             sendMessage(e.getMessage());
         }

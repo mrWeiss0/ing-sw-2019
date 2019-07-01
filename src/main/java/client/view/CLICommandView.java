@@ -33,7 +33,7 @@ public class CLICommandView extends CLIView {
                 Map.entry("color", Command.documented(this::selectColor, "Tell the server the color that is being selected")),
                 Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected")),
                 Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)")),
-                Map.entry("chat", Command.documented(this::chatMessage, "Send a message to everyone in the lobby")),
+                Map.entry("chat", Command.documented(this::chatMessage, "Send a message to everyone")),
                 Map.entry("reconnect", Command.documented(this::reconnect, "If you go inactive because of the timer, use this command to return active"))
         );
     }

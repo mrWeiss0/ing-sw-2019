@@ -121,11 +121,8 @@ public class SocketConnection implements Connection, Runnable {
         send("action" + CMD_DELIMITER + actionIndex);
     }
 
-    //TODO fix arg_delimiter bug
     @Override
     public void sendChat(String msg) {
-        if (msg.contains(ARG_DELIMITER))
-            throw new IllegalArgumentException("Please don't use " + ARG_DELIMITER + " in your message");
         send("chat" + CMD_DELIMITER + msg);
     }
 
@@ -291,7 +288,7 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     private void sendChatMessage(String[] args) {
-        controller.addChatMessage(args[0], args[1]);
+        controller.addChatMessage(args[0], String.join(ARG_DELIMITER, Arrays.stream(args).skip(1).toArray(String[]::new)));
     }
 
     public void close() {
