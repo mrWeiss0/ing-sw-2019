@@ -1,0 +1,20 @@
+{
+  "RMI_PORT":1099,
+  "SOCKET_PORT": 9900,
+  "MIN_PLAYERS": 3,
+  "MAX_PLAYERS":5,
+  "TIMEOUT_START": 10,
+  "FRENZY_ON": true,
+  "N_KILLS": 8,
+  "KILL_DAMAGE": 11,
+  "MAX_DAMAGE": 12,
+  "MAX_MARKS":3,
+  "MAX_AMMO": 3,
+  "MAX_WEAPONS": 3,
+  "MAX_POWERUPS": 3,
+  "KILL_POINTS": [8,6,4,2],
+  "FRENZY_POINTS": [2,1,1,1],
+  "AMMO_TILE_FILE": "tiles.json",
+  "POWER_UP_FILE": "power_ups.json",
+  "MAP_FILE": "map1.json"
+}

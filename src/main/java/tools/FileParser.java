@@ -60,7 +60,11 @@ public final class FileParser {
         return gson.fromJson(reader, PowerUpImage[].class);
     }
 
-    public static Config readConfig(Reader reader){
+    public static Config readClientConfig(Reader reader){
         return gson.fromJson(reader, Config.class);
+    }
+
+    public static server.Config readServerConfig(Reader reader){
+        return gson.fromJson(reader, server.Config.class);
     }
 }

@@ -1,5 +1,6 @@
 package client.model;
 
+@SuppressWarnings("squid:ClassVariableVisibilityCheck")
 public class Config {
     public final int[] port;
     public final String ARG_DELIMITER;

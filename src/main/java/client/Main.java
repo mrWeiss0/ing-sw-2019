@@ -8,7 +8,7 @@ import java.io.FileReader;
 
 public final class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        Client client = new Client(FileParser.readConfig(new FileReader("src/main/resources/client_config.json")));
+        Client client = new Client(FileParser.readClientConfig(new FileReader("src/main/resources/client_config.json")));
         client.start();
     }
 }

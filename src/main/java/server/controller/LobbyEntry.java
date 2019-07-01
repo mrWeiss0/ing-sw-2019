@@ -1,5 +1,6 @@
 package server.controller;
 
+import server.Config;
 import server.model.Game;
 
 import java.util.Timer;
@@ -8,23 +9,19 @@ import java.util.TimerTask;
 import static java.util.function.Predicate.not;
 
 public class LobbyEntry {
-    private final int minPlayers;
-    private final int maxPlayers;
-    private final int timeout;
+    private final Config config;
     private final Timer timer;
     private final Game.Builder builder = new Game.Builder();
     private GameController controller;
     private boolean joinable = true;
     private TimerTask countdown;
 
-    LobbyEntry(int minPlayers, int maxPlayers, int timeout, Timer timer) {
-        if (minPlayers > maxPlayers)
+    LobbyEntry(Config config, Timer timer) {
+        this.config=config;
+        if (config.MIN_PLAYERS > config.MAX_PLAYERS)
             throw new IllegalArgumentException("min players > max players");
-        if (timeout < 0)
+        if (config.TIMEOUT_START < 0)
             throw new IllegalArgumentException("Negative timeout");
-        this.minPlayers = minPlayers;
-        this.maxPlayers = maxPlayers;
-        this.timeout = timeout;
         this.timer = timer;
     }
 
@@ -37,17 +34,28 @@ public class LobbyEntry {
         long count = builder
                 .getJoinedPlayers()
                 .size();
-        joinable = count < maxPlayers;
-        if (count < minPlayers)
+        joinable = count < config.MAX_PLAYERS;
+        if (count < config.MIN_PLAYERS)
             resetCountdown();
         else if (countdown == null)
             setCountdown();
 
     }
-
+    //TODO CREATE BOARD FROM FILE
     private void start() {
         resetCountdown();
-        controller = new GameController(builder.build());
+        controller = new GameController(builder
+                .frenzyOn(config.FRENZY_ON)
+                .nKills(config.N_KILLS)
+                .killDamages(config.KILL_DAMAGE)
+                .maxDamages(config.MAX_DAMAGE)
+                .maxMarks(config.MAX_MARKS)
+                .maxAmmo(config.MAX_AMMO)
+                .maxWeapons(config.MAX_WEAPONS)
+                .maxPowerUps(config.MAX_POWERUPS)
+                .killPoints(config.KILL_POINTS)
+                .frenzyPoints(config.FRENZY_POINTS)
+                .build());
     }
 
     public void join(Player player) {
@@ -68,7 +76,7 @@ public class LobbyEntry {
 
     private void setCountdown() {
         countdown = new TimerTask() {
-            private int c = timeout;
+            private int c = config.TIMEOUT_START;
 
             @Override
             public void run() {
@@ -88,6 +96,6 @@ public class LobbyEntry {
     }
 
     public String getOccupancy() {
-        return builder.getJoinedPlayers().size() + "/" + maxPlayers;
+        return builder.getJoinedPlayers().size() + "/" + config.MAX_PLAYERS;
     }
 }

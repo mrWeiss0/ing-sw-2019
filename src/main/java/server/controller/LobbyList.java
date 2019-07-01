@@ -1,5 +1,6 @@
 package server.controller;
 
+import server.Config;
 import server.connection.VirtualClient;
 
 import java.util.HashMap;
@@ -13,6 +14,11 @@ public class LobbyList {
     private final Map<String, Player> players = new HashMap<>();
     private final Timer gameStartTimer = new Timer(true);
     private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
+    private final Config config;
+
+    public LobbyList(Config config){
+        this.config=config;
+    }
 
     public void registerPlayer(String username, VirtualClient client) {
         if (players.values().stream().map(Player::getClient).anyMatch(Predicate.isEqual(client))) {
@@ -59,7 +65,7 @@ public class LobbyList {
             throw new IllegalStateException("Name already present");
         if (trimmed.isEmpty())
             throw new IllegalStateException("Name not valid");
-        lobbyMap.put(trimmed, new LobbyEntry(3, 5, 10, gameStartTimer));
+        lobbyMap.put(trimmed, new LobbyEntry(config, gameStartTimer));
         players.values().forEach(x -> x.getClient().sendMessage("Created lobby " + trimmed));
         players.values().forEach(x -> x.getClient().sendLobbyList(repr()));
     }
