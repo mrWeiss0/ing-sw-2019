@@ -144,6 +144,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
+            //TODO
             ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
             for (int i = 0; i < 3; i++)
                 ammo[i] = ammoCube.value(i);
@@ -354,38 +355,37 @@ public class ClientSocket extends VirtualClient implements Runnable {
         }
     }
 
-    private void selectPowerUp(String[] args) throws CommandException {
-        int[] received=Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray();
+    private void selectPowerUp(String[] args) {
         player.selectPowerUp(Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectWeapon(String[] args) throws CommandException {
+    private void selectWeapon(String[] args) {
         player.selectWeaponToReload(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectFireMode(String[] args) throws CommandException {
+    private void selectFireMode(String[] args) {
         player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectGrabbable(String[] args) throws CommandException {
+    private void selectGrabbable(String[] args) {
         player.selectGrabbable(Integer.parseInt(args[0]));
     }
 
-    private void selectTargettable(String[] args) throws CommandException {
+    private void selectTargettable(String[] args) {
         if (args[1].equals(""))
             args = new String[]{args[0]};
         player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 
-    private void selectColor(String[] args) throws CommandException {
+    private void selectColor(String[] args) {
         player.selectColor(Integer.parseInt(args[0]));
     }
 
-    private void selectAction(String[] args) throws CommandException {
+    private void selectAction(String[] args) {
         player.selectAction(Integer.parseInt(args[0]));
     }
 
-    private void chatMessage(String[] args) throws CommandException {
+    private void chatMessage(String[] args) {
         try {
             lobbyList.chatMessage(this, String.join(ARG_DELIMITER, args));
         } catch (IllegalStateException e) {
@@ -393,7 +393,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         }
     }
 
-    private void reconnect(String[] args) throws CommandException {
+    private void reconnect(String[] args) {
         player.reconnect();
     }
 }

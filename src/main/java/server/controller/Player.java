@@ -80,10 +80,10 @@ public class Player {
         try {
             game.enqueue(new SelectPowerUpEvent(
                     this,
-                    (PowerUp[]) Arrays.stream(index)
+                    Arrays.stream(index)
                             .mapToObj(x -> figure.getPowerUps().get(x))
                             .distinct()
-                            .toArray()
+                            .toArray(PowerUp[]::new)
             ));
         } catch (NullPointerException e) {
             client.sendMessage(NOTSTARTEDMESSAGE);
@@ -94,10 +94,10 @@ public class Player {
         try {
             game.enqueue(new SelectWeaponToReloadEvent(
                     this,
-                    (Weapon[]) Arrays.stream(index)
+                     Arrays.stream(index)
                             .mapToObj(x -> figure.getWeapons().get(x))
                             .distinct()
-                            .toArray()
+                            .toArray(Weapon[]::new)
             ));
         } catch (NullPointerException e) {
             client.sendMessage(NOTSTARTEDMESSAGE);
@@ -109,10 +109,10 @@ public class Player {
             game.enqueue(new SelectWeaponFireModeEvent(
                     this,
                     figure.getWeapons().get(index),
-                    (FireMode[]) Arrays.stream(fm)
+                     Arrays.stream(fm)
                             .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
                             .distinct()
-                            .toArray()
+                            .toArray(FireMode[]::new)
             ));
         } catch (NullPointerException e) {
             client.sendMessage(NOTSTARTEDMESSAGE);
@@ -137,10 +137,10 @@ public class Player {
         }
         game.enqueue(new SelectTargettableEvent(
                 this,
-                (Targettable[]) Arrays.stream(index)
+                 Arrays.stream(index)
                         .mapToObj(game.getGame().getBoard()::resolveID)
                         .distinct()
-                        .toArray()
+                        .toArray(Targettable[]::new)
         ));
     }
 
