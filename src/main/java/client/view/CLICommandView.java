@@ -116,10 +116,14 @@ public class CLICommandView extends CLIView {
 
     private void selectAction(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select an action");
-        controller.selectAction(Map.ofEntries(Map.entry("move", 0),
-                Map.entry("grab", 1),
-                Map.entry("shoot", 2))
-                .get(args[0]));
+        try {
+            controller.selectAction(Map.ofEntries(Map.entry("grab", 0),
+                    Map.entry("shoot", 1),
+                    Map.entry("move", 2))
+                    .get(args[0]));
+        }catch(NullPointerException e){
+            throw new CommandException("Action "+args[0]+" not found!");
+        }
     }
 
     private void chatMessage(String[] args) throws CommandException {
