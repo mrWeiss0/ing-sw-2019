@@ -235,7 +235,6 @@ public class CLIView implements View, Runnable {
         print(">> " + String.join(" : ", chat.get(chat.size() - 1)));
     }
 
-
     private void parse(String line) {
         try {
             parser.parse(line);

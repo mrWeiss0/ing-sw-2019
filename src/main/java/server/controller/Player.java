@@ -191,7 +191,7 @@ public class Player {
         if(true){
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
-        } else{}
+        }
         game.enqueue(new SelectActionEvent(
                 this,
                 null
