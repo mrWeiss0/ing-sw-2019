@@ -1,5 +1,6 @@
 package client.view.graphic.controllers;
 
+import client.view.View;
 import client.view.graphic.ConfirmBox;
 import client.view.graphic.loaders.Scenes;
 import javafx.fxml.FXML;

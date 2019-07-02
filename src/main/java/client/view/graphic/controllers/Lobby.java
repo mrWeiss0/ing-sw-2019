@@ -1,11 +1,12 @@
 package client.view.graphic.controllers;
 
+import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
-public class Lobby {
+public class Lobby implements View {
 
     @FXML Label title;
     @FXML ImageView player1;
@@ -18,5 +19,11 @@ public class Lobby {
     @FXML public void initialize() {
         title.setFont(Scenes.getItalicFont(50));
     }
+
+    public void start() {};
+
+    public void print(String s) {};
+
+    public void exit() {};
 
 }

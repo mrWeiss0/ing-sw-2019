@@ -1,5 +1,6 @@
 package client.view.graphic.controllers;
 
+import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class Login {
+public class Login implements View {
 
     //TOP-RIGHT
     @FXML private ImageView quitButton;
@@ -48,4 +49,10 @@ public class Login {
     }
 
     @FXML public void handleLoginSuccess() { ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()); }
+
+    public void start() {};
+
+    public void print(String s) {};
+
+    public void exit() {};
 }

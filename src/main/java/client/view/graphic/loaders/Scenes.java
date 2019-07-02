@@ -1,8 +1,8 @@
 package client.view.graphic.loaders;
 
 import client.ConnectionType;
+import client.view.View;
 import client.view.graphic.controllers.Confirm;
-import client.view.graphic.controllers.MessageHandler;
 import client.view.graphic.controllers.Settings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,14 +15,15 @@ public class Scenes {
 
     //Main scenes
     private static Scene loginScreen;
-    private static MessageHandler loginController;
+    private static View loginController;
     private static Scene settingsScreen;
-    private static MessageHandler settingsController;
+    private static View settingsController;
     private static Scene lobbyChoiceScreen;
-    private static MessageHandler lobbyController;
+    private static View lobbyChoiceController;
     private static Scene lobbyScreen;
+    private static View lobbyController;
     private static Scene playScreen;
-    private static MessageHandler playController;
+    private static View playController;
 
     //Confirm scene
     private static Scene confirmScreen;
@@ -40,16 +41,44 @@ public class Scenes {
 
     public static void initScenes() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loginLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
+        Parent loginRoot = loginLoader.load();
+        loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
+        loginController = loginLoader.getController();
+        loginScreen.setUserData(loginController);
 
-        Parent loginRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
+        FXMLLoader settingsLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
+        Parent settingsRoot = settingsLoader.load();
+        settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
+        settingsController = loginLoader.getController();
+        loginScreen.setUserData(settingsController);
+
+        FXMLLoader lobbyChoiceLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
+        Parent lobbyChoiceRoot = lobbyChoiceLoader.load();
+        lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
+        lobbyChoiceController = lobbyChoiceLoader.getController();
+        lobbyChoiceScreen.setUserData(lobbyChoiceController);
+
+        FXMLLoader lobbyLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/lobby.fxml"));
+        Parent lobbyRoot = lobbyLoader.load();
+        lobbyScreen = new Scene(lobbyRoot, windowWidth, windowHeight);
+        lobbyController = lobbyLoader.getController();
+        lobbyScreen.setUserData(lobbyController);
+
+        FXMLLoader playLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
+        Parent playRoot = playLoader.load();
+        playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);
+        playController = playLoader.getController();
+        playScreen.setUserData(playController);
+
+        /*Parent loginRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
         loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
         Parent settingsRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
         settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
         Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
         lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
         Parent playRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
-        playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);
+        playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);*/
 
         FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
         Parent confirmRoot = confirmLoader.load();

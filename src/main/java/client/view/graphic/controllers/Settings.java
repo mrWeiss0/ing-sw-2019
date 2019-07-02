@@ -1,6 +1,7 @@
 package client.view.graphic.controllers;
 
 import client.ConnectionType;
+import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class Settings {
+public class Settings implements View {
 
     //TOP-RIGHT
     @FXML private ImageView quitButton;
@@ -68,4 +69,11 @@ public class Settings {
     public String getServerIP() { return serverIP.getText(); }
     public int getServerPort() { return  Integer.parseInt(serverPort.getText()); }
     public boolean getFullscreen() { return fullscreen.isSelected(); }
+
+
+    public void start() {};
+
+    public void print(String s) {};
+
+    public void exit() {};
 }

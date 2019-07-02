@@ -1,5 +1,6 @@
 package client.view.graphic;
 
+import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -9,6 +10,7 @@ import java.io.IOException;
 
 public class MainWindow extends Application implements ConfirmHandler {
     private Stage mainWindow;
+    private View currController;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -39,5 +41,6 @@ public class MainWindow extends Application implements ConfirmHandler {
             mainWindow.close();
         }
     }
-    
+
+    //public View getCurrController () {};
 }

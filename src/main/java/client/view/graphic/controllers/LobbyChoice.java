@@ -1,5 +1,6 @@
 package client.view.graphic.controllers;
 
+import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import javafx.stage.WindowEvent;
 
 import java.util.List;
 
-public class LobbyChoice {
+public class LobbyChoice implements View {
 
     //TOP-RIGHT
     @FXML private ImageView quitButton;
@@ -51,4 +52,10 @@ public class LobbyChoice {
     public void displayLobbies(List<String> lobbyList) {
         lobbies.setItems(FXCollections.observableArrayList("Lobby 1", "Lobby 2"));
     }
+
+    public void start() {};
+
+    public void print(String s) {};
+
+    public void exit() {};
 }
