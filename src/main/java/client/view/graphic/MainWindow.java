@@ -39,4 +39,5 @@ public class MainWindow extends Application implements ConfirmHandler {
             mainWindow.close();
         }
     }
+    
 }

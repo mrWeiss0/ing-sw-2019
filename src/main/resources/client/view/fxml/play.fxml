@@ -64,21 +64,21 @@
                          <TitledPane fx:id="firstRed" text="untitled 1">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                      <Image url="@../images/weapons/20_PORTRAIT.png" />
                                  </ImageView>
                               </content>
                            </TitledPane>
                          <TitledPane fx:id="secondRed" text="untitled 2">
                               <content>
                                   <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                      <Image url="@../images/weapons/20_PORTRAIT.png" />
                                   </ImageView>
                               </content>
                            </TitledPane>
                            <TitledPane fx:id="thirdRed" text="untitled 3">
                               <content>
                                   <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                                      <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                      <Image url="@../images/weapons/20_PORTRAIT.png" />
                                   </ImageView>
                               </content>
                            </TitledPane>
@@ -90,7 +90,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>
@@ -99,7 +99,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>
@@ -108,7 +108,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>
@@ -121,7 +121,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>
@@ -130,7 +130,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>
@@ -139,7 +139,7 @@
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                       <Image url="@../images/weapons/20_SLEDGEHAMMER.png" />
+                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                     </image>
                                  </ImageView>
                               </content>

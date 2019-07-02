@@ -2,6 +2,7 @@ package client.view.graphic.loaders;
 
 import client.ConnectionType;
 import client.view.graphic.controllers.Confirm;
+import client.view.graphic.controllers.MessageHandler;
 import client.view.graphic.controllers.Settings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,10 +15,14 @@ public class Scenes {
 
     //Main scenes
     private static Scene loginScreen;
+    private static MessageHandler loginController;
     private static Scene settingsScreen;
+    private static MessageHandler settingsController;
     private static Scene lobbyChoiceScreen;
+    private static MessageHandler lobbyController;
     private static Scene lobbyScreen;
     private static Scene playScreen;
+    private static MessageHandler playController;
 
     //Confirm scene
     private static Scene confirmScreen;
