@@ -1,7 +1,6 @@
 package server.controller;
 
 import server.Config;
-import server.Main;
 import server.model.Game;
 import server.model.weapon.Weapon;
 import server.model.weapon.Weapons;
@@ -23,7 +22,7 @@ public class LobbyEntry {
     private boolean joinable = true;
     private TimerTask countdown;
 
-    LobbyEntry(Config config, Timer timer) throws FileNotFoundException{
+    LobbyEntry(Config config, Timer timer) throws FileNotFoundException {
         builder.frenzyOn(config.FRENZY_ON)
                 .nKills(config.N_KILLS)
                 .killDamages(config.KILL_DAMAGE)
@@ -39,7 +38,7 @@ public class LobbyEntry {
                 .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
                 .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))
                 .squares(FileParser.readSquares(new FileReader("src/main/resources/maps/" + config.MAP_FILE)));
-        this.config=config;
+        this.config = config;
         if (config.MIN_PLAYERS > config.MAX_PLAYERS)
             throw new IllegalArgumentException("min players > max players");
         if (config.TIMEOUT_START < 0)
@@ -63,6 +62,7 @@ public class LobbyEntry {
             setCountdown();
 
     }
+
     private void start() {
         resetCountdown();
         controller = new GameController(builder.build());
@@ -93,7 +93,7 @@ public class LobbyEntry {
                 checkPlayerCount();
                 if (--c <= 0 && countdown != null)
                     start();
-                else if(c<=5) builder.getJoinedPlayers().forEach(x->x.getClient().sendCountDown(c));
+                else if (c <= 5) builder.getJoinedPlayers().forEach(x -> x.getClient().sendCountDown(c));
             }
         };
         timer.schedule(countdown, 0, 1000);

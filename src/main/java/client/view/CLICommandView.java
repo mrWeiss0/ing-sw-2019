@@ -116,9 +116,9 @@ public class CLICommandView extends CLIView {
 
     private void selectAction(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select an action");
-        controller.selectAction(Map.ofEntries(Map.entry("move",0),
-                                Map.entry("grab",1),
-                                Map.entry("shoot",2))
+        controller.selectAction(Map.ofEntries(Map.entry("move", 0),
+                Map.entry("grab", 1),
+                Map.entry("shoot", 2))
                 .get(args[0]));
     }
 

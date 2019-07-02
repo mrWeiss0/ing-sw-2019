@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Player {
     private static final String NOT_STARTED_MESSAGE = "The game is not started yet";
-    private static final String INVALID_ARGUMENT_MESSAGE="You have chosen an invalid index";
+    private static final String INVALID_ARGUMENT_MESSAGE = "You have chosen an invalid index";
     private final String name;
     private VirtualClient client;
     private Figure figure;
@@ -89,7 +89,7 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(Arrays.stream(index).anyMatch(x->x<0 || x>=figure.getPowerUps().size())){
+        if (Arrays.stream(index).anyMatch(x -> x < 0 || x >= figure.getPowerUps().size())) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -107,7 +107,7 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(Arrays.stream(index).anyMatch(x->x<0 || x>=figure.getWeapons().size())){
+        if (Arrays.stream(index).anyMatch(x -> x < 0 || x >= figure.getWeapons().size())) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -125,9 +125,9 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(index<0 || index >=figure.getWeapons().size()
+        if (index < 0 || index >= figure.getWeapons().size()
                 || Arrays.stream(fm)
-                .anyMatch(x->x<0 || x>=figure.getWeapons().get(index).getFireModes().size())){
+                .anyMatch(x -> x < 0 || x >= figure.getWeapons().get(index).getFireModes().size())) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -146,7 +146,7 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(index<0 || index>=figure.getLocation().peek().size()){
+        if (index < 0 || index >= figure.getLocation().peek().size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -169,7 +169,7 @@ public class Player {
                             .distinct()
                             .toArray(Targettable[]::new)
             ));
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
         }
     }
@@ -179,7 +179,7 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(color<0 || color >=3){
+        if (color < 0 || color >= 3) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -195,7 +195,7 @@ public class Player {
             return;
         }
         // TODO add index check
-        if(index >= actions.size()){
+        if (index >= actions.size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }

@@ -286,7 +286,7 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendCountDown(int remaining){
+    public void sendCountDown(int remaining) {
         controller.setRemainingTime(remaining);
     }
 }

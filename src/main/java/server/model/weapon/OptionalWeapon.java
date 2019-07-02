@@ -109,7 +109,7 @@ public class OptionalWeapon extends Weapon {
         }
 
         @Override
-        public Builder id(int id){
+        public Builder id(int id) {
             super.id(id);
             return this;
         }

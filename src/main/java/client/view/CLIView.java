@@ -213,7 +213,7 @@ public class CLIView implements View, Runnable {
                     + Arrays.stream(square.getCoordinates())
                     .mapToObj(Integer::toString)
                     .collect(Collectors.joining(", "))
-                    + ") contains ammotile: "+square.getTileId()
+                    + ") contains ammotile: " + square.getTileId()
             );
     }
 
@@ -226,8 +226,8 @@ public class CLIView implements View, Runnable {
     }
 
     @Override
-    public void displayRemainingTime(int v){
-        print("Remaining Time: "+v);
+    public void displayRemainingTime(int v) {
+        print("Remaining Time: " + v);
     }
 
     @Override

@@ -7,7 +7,7 @@ public class AmmoTileImage {
     public int id;
 
     public AmmoTileImage(int id, boolean powerUp, int... ammo) {
-        this.id=id;
+        this.id = id;
         this.ammo = ammo;
         this.powerUp = powerUp;
     }

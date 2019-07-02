@@ -1,5 +1,8 @@
 {
-  "port": [9900,1099],
+  "port": [
+    9900,
+    1099
+  ],
   "CMD_DELIMITER": "\\s+",
   "ARG_DELIMITER": "\\s+",
   "view_type": 0,

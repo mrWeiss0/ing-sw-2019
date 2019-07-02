@@ -3,9 +3,9 @@ package client.model;
 import client.view.View;
 
 public class Player {
-    private View view;
-    private String name;
-    private int avatar;
+    private final View view;
+    private final String name;
+    private final int avatar;
     private int[] damages;
     private int[] marks;
     private int points;

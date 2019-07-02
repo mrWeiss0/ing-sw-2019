@@ -25,7 +25,7 @@ class RefillTest {
         Weapon.Builder weapon = new Weapon.Builder();
         weapons = new Weapon[]{weapon.build(), new OptionalWeapon.Builder().build(), weapon.build(), weapon.build()};
         ammoTiles = new AmmoTile[]{
-                new AmmoTile(0,new AmmoCube(), null, null),
+                new AmmoTile(0, new AmmoCube(), null, null),
                 new AmmoTile(0, new AmmoCube(), null, null),
                 new AmmoTile(0, new AmmoCube(), null, null)
         };

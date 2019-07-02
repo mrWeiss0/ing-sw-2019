@@ -20,7 +20,7 @@ public class MiniModel {
     private int remainingActions;
     private int remainingTime;
     private boolean ended = false;
-    private List<String[]> chat = new ArrayList<>();
+    private final List<String[]> chat = new ArrayList<>();
 
     public MiniModel(View view) {
         this.view = view;
@@ -118,8 +118,8 @@ public class MiniModel {
         view.displayChat(chat);
     }
 
-    public void setRemainingTime(int remaining){
-        remainingTime=remaining;
+    public void setRemainingTime(int remaining) {
+        remainingTime = remaining;
         view.displayRemainingTime(remaining);
     }
 

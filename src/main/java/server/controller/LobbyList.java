@@ -17,8 +17,8 @@ public class LobbyList {
     private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
     private final Config config;
 
-    public LobbyList(Config config){
-        this.config=config;
+    public LobbyList(Config config) {
+        this.config = config;
     }
 
     public void registerPlayer(String username, VirtualClient client) {

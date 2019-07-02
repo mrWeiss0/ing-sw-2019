@@ -6,12 +6,9 @@ import client.connection.SocketConnection;
 import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
-import tools.FileParser;
-import tools.parser.Parser;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
-import java.util.function.ToDoubleBiFunction;
 import java.util.stream.IntStream;
 
 public class Client {
@@ -35,17 +32,17 @@ public class Client {
     }
 
     private View viewFactory() {
-        Supplier<View>[] viewSupplier=new Supplier[]{
-                ()->new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
-                ()->null//TODO GUI
+        Supplier<View>[] viewSupplier = new Supplier[]{
+                () -> new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
+                () -> null//TODO GUI
         };
         return viewSupplier[config.view_type].get();
     }
 
     private Connection connectionFactory() {
-        Supplier<Connection>[] connectionSupp=new Supplier[]{
-                ()->new SocketConnection(this),
-                ()->new RMIConnection(this)
+        Supplier<Connection>[] connectionSupp = new Supplier[]{
+                () -> new SocketConnection(this),
+                () -> new RMIConnection(this)
         };
         return connectionSupp[config.connection_type].get();
     }

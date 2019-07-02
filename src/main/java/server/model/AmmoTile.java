@@ -34,7 +34,7 @@ public class AmmoTile implements Grabbable {
         this.ammo = ammo;
         this.powerUp = powerUp;
         this.discard = discard;
-        this.id=id;
+        this.id = id;
     }
 
     /**
@@ -64,7 +64,7 @@ public class AmmoTile implements Grabbable {
         discard.accept(this);
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 }

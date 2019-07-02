@@ -24,11 +24,12 @@ public class Server implements Closeable, RemoteConnection {
     private final Registry registry;
     private final LobbyList lobbyList;
     private final Config config;
+
     public Server(Config config) throws IOException {
-        this.config=config;
+        this.config = config;
         registry = LocateRegistry.createRegistry(config.RMI_PORT);
         serverSocket = new ServerSocket(config.SOCKET_PORT);
-        lobbyList=new LobbyList(config);
+        lobbyList = new LobbyList(config);
     }
 
     public void start() throws IOException {

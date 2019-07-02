@@ -3,7 +3,6 @@ package server.connection;
 import server.Main;
 import server.controller.LobbyList;
 import server.controller.Player;
-import server.model.AmmoCube;
 import server.model.AmmoTile;
 import server.model.PowerUp;
 import server.model.board.*;
@@ -139,7 +138,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
-            tileID=((AmmoTile)square.peek().get(0)).getId();
+            tileID = ((AmmoTile) square.peek().get(0)).getId();
         }
         send("fill" + CMD_DELIMITER + id
                 + ARG_DELIMITER + tileID
@@ -253,7 +252,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void sendCountDown(int value) {
-        send("cd"+CMD_DELIMITER+value);
+        send("cd" + CMD_DELIMITER + value);
     }
 
     @Override
@@ -322,7 +321,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
             lobbyList.create(args[0]);
         } catch (IllegalStateException e) {
             sendMessage(e.toString());
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             sendMessage("Server Error");
         }
     }
@@ -346,7 +345,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectPowerUp(String[] args) {
-        player.selectPowerUp(Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray());
+        player.selectPowerUp(Arrays.stream(args).filter(x -> x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectWeapon(String[] args) {

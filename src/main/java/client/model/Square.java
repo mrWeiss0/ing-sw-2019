@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 public class Square {
 
-    private View view;
-    private int[] coordinates;
-    private boolean spawn;
-    private int room;
+    private final View view;
+    private final int[] coordinates;
+    private final boolean spawn;
+    private final int room;
     private int tileID;
     private int[] weapons;
 
@@ -35,7 +35,7 @@ public class Square {
     }
 
     public void setTileID(int id) {
-        this.tileID=id;
+        this.tileID = id;
     }
 
     public int[] getWeapons() {
@@ -57,6 +57,6 @@ public class Square {
                 Arrays.stream(weapons)
                         .mapToObj(Integer::toString)
                         .collect(Collectors.joining(" "))
-                : "TileID:"+tileID);
+                : "TileID:" + tileID);
     }
 }

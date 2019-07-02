@@ -146,7 +146,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
-            tileID=((AmmoTile)square.peek().get(0)).getId();
+            tileID = ((AmmoTile) square.peek().get(0)).getId();
         }
         try {
             remoteClient.sendSquareContent(id, tileID, weapons);
@@ -331,7 +331,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
             lobbyList.create(name);
         } catch (IllegalStateException e) {
             sendMessage(e.toString());
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             sendMessage("Server Error");
         }
     }

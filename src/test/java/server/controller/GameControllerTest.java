@@ -31,22 +31,22 @@ class GameControllerTest {
                 new PowerUpImage(0, PowerUpType.TAGBACK),
                 new PowerUpImage(0, PowerUpType.TELEPORTER),
                 new PowerUpImage(0, PowerUpType.SCOPE))
-                .ammoTiles(new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0),
-                        new AmmoTileImage(0,false, 1, 0, 0))
+                .ammoTiles(new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0),
+                        new AmmoTileImage(0, false, 1, 0, 0))
                 .defaultAmmo(new AmmoCube(1, 1, 1)).maxWeapons(3).maxMarks(3)
                 .squares(BoardBuilderTest.squareImages)
                 .build();
