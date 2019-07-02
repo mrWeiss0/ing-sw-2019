@@ -55,7 +55,7 @@ public class LobbyEntry {
         long count = builder
                 .getJoinedPlayers()
                 .size();
-        joinable = count < config.MAX_PLAYERS;
+        joinable = joinable && count < config.MAX_PLAYERS;
         if (count < config.MIN_PLAYERS)
             resetCountdown();
         else if (countdown == null)
@@ -65,6 +65,7 @@ public class LobbyEntry {
 
     private void start() {
         resetCountdown();
+        joinable = false;
         controller = new GameController(builder.build());
         builder.getJoinedPlayers()
                 .forEach(x->x.getClient().sendGameParams(
@@ -79,8 +80,10 @@ public class LobbyEntry {
     }
 
     public void remove(Player player) {
-        builder.removePlayer(player);
-        checkPlayerCount();
+        if (builder.getJoinedPlayers().contains(player)) {
+            builder.removePlayer(player);
+            checkPlayerCount();
+        }
     }
 
     public boolean isPresent(Player player) {

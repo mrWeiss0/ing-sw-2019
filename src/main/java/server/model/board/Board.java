@@ -182,6 +182,9 @@ public class Board {
          *                                  provided don't have coordinates or their format is wrong.
          */
         public Board build() {
+            roomsMap.clear();
+            squaresMap.clear();
+            spawnColorMap.clear();
             SquareImage[] squareImages = squareImagesSupplier.get();
             for (SquareImage s : squareImages) {
                 if (s.coords == null)
