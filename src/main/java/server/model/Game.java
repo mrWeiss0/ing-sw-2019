@@ -39,7 +39,7 @@ public class Game {
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
-    private Player lastPlayer;
+    private int lastPlayer = -1;
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
@@ -79,15 +79,6 @@ public class Game {
     }
 
     /**
-     * Returns the player whose turn its taking place.
-     *
-     * @return the player whose turn its taking place
-     */
-    public Player currentPlayer() {
-        return players.get(currPlayer);
-    }
-
-    /**
      * Updates the current player with the next player in line.
      * If the last available player has completed its turn, the current player
      * cycles back to the first one.
@@ -97,7 +88,7 @@ public class Game {
     public Player nextPlayer() {
         currPlayer++;
         currPlayer %= players.size();
-        return currentPlayer();
+        return players.get(currPlayer);
     }
 
     public List<Player> getPlayers() {
@@ -138,21 +129,29 @@ public class Game {
     public void addKillCount(int val, Figure f) {
         killCount.add(f);
         overkills.add(val > 1);
-        if (lastPlayer != null && lastPlayer == currentPlayer())
+        if (lastPlayer >= 0) {
+            f.setKillPoints(frenzyPoints);
+            f.setFirstBlood(false);
+        }
+        --remainingKills;
+    }
+
+    public void endTurn() {
+        if (lastPlayer == currPlayer)
             endGame();
-        else if (--remainingKills == 0)
+        else if (remainingKills <= 0)
             toggleFrenzy();
     }
 
     public void toggleFrenzy() {
-        if (frenzyOn)
+        if (frenzyOn) {
             board.getFigures().stream().filter(x -> x.getDamages().isEmpty()).forEach(x -> {
                 x.setKillPoints(frenzyPoints);
                 x.setFirstBlood(false);
-                // TODO x.setActions(...);
-                lastPlayer = currentPlayer();
             });
-        else endGame();
+            lastPlayer = currPlayer;
+        } else
+            endGame();
     }
 
     private void endGame() {
@@ -169,6 +168,12 @@ public class Game {
 
     public List<Figure> getKillCount() {
         return killCount;
+    }
+
+    public int getActionsID() {
+        if (lastPlayer < 0)
+            return 0;
+        return currPlayer > lastPlayer ? 2 : 1;
     }
 
     /**

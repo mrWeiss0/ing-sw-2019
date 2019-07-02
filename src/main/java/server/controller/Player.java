@@ -8,6 +8,7 @@ import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Player {
     private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
@@ -17,6 +18,7 @@ public class Player {
     private GameController game;
     private boolean active = true;
     private boolean online = true;
+    private List<Action> actions;
 
     public Player(String n) {
         name = n;
@@ -74,6 +76,11 @@ public class Player {
 
     public void setGame(GameController game) {
         this.game = game;
+    }
+
+    public void setActions(List<Action> actions) {
+        // TODO send to client
+        this.actions = actions;
     }
 
     public void selectPowerUp(int[] index) {
@@ -160,9 +167,10 @@ public class Player {
             client.sendMessage(NOTSTARTEDMESSAGE);
             return;
         }
+        // TODO add index check
         game.enqueue(new SelectActionEvent(
                 this,
-                null // TODO select action
+                actions.get(index)
         ));
     }
 }
