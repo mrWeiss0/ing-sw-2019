@@ -10,6 +10,7 @@ import server.model.PowerUp;
 import server.model.board.*;
 import server.model.weapon.Weapon;
 
+import java.io.FileNotFoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -139,20 +140,16 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     @Override
     public void sendSquareContent(AbstractSquare square) {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
-        int[] ammo = new int[]{0, 0, 0};
-        boolean powerup = false;
+        int tileID = 0;
         int[] weapons = null;
         AmmoCube ammoCube;
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
-            ammoCube = ((AmmoTile) square.peek().get(0)).getAmmo();
-            for (int i = 0; i < 3; i++)
-                ammo[i] = ammoCube.value(i);
-            powerup = ((AmmoTile) square.peek().get(0)).getPowerUp().isPresent();
+            tileID=((AmmoTile)square.peek().get(0)).getId();
         }
         try {
-            remoteClient.sendSquareContent(id, ammo, powerup, weapons);
+            remoteClient.sendSquareContent(id, tileID, weapons);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
@@ -173,12 +170,12 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendPlayerDamages(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
+        List<Player> players = player.getGame().getGame().getPlayers();
         int[] damages = player.getFigure().getDamages().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> players.indexOf(x.getPlayer()))
                 .toArray();
         try {
-            remoteClient.sendPlayerDamages(id, damages);
+            remoteClient.sendPlayerDamages(players.indexOf(player), damages);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
@@ -187,12 +184,12 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendPlayerMarks(Player player) {
-        int id = player.getGame().getGame().getPlayers().indexOf(player);
+        List<Player> players = player.getGame().getGame().getPlayers();
         int[] marks = player.getFigure().getMarks().stream()
-                .mapToInt(x -> x.getPlayer().getGame().getGame().getPlayers().indexOf(x.getPlayer()))
+                .mapToInt(x -> players.indexOf(x.getPlayer()))
                 .toArray();
         try {
-            remoteClient.sendPlayerMarks(id, marks);
+            remoteClient.sendPlayerMarks(players.indexOf(player), marks);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
@@ -284,6 +281,36 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
+    public void sendEndGame(boolean value) {
+        try {
+            remoteClient.sendEndGame(value);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendCountDown(int value) {
+        try {
+            remoteClient.sendCountDown(value);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendChatMessage(String name, String msg) {
+        try {
+            remoteClient.sendChatMessage(name, msg);
+        } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
     public void close() {
         player.setOffline();
         try {
@@ -304,6 +331,8 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
             lobbyList.create(name);
         } catch (IllegalStateException e) {
             sendMessage(e.toString());
+        } catch (FileNotFoundException e){
+            sendMessage("Server Error");
         }
     }
 
@@ -360,4 +389,17 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         player.selectAction(actionIndex);
     }
 
+    @Override
+    public void chatMessage(String msg) {
+        try {
+            lobbyList.chatMessage(this, msg);
+        } catch (IllegalStateException e) {
+            sendMessage(e.getMessage());
+        }
+    }
+
+    @Override
+    public void reconnect() {
+        player.setActive();
+    }
 }

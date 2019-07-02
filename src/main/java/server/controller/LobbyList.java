@@ -1,7 +1,9 @@
 package server.controller;
 
+import server.Config;
 import server.connection.VirtualClient;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -13,6 +15,11 @@ public class LobbyList {
     private final Map<String, Player> players = new HashMap<>();
     private final Timer gameStartTimer = new Timer(true);
     private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
+    private final Config config;
+
+    public LobbyList(Config config){
+        this.config=config;
+    }
 
     public void registerPlayer(String username, VirtualClient client) {
         if (players.values().stream().map(Player::getClient).anyMatch(Predicate.isEqual(client))) {
@@ -53,15 +60,21 @@ public class LobbyList {
         player.getClient().sendMessage("Exit from lobby " + name);
     }
 
-    public void create(String name) {
+    public void create(String name) throws FileNotFoundException {
         String trimmed = name.trim();
         if (lobbyMap.containsKey(trimmed))
             throw new IllegalStateException("Name already present");
         if (trimmed.isEmpty())
             throw new IllegalStateException("Name not valid");
-        lobbyMap.put(trimmed, new LobbyEntry(3, 5, 10, gameStartTimer));
+        lobbyMap.put(trimmed, new LobbyEntry(config, gameStartTimer));
         players.values().forEach(x -> x.getClient().sendMessage("Created lobby " + trimmed));
         players.values().forEach(x -> x.getClient().sendLobbyList(repr()));
+    }
+
+    public void chatMessage(VirtualClient v, String msg) {
+        if (!players.values().contains(v.getPlayer()))
+            throw new IllegalStateException("Please choose an username first");
+        players.values().forEach(x -> x.getClient().sendChatMessage(v.getPlayer().getName(), msg));
     }
 
     private String[] repr() {

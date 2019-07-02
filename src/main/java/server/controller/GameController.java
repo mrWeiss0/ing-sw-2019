@@ -10,12 +10,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class GameController implements Runnable {
     private final Game game;
-    private State state;
     private final ArrayBlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(5);
     private final Deque<State> stateStack = new ArrayDeque<>();
+    private State state;
 
     public GameController(Game game) {
         this.game = game;
+        game.getPlayers().forEach(x->x.setGame(this));
     }
 
     @Override

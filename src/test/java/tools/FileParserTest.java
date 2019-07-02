@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FileParserTest {
@@ -56,9 +57,9 @@ class FileParserTest {
     @Test
     void testAmmoTiles() {
         assertTrue(reflectArrayEquals(new AmmoTileImage[]{
-                        new AmmoTileImage(true, 1),
-                        new AmmoTileImage(true, 0, 1),
-                        new AmmoTileImage(false, 1, 2)
+                        new AmmoTileImage(0,true, 1),
+                        new AmmoTileImage(0,true, 0, 1),
+                        new AmmoTileImage(0,false, 1, 2)
                 },
                 FileParser.readAmmoTiles(new StringReader("[" +
                         "{\"ammo\":[1],\"powerUp\":true}," +
@@ -80,5 +81,11 @@ class FileParserTest {
                         "{\"color\":3}]"
                 ))
         ));
+
+        assertEquals(3,FileParser.readPowerUps(new StringReader("[" +
+                "{\"color\":1}," +
+                "{\"color\":2}," +
+                "{\"color\":3}]"
+        )).length);
     }
 }

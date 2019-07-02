@@ -1,7 +1,6 @@
 package client.connection;
 
 import client.Client;
-import server.Main;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.Parser;
@@ -20,8 +19,6 @@ public class SocketConnection implements Connection, Runnable {
     private static final String CMD_DELIMITER = "&&";
     private static final String ARG_DELIMITER = "--";
     private final Client controller;
-    private Socket socket;
-    private PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
             Map.entry("message", this::print),
             Map.entry("lobby", this::sendLobbyList),
@@ -42,8 +39,13 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("ammo", this::sendPlayerAmmo),
             Map.entry("npups", this::sendPlayerNPowerUps),
             Map.entry("weapons", this::sendPlayerWeapons),
-            Map.entry("remaining", this::sendRemainingActions)
+            Map.entry("remaining", this::sendRemainingActions),
+            Map.entry("end", this::sendEndGame),
+            Map.entry("chat", this::sendChatMessage),
+            Map.entry("cd",this::sendCountDown)
     ), CMD_DELIMITER, ARG_DELIMITER);
+    private Socket socket;
+    private PrintStream ostream;
 
 
     public SocketConnection(Client controller) {
@@ -120,12 +122,22 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     @Override
+    public void sendChat(String msg) {
+        send("chat" + CMD_DELIMITER + msg);
+    }
+
+    @Override
+    public void reconnect() {
+        send("reconnect");
+    }
+
+    @Override
     public void run() {
         try (BufferedReader istream = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             while (!socket.isClosed())
                 parse(istream.readLine());
         } catch (IOException e) {
-            Main.LOGGER.info(e::toString);
+            controller.print(e.toString());
         } finally {
             close();
         }
@@ -199,13 +211,12 @@ public class SocketConnection implements Connection, Runnable {
     //or ["5", "0", "0", "0", "-", "3", "4", "17"] -> fill square 5 with weapons 3, 4, 17
     private void sendSquareContent(String[] args) {
         int squareID = Integer.parseInt(args[0]);
-        int[] ammo = new int[]{Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3])};
-        boolean powerup = args[4].startsWith("+");
+        int tileID =Integer.parseInt(args[1]);
         int[] weapons = Arrays.stream(args)
-                .skip(5)
+                .skip(2)
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        controller.setSquareContent(squareID, ammo, powerup, weapons);
+        controller.setSquareContent(squareID, tileID, weapons);
     }
 
     //example ["0", "mario", "1", "luigi"]
@@ -269,6 +280,18 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendRemainingActions(String[] args) {
         controller.setRemainingActions(Integer.parseInt(args[0]));
+    }
+
+    private void sendEndGame(String[] args) {
+        controller.setEndGame(args[0].startsWith("+"));
+    }
+
+    private void sendChatMessage(String[] args) {
+        controller.addChatMessage(args[0], String.join(ARG_DELIMITER, Arrays.stream(args).skip(1).toArray(String[]::new)));
+    }
+
+    private void sendCountDown(String[] args){
+        controller.setRemainingTime(Integer.parseInt(args[0]));
     }
 
     public void close() {

@@ -23,7 +23,7 @@ public interface RemoteClient extends Remote {
 
     void sendSquares(int[][] coordinates, int[] rooms, boolean[] spawn) throws RemoteException;
 
-    void sendSquareContent(int squareID, int[] ammo, boolean powerup, int[] weapons) throws RemoteException;
+    void sendSquareContent(int squareID, int tileID, int[] weapons) throws RemoteException;
 
     void sendPlayers(int[] avatars, String[] names) throws RemoteException;
 
@@ -44,6 +44,12 @@ public interface RemoteClient extends Remote {
     void sendPlayerWeapons(int id, int[] weaponIDs, boolean[] charges) throws RemoteException;
 
     void sendRemainingActions(int remainingActions) throws RemoteException;
+
+    void sendEndGame(boolean value) throws RemoteException;
+
+    void sendChatMessage(String name, String msg) throws RemoteException;
+
+    void sendCountDown(int remaining) throws RemoteException;
 
     boolean ping() throws RemoteException;
 

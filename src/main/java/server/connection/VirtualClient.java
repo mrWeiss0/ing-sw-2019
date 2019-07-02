@@ -19,6 +19,10 @@ public abstract class VirtualClient implements Closeable {
         this.lobbyList = lobbyList;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
         player.setClient(this);
@@ -30,6 +34,8 @@ public abstract class VirtualClient implements Closeable {
     public abstract void sendMessage(String s);
 
     public abstract void sendLobbyList(String[] s);
+
+    public abstract void sendChatMessage(String name, String msg);
 
     public abstract void sendTargets(int min, int max, List<Targettable> targets, Board board);
 
@@ -68,6 +74,12 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendRemainingActions(int remaining);
 
+    public abstract void sendEndGame(boolean value);
+
+    public abstract void sendCountDown(int value);
+
     @Override
     public abstract void close();
+
+
 }

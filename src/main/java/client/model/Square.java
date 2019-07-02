@@ -1,21 +1,25 @@
 package client.model;
 
+import client.view.View;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Square {
-    private final int[] coordinates;
-    private final boolean spawn;
-    private final int room;
-    private int[] ammo;
-    private boolean powerup;
+
+    private View view;
+    private int[] coordinates;
+    private boolean spawn;
+    private int room;
+    private int tileID;
     private int[] weapons;
 
 
-    public Square(int[] coordinates, boolean spawn, int room) {
+    public Square(View view, int[] coordinates, boolean spawn, int room) {
         this.coordinates = coordinates;
         this.spawn = spawn;
         this.room = room;
+        this.view = view;
     }
 
     public int[] getCoordinates() {
@@ -30,12 +34,8 @@ public class Square {
         return room;
     }
 
-    public int[] getAmmo() {
-        return ammo;
-    }
-
-    public void setAmmo(int[] ammo) {
-        this.ammo = ammo;
+    public void setTileID(int id) {
+        this.tileID=id;
     }
 
     public int[] getWeapons() {
@@ -44,10 +44,11 @@ public class Square {
 
     public void setWeapons(int[] weapons) {
         this.weapons = weapons;
+        view.displaySquareContent(this);
     }
 
-    public void setPowerup(boolean powerup) {
-        this.powerup = powerup;
+    public int getTileId() {
+        return tileID;
     }
 
     @Override
@@ -56,10 +57,6 @@ public class Square {
                 Arrays.stream(weapons)
                         .mapToObj(Integer::toString)
                         .collect(Collectors.joining(" "))
-                : Arrays.stream(ammo)
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining(" ")) + " pup: " + powerup);
+                : "TileID:"+tileID);
     }
-
-
 }

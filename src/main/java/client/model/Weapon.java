@@ -1,8 +1,8 @@
 package client.model;
 
 public class Weapon {
-    private boolean loaded;
     private final int id;
+    private boolean loaded;
 
     public Weapon(int id) {
         this.id = id;

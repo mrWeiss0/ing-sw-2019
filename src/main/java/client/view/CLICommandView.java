@@ -32,7 +32,9 @@ public class CLICommandView extends CLIView {
                 Map.entry("target", Command.documented(this::selectTargettable, "Tell the server the targets that are being selected")),
                 Map.entry("color", Command.documented(this::selectColor, "Tell the server the color that is being selected")),
                 Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected")),
-                Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)"))
+                Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)")),
+                Map.entry("chat", Command.documented(this::chatMessage, "Send a message to everyone")),
+                Map.entry("reconnect", Command.documented(this::reconnect, "If you go inactive because of the timer, use this command to return active"))
         );
     }
 
@@ -114,11 +116,22 @@ public class CLICommandView extends CLIView {
 
     private void selectAction(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Please select an action");
+        controller.selectAction(Map.ofEntries(Map.entry("move",0),
+                                Map.entry("grab",1),
+                                Map.entry("shoot",2))
+                .get(args[0]));
+    }
+
+    private void chatMessage(String[] args) throws CommandException {
         try {
-            controller.selectAction(Integer.parseInt(args[0]));
-        } catch (NumberFormatException e) {
-            throw new CommandException(NUMBERERROR);
+            controller.chatMessage(String.join(" ", args));
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(e.getMessage());
         }
+    }
+
+    private void reconnect(String[] args) throws CommandException {
+        controller.reconnect();
     }
 
     private void displayLobby(String[] args) throws CommandException {

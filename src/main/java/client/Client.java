@@ -1,39 +1,58 @@
 package client;
 
 import client.connection.Connection;
+import client.connection.RMIConnection;
 import client.connection.SocketConnection;
-import client.model.MiniModel;
-import client.model.Player;
-import client.model.Square;
-import client.model.Weapon;
+import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
+import tools.FileParser;
+import tools.parser.Parser;
 
 import java.util.Arrays;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleBiFunction;
 import java.util.stream.IntStream;
 
 public class Client {
     private final Connection connection;
     private final View view;
-    private State state;
     private final MiniModel model;
+    private final Config config;
     private final State initState = new State() {
         @Override
         public void onEnter() {
 
         }
     };
+    private State state;
 
-    public Client() {
-        view = new CLICommandView(this, "\\s+", "\\s+");
-        connection = new SocketConnection(this);
+    public Client(Config config) {
+        this.config = config;
+        this.view = viewFactory();
+        this.connection = connectionFactory();
         model = new MiniModel(view);
+    }
+
+    private View viewFactory() {
+        Supplier<View>[] viewSupplier=new Supplier[]{
+                ()->new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
+                ()->null//TODO GUI
+        };
+        return viewSupplier[config.view_type].get();
+    }
+
+    private Connection connectionFactory() {
+        Supplier<Connection>[] connectionSupp=new Supplier[]{
+                ()->new SocketConnection(this),
+                ()->new RMIConnection(this)
+        };
+        return connectionSupp[config.connection_type].get();
     }
 
     public void connect(String host) {
         try {
-            //TODO FROM FILE/CLI
-            connection.connect(host, 9900);
+            connection.connect(host, config.port[config.connection_type]);
         } catch (Exception e) {
             view.print(e.toString());
         }
@@ -85,6 +104,14 @@ public class Client {
         connection.selectAction(actionIndex);
     }
 
+    public void chatMessage(String msg) {
+        connection.sendChat(msg);
+    }
+
+    public void reconnect() {
+        connection.reconnect();
+    }
+
     //END
 
     public void start() {
@@ -129,20 +156,19 @@ public class Client {
 
     public void setSquares(int[][] coords, int[] rooms, boolean[] spawn) {
         model.getBoard().setSquares(IntStream.range(0, coords.length)
-                .mapToObj(x -> new Square(coords[x], spawn[x], rooms[x]))
+                .mapToObj(x -> new Square(view, coords[x], spawn[x], rooms[x]))
                 .toArray(Square[]::new));
     }
 
-    public void setSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
-        model.getBoard().getSquares()[squareID].setAmmo(ammo);
-        model.getBoard().getSquares()[squareID].setPowerup(powerUp);
+    public void setSquareContent(int squareID, int tileID, int[] weapons) {
+        model.getBoard().getSquares()[squareID].setTileID(tileID);
         model.getBoard().getSquares()[squareID].setWeapons(weapons);
     }
 
     public void setPlayers(int[] avatars, String[] names) {
         model.getBoard().setPlayers(IntStream
                 .range(0, avatars.length)
-                .mapToObj(x -> new Player(names[x], avatars[x]))
+                .mapToObj(x -> new Player(view, names[x], avatars[x]))
                 .toArray(Player[]::new));
     }
 
@@ -178,6 +204,18 @@ public class Client {
         Weapon[] weapons = Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
         IntStream.range(0, weapons.length).forEach(x -> weapons[x].setLoaded(charges[x]));
         model.getBoard().getPlayers()[id].setWeapons(weapons);
+    }
+
+    public void setEndGame(boolean value) {
+        model.setEndGame(value);
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        model.setRemainingTime(remainingTime);
+    }
+
+    public void addChatMessage(String name, String msg) {
+        model.addChatMessage(name, msg);
     }
 
     public void setRemainingActions(int remainingActions) {

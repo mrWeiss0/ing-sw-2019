@@ -25,4 +25,8 @@ public interface RemotePlayer extends Remote {
     void selectColor(int color) throws RemoteException;
 
     void selectAction(int actionIndex) throws RemoteException;
+
+    void chatMessage(String msg) throws RemoteException;
+
+    void reconnect() throws RemoteException;
 }

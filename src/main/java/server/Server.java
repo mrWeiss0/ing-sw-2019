@@ -22,11 +22,13 @@ public class Server implements Closeable, RemoteConnection {
     private final ServerSocket serverSocket;
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
     private final Registry registry;
-    private final LobbyList lobbyList = new LobbyList();
-
-    public Server() throws IOException {
-        registry = LocateRegistry.createRegistry(1099);
-        serverSocket = new ServerSocket(9900);
+    private final LobbyList lobbyList;
+    private final Config config;
+    public Server(Config config) throws IOException {
+        this.config=config;
+        registry = LocateRegistry.createRegistry(config.RMI_PORT);
+        serverSocket = new ServerSocket(config.SOCKET_PORT);
+        lobbyList=new LobbyList(config);
     }
 
     public void start() throws IOException {

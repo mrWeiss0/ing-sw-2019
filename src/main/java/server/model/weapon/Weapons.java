@@ -5,55 +5,55 @@ import server.model.AmmoCube;
 import static server.model.weapon.FireModes.*;
 
 public enum Weapons {
-    LOCK_RIFLE(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 0, 1))
+    LOCK_RIFLE(new OptionalWeapon.Builder().id(0).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 0, 1))
             .fireModes(lockRifleModes).dependency(lockRifleModes[1], lockRifleModes[0])),
 
-    ELECTROSCYTHE(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
+    ELECTROSCYTHE(new Weapon.Builder().id(5).pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
 
-    MACHINE_GUN(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(machineGunModes)
+    MACHINE_GUN(new OptionalWeapon.Builder().id(1).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(machineGunModes)
             .dependency(machineGunModes[1], machineGunModes[0]).dependency(machineGunModes[2], machineGunModes[0])),
 
-    TRACTOR_BEAM(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
+    TRACTOR_BEAM(new Weapon.Builder().id(6).pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
 
-    THOR(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(thorModes)
+    THOR(new OptionalWeapon.Builder().id(2).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(thorModes)
             .dependency(thorModes[1], thorModes[0]).dependency(thorModes[2], thorModes[1])),
 
-    PLASMA_GUN(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(plasmaGunModes)
+    PLASMA_GUN(new OptionalWeapon.Builder().id(3).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(plasmaGunModes)
             .dependency(plasmaGunModes[2], plasmaGunModes[0])),
 
-    WHISPER(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(whisperModes)),
+    WHISPER(new Weapon.Builder().id(4).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(whisperModes)),
 
-    VORTEX_CANNON(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(vortexModes)
+    VORTEX_CANNON(new OptionalWeapon.Builder().id(7).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(vortexModes)
             .dependency(vortexModes[1], vortexModes[0])),
 
-    FURNACE(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(furnaceModes)),
+    FURNACE(new Weapon.Builder().id(8).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(furnaceModes)),
 
-    HEATSEEKER(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 1, 0)).fireModes(heatseekerModes)),
+    HEATSEEKER(new Weapon.Builder().id(9).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 1, 0)).fireModes(heatseekerModes)),
 
-    HELLION(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(hellionModes)),
+    HELLION(new Weapon.Builder().id(10).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(hellionModes)),
 
-    FLAMETHROWER(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).fireModes(flamethrowerModes)),
+    FLAMETHROWER(new Weapon.Builder().id(11).pickupCost(new AmmoCube(1, 0, 0)).fireModes(flamethrowerModes)),
 
-    GRENADE_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).fireModes(grenadeLauncherModes)
+    GRENADE_LAUNCHER(new OptionalWeapon.Builder().id(12).pickupCost(new AmmoCube(1, 0, 0)).fireModes(grenadeLauncherModes)
             .dependency(grenadeLauncherModes[1], grenadeLauncherModes[0])),
 
-    ROCKET_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(rocketLauncherModes)
+    ROCKET_LAUNCHER(new OptionalWeapon.Builder().id(13).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(rocketLauncherModes)
             .dependency(rocketLauncherModes[2], rocketLauncherModes[0])),
 
-    RAILGUN(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(railgunModes)),
+    RAILGUN(new Weapon.Builder().id(14).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(railgunModes)),
 
-    CYBERBLADE(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(cyberbladeModes)
+    CYBERBLADE(new OptionalWeapon.Builder().id(15).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(cyberbladeModes)
             .dependency(cyberbladeModes[2], cyberbladeModes[0])),
 
-    ZX2(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(zx2Modes)),
+    ZX2(new Weapon.Builder().id(16).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(zx2Modes)),
 
-    SHOTGUN(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(shotgunModes)),
+    SHOTGUN(new Weapon.Builder().id(17).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(shotgunModes)),
 
-    POWER_GLOVE(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(powerGloveModes)),
+    POWER_GLOVE(new Weapon.Builder().id(18).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(powerGloveModes)),
 
-    SHOCKWAVE(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).fireModes(shockwaveModes)),
+    SHOCKWAVE(new Weapon.Builder().id(19).pickupCost(new AmmoCube(0, 1, 0)).fireModes(shockwaveModes)),
 
-    SLEDGEHAMMER(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).fireModes(sledgehammer));
+    SLEDGEHAMMER(new Weapon.Builder().id(20).pickupCost(new AmmoCube(0, 1, 0)).fireModes(sledgehammer));
 
     private final Weapon.Builder builder;
 
@@ -68,9 +68,6 @@ public enum Weapons {
 }
 
 final class FireModes {
-    private FireModes() {
-    }
-
     static final FireMode[] lockRifleModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -79,7 +76,6 @@ final class FireModes {
                     TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.markCurr(1)))
     };
-
     static final FireMode[] electroscytheModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.atDistanceSquares(0),
@@ -88,7 +84,6 @@ final class FireModes {
                     TargetGens.atDistanceSquares(0),
                     Effects.damageCurr(2)))
     };
-
     static final FireMode[] machineGunModes = new FireMode[]{
             new FireMode(new FireStep(1, 2,
                     TargetGens.visibleFigures(),
@@ -102,7 +97,6 @@ final class FireModes {
                     TargetGens.visibleFigures().and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.damageCurr(1)))
     };
-
     static final FireMode[] tractorBeamModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.atDistanceFromVisibleSquareFigures(2),
@@ -113,7 +107,6 @@ final class FireModes {
                     TargetGens.atDistanceFigures(2),
                     Effects.addCurrFigureSquareToLast().and(Effects.moveCurrToLast().and(Effects.damageCurr(3)))))
     };
-
     static final FireMode[] thorModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -125,7 +118,6 @@ final class FireModes {
                     TargetGens.visibleFromLastFigures().not(TargetGens.inLast()),
                     Effects.damageCurr(2)))
     };
-
     static final FireMode[] plasmaGunModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures(),
@@ -137,13 +129,11 @@ final class FireModes {
                     TargetGens.inLastFigure(),
                     Effects.damageLast(1)))
     };
-
     static final FireMode[] whisperModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures().and(TargetGens.atDistanceFigures(2, -1)),
                     Effects.damageCurr(3).and(Effects.markCurr(1))))
     };
-
     static final FireMode[] vortexModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleSquares().and(TargetGens.differentSquares()),
@@ -154,7 +144,6 @@ final class FireModes {
                     TargetGens.atDistanceFromLastFigures(1).and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                     Effects.moveCurrToLast().and(Effects.damageCurr(1))))
     };
-
     static final FireMode[] furnaceModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleRoom().and(TargetGens.differentRoom()),
@@ -163,13 +152,11 @@ final class FireModes {
                     TargetGens.atDistanceSquares(1, 1),
                     Effects.damageCurr(1).and(Effects.markCurr(1))))
     };
-
     static final FireMode[] heatseekerModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.differentFigures().not(TargetGens.visibleFigures()),
                     Effects.damageCurr(3)))
     };
-
     static final FireMode[] hellionModes = new FireMode[]{
             new FireMode(new FireStep(1, 1,
                     TargetGens.visibleFigures().and(TargetGens.atDistanceFigures(1, -1)),
@@ -178,7 +165,6 @@ final class FireModes {
                     TargetGens.visibleFigures().and(TargetGens.atDistanceFigures(1, -1)),
                     Effects.damageCurr(1).and(Effects.addCurrFigureSquareToLast().and(Effects.markCurr(2)))))
     };
-
     static final FireMode[] flamethrowerModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -203,7 +189,6 @@ final class FireModes {
                             Effects.damageCurr(2))
             )
     };
-
     static final FireMode[] grenadeLauncherModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -221,7 +206,6 @@ final class FireModes {
                                     .and(TargetGens.ifNotMoved()),
                             Effects.moveFirstLastToCurr()))
     };
-
     static final FireMode[] rocketLauncherModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -240,7 +224,6 @@ final class FireModes {
                             TargetGens.inLast(),
                             Effects.damageLast(1)))
     };
-
     static final FireMode[] railgunModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -256,7 +239,6 @@ final class FireModes {
                             Effects.damageCurr(2))
             )
     };
-
     static final FireMode[] cyberbladeModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -271,7 +253,6 @@ final class FireModes {
                             TargetGens.atDistanceFigures(0).not(TargetGens.inLast()),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] zx2Modes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -282,7 +263,6 @@ final class FireModes {
                             TargetGens.visibleFigures(),
                             Effects.markCurr(1)))
     };
-
     static final FireMode[] shotgunModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -296,7 +276,6 @@ final class FireModes {
                             TargetGens.atDistanceFigures(1, 1),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] powerGloveModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -317,7 +296,6 @@ final class FireModes {
                             TargetGens.atDistanceFigures(0).not(TargetGens.onLastFigures()),
                             Effects.damageCurr(2)))
     };
-
     static final FireMode[] shockwaveModes = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -334,7 +312,6 @@ final class FireModes {
                             TargetGens.atDistanceSquares(1),
                             Effects.damageNeighbours(1)))
     };
-
     static final FireMode[] sledgehammer = new FireMode[]{
             new FireMode(
                     new FireStep(1, 1,
@@ -349,5 +326,8 @@ final class FireModes {
                             TargetGens.onCardinalSquare().and(TargetGens.atDistanceSquares(2)),
                             Effects.moveLastToCurr()))
     };
+
+    private FireModes() {
+    }
 
 }

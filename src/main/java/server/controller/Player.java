@@ -11,7 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Player {
-    private static final String NOTSTARTEDMESSAGE = "The game is not started yet";
+    private static final String NOT_STARTED_MESSAGE = "The game is not started yet";
+    private static final String INVALID_ARGUMENT_MESSAGE="You have chosen an invalid index";
     private final String name;
     private VirtualClient client;
     private Figure figure;
@@ -85,50 +86,68 @@ public class Player {
 
     public void selectPowerUp(int[] index) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(Arrays.stream(index).anyMatch(x->x<0 || x>=figure.getPowerUps().size())){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
         game.enqueue(new SelectPowerUpEvent(
                 this,
-                (PowerUp[]) Arrays.stream(index)
+                Arrays.stream(index)
                         .mapToObj(x -> figure.getPowerUps().get(x))
                         .distinct()
-                        .toArray()
+                        .toArray(PowerUp[]::new)
         ));
     }
 
     public void selectWeaponToReload(int[] index) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(Arrays.stream(index).anyMatch(x->x<0 || x>=figure.getWeapons().size())){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
         game.enqueue(new SelectWeaponToReloadEvent(
                 this,
-                (Weapon[]) Arrays.stream(index)
+                Arrays.stream(index)
                         .mapToObj(x -> figure.getWeapons().get(x))
                         .distinct()
-                        .toArray()
+                        .toArray(Weapon[]::new)
         ));
     }
 
     public void selectWeaponFireMode(int index, int[] fm) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(index<0 || index >=figure.getWeapons().size()
+                || Arrays.stream(fm)
+                .anyMatch(x->x<0 || x>=figure.getWeapons().get(index).getFireModes().size())){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
         game.enqueue(new SelectWeaponFireModeEvent(
                 this,
                 figure.getWeapons().get(index),
-                (FireMode[]) Arrays.stream(fm)
+                Arrays.stream(fm)
                         .mapToObj(x -> figure.getWeapons().get(index).getFireModes().get(x))
                         .distinct()
-                        .toArray()
+                        .toArray(FireMode[]::new)
         ));
     }
 
     public void selectGrabbable(int index) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(index<0 || index>=figure.getLocation().peek().size()){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
         game.enqueue(new SelectGrabbableEvent(
@@ -139,21 +158,29 @@ public class Player {
 
     public void selectTargettable(int[] index) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        game.enqueue(new SelectTargettableEvent(
-                this,
-                (Targettable[]) Arrays.stream(index)
-                        .mapToObj(game.getGame().getBoard()::resolveID)
-                        .distinct()
-                        .toArray()
-        ));
+        try {
+            game.enqueue(new SelectTargettableEvent(
+                    this,
+                    Arrays.stream(index)
+                            .mapToObj(game.getGame().getBoard()::resolveID)
+                            .distinct()
+                            .toArray(Targettable[]::new)
+            ));
+        }catch(IndexOutOfBoundsException e){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
+        }
     }
 
     public void selectColor(int color) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(color<0 || color >=3){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
         game.enqueue(new SelectColorEvent(
@@ -164,10 +191,14 @@ public class Player {
 
     public void selectAction(int index) {
         if (game == null) {
-            client.sendMessage(NOTSTARTEDMESSAGE);
+            client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
         // TODO add index check
+        if(index >= actions.size()){
+            client.sendMessage(INVALID_ARGUMENT_MESSAGE);
+            return;
+        }
         game.enqueue(new SelectActionEvent(
                 this,
                 actions.get(index)

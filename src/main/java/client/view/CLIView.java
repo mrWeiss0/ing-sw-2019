@@ -4,12 +4,14 @@ import client.Client;
 import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
+import client.model.Weapon;
 import tools.parser.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -147,6 +149,91 @@ public class CLIView implements View, Runnable {
                 .collect(Collectors.joining(", ")));
     }
 
+    @Override
+    public void displayPlayerDamage(Player player) {
+        print("Player damages of " + player.toString() + Arrays.stream(player.getDamages())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerMarks(Player player) {
+        print("Player marks of " + player.toString() + Arrays.stream(player.getMarks())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerPoints(Player player) {
+        print(player.toString() + " has " + player.getPoints() + " points");
+    }
+
+    @Override
+    public void displayPlayerDeaths(Player player) {
+        print(player.toString() + " has " + player.getDeaths() + " deaths");
+    }
+
+    @Override
+    public void displayPlayerWeapons(Player player) {
+        print(player.toString() + " has these weapons: " + Arrays.stream(player.getWeapons())
+                .map(Weapon::toString)
+                .collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public void displayPlayerAmmo(Player player) {
+        print(player.toString() + "has these ammo: ["
+                + Arrays.stream(player.getAmmo())
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(", ")) + "]");
+    }
+
+    @Override
+    public void displayPlayerNPowerUps(Player player) {
+        print(player.toString() + " has " + player.getnPowerup() + " powerups");
+    }
+
+    @Override
+    public void displayPlayerLocation(Player player) {
+        print(player.toString() + " is at (" + player.getCoordinates()[0] + "," + player.getCoordinates()[1] + ")");
+    }
+
+    @Override
+    public void displaySquareContent(Square square) {
+        if (square.isSpawn())
+            print("Spawn square at (" + Arrays.stream(square.getCoordinates())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(",")) + ") contains weapons: ["
+                    + Arrays.stream(square.getWeapons())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(", ")) + "]"
+            );
+        else
+            print("Normal square at ("
+                    + Arrays.stream(square.getCoordinates())
+                    .mapToObj(Integer::toString)
+                    .collect(Collectors.joining(", "))
+                    + ") contains ammotile: "+square.getTileId()
+            );
+    }
+
+    @Override
+    public void displayEndGame(boolean value) {
+        if (value)
+            print("Game ended");
+        else
+            print("Game started");
+    }
+
+    @Override
+    public void displayRemainingTime(int v){
+        print("Remaining Time: "+v);
+    }
+
+    @Override
+    public void displayChat(List<String[]> chat) {
+        print(">> " + String.join(" : ", chat.get(chat.size() - 1)));
+    }
 
     private void parse(String line) {
         try {

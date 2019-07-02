@@ -151,6 +151,23 @@ public class RMIConnection implements Connection, RemoteClient {
         }
     }
 
+    @Override
+    public void sendChat(String msg) {
+        try {
+            player.chatMessage(msg);
+        } catch (RemoteException e) {
+            controller.print(e.getMessage());
+        }
+    }
+
+    @Override
+    public void reconnect() {
+        try {
+            player.reconnect();
+        } catch (RemoteException e) {
+            controller.print(e.getMessage());
+        }
+    }
 
     //TODO SERVER->CLIENT
     @Override
@@ -204,8 +221,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendSquareContent(int squareID, int[] ammo, boolean powerUp, int[] weapons) {
-        controller.setSquareContent(squareID, ammo, powerUp, weapons);
+    public void sendSquareContent(int squareID, int tileID, int[] weapons) {
+        controller.setSquareContent(squareID, tileID, weapons);
     }
 
     @Override
@@ -256,5 +273,20 @@ public class RMIConnection implements Connection, RemoteClient {
     @Override
     public void sendRemainingActions(int remaining) {
         controller.setRemainingActions(remaining);
+    }
+
+    @Override
+    public void sendEndGame(boolean value) {
+        controller.setEndGame(value);
+    }
+
+    @Override
+    public void sendChatMessage(String name, String msg) {
+        controller.addChatMessage(name, msg);
+    }
+
+    @Override
+    public void sendCountDown(int remaining){
+        controller.setRemainingTime(remaining);
     }
 }
