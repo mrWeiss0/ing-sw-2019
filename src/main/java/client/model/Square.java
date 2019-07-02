@@ -12,7 +12,7 @@ public class Square {
     private final boolean spawn;
     private final int room;
     private int tileID;
-    private int[] weapons;
+    private int[] weapons= new int[3];
 
 
     public Square(View view, int[] coordinates, boolean spawn, int room) {

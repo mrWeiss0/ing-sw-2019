@@ -15,5 +15,6 @@ public enum GameState{
     SELECT_RELOAD,
     SPAWN,
     TAGBACK,
-    TURN
+    TURN,
+    ENDED
 }

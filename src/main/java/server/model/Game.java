@@ -89,6 +89,7 @@ public class Game {
     public Player nextPlayer() {
         currPlayer++;
         currPlayer %= players.size();
+        players.forEach(x->x.getClient().sendCurrentPlayer(currPlayer));
         return players.get(currPlayer);
     }
 
@@ -116,6 +117,7 @@ public class Game {
      */
     public void fillSquare(AmmoSquare square) {
         square.refill(ammoTileDeck.draw());
+        players.forEach(x->x.getClient().sendSquareContent(square));
     }
 
     /**
@@ -125,6 +127,7 @@ public class Game {
      */
     public void fillSquare(SpawnSquare square) {
         square.refill(weaponDeck.draw());
+        players.forEach(x->x.getClient().sendSquareContent(square));
     }
 
     public void addKillCount(int val, Figure f) {
@@ -135,6 +138,7 @@ public class Game {
             f.setFirstBlood(false);
         }
         --remainingKills;
+        players.forEach(x->x.getClient().sendKillTrack(killCount,overkills));
     }
 
     public void endTurn() {
@@ -157,6 +161,7 @@ public class Game {
 
     private void endGame() {
         // TODO give last points, determine winner
+        players.forEach(x->x.getClient().sendGameState(15));
     }
 
     public List<Boolean> getOverkills() {

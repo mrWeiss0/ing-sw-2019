@@ -17,6 +17,11 @@ public class GameController implements Runnable {
     public GameController(Game game) {
         this.game = game;
         game.getPlayers().forEach(x -> x.setGame(this));
+
+
+        game.getPlayers().forEach(x->x.getClient().sendGameState(1));
+        game.getPlayers().forEach(x->x.getClient().sendPlayers(this.game.getPlayers()));
+        game.getPlayers().forEach(x->x.getClient().sendSquares(this.game.getBoard().getSquares()));
     }
 
     @Override

@@ -120,7 +120,8 @@ public class Figure implements Targettable {
      */
     public void addAmmo(AmmoCube ammo) {
         this.ammo = this.ammo.add(ammo).cap(maxAmmo);
-        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerAmmo(player));
+        if(player!=null)
+            player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerAmmo(player));
     }
 
     /**

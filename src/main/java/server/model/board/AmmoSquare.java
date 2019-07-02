@@ -54,6 +54,7 @@ public class AmmoSquare extends AbstractSquare {
         if (ammoTile != null)
             throw new IllegalStateException("Square is already filled");
         ammoTile = t;
+
     }
 
     /**

@@ -66,6 +66,9 @@ public class LobbyEntry {
     private void start() {
         resetCountdown();
         controller = new GameController(builder.build());
+        builder.getJoinedPlayers()
+                .forEach(x->x.getClient().sendGameParams(
+                        Arrays.asList(Character.getNumericValue(config.MAP_FILE.charAt(3)),config.N_KILLS)));
     }
 
     public void join(Player player) {
