@@ -369,32 +369,32 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void selectWeapon(int[] selected) throws RemoteException {
+    public void selectWeapon(int[] selected) {
         player.selectWeaponToReload(selected);
     }
 
     @Override
-    public void selectFireMode(int weaponIndex, int[] selectedFireModes) throws RemoteException {
+    public void selectFireMode(int weaponIndex, int[] selectedFireModes) {
         player.selectWeaponFireMode(weaponIndex, selectedFireModes);
     }
 
     @Override
-    public void selectGrabbable(int index) throws RemoteException {
+    public void selectGrabbable(int index) {
         player.selectGrabbable(index);
     }
 
     @Override
-    public void selectTargettable(int[] selected) throws RemoteException {
+    public void selectTargettable(int[] selected) {
         player.selectTargettable(selected);
     }
 
     @Override
-    public void selectColor(int color) throws RemoteException {
+    public void selectColor(int color) {
         player.selectColor(color);
     }
 
     @Override
-    public void selectAction(int actionIndex) throws RemoteException {
+    public void selectAction(int actionIndex) {
         player.selectAction(actionIndex);
     }
 
