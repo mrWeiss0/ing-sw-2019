@@ -19,7 +19,7 @@ public class MiniModel {
     private int maxToSelect;
     private int remainingActions;
     private int remainingTime;
-    private boolean ended = false;
+    private GameState state = GameState.NOT_STARTED;
     private final List<String[]> chat = new ArrayList<>();
 
     public MiniModel(View view) {
@@ -108,9 +108,9 @@ public class MiniModel {
         view.displayRemainingActions(remainingActions);
     }
 
-    public void setEndGame(boolean value) {
-        ended = value;
-        view.displayEndGame(value);
+    public void setGameState(int value) {
+        state = GameState.values()[value];
+        view.displayGameState(state);
     }
 
     public void addChatMessage(String user, String msg) {

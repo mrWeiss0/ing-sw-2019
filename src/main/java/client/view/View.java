@@ -1,5 +1,6 @@
 package client.view;
 
+import client.model.GameState;
 import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
@@ -63,7 +64,7 @@ public interface View {
 
     void displaySquareContent(Square square);
 
-    void displayEndGame(boolean value);
+    void displayGameState(GameState state);
 
     void displayChat(List<String[]> chat);
 

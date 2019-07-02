@@ -203,8 +203,8 @@ public class Client {
         model.getBoard().getPlayers()[id].setWeapons(weapons);
     }
 
-    public void setEndGame(boolean value) {
-        model.setEndGame(value);
+    public void setGameState(int value) {
+        model.setGameState(value);
     }
 
     public void setRemainingTime(int remainingTime) {

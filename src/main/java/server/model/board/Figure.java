@@ -120,6 +120,7 @@ public class Figure implements Targettable {
      */
     public void addAmmo(AmmoCube ammo) {
         this.ammo = this.ammo.add(ammo).cap(maxAmmo);
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerAmmo(player));
     }
 
     /**
@@ -133,6 +134,7 @@ public class Figure implements Targettable {
         if (!this.ammo.greaterEqThan(ammo))
             throw new IllegalStateException("Not enough ammo");
         this.ammo = this.ammo.sub(ammo);
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerAmmo(player));
     }
 
     /**
@@ -162,6 +164,7 @@ public class Figure implements Targettable {
         if (this.location != null) this.location.removeOccupant(this);
         this.location = square;
         if (this.location != null) this.location.addOccupant(this);
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerLocation(player));
     }
 
     /**
@@ -175,6 +178,7 @@ public class Figure implements Targettable {
         if (weapons.size() >= maxWeapons)
             throw new IllegalStateException("Reached limit of " + maxWeapons + " weapons");
         weapons.add(grabbed);
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerWeapons(player));
     }
 
     /**
@@ -190,6 +194,8 @@ public class Figure implements Targettable {
         if (powerUps.size() < maxPowerUps)
             grabbed.getPowerUp().ifPresent(powerUps::add);
         grabbed.discard();
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerNPowerUps(player));
+        player.getClient().sendPowerUps(powerUps);
     }
 
     /**
@@ -209,6 +215,7 @@ public class Figure implements Targettable {
                     dealer));
             marks.put(dealer, 0);
             damaged = true;
+            player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerDamages(player));
         }
     }
 
@@ -247,6 +254,7 @@ public class Figure implements Targettable {
         );
         newMarks.clear();
         damaged = false;
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerMarks(player));
     }
 
     public boolean resolveDeath(Game game) {
@@ -261,6 +269,7 @@ public class Figure implements Targettable {
             moveTo(null);
             ++deaths;
             damages.clear();
+            player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerDeaths(player));
             return true;
         }
         return false;
@@ -290,6 +299,7 @@ public class Figure implements Targettable {
                 );
         if (firstBlood)
             damages.get(0).addPoints(1); // First blood
+
     }
 
     public void setKillPoints(int[] killPoints) {
@@ -306,6 +316,7 @@ public class Figure implements Targettable {
 
     public void addPoints(int points) {
         this.points += points;
+        player.getGame().getGame().getPlayers().forEach(x->x.getClient().sendPlayerPoints(player));
     }
 
     public Player getPlayer() {

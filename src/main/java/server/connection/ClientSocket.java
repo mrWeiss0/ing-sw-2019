@@ -246,8 +246,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendEndGame(boolean value) {
-        send("end" + CMD_DELIMITER + (value ? "+" : "-"));
+    public void sendGameState(int value) {
+        send("state" + CMD_DELIMITER + value);
     }
 
     @Override

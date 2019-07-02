@@ -199,6 +199,14 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     @Override
     public void sendPlayerLocation(Player player) {
         int id = player.getGame().getGame().getPlayers().indexOf(player);
+        if(player.getFigure().getLocation()==null){
+            try {
+                remoteClient.sendPlayerLocation(id, new int[]{-1,-1});
+            } catch (RemoteException e) {
+                Main.LOGGER.warning(RMI_ERROR);
+                close();
+            }
+        }
         int[] coords = player.getFigure().getLocation().getCoordinates();
         try {
             remoteClient.sendPlayerLocation(id, coords);
@@ -281,9 +289,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void sendEndGame(boolean value) {
+    public void sendGameState(int value) {
         try {
-            remoteClient.sendEndGame(value);
+            remoteClient.sendGameState(value);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();

@@ -1,10 +1,7 @@
 package client.view;
 
 import client.Client;
-import client.model.Player;
-import client.model.PowerUp;
-import client.model.Square;
-import client.model.Weapon;
+import client.model.*;
 import tools.parser.*;
 
 import java.io.BufferedReader;
@@ -218,11 +215,8 @@ public class CLIView implements View, Runnable {
     }
 
     @Override
-    public void displayEndGame(boolean value) {
-        if (value)
-            print("Game ended");
-        else
-            print("Game started");
+    public void displayGameState(GameState value) {
+        print("Game state: "+value.toString());
     }
 
     @Override

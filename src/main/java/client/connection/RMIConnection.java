@@ -276,8 +276,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendEndGame(boolean value) {
-        controller.setEndGame(value);
+    public void sendGameState(int value) {
+        controller.setGameState(value);
     }
 
     @Override

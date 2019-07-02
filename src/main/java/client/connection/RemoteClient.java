@@ -45,7 +45,7 @@ public interface RemoteClient extends Remote {
 
     void sendRemainingActions(int remainingActions) throws RemoteException;
 
-    void sendEndGame(boolean value) throws RemoteException;
+    void sendGameState(int value) throws RemoteException;
 
     void sendChatMessage(String name, String msg) throws RemoteException;
 

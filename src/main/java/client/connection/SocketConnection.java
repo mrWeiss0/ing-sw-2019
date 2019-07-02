@@ -40,7 +40,7 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("npups", this::sendPlayerNPowerUps),
             Map.entry("weapons", this::sendPlayerWeapons),
             Map.entry("remaining", this::sendRemainingActions),
-            Map.entry("end", this::sendEndGame),
+            Map.entry("state", this::sendGameState),
             Map.entry("chat", this::sendChatMessage),
             Map.entry("cd", this::sendCountDown)
     ), CMD_DELIMITER, ARG_DELIMITER);
@@ -282,8 +282,8 @@ public class SocketConnection implements Connection, Runnable {
         controller.setRemainingActions(Integer.parseInt(args[0]));
     }
 
-    private void sendEndGame(String[] args) {
-        controller.setEndGame(args[0].startsWith("+"));
+    private void sendGameState(String[] args) {
+        controller.setGameState(Integer.parseInt(args[0]));
     }
 
     private void sendChatMessage(String[] args) {
