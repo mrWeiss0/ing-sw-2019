@@ -13,10 +13,7 @@ import tools.parser.CommandExitException;
 import tools.parser.CommandNotFoundException;
 import tools.parser.Parser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
@@ -325,6 +322,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
             lobbyList.create(args[0]);
         } catch (IllegalStateException e) {
             sendMessage(e.toString());
+        } catch (FileNotFoundException e){
+            sendMessage("Server Error");
         }
     }
 

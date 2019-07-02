@@ -58,6 +58,7 @@ public class OptionalWeapon extends Weapon {
     @SuppressWarnings("squid:S2176")
     public static class Builder extends Weapon.Builder {
         private final Map<FireMode, FireMode> dependency = new HashMap<>();
+        private int id;
 
         /**
          * Sets the pickup cost for the weapon to be built.
@@ -104,6 +105,12 @@ public class OptionalWeapon extends Weapon {
         @Override
         public Builder fireModes(Collection<FireMode> fireModes) {
             super.fireModes(fireModes);
+            return this;
+        }
+
+        @Override
+        public Builder id(int id){
+            super.id(id);
             return this;
         }
 

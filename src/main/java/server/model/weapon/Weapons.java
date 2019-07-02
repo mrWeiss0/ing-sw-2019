@@ -5,55 +5,55 @@ import server.model.AmmoCube;
 import static server.model.weapon.FireModes.*;
 
 public enum Weapons {
-    LOCK_RIFLE(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 0, 1))
+    LOCK_RIFLE(new OptionalWeapon.Builder().id(0).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 0, 1))
             .fireModes(lockRifleModes).dependency(lockRifleModes[1], lockRifleModes[0])),
 
-    ELECTROSCYTHE(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
+    ELECTROSCYTHE(new Weapon.Builder().id(5).pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
 
-    MACHINE_GUN(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(machineGunModes)
+    MACHINE_GUN(new OptionalWeapon.Builder().id(1).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(machineGunModes)
             .dependency(machineGunModes[1], machineGunModes[0]).dependency(machineGunModes[2], machineGunModes[0])),
 
-    TRACTOR_BEAM(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
+    TRACTOR_BEAM(new Weapon.Builder().id(6).pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
 
-    THOR(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(thorModes)
+    THOR(new OptionalWeapon.Builder().id(2).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(thorModes)
             .dependency(thorModes[1], thorModes[0]).dependency(thorModes[2], thorModes[1])),
 
-    PLASMA_GUN(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(plasmaGunModes)
+    PLASMA_GUN(new OptionalWeapon.Builder().id(3).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(plasmaGunModes)
             .dependency(plasmaGunModes[2], plasmaGunModes[0])),
 
-    WHISPER(new Weapon.Builder().pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(whisperModes)),
+    WHISPER(new Weapon.Builder().id(4).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(whisperModes)),
 
-    VORTEX_CANNON(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(vortexModes)
+    VORTEX_CANNON(new OptionalWeapon.Builder().id(7).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(vortexModes)
             .dependency(vortexModes[1], vortexModes[0])),
 
-    FURNACE(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(furnaceModes)),
+    FURNACE(new Weapon.Builder().id(8).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(furnaceModes)),
 
-    HEATSEEKER(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 1, 0)).fireModes(heatseekerModes)),
+    HEATSEEKER(new Weapon.Builder().id(9).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 1, 0)).fireModes(heatseekerModes)),
 
-    HELLION(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(hellionModes)),
+    HELLION(new Weapon.Builder().id(10).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(hellionModes)),
 
-    FLAMETHROWER(new Weapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).fireModes(flamethrowerModes)),
+    FLAMETHROWER(new Weapon.Builder().id(11).pickupCost(new AmmoCube(1, 0, 0)).fireModes(flamethrowerModes)),
 
-    GRENADE_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).fireModes(grenadeLauncherModes)
+    GRENADE_LAUNCHER(new OptionalWeapon.Builder().id(12).pickupCost(new AmmoCube(1, 0, 0)).fireModes(grenadeLauncherModes)
             .dependency(grenadeLauncherModes[1], grenadeLauncherModes[0])),
 
-    ROCKET_LAUNCHER(new OptionalWeapon.Builder().pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(rocketLauncherModes)
+    ROCKET_LAUNCHER(new OptionalWeapon.Builder().id(13).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(rocketLauncherModes)
             .dependency(rocketLauncherModes[2], rocketLauncherModes[0])),
 
-    RAILGUN(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(railgunModes)),
+    RAILGUN(new Weapon.Builder().id(14).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(railgunModes)),
 
-    CYBERBLADE(new OptionalWeapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(cyberbladeModes)
+    CYBERBLADE(new OptionalWeapon.Builder().id(15).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(cyberbladeModes)
             .dependency(cyberbladeModes[2], cyberbladeModes[0])),
 
-    ZX2(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(zx2Modes)),
+    ZX2(new Weapon.Builder().id(16).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(zx2Modes)),
 
-    SHOTGUN(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(shotgunModes)),
+    SHOTGUN(new Weapon.Builder().id(17).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 1, 0)).fireModes(shotgunModes)),
 
-    POWER_GLOVE(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(powerGloveModes)),
+    POWER_GLOVE(new Weapon.Builder().id(18).pickupCost(new AmmoCube(0, 1, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(powerGloveModes)),
 
-    SHOCKWAVE(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).fireModes(shockwaveModes)),
+    SHOCKWAVE(new Weapon.Builder().id(19).pickupCost(new AmmoCube(0, 1, 0)).fireModes(shockwaveModes)),
 
-    SLEDGEHAMMER(new Weapon.Builder().pickupCost(new AmmoCube(0, 1, 0)).fireModes(sledgehammer));
+    SLEDGEHAMMER(new Weapon.Builder().id(20).pickupCost(new AmmoCube(0, 1, 0)).fireModes(sledgehammer));
 
     private final Weapon.Builder builder;
 

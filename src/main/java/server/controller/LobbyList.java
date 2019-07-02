@@ -3,6 +3,7 @@ package server.controller;
 import server.Config;
 import server.connection.VirtualClient;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -59,7 +60,7 @@ public class LobbyList {
         player.getClient().sendMessage("Exit from lobby " + name);
     }
 
-    public void create(String name) {
+    public void create(String name) throws FileNotFoundException {
         String trimmed = name.trim();
         if (lobbyMap.containsKey(trimmed))
             throw new IllegalStateException("Name already present");

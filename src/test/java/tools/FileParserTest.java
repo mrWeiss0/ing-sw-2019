@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FileParserTest {
@@ -80,5 +81,11 @@ class FileParserTest {
                         "{\"color\":3}]"
                 ))
         ));
+
+        assertEquals(3,FileParser.readPowerUps(new StringReader("[" +
+                "{\"color\":1}," +
+                "{\"color\":2}," +
+                "{\"color\":3}]"
+        )).length);
     }
 }

@@ -23,7 +23,22 @@ public class LobbyEntry {
     private boolean joinable = true;
     private TimerTask countdown;
 
-    LobbyEntry(Config config, Timer timer) {
+    LobbyEntry(Config config, Timer timer) throws FileNotFoundException{
+        builder.frenzyOn(config.FRENZY_ON)
+                .nKills(config.N_KILLS)
+                .killDamages(config.KILL_DAMAGE)
+                .maxDamages(config.MAX_DAMAGE)
+                .maxMarks(config.MAX_MARKS)
+                .maxAmmo(config.MAX_AMMO)
+                .maxWeapons(config.MAX_WEAPONS)
+                .maxPowerUps(config.MAX_POWERUPS)
+                .killPoints(config.KILL_POINTS)
+                .frenzyPoints(config.FRENZY_POINTS)
+                .weapons(Arrays.stream(Weapons.values()).map(Weapons::build).toArray(Weapon[]::new))
+                //TODO CHECK SUI PERCORSI NEL JAR
+                .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
+                .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))
+                .squares(FileParser.readSquares(new FileReader("src/main/resources/maps/" + config.MAP_FILE)));
         this.config=config;
         if (config.MIN_PLAYERS > config.MAX_PLAYERS)
             throw new IllegalArgumentException("min players > max players");
@@ -48,29 +63,9 @@ public class LobbyEntry {
             setCountdown();
 
     }
-    //TODO CREATE BOARD FROM FILE
     private void start() {
         resetCountdown();
-        try {
-            controller = new GameController(builder
-                    .frenzyOn(config.FRENZY_ON)
-                    .nKills(config.N_KILLS)
-                    .killDamages(config.KILL_DAMAGE)
-                    .maxDamages(config.MAX_DAMAGE)
-                    .maxMarks(config.MAX_MARKS)
-                    .maxAmmo(config.MAX_AMMO)
-                    .maxWeapons(config.MAX_WEAPONS)
-                    .maxPowerUps(config.MAX_POWERUPS)
-                    .killPoints(config.KILL_POINTS)
-                    .frenzyPoints(config.FRENZY_POINTS)
-                    .weapons(Arrays.stream(Weapons.values()).map(Weapons::build).toArray(Weapon[]::new))
-                    .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
-                    .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))
-                    .squares(FileParser.readSquares(new FileReader("src/main/resources/" + config.MAP_FILE)))
-                    .build());
-        }catch (FileNotFoundException e){
-            Main.LOGGER.severe(e.getMessage());
-        }
+        controller = new GameController(builder.build());
     }
 
     public void join(Player player) {

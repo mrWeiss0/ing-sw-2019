@@ -10,6 +10,7 @@ import server.model.PowerUp;
 import server.model.board.*;
 import server.model.weapon.Weapon;
 
+import java.io.FileNotFoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -330,6 +331,8 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
             lobbyList.create(name);
         } catch (IllegalStateException e) {
             sendMessage(e.toString());
+        } catch (FileNotFoundException e){
+            sendMessage("Server Error");
         }
     }
 
