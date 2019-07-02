@@ -74,7 +74,7 @@ class TargetGensTest {
 
     @Test
     void testMaxDistance() {
-        Set<Targettable> targets = TargetGens.maxDistanceFigures(2).get(figures[0], board, new ArrayList<>());
+        Set<Targettable> targets = TargetGens.atDistanceFigures(2).get(figures[0], board, new ArrayList<>());
         assertFalse(targets.contains(figures[0]));
         assertTrue(targets.contains(figures[1]));
         assertTrue(targets.contains(figures[2]));
@@ -205,7 +205,7 @@ class TargetGensTest {
 
     @Test
     void testMaxDistanceFromLastSquare() {
-        Set<Targettable> targets = TargetGens.maxDistanceFromLastSquares(1).get(figures[0], board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
+        Set<Targettable> targets = TargetGens.atDistanceFromLastSquares(1).get(figures[0], board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
         assertTrue(targets.contains(figures[1].getLocation()));
         assertTrue(targets.contains(figures[2].getLocation()));
         assertTrue(targets.contains(figures[0].getLocation()));
@@ -226,7 +226,7 @@ class TargetGensTest {
 
     @Test
     void testMaxDistanceSquare() {
-        Set<Targettable> targets = TargetGens.maxDistanceSquares(1).get(figures[0], board, new ArrayList<>());
+        Set<Targettable> targets = TargetGens.atDistanceSquares(1).get(figures[0], board, new ArrayList<>());
         assertTrue(targets.contains(figures[1].getLocation()));
         assertFalse(targets.contains(figures[2].getLocation()));
         assertTrue(targets.contains(figures[0].getLocation()));
@@ -237,7 +237,7 @@ class TargetGensTest {
     @Test
     void testDifferentSquareFigures() {
         figures[1].moveTo(figures[0].getLocation());
-        Set<Targettable> targets = TargetGens.differentFigures().not(TargetGens.maxDistanceFigures(0)).get(figures[0], board, new ArrayList<>());
+        Set<Targettable> targets = TargetGens.differentFigures().not(TargetGens.atDistanceFigures(0)).get(figures[0], board, new ArrayList<>());
         assertFalse(targets.contains(figures[1]));
         assertFalse(targets.contains(figures[0]));
         assertTrue(targets.contains(figures[2]));
@@ -247,9 +247,9 @@ class TargetGensTest {
 
     @Test
     void testMaxDistAndOnLast() {
-        Set<Targettable> targets = TargetGens.maxDistanceFigures(1)
+        Set<Targettable> targets = TargetGens.atDistanceFigures(1)
                 .not(TargetGens.onLastFigures())
-                .not(TargetGens.maxDistanceFigures(0))
+                .not(TargetGens.atDistanceFigures(0))
                 .get(figures[0], board, new ArrayList<>(Collections.singletonList(figures[1].getLocation())));
         assertFalse(targets.contains(figures[1]));
     }

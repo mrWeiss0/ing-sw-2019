@@ -42,11 +42,11 @@ public class VortexCannonTest {
                         TargetGens.visibleSquares().and(TargetGens.differentSquares()),
                         Effects.addCurrToLast())
                 , new FireStep(1, 1,
-                TargetGens.maxDistanceFromLastFigures(1),
+                TargetGens.atDistanceFromLastFigures(1),
                 Effects.moveCurrToLast().and(Effects.damageCurr(2)).and(Effects.addCurrToLast())
         ));
         blackhole = new FireMode(new AmmoCube(0, 0, 1), new FireStep(1, 2,
-                TargetGens.maxDistanceFromLastFigures(1).and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
+                TargetGens.atDistanceFromLastFigures(1).and(TargetGens.differentFigures().not(TargetGens.inLastFigure())),
                 Effects.moveCurrToLast().and(Effects.damageCurr(1))
         ));
     }

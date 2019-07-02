@@ -81,25 +81,54 @@ public final class TargetGens {
 
     /**
      * Returns the <code>TargetGen</code> that generates all figures that are at
-     * a maximum distance of n from shooter
+     * a maximum distance of max from shooter
      *
-     * @param n the max distance from shooter
-     * @return the TargetGen generating all figures at max distance n
+     * @param max the max distance from shooter
+     * @return the TargetGen generating all figures at max distance max
      */
-    public static TargetGen maxDistanceFigures(int n) {
+    public static TargetGen atDistanceFigures(int max) {
         return (shooter, board, last) -> board.getFigures()
-                .stream().filter(t -> t != shooter && shooter.getLocation().atDistance(n).contains(t.getLocation())).collect(Collectors.toSet());
+                .stream().filter(t -> t != shooter && shooter.getLocation().atDistance(max).contains(t.getLocation())).collect(Collectors.toSet());
     }
 
     /**
      * Returns the <code>TargetGen</code> that generates all the squares that
-     * are at a maximum distance of n from shooter
+     * are at a maximum distance of max from shooter
      *
-     * @param n the max distance from shooter
-     * @return the TargetGen generating all squares at max distance n
+     * @param max the max distance from shooter
+     * @return the TargetGen generating all squares at max distance max
      */
-    public static TargetGen maxDistanceSquares(int n) {
-        return (shooter, board, lastTargets) -> new HashSet<>(shooter.getLocation().atDistance(n));
+    public static TargetGen atDistanceSquares(int max) {
+        return (shooter, board, lastTargets) -> new HashSet<>(shooter.getLocation().atDistance(max));
+    }
+
+    /**
+     * Returns the <code>TargetGen</code> that generates all figures that are at
+     * a distance between min and max
+     *
+     * @param min the min distance from shooter
+     * @param max the max distance from shooter
+     *            The special value "-1" corresponds to an infinite
+     *            maximum distance.
+     * @return the TargetGen generating all figures at distance between min and max
+     */
+    public static TargetGen atDistanceFigures(int min, int max) {
+        return (shooter, board, last) -> board.getFigures()
+                .stream().filter(t -> t != shooter && shooter.getLocation().atDistance(min, max).contains(t.getLocation())).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns the <code>TargetGen</code> that generates all the squares that
+     * are at a distance between min and max
+     *
+     * @param min the min distance from shooter
+     * @param max the max distance from shooter
+     *            The special value "-1" corresponds to an infinite
+     *            maximum distance.
+     * @return the TargetGen generating all squares at distance between min and max
+     */
+    public static TargetGen atDistanceSquares(int min, int max) {
+        return (shooter, board, lastTargets) -> new HashSet<>(shooter.getLocation().atDistance(min, max));
     }
 
     /**
@@ -165,35 +194,35 @@ public final class TargetGens {
 
     /**
      * Returns the <code>TargetGen</code> that generates all the figures
-     * that are at a maximum distance of n from the first element of
+     * that are at a maximum distance of max from the first element of
      * lastTargets
      *
-     * @param n the maximum distance of a figure from the last square
+     * @param max the maximum distance of a figure from the last square
      * @return the TargetGen generating all the figures
-     * that are at a maximum distance of n from the first element of
+     * that are at a maximum distance of max from the first element of
      * lastTargets
      */
-    public static TargetGen maxDistanceFromLastFigures(int n) {
-        return (shooter, board, lastTargets) -> ((AbstractSquare) lastTargets.get(0)).atDistance(n).stream().
+    public static TargetGen atDistanceFromLastFigures(int max) {
+        return (shooter, board, lastTargets) -> ((AbstractSquare) lastTargets.get(0)).atDistance(max).stream().
                 collect(HashSet::new, (x, y) -> x.addAll(y.getOccupants().stream().filter(z -> z != shooter).collect(Collectors.toSet())), Set::addAll);
     }
 
     /**
      * Returns the <code>TargetGen</code> that generates all the squares
-     * that are at a maximum distance of n from the first element of
+     * that are at a maximum distance of max from the first element of
      * lastTargets
      *
-     * @param n the maximum distance of a square from the last square
+     * @param max the maximum distance of a square from the last square
      * @return the TargetGen generating all the squares
-     * that are at a maximum distance of n from the first element of
+     * that are at a maximum distance of max from the first element of
      * lastTargets
      */
-    public static TargetGen maxDistanceFromLastSquares(int n) {
-        return (shooter, board, lastTargets) -> new HashSet<>(((AbstractSquare) lastTargets.get(0)).atDistance(n));
+    public static TargetGen atDistanceFromLastSquares(int max) {
+        return (shooter, board, lastTargets) -> new HashSet<>(((AbstractSquare) lastTargets.get(0)).atDistance(max));
     }
 
-    public static TargetGen maxDistanceFromLastFigureSquare(int n) {
-        return (shooter, board, lastTargets) -> new HashSet<>(((Figure) lastTargets.get(0)).getLocation().atDistance(n));
+    public static TargetGen atDistanceFromLastFigureSquare(int min, int max) {
+        return (shooter, board, lastTargets) -> new HashSet<>(((Figure) lastTargets.get(0)).getLocation().atDistance(min, max));
     }
 
     /**
