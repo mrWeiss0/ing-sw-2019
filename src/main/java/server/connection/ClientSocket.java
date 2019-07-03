@@ -133,7 +133,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     @Override
     public void sendSquareContent(AbstractSquare square) {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
-        int tileID = 0;
+        int tileID = -1;
         int[] weapons = null;
         int[][] pcost=null;
         if(square.peek().isEmpty())
@@ -154,7 +154,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         send("fill" + CMD_DELIMITER + id
                 + ARG_DELIMITER + tileID
                 + ARG_DELIMITER
-                + (weapons == null ? "" :
+                + (weapons == null ? "-1"+ARG_DELIMITER+"0" :
                  Arrays.stream(weapons)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining("%%"))+ARG_DELIMITER
@@ -181,7 +181,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerDamages(Player player) {
         List<Player> players = player.getGame().getGame().getPlayers();
         send("damages" + CMD_DELIMITER
-                + players.indexOf(player) + ARG_DELIMITER
+                + players.indexOf(player) + (player.getFigure().getDamages().isEmpty()?"":ARG_DELIMITER)
                 + player.getFigure().getDamages().stream()
                 .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -192,7 +192,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerMarks(Player player) {
         List<Player> players = player.getGame().getGame().getPlayers();
         send("marks" + CMD_DELIMITER
-                + players.indexOf(player) + ARG_DELIMITER
+                + players.indexOf(player) + (player.getFigure().getMarks().isEmpty()?"":ARG_DELIMITER)
                 + player.getFigure().getMarks().stream()
                 .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -203,9 +203,10 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerLocation(Player player) {
         send("location" + CMD_DELIMITER
                 + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
-                + Arrays.stream(player.getFigure().getLocation().getCoordinates())
+                +(player.getFigure().getLocation()==null?"-1"+ARG_DELIMITER+"-1":
+                Arrays.stream(player.getFigure().getLocation().getCoordinates())
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(ARG_DELIMITER))
+                .collect(Collectors.joining(ARG_DELIMITER)))
         );
     }
 
@@ -386,6 +387,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectFireMode(String[] args) {
+        if(args.length<2)
+            player.sendMessage("Please select at least one weapon and one fire mode");
         player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
@@ -394,8 +397,6 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectTargettable(String[] args) {
-        if (args[1].equals(""))
-            args = new String[]{args[0]};
         player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
     }
 

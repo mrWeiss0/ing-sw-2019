@@ -297,11 +297,21 @@ class FireState extends State {
 
     @Override
     public void onEnter() {
+        if(fireSequence.getTargets().size()<fireSequence.getMinTargets()){
+            fireSequence.getShooter().getPlayer().sendMessage("Not enough targets for this weapon");
+            controller.nextState();
+            return;
+        }
+        if(fireSequence.getTargets().size()<fireSequence.getMaxTargets()){
+            fireSequence.getShooter().getPlayer().sendMessage("Automatically chosen targets");
+            selectTargettable(fireSequence.getShooter().getPlayer(),fireSequence.getTargets().toArray(Targettable[]::new));
+        }
         fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
         fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
                 ,fireSequence.getMaxTargets()
                 ,fireSequence.getTargets(),
                 controller.getGame().getBoard());
+
     }
 
     @Override
@@ -309,8 +319,8 @@ class FireState extends State {
         if (player != fireSequence.getShooter().getPlayer())
             return;
         Set<Targettable> targets = Set.of(targettables);
-        fireSequence.validateTargets(targets);
-        fireSequence.run(targets);
+        if(fireSequence.validateTargets(targets))
+            fireSequence.run(targets);
         if (fireSequence.hasNext())
             controller.setState(this);
         else {

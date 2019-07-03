@@ -26,7 +26,7 @@ public class Weapon implements Grabbable {
     private final AmmoCube reloadCost;
     private final int id;
     private final List<FireMode> fireModes;
-    private boolean loaded = false;
+    private boolean loaded = true;
 
     /**
      * Constructs a Weapon using the specified Builder.

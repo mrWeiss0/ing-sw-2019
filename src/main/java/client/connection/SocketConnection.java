@@ -167,9 +167,9 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     private void sendPowerUps(String[] args) {
-        controller.setPowerUps((int[][]) IntStream.range(0, args.length / 2)
+        controller.setPowerUps(IntStream.range(0, args.length / 2)
                 .mapToObj(x -> new int[]{Integer.parseInt(args[2 * x]), Integer.parseInt(args[2 * x + 1])})
-                .toArray());
+                .toArray(int[][]::new));
     }
 
     private void sendCurrentPlayer(String[] args) {
@@ -201,7 +201,7 @@ public class SocketConnection implements Connection, Runnable {
         int[] rooms = new int[numOfSquares];
         boolean[] spawn = new boolean[numOfSquares];
         for (int i = 0; i < numOfSquares; i++) {
-            coordinates[i] = new int[]{Integer.parseInt(args[3 * i], Integer.parseInt(args[3 * i + 1]))};
+            coordinates[i] = new int[]{Integer.parseInt(args[3 * i]), Integer.parseInt(args[3 * i + 1])};
             rooms[i] = Integer.parseInt(args[3 * i + 2]);
             spawn[i] = args[3 * i + 2].startsWith("+");
         }
@@ -222,8 +222,8 @@ public class SocketConnection implements Connection, Runnable {
 
     //example ["0", "mario", "1", "luigi"]
     private void sendPlayers(String[] args) {
-        int[] avatars = IntStream.range(0, args.length).filter(x -> x % 2 != 0).map(x -> Integer.parseInt(args[x])).toArray();
-        String[] names = IntStream.range(0, args.length).filter(x -> x % 2 == 0).mapToObj(x -> args[x]).toArray(String[]::new);
+        int[] avatars = IntStream.range(0, args.length).filter(x -> x % 2 == 0).map(x -> Integer.parseInt(args[x])).toArray();
+        String[] names = IntStream.range(0, args.length).filter(x -> x % 2 != 0).mapToObj(x -> args[x]).toArray(String[]::new);
         controller.setPlayers(avatars, names);
     }
 
