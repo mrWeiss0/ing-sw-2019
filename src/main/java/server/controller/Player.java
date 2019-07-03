@@ -201,6 +201,7 @@ public class Player {
         }
         if(actions==null){
             client.sendMessage("You have no action to choose from");
+            return;
         }
         if (index <0 || index >= actions.size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
