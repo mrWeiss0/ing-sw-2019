@@ -57,7 +57,6 @@ class TurnState extends State {
         super(controller);
         int actionsID;
         current = controller.getGame().nextPlayer();
-        current.sendGameState(GameState.TURN.ordinal());
         actionsID = controller.getGame().getActionsID();
         remainingActions = actionsID % 2 == 0 ? 2 : 1;
         current.sendPossibleActions(actionsID);
@@ -66,6 +65,7 @@ class TurnState extends State {
 
     @Override
     public void onEnter() {
+        current.sendGameState(GameState.TURN.ordinal());
         if(!current.isActive()){
             controller.setState(new TurnState(controller));
             return;
@@ -123,14 +123,17 @@ class TurnState extends State {
 
 class SelectSpawnState extends State {
     private final List<Player> current;
-    private final PowerUp powerUp;
 
     public SelectSpawnState(GameController controller, List<Player> players) {
         super(controller);
-        current = players;
-        powerUp = controller.getGame().drawPowerup();
+        current = new ArrayList<>(players);
+        current.forEach(x->x.setSpawnPowerUp(controller.getGame().drawPowerup()));
         current.forEach(x->x.sendGameState(GameState.SPAWN.ordinal()));
-        current.forEach(x->x.sendPowerUps(x.getFigure().getPowerUps()));
+        current.forEach(x->{
+            List<PowerUp> powerUps=new ArrayList<>(x.getFigure().getPowerUps());
+            powerUps.add(x.getSpawnPowerUp());
+            x.sendPowerUps(powerUps);
+        });
     }
 
     @Override
@@ -146,7 +149,8 @@ class SelectSpawnState extends State {
             Figure figure = player.getFigure();
             List<PowerUp> currentPowerUps = figure.getPowerUps();
             if (currentPowerUps.remove(powerUps[0]))
-                currentPowerUps.add(powerUp);
+                currentPowerUps.add(player.getSpawnPowerUp());
+            player.setSpawnPowerUp(null);
             figure.moveTo(powerUps[0].getSpawn());
             powerUps[0].discard();
             current.remove(player);
@@ -263,6 +267,7 @@ class FireModeSelectionState extends State {
         current = player;
         total = player.getFigure().getTotalAmmo();
         current.sendGameState(GameState.FIRE_MODE.ordinal());
+        current.sendPlayerWeapons(current);
     }
 
     @Override
@@ -283,11 +288,11 @@ class FireState extends State {
     public FireState(GameController controller, Player player, List<FireStep> stepList) {
         super(controller);
         this.fireSequence = new FireSequence(player.getFigure(), controller.getGame().getBoard(), stepList);
-        player.sendGameState(GameState.FIRE.ordinal());
     }
 
     @Override
     public void onEnter() {
+        fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
         fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
                 ,fireSequence.getMaxTargets()
                 ,fireSequence.getTargets(),
@@ -388,6 +393,10 @@ class ScopeState extends State {
     public ScopeState(GameController controller, Player player) {
         super(controller);
         current = player;
+    }
+
+    @Override
+    public void onEnter(){
         current.sendGameState(GameState.SCOPE.ordinal());
     }
 
@@ -421,7 +430,8 @@ class TagbackState extends State {
         current.sendGameState(GameState.TAGBACK.ordinal());
         damaged.stream()
                 .map(Figure::getPlayer)
-                .forEach(Player::setInactive);
+                .peek(Player::setInactive)
+                .forEach(x->x.sendGameState(GameState.TAGBACK.ordinal()));
         tagbackTimer = new TimerTask() {
             private int c = controller.getGame().getOtherTimeout();
 

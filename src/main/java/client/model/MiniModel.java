@@ -46,7 +46,7 @@ public class MiniModel {
     }
 
     public void setPowerups(int[][] values) {
-        this.powerups = (PowerUp[]) Arrays.stream(values).map(x -> new PowerUp(x[0], x[1])).toArray();
+        this.powerups = Arrays.stream(values).map(x -> new PowerUp(x[0], x[1])).toArray(PowerUp[]::new);
         view.displayPowerUps(powerups);
     }
 
@@ -100,6 +100,8 @@ public class MiniModel {
             this.possibleActions=new int[]{0,1,2};
         else if(actionSetID==2)
             this.possibleActions=new int[]{0,1};
+        else
+            this.possibleActions=new int[]{-1};
         view.displayPossibleActions(possibleActions);
     }
 

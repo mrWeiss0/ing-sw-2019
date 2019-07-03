@@ -24,6 +24,15 @@ public class Player {
     private boolean active = true;
     private boolean online = true;
     private List<Action> actions;
+    private PowerUp spawnPowerUp;
+
+    public void setSpawnPowerUp(PowerUp pup){
+        spawnPowerUp=pup;
+    }
+
+    public PowerUp getSpawnPowerUp(){
+        return spawnPowerUp;
+    }
 
     public Player(String n) {
         name = n;
@@ -92,6 +101,10 @@ public class Player {
     public void selectPowerUp(int[] index) {
         if (game == null) {
             client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        if(index.length==1 && index[0]==figure.getPowerUps().size()){
+            game.enqueue(new SelectPowerUpEvent(this, new PowerUp[]{spawnPowerUp}));
             return;
         }
         if (Arrays.stream(index).anyMatch(x -> x < 0 || x >= figure.getPowerUps().size())) {
@@ -204,11 +217,15 @@ public class Player {
             return;
         }
         if(actions==null){
-            client.sendMessage("You have no action to choose from");
+            client.sendMessage("You have no actions to choose from");
             return;
         }
         if (index <0 || index >= actions.size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
+            return;
+        }
+        if(index==1 && figure.getWeapons().isEmpty()){
+            client.sendMessage("You have no weapons to shoot with");
             return;
         }
         game.enqueue(new SelectActionEvent(

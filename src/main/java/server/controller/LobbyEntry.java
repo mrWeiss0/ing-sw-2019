@@ -1,6 +1,7 @@
 package server.controller;
 
 import server.Config;
+import server.model.AmmoCube;
 import server.model.Game;
 import server.model.weapon.Weapon;
 import server.model.weapon.Weapons;
@@ -37,6 +38,8 @@ public class LobbyEntry {
                 .otherTimeout(config.OTHER_TIMEOUT)
                 .weapons(Arrays.stream(Weapons.values()).map(Weapons::build).toArray(Weapon[]::new))
                 .mapType(config.MAP_TYPE)
+                .spawnCapacity(config.SPAWN_CAPACITY)
+                .defaultAmmo(new AmmoCube(config.DEFAULT_AMMO))
                 //TODO CHECK SUI PERCORSI NEL JAR
                 .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
                 .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))

@@ -123,6 +123,7 @@ public class Game {
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
+        board.getSquares().forEach(x->players.forEach(y->y.sendSquareContent(x)));
     }
 
     public PowerUp drawPowerup() {
@@ -136,7 +137,6 @@ public class Game {
      */
     public void fillSquare(AmmoSquare square) {
         square.refill(ammoTileDeck.draw());
-        players.forEach(x->x.sendSquareContent(square));
     }
 
     /**
@@ -146,7 +146,6 @@ public class Game {
      */
     public void fillSquare(SpawnSquare square) {
         square.refill(weaponDeck.draw());
-        players.forEach(x->x.sendSquareContent(square));
     }
 
     public void addKillCount(int val, Figure f) {

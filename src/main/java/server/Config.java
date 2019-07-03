@@ -23,5 +23,7 @@ public class Config {
     public String POWER_UP_FILE;
     public String[] MAP_FILES;
     public int MAP_TYPE;
+    public int SPAWN_CAPACITY;
+    public int[] DEFAULT_AMMO;
 
 }

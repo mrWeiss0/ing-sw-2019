@@ -1,5 +1,7 @@
 package client.model;
 
+import server.model.PowerUpType;
+
 public class PowerUp {
     private final int color;
     private final int type;
@@ -19,6 +21,6 @@ public class PowerUp {
 
     @Override
     public String toString() {
-        return type + " " + color;
+        return "powerUp: "+ PowerUpType.values()[type].toString() + " " + color;
     }
 }

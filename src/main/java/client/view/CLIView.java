@@ -101,7 +101,10 @@ public class CLIView implements View, Runnable {
     @Override
     public void displayPossibleActions(int[] actions) {
         print("Possible actions: " + Arrays.stream(actions)
-                .mapToObj(Integer::toString)
+                .mapToObj( x->Map.ofEntries(Map.entry(0,"grab"),
+                        Map.entry(1,"shoot"),
+                        Map.entry(2,"move"),
+                        Map.entry(-1,"none")).get(x))
                 .collect(Collectors.joining(", ")));
     }
 

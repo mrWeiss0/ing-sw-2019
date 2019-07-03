@@ -90,11 +90,11 @@ public class GameController implements Runnable {
     }
 
     public void addState(State state) {
-        stateStack.add(state);
+        stateStack.push(state);
     }
 
     public void addStates(List<State> states) {
-        stateStack.addAll(states);
+        states.forEach(stateStack::push);
     }
 
     public void clearStack() {
