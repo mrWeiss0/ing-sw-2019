@@ -40,18 +40,18 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button fx:id="cell0_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
-                     <Button fx:id="cell0_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
+                     <Button fx:id="cell_0_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
+                     <Button fx:id="cell_0_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
                      <Button fx:id="cell0_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
-                     <Button fx:id="cell0_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
-                     <Button fx:id="cell1_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
-                     <Button fx:id="cell1_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                     <Button fx:id="cell1_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                     <Button fx:id="cell1_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                     <Button fx:id="cell2_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
-                     <Button fx:id="cell2_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     <Button fx:id="cell2_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                     <Button fx:id="cell2_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                     <Button fx:id="cell_0_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
+                     <Button fx:id="cell_1_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
+                     <Button fx:id="cell_1_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     <Button fx:id="cell_1_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     <Button fx:id="cell_1_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                     <Button fx:id="cell_2_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
+                     <Button fx:id="cell_2_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <Button fx:id="cell_2_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     <Button fx:id="cell_2_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <VBox fx:id="mapWeapons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="140.0" StackPane.alignment="TOP_RIGHT">
@@ -61,21 +61,21 @@
                   <children>
                      <Accordion fx:id="redWeapons" maxHeight="-Infinity" maxWidth="-Infinity">
                        <panes>
-                         <TitledPane fx:id="firstRed" text="untitled 1">
+                         <TitledPane fx:id="firstRed" text="RED 1">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                  </ImageView>
                               </content>
                            </TitledPane>
-                         <TitledPane fx:id="secondRed" text="untitled 2">
+                         <TitledPane fx:id="secondRed" text="RED 2">
                               <content>
                                   <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
                                   </ImageView>
                               </content>
                            </TitledPane>
-                           <TitledPane fx:id="thirdRed" text="untitled 3">
+                           <TitledPane fx:id="thirdRed" text="RED 3">
                               <content>
                                   <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                       <Image url="@../images/weapons/20_PORTRAIT.png" />
@@ -86,7 +86,7 @@
                      </Accordion>
                      <Accordion fx:id="yellowWeapons" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity">
                         <panes>
-                           <TitledPane fx:id="firstYellow" text="untitled 1">
+                           <TitledPane fx:id="firstYellow" text="YELLOW 1">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -95,7 +95,7 @@
                                  </ImageView>
                               </content>
                            </TitledPane>
-                           <TitledPane fx:id="secondYellow" text="untitled 2">
+                           <TitledPane fx:id="secondYellow" text="YELLOW 2">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -104,7 +104,7 @@
                                  </ImageView>
                               </content>
                            </TitledPane>
-                           <TitledPane fx:id="thirdYellow" text="untitled 3">
+                           <TitledPane fx:id="thirdYellow" text="YELLOW 3">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -117,7 +117,7 @@
                      </Accordion>
                      <Accordion fx:id="blueWeapons" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity">
                         <panes>
-                           <TitledPane fx:id="firstBlue" text="untitled 1">
+                           <TitledPane fx:id="firstBlue" text="BLUE 1">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -126,7 +126,7 @@
                                  </ImageView>
                               </content>
                            </TitledPane>
-                           <TitledPane fx:id="secondBlue" text="untitled 2">
+                           <TitledPane fx:id="secondBlue" text="BLUE 2">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -135,7 +135,7 @@
                                  </ImageView>
                               </content>
                            </TitledPane>
-                           <TitledPane fx:id="thirdBlue" text="untitled 3">
+                           <TitledPane fx:id="thirdBlue" text="BLUE 3">
                               <content>
                                  <ImageView fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
