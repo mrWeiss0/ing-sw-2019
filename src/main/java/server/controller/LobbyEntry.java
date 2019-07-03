@@ -96,7 +96,7 @@ public class LobbyEntry {
                 checkPlayerCount();
                 if (--c <= 0 && countdown != null)
                     start();
-                else if (c <= 5) builder.getJoinedPlayers().forEach(x -> x.getClient().sendCountDown(c));
+                else if (c <= 5) builder.getJoinedPlayers().forEach(x -> x.sendCountDown(c));
             }
         };
         timer.schedule(countdown, 0, 1000);

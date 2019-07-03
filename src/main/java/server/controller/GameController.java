@@ -19,10 +19,10 @@ public class GameController implements Runnable {
     public GameController(Game game) {
         this.game = game;
         game.getPlayers().forEach(x -> x.setGame(this));
-        game.getPlayers().forEach(x->x.getClient().sendGameParams(Arrays.asList(game.getMapType(),game.getMaxKills())));
-        game.getPlayers().forEach(x->x.getClient().sendGameState(GameState.ENEMY_TURN.ordinal()));
-        game.getPlayers().forEach(x->x.getClient().sendPlayers(this.game.getPlayers()));
-        game.getPlayers().forEach(x->x.getClient().sendSquares(this.game.getBoard().getSquares()));
+        game.getPlayers().forEach(x->x.sendGameParams(Arrays.asList(game.getMapType(),game.getMaxKills())));
+        game.getPlayers().forEach(x->x.sendGameState(GameState.ENEMY_TURN.ordinal()));
+        game.getPlayers().forEach(x->x.sendPlayers(this.game.getPlayers()));
+        game.getPlayers().forEach(x->x.sendSquares(this.game.getBoard().getSquares()));
     }
 
     @Override

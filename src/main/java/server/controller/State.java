@@ -56,10 +56,10 @@ class TurnState extends State {
         super(controller);
         int actionsID;
         current = controller.getGame().nextPlayer();
-        current.getClient().sendGameState(GameState.TURN.ordinal());
+        current.sendGameState(GameState.TURN.ordinal());
         actionsID = controller.getGame().getActionsID();
         remainingActions = actionsID % 2 == 0 ? 2 : 1;
-        current.getClient().sendPossibleActions(actionsID);
+        current.sendPossibleActions(actionsID);
         current.setActions(Actions.values()[actionsID].getActionList());
     }
 
@@ -70,7 +70,7 @@ class TurnState extends State {
             controller.setState(new SelectSpawnState(controller, Collections.singletonList(current)));
         }
         if (remainingActions-- <= 0) {
-            current.getClient().sendRemainingActions(remainingActions);
+            current.sendRemainingActions(remainingActions);
             // TODO stop timer
             controller.addState(new TurnState(controller));
             controller.setState(new SelectReloadState(controller, current));
@@ -106,8 +106,8 @@ class SelectSpawnState extends State {
         super(controller);
         current = players;
         powerUp = controller.getGame().drawPowerup();
-        current.forEach(x->x.getClient().sendGameState(GameState.SPAWN.ordinal()));
-        current.forEach(x->x.getClient().sendPowerUps(x.getFigure().getPowerUps()));
+        current.forEach(x->x.sendGameState(GameState.SPAWN.ordinal()));
+        current.forEach(x->x.sendPowerUps(x.getFigure().getPowerUps()));
     }
 
     @Override
@@ -126,7 +126,7 @@ class SelectSpawnState extends State {
             figure.moveTo(powerUps[0].getSpawn());
             powerUps[0].discard();
             current.remove(player);
-            player.getClient().sendPowerUps(player.getFigure().getPowerUps());
+            player.sendPowerUps(player.getFigure().getPowerUps());
             controller.setState(this);
         }
     }
@@ -140,7 +140,7 @@ class SelectReloadState extends State {
         super(controller);
         current = player;
         total = player.getFigure().getTotalAmmo();
-        current.getClient().sendGameState(GameState.SELECT_RELOAD.ordinal());
+        current.sendGameState(GameState.SELECT_RELOAD.ordinal());
     }
 
     @Override
@@ -182,7 +182,7 @@ class PayState extends State {
         super(controller);
         current = player;
         this.cost = cost;
-        current.getClient().sendGameState(GameState.PAY.ordinal());
+        current.sendGameState(GameState.PAY.ordinal());
     }
 
     @Override
@@ -200,8 +200,8 @@ class PayState extends State {
                 current.getFigure().getPowerUps().remove(powerUp);
                 powerUp.discard();
             }
-            current.getClient().sendPowerUps(current.getFigure().getPowerUps());
-            controller.getGame().getPlayers().forEach(x->x.getClient().sendPlayerNPowerUps(current));
+            current.sendPowerUps(current.getFigure().getPowerUps());
+            controller.getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(current));
             controller.nextState();
         }
     }
@@ -215,7 +215,7 @@ class PayAnyColorState extends State {
         super(controller);
         current = player;
         total = player.getFigure().getTotalAmmo();
-        current.getClient().sendGameState(GameState.PAY_ANY.ordinal());
+        current.sendGameState(GameState.PAY_ANY.ordinal());
     }
 
     @Override
@@ -238,7 +238,7 @@ class FireModeSelectionState extends State {
         super(controller);
         current = player;
         total = player.getFigure().getTotalAmmo();
-        current.getClient().sendGameState(GameState.FIRE_MODE.ordinal());
+        current.sendGameState(GameState.FIRE_MODE.ordinal());
     }
 
     @Override
@@ -259,12 +259,12 @@ class FireState extends State {
     public FireState(GameController controller, Player player, List<FireStep> stepList) {
         super(controller);
         this.fireSequence = new FireSequence(player.getFigure(), controller.getGame().getBoard(), stepList);
-        player.getClient().sendGameState(GameState.FIRE.ordinal());
+        player.sendGameState(GameState.FIRE.ordinal());
     }
 
     @Override
     public void onEnter() {
-        fireSequence.getShooter().getPlayer().getClient().sendTargets(fireSequence.getMinTargets()
+        fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
                 ,fireSequence.getMaxTargets()
                 ,fireSequence.getTargets(),
                 controller.getGame().getBoard());
@@ -293,7 +293,7 @@ class SelectGrabState extends State {
     public SelectGrabState(GameController controller, Player player) {
         super(controller);
         current = player;
-        current.getClient().sendGameState(GameState.SELECT_GRAB.ordinal());
+        current.sendGameState(GameState.SELECT_GRAB.ordinal());
     }
 
     @Override
@@ -304,7 +304,7 @@ class SelectGrabState extends State {
         else if (list.size() == 1)
             selectGrabbable(current, list.get(0));
         else if(current.getFigure().getLocation()!=null)
-            current.getClient().sendSquareContent(current.getFigure().getLocation());
+            current.sendSquareContent(current.getFigure().getLocation());
     }
 
     @Override
@@ -328,7 +328,7 @@ class GrabState extends State {
         super(controller);
         current = player;
         this.grabbable = grabbable;
-        current.getClient().sendGameState(GameState.GRAB.ordinal());
+        current.sendGameState(GameState.GRAB.ordinal());
     }
 
     @Override
@@ -339,9 +339,9 @@ class GrabState extends State {
             figure.getLocation().grab(figure, grabbable);
             if (discard != null) figure.getLocation().refill(discard);
             controller.nextState();
-            controller.getGame().getPlayers().forEach(x->x.getClient().sendSquareContent(figure.getLocation()));
+            controller.getGame().getPlayers().forEach(x->x.sendSquareContent(figure.getLocation()));
         } catch (IllegalStateException e) {
-            current.getClient().sendMessage("You have to discard a weapon");
+            current.sendMessage("You have to discard a weapon");
         }
     }
 
@@ -353,7 +353,7 @@ class GrabState extends State {
             discard = weapons[0];
             current.getFigure().getWeapons().remove(discard);
         }
-        controller.getGame().getPlayers().forEach(x->x.getClient().sendPlayerWeapons(current));
+        controller.getGame().getPlayers().forEach(x->x.sendPlayerWeapons(current));
         controller.setState(this);
     }
 }
@@ -364,7 +364,7 @@ class ScopeState extends State {
     public ScopeState(GameController controller, Player player) {
         super(controller);
         current = player;
-        current.getClient().sendGameState(GameState.SCOPE.ordinal());
+        current.sendGameState(GameState.SCOPE.ordinal());
     }
 
     @Override
@@ -392,7 +392,7 @@ class TagbackState extends State {
         super(controller);
         current = player;
         this.damaged = damaged;
-        current.getClient().sendGameState(GameState.TAGBACK.ordinal());
+        current.sendGameState(GameState.TAGBACK.ordinal());
     }
 
     @Override
@@ -414,8 +414,8 @@ class TagbackState extends State {
                     fs.run(new HashSet<>(fs.getTargets()));
                 }
         );
-        player.getClient().sendPowerUps(player.getFigure().getPowerUps());
-        controller.getGame().getPlayers().forEach(x->x.getClient().sendPlayerNPowerUps(player));
+        player.sendPowerUps(player.getFigure().getPowerUps());
+        controller.getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(player));
         damaged.remove(player.getFigure());
         controller.setState(this);
     }
@@ -427,8 +427,8 @@ class EndTurnState extends State {
     public EndTurnState(GameController controller, Player player) {
         super(controller);
         current = player;
-        current.getClient().sendGameState(GameState.GRAB.ordinal());
-        current.getClient().sendPossibleActions(-1);
+        current.sendGameState(GameState.GRAB.ordinal());
+        current.sendPossibleActions(-1);
     }
 
     @Override

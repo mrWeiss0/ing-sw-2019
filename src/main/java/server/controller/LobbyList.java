@@ -37,8 +37,8 @@ public class LobbyList {
         } else player.setOnline();
         client.sendMessage("Registered as " + username);
         client.setPlayer(player);
-        player.getClient().sendLobbyList(repr());
-        player.getClient().sendGameState(GameState.CHOOSING_LOBBY.ordinal());
+        player.sendLobbyList(repr());
+        player.sendGameState(GameState.CHOOSING_LOBBY.ordinal());
     }
 
     public void join(Player player, String name) {
@@ -48,8 +48,8 @@ public class LobbyList {
             throw new NoSuchElementException("No game with name: " + name);
         lobbyMap.values().forEach(x -> x.remove(player));
         lobbyMap.get(name).join(player);
-        player.getClient().sendMessage("Joined lobby with name: " + name);
-        player.getClient().sendGameState(GameState.NOT_STARTED.ordinal());
+        player.sendMessage("Joined lobby with name: " + name);
+        player.sendGameState(GameState.NOT_STARTED.ordinal());
     }
 
     public void remove(Player player) {
@@ -58,8 +58,8 @@ public class LobbyList {
         if (lobbyMap.values().stream().noneMatch(x->x.isPresent(player)))
             throw new NoSuchElementException("You are not in a lobby ");
         lobbyMap.values().stream().filter(x->x.isPresent(player)).forEach(x->x.remove(player));
-        player.getClient().sendMessage("Exit from lobby ");
-        player.getClient().sendGameState(GameState.CHOOSING_LOBBY.ordinal());
+        player.sendMessage("Exit from lobby ");
+        player.sendGameState(GameState.CHOOSING_LOBBY.ordinal());
     }
 
     public void create(String name) throws FileNotFoundException {
@@ -69,14 +69,14 @@ public class LobbyList {
         if (trimmed.isEmpty())
             throw new IllegalStateException("Name not valid");
         lobbyMap.put(trimmed, new LobbyEntry(config, gameStartTimer));
-        players.values().forEach(x -> x.getClient().sendMessage("Created lobby " + trimmed));
-        players.values().forEach(x -> x.getClient().sendLobbyList(repr()));
+        players.values().forEach(x -> x.sendMessage("Created lobby " + trimmed));
+        players.values().forEach(x -> x.sendLobbyList(repr()));
     }
 
     public void chatMessage(VirtualClient v, String msg) {
         if (!players.values().contains(v.getPlayer()))
             throw new IllegalStateException("Please choose an username first");
-        players.values().forEach(x -> x.getClient().sendChatMessage(v.getPlayer().getName(), msg));
+        players.values().forEach(x -> x.sendChatMessage(v.getPlayer().getName(), msg));
     }
 
     private String[] repr() {

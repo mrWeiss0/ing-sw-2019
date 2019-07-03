@@ -3,6 +3,8 @@ package server.controller;
 import client.model.GameState;
 import server.connection.VirtualClient;
 import server.model.PowerUp;
+import server.model.board.AbstractSquare;
+import server.model.board.Board;
 import server.model.board.Figure;
 import server.model.board.Targettable;
 import server.model.weapon.FireMode;
@@ -233,5 +235,121 @@ public class Player {
         game.getGame().getBoard().getSquares().forEach(x->client.sendSquareContent(x));
         client.sendRemainingActions(0);
         client.sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
+    }
+
+    public void sendMessage(String s){
+        if(!isOnline()) return;
+        client.sendMessage(s);
+    }
+
+    public void sendLobbyList(String[] s){
+        if(!isOnline()) return;
+        client.sendLobbyList(s);
+    }
+
+    public void sendChatMessage(String name, String msg){
+        if(!isOnline()) return;
+        client.sendChatMessage(name, msg);
+    }
+
+    public void sendTargets(int min, int max, List<Targettable> targets, Board board){
+        if(!isOnline()) return;
+        client.sendTargets(min, max, targets, board);
+    }
+
+    public void sendPowerUps(List<PowerUp> powerUps){
+        if(!isOnline()) return;
+        client.sendPowerUps(powerUps);
+    }
+
+    public void sendCurrentPlayer(int currentPlayer){
+        if(!isOnline()) return;
+        client.sendCurrentPlayer(currentPlayer);
+    }
+
+    public void sendPossibleActions(int actionSetID){
+        if(!isOnline()) return;
+        client.sendPossibleActions(actionSetID);
+    }
+
+    //0:map_type, 1:max_kills
+    public void sendGameParams(List<Integer> gameParams){
+        if(!isOnline()) return;
+        client.sendGameParams(gameParams);
+    }
+
+    public void sendKillTrack(List<Figure> killTrack, List<Boolean> overkills){
+        if(!isOnline()) return;
+        client.sendKillTrack(killTrack, overkills);
+    }
+
+    public void sendSquares(List<AbstractSquare> squares){
+        if(!isOnline()) return;
+        client.sendSquares(squares);
+    }
+
+    public void sendSquareContent(AbstractSquare square){
+        if(!isOnline()) return;
+        client.sendSquareContent(square);
+    }
+
+    public void sendPlayers(List<Player> players){
+        if(!isOnline()) return;
+        client.sendPlayers(players);
+    }
+
+    public void sendPlayerDamages(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerDamages(player);
+    }
+
+    public void sendPlayerMarks(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerMarks(player);
+    }
+
+    public void sendPlayerLocation(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerLocation(player);
+    }
+
+    public void sendPlayerPoints(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerPoints(player);
+    }
+
+    public void sendPlayerNPowerUps(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerNPowerUps(player);
+    }
+
+    public void sendPlayerDeaths(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerDeaths(player);
+    }
+
+    public void sendPlayerAmmo(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerAmmo(player);
+    }
+
+    public void sendPlayerWeapons(Player player){
+        if(!isOnline()) return;
+        client.sendPlayerWeapons(player);
+    }
+
+    public void sendRemainingActions(int remaining){
+        if(!isOnline()) return;
+        client.sendRemainingActions(remaining);
+    }
+
+    public void sendGameState(int value){
+        if(!isOnline()) return;
+        client.sendGameState(value);
+    }
+
+    public void sendCountDown(int value){
+        if(!isOnline()) return;
+        client.sendCountDown(value);
     }
 }
