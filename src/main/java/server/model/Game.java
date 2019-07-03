@@ -42,9 +42,10 @@ public class Game {
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
     private int lastPlayer = -1;
-    private int mapType;
-    private int maxKills;
-
+    private final int mapType;
+    private final int maxKills;
+    private final int turnTimeout;
+    private final int otherTimeout;
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
@@ -75,6 +76,8 @@ public class Game {
         this.mapType=builder.mapType;
         this.maxKills=builder.nKills;
         players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
+        turnTimeout = builder.turnTimeout;
+        otherTimeout = builder.otherTimeout;
     }
 
     public int getMapType(){
@@ -198,6 +201,14 @@ public class Game {
         return currPlayer > lastPlayer ? 2 : 1;
     }
 
+    public int getTurnTimeout() {
+        return turnTimeout;
+    }
+
+    public int getOtherTimeout() {
+        return otherTimeout;
+    }
+
     /**
      * The <code>Game.Builder</code> class allows the construction of a new
      * <code>Game</code>.
@@ -216,6 +227,8 @@ public class Game {
         private boolean frenzyOn;
         private int[] killPoints;
         private int[] frenzyPoints;
+        private int turnTimeout;
+        private int otherTimeout;
         private AmmoCube defaultAmmo = new AmmoCube();
         private AmmoTileImage[] ammoTiles = new AmmoTileImage[]{};
         private Weapon[] weapons = new Weapon[]{};
@@ -438,10 +451,19 @@ public class Game {
             return this;
         }
 
+        public Builder turnTimeout(int turnTimeout) {
+            this.turnTimeout = turnTimeout;
+            return this;
+        }
+
+        public Builder otherTimeout(int otherTimeout) {
+            this.otherTimeout = otherTimeout;
+            return this;
+        }
+
         public List<Player> getJoinedPlayers() {
             return players;
         }
-
 
         /**
          * Returns an instance of <code>Game</code> created from the fields

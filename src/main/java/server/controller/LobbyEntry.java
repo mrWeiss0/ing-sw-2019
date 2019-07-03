@@ -33,6 +33,8 @@ public class LobbyEntry {
                 .maxPowerUps(config.MAX_POWERUPS)
                 .killPoints(config.KILL_POINTS)
                 .frenzyPoints(config.FRENZY_POINTS)
+                .turnTimeout(config.TURN_TIMEOUT)
+                .otherTimeout(config.OTHER_TIMEOUT)
                 .weapons(Arrays.stream(Weapons.values()).map(Weapons::build).toArray(Weapon[]::new))
                 .mapType(config.MAP_TYPE)
                 //TODO CHECK SUI PERCORSI NEL JAR
@@ -61,13 +63,13 @@ public class LobbyEntry {
             resetCountdown();
         else if (countdown == null)
             setCountdown();
-
     }
 
     private void start() {
         resetCountdown();
         joinable = false;
         controller = new GameController(builder.build());
+        new Thread(controller).start();
     }
 
     public void join(Player player) {

@@ -17,6 +17,8 @@ public class Config {
     public int MAX_POWERUPS;
     public int[] KILL_POINTS;
     public int[] FRENZY_POINTS;
+    public int TURN_TIMEOUT;
+    public int OTHER_TIMEOUT;
     public String AMMO_TILE_FILE;
     public String POWER_UP_FILE;
     public String[] MAP_FILES;

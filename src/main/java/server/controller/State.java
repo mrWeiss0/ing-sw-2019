@@ -51,6 +51,7 @@ abstract class State {
 class TurnState extends State {
     private final Player current;
     private int remainingActions;
+    private TimerTask turnTimer;
 
     public TurnState(GameController controller) {
         super(controller);
@@ -65,16 +66,34 @@ class TurnState extends State {
 
     @Override
     public void onEnter() {
+        if (turnTimer == null) {
+            turnTimer = new TimerTask() {
+                private int c = controller.getGame().getTurnTimeout();
+
+                @Override
+                public void run() {
+                    if (--c <= 0 && turnTimer != null)
+                        timeout();
+                    else if (c <= 5) current.getClient().sendCountDown(c);
+                }
+            };
+            controller.getTimer().schedule(turnTimer, 0, 1000);
+        }
         if (current.getFigure().getLocation() == null) {
             controller.addState(this);
             controller.setState(new SelectSpawnState(controller, Collections.singletonList(current)));
-        }
-        if (remainingActions-- <= 0) {
-            current.sendRemainingActions(remainingActions);
-            // TODO stop timer
-            controller.addState(new TurnState(controller));
+        } else if (remainingActions-- <= 0) {
+            turnTimer.cancel();
+            controller.addState(new EndTurnState(controller, current));
             controller.setState(new SelectReloadState(controller, current));
         }
+    }
+
+    private void timeout() {
+        turnTimer.cancel();
+        current.setInactive();
+        controller.clearStack();
+        controller.setState(new EndTurnState(controller, current));
     }
 
     @Override
@@ -119,6 +138,7 @@ class SelectSpawnState extends State {
     @Override
     public void selectPowerUp(Player player, PowerUp[] powerUps) {
         if (current.contains(player) && powerUps.length >= 1) {
+            player.setActive();
             Figure figure = player.getFigure();
             List<PowerUp> currentPowerUps = figure.getPowerUps();
             if (currentPowerUps.remove(powerUps[0]))
@@ -387,19 +407,41 @@ class ScopeState extends State {
 class TagbackState extends State {
     private final Player current;
     private final Set<Figure> damaged;
+    private TimerTask tagbackTimer;
+    private boolean timeout;
 
     public TagbackState(GameController controller, Player player, Set<Figure> damaged) {
         super(controller);
         current = player;
         this.damaged = damaged;
         current.sendGameState(GameState.TAGBACK.ordinal());
+        damaged.stream()
+                .map(Figure::getPlayer)
+                .forEach(Player::setInactive);
+        tagbackTimer = new TimerTask() {
+            private int c = controller.getGame().getOtherTimeout();
+
+            @Override
+            public void run() {
+                if (--c <= 0 && tagbackTimer != null)
+                    timeout();
+                else if (c <= 5) current.getClient().sendCountDown(c);
+            }
+        };
+        controller.getTimer().schedule(tagbackTimer, 0, 1000);
     }
 
     @Override
     public void onEnter() {
-        // TODO add timer controller.nextState();
-        if (damaged.isEmpty())
+        if (timeout || damaged.isEmpty()){
+            tagbackTimer.cancel();
             controller.nextState();
+        }
+    }
+
+    private void timeout() {
+        timeout = true;
+        controller.setState(this);
     }
 
     @Override
@@ -417,12 +459,14 @@ class TagbackState extends State {
         player.sendPowerUps(player.getFigure().getPowerUps());
         controller.getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(player));
         damaged.remove(player.getFigure());
+        player.setActive();
         controller.setState(this);
     }
 }
 
 class EndTurnState extends State {
     private final Player current;
+    private TimerTask respawnTimer;
 
     public EndTurnState(GameController controller, Player player) {
         super(controller);
@@ -433,13 +477,35 @@ class EndTurnState extends State {
 
     @Override
     public void onEnter() {
+        if (respawnTimer != null) {
+            timeout();
+            return;
+        }
+        respawnTimer = new TimerTask() {
+            private int c = controller.getGame().getOtherTimeout();
+
+            @Override
+            public void run() {
+                if (--c <= 0 && respawnTimer != null)
+                    timeout();
+                else if (c <= 5) current.getClient().sendCountDown(c);
+            }
+        };
+        controller.getTimer().schedule(respawnTimer, 0, 1000);
         List<Player> kills = controller.getGame().getBoard().getFigures().stream()
                 .filter(figure -> figure.resolveDeath(controller.getGame()))
                 .map(Figure::getPlayer)
                 .collect(Collectors.toList());
         if (kills.size() > 1)
             current.getFigure().addPoints(1);
-        controller.addState(new TurnState(controller));
+        kills.forEach(Player::setInactive);
+        controller.addState(this);
         controller.setState(new SelectSpawnState(controller, kills));
+    }
+
+    private void timeout() {
+        respawnTimer.cancel();
+        controller.clearStack();
+        controller.setState(new TurnState(controller));
     }
 }

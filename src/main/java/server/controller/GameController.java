@@ -8,6 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class GameController implements Runnable {
@@ -15,6 +16,7 @@ public class GameController implements Runnable {
     private final ArrayBlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(5);
     private final Deque<State> stateStack = new ArrayDeque<>();
     private State state;
+    private final Timer timer = new Timer(true);
 
     public GameController(Game game) {
         this.game = game;
@@ -28,6 +30,7 @@ public class GameController implements Runnable {
 
     @Override
     public void run() {
+        setState(new TurnState(this));
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 eventQueue.take().accept(this);
@@ -92,5 +95,13 @@ public class GameController implements Runnable {
 
     public void addStates(List<State> states) {
         stateStack.addAll(states);
+    }
+
+    public void clearStack() {
+        stateStack.clear();
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }
