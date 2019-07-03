@@ -42,7 +42,8 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("remaining", this::sendRemainingActions),
             Map.entry("state", this::sendGameState),
             Map.entry("chat", this::sendChatMessage),
-            Map.entry("cd", this::sendCountDown)
+            Map.entry("cd", this::sendCountDown),
+            Map.entry("pid",this::sendPlayerID)
     ), CMD_DELIMITER, ARG_DELIMITER);
     private Socket socket;
     private PrintStream ostream;
@@ -292,6 +293,10 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendCountDown(String[] args) {
         controller.setRemainingTime(Integer.parseInt(args[0]));
+    }
+
+    private void sendPlayerID(String[] args){
+        controller.setPlayerID(Integer.parseInt(args[0]));
     }
 
     public void close() {

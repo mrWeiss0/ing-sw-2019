@@ -219,6 +219,10 @@ public class Client {
         model.setRemainingActions(remainingActions);
     }
 
+    public void setPlayerID(int id){
+        model.setPlayerID(id);
+    }
+
     public void displayLobby() {
         view.displayLobbyList(model.getLobbyList());
     }

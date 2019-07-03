@@ -59,7 +59,6 @@ public class Board {
 
     public void setSquares(Square[] squares) {
         this.squares = squares;
-        view.displaySquares(squares);
     }
 
     public Player[] getPlayers() {

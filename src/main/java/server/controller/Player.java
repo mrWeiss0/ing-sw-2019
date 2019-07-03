@@ -217,24 +217,25 @@ public class Player {
     }
 
     public void updateAll(){
-        client.sendGameState(GameState.ENEMY_TURN.ordinal());
-        game.getGame().getPlayers().forEach(x->client.sendPlayerAmmo(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerDamages(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerMarks(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerDeaths(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerPoints(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerNPowerUps(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerLocation(x));
-        game.getGame().getPlayers().forEach(x->client.sendPlayerWeapons(x));
-        client.sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
-        client.sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
-        client.sendPlayers(game.getGame().getPlayers());
-        client.sendPowerUps(figure.getPowerUps());
-        client.sendPossibleActions(-1);
-        client.sendSquares(game.getGame().getBoard().getSquares());
-        game.getGame().getBoard().getSquares().forEach(x->client.sendSquareContent(x));
-        client.sendRemainingActions(0);
-        client.sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
+        sendGameState(GameState.ENEMY_TURN.ordinal());
+        game.getGame().getPlayers().forEach(this::sendPlayerAmmo);
+        game.getGame().getPlayers().forEach(this::sendPlayerDamages);
+        game.getGame().getPlayers().forEach(this::sendPlayerMarks);
+        game.getGame().getPlayers().forEach(this::sendPlayerDeaths);
+        game.getGame().getPlayers().forEach(this::sendPlayerPoints);
+        game.getGame().getPlayers().forEach(this::sendPlayerNPowerUps);
+        game.getGame().getPlayers().forEach(this::sendPlayerLocation);
+        game.getGame().getPlayers().forEach(this::sendPlayerWeapons);
+        sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
+        sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
+        sendPlayers(game.getGame().getPlayers());
+        sendPowerUps(figure.getPowerUps());
+        sendPlayerID(game.getGame().getPlayers().indexOf(this));
+        sendPossibleActions(-1);
+        sendSquares(game.getGame().getBoard().getSquares());
+        game.getGame().getBoard().getSquares().forEach(this::sendSquareContent);
+        sendRemainingActions(0);
+        sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
     }
 
     public void sendMessage(String s){
@@ -351,5 +352,10 @@ public class Player {
     public void sendCountDown(int value){
         if(!isOnline()) return;
         client.sendCountDown(value);
+    }
+
+    public void sendPlayerID(int id){
+        if(!isOnline()) return;
+        client.sendPlayerID(id);
     }
 }

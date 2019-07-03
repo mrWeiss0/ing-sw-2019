@@ -289,4 +289,9 @@ public class RMIConnection implements Connection, RemoteClient {
     public void sendCountDown(int remaining) {
         controller.setRemainingTime(remaining);
     }
+
+    @Override
+    public void sendPlayerID(int id){
+        controller.setPlayerID(id);
+    }
 }

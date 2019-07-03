@@ -51,6 +51,8 @@ public interface RemoteClient extends Remote {
 
     void sendCountDown(int remaining) throws RemoteException;
 
+    void sendPlayerID(int id) throws RemoteException;
+
     boolean ping() throws RemoteException;
 
 

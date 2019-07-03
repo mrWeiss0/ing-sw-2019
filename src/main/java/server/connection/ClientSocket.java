@@ -133,6 +133,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = 0;
         int[] weapons = null;
+        if(square.peek().isEmpty())
+            return;
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
@@ -259,6 +261,11 @@ public class ClientSocket extends VirtualClient implements Runnable {
                 + name + ARG_DELIMITER
                 + msg
         );
+    }
+
+    @Override
+    public void sendPlayerID(int id){
+        send("pid"+CMD_DELIMITER+id);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class MiniModel {
     private int remainingTime;
     private GameState state = GameState.NOT_CONNECTED;
     private final List<String[]> chat = new ArrayList<>();
+    private int playerID;
 
     public MiniModel(View view) {
         this.view = view;
@@ -95,10 +96,10 @@ public class MiniModel {
     }
 
     public void setPossibleActions(int actionSetID) {
-        //TODO
         if(actionSetID==0 || actionSetID==1)
             this.possibleActions=new int[]{0,1,2};
-
+        else if(actionSetID==2)
+            this.possibleActions=new int[]{0,1};
         view.displayPossibleActions(possibleActions);
     }
 
@@ -128,5 +129,13 @@ public class MiniModel {
 
     public List<String[]> getChat() {
         return chat;
+    }
+
+    public void setPlayerID(int id){
+        this.playerID=id;
+    }
+
+    public int getPlayerID(){
+        return playerID;
     }
 }

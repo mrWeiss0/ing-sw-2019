@@ -102,6 +102,7 @@ public class Game {
      * @return the player whose turn is next
      */
     public Player nextPlayer() {
+        fillBoard();
         currPlayer++;
         currPlayer %= players.size();
         players.forEach(x->x.sendCurrentPlayer(currPlayer));

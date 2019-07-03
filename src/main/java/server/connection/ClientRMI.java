@@ -152,7 +152,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = 0;
         int[] weapons = null;
-        if (square.peek().get(0) instanceof Weapon)
+        if(square.peek().isEmpty())
+            return;
+        else if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
             tileID = ((AmmoTile) square.peek().get(0)).getId();
@@ -322,6 +324,16 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         try {
             remoteClient.sendChatMessage(name, msg);
         } catch (RemoteException e) {
+            Main.LOGGER.warning(RMI_ERROR);
+            close();
+        }
+    }
+
+    @Override
+    public void sendPlayerID(int id){
+        try{
+            remoteClient.sendPlayerID(id);
+        }catch(RemoteException e){
             Main.LOGGER.warning(RMI_ERROR);
             close();
         }
