@@ -157,9 +157,9 @@ public class Client {
                 .toArray(Square[]::new));
     }
 
-    public void setSquareContent(int squareID, int tileID, int[] weapons) {
+    public void setSquareContent(int squareID, int tileID, int[] weapons, int[][] pcost) {
         model.getBoard().getSquares()[squareID].setTileID(tileID);
-        model.getBoard().getSquares()[squareID].setWeapons(weapons);
+        model.getBoard().getSquares()[squareID].setWeapons(weapons,pcost);
     }
 
     public void setPlayers(int[] avatars, String[] names) {
@@ -197,8 +197,8 @@ public class Client {
         model.getBoard().getPlayers()[id].setAmmo(ammo);
     }
 
-    public void setPlayerWeapons(int id, int[] weaponIDs, boolean[] charges) {
-        Weapon[] weapons = Arrays.stream(weaponIDs).mapToObj(Weapon::new).toArray(Weapon[]::new);
+    public void setPlayerWeapons(int id, int[] weaponIDs,String[] names, int[][] lcost, boolean[] charges) {
+        Weapon[] weapons = IntStream.range(0,weaponIDs.length).mapToObj(x->new Weapon(weaponIDs[x],names[x],lcost[x])).toArray(Weapon[]::new);
         IntStream.range(0, weapons.length).forEach(x -> weapons[x].setLoaded(charges[x]));
         model.getBoard().getPlayers()[id].setWeapons(weapons);
     }

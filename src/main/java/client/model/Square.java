@@ -4,6 +4,7 @@ import client.view.View;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Square {
 
@@ -13,6 +14,7 @@ public class Square {
     private final int room;
     private int tileID;
     private int[] weapons= new int[]{-1,-1,-1};
+    private int[][] pcost;
 
 
     public Square(View view, int[] coordinates, boolean spawn, int room) {
@@ -42,8 +44,9 @@ public class Square {
         return weapons;
     }
 
-    public void setWeapons(int[] weapons) {
+    public void setWeapons(int[] weapons, int[][] pcost) {
         this.weapons = weapons;
+        this.pcost=pcost;
         view.displaySquareContent(this);
     }
 
@@ -54,8 +57,10 @@ public class Square {
     @Override
     public String toString() {
         return "s: " + spawn + " at (" + coordinates[0] + "," + coordinates[1] + ") : " + (spawn ?
-                Arrays.stream(weapons)
+                IntStream.range(0,weapons.length).mapToObj(x->weapons[x]+" "
+                        + Arrays.stream(pcost[x])
                         .mapToObj(Integer::toString)
+                        .collect(Collectors.joining(",")))
                         .collect(Collectors.joining(" "))
                 : "TileID:" + tileID);
     }

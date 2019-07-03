@@ -182,7 +182,7 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayPlayerAmmo(Player player) {
-        print(player.toString() + "has these ammo: ["
+        print(player.toString() + " has these ammo: ["
                 + Arrays.stream(player.getAmmo())
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(", ")) + "]");

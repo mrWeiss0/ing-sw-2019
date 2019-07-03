@@ -1,10 +1,17 @@
 package client.model;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Weapon {
     private final int id;
     private boolean loaded;
+    private final String name;
+    private final int[] reloadCost;
 
-    public Weapon(int id) {
+    public Weapon(int id, String name, int[] reloadCost) {
+        this.name=name;
+        this.reloadCost=reloadCost;
         this.id = id;
     }
 
@@ -22,6 +29,10 @@ public class Weapon {
 
     @Override
     public String toString() {
-        return id + ": " + loaded;
+        return id+" "+name + (loaded?" LOADED":" Not loaded, reload cost: ["
+                +Arrays.stream(reloadCost)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(","))
+                +"] ");
     }
 }

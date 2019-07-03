@@ -3,10 +3,12 @@ package server.connection;
 import server.Main;
 import server.controller.LobbyList;
 import server.controller.Player;
+import server.model.AmmoCube;
 import server.model.AmmoTile;
 import server.model.PowerUp;
 import server.model.board.*;
 import server.model.weapon.Weapon;
+import server.model.weapon.Weapons;
 import tools.parser.CommandException;
 import tools.parser.CommandExitException;
 import tools.parser.CommandNotFoundException;
@@ -133,20 +135,32 @@ public class ClientSocket extends VirtualClient implements Runnable {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = 0;
         int[] weapons = null;
+        int[][] pcost=null;
         if(square.peek().isEmpty())
             return;
-        if (square.peek().get(0) instanceof Weapon)
+        if (square.peek().get(0) instanceof Weapon) {
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
-        else {
-            tileID = ((AmmoTile) square.peek().get(0)).getId();
+            pcost =square.peek().stream().map(x->{
+                        AmmoCube cost=((Weapon)x).getPickupCost();
+                        int[] ammo = new int[]{0, 0, 0};
+                        for (int i = 0; i < 3; i++)
+                            ammo[i] = cost.value(i);
+                        return ammo;
+                    }
+            ).toArray(int[][]::new);
         }
+        else tileID = ((AmmoTile) square.peek().get(0)).getId();
+
         send("fill" + CMD_DELIMITER + id
                 + ARG_DELIMITER + tileID
                 + ARG_DELIMITER
-                + (weapons == null ? "" : ARG_DELIMITER
-                + Arrays.stream(weapons)
+                + (weapons == null ? "" :
+                 Arrays.stream(weapons)
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(ARG_DELIMITER)))
+                .collect(Collectors.joining("%%"))+ARG_DELIMITER
+                +String.join("%%", Arrays.stream(pcost)
+                         .map(x-> Arrays.stream(x).mapToObj(Integer::toString)
+                                 .collect(Collectors.joining("££"))).toArray(String[]::new)))
         );
     }
 
@@ -232,11 +246,25 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void sendPlayerWeapons(Player player) {
+        int[][] lcost = player.getFigure().getWeapons().stream().map(x->{
+            int[] ammo = new int[]{0, 0, 0};
+            for (int i = 0; i < 3; i++)
+                ammo[i] = x.getReloadCost().value(i);
+            return ammo;
+        }).toArray(int[][]::new);
+        String[] names= player.getFigure().getWeapons().stream()
+                .map(x-> Weapons.values()[x.getID()].toString())
+                .toArray(String[]::new);
         send("weapons" + CMD_DELIMITER
                 + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
                 + player.getFigure().getWeapons().stream()
                 .map(x -> (x.isLoaded() ? "+" : "") + x.getID())
-                .collect(Collectors.joining(ARG_DELIMITER))
+                .collect(Collectors.joining("%%"))+ARG_DELIMITER
+                +String.join("%%",names)+ARG_DELIMITER
+                +String.join("%%", Arrays.stream(lcost)
+                .map(x-> Arrays.stream(x)
+                        .mapToObj(Integer::toString)
+                        .collect(Collectors.joining("££"))).toArray(String[]::new))
         );
     }
 

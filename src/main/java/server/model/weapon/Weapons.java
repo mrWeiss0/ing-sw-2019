@@ -8,12 +8,8 @@ public enum Weapons {
     LOCK_RIFLE(new OptionalWeapon.Builder().id(0).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 0, 1))
             .fireModes(lockRifleModes).dependency(lockRifleModes[1], lockRifleModes[0])),
 
-    ELECTROSCYTHE(new Weapon.Builder().id(5).pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
-
     MACHINE_GUN(new OptionalWeapon.Builder().id(1).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(machineGunModes)
             .dependency(machineGunModes[1], machineGunModes[0]).dependency(machineGunModes[2], machineGunModes[0])),
-
-    TRACTOR_BEAM(new Weapon.Builder().id(6).pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
 
     THOR(new OptionalWeapon.Builder().id(2).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(1, 0, 0)).fireModes(thorModes)
             .dependency(thorModes[1], thorModes[0]).dependency(thorModes[2], thorModes[1])),
@@ -22,6 +18,10 @@ public enum Weapons {
             .dependency(plasmaGunModes[2], plasmaGunModes[0])),
 
     WHISPER(new Weapon.Builder().id(4).pickupCost(new AmmoCube(0, 0, 1)).reloadCost(new AmmoCube(0, 1, 1)).fireModes(whisperModes)),
+
+    ELECTROSCYTHE(new Weapon.Builder().id(5).pickupCost(new AmmoCube(0, 0, 1)).fireModes(electroscytheModes)),
+
+    TRACTOR_BEAM(new Weapon.Builder().id(6).pickupCost(new AmmoCube(0, 0, 1)).fireModes(tractorBeamModes)),
 
     VORTEX_CANNON(new OptionalWeapon.Builder().id(7).pickupCost(new AmmoCube(1, 0, 0)).reloadCost(new AmmoCube(0, 0, 1)).fireModes(vortexModes)
             .dependency(vortexModes[1], vortexModes[0])),

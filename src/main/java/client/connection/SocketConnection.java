@@ -208,16 +208,16 @@ public class SocketConnection implements Connection, Runnable {
         controller.setSquares(coordinates, rooms, spawn);
     }
 
-    //example ["4", "0", "0", "2", "+"] -> fill square 4 with ammotile 2 blue & powerup
-    //or ["5", "0", "0", "0", "-", "3", "4", "17"] -> fill square 5 with weapons 3, 4, 17
     private void sendSquareContent(String[] args) {
         int squareID = Integer.parseInt(args[0]);
         int tileID = Integer.parseInt(args[1]);
-        int[] weapons = Arrays.stream(args)
-                .skip(2)
+        int[] weapons = Arrays.stream(args[2].split("%%"))
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        controller.setSquareContent(squareID, tileID, weapons);
+        int[][] pcost= Arrays.stream(args[3].split("%%"))
+                        .map(x-> Arrays.stream(x.split("££")).mapToInt(Integer::parseInt).toArray())
+                        .toArray(int[][]::new);
+        controller.setSquareContent(squareID, tileID, weapons, pcost);
     }
 
     //example ["0", "mario", "1", "luigi"]
@@ -271,12 +271,16 @@ public class SocketConnection implements Connection, Runnable {
 
     private void sendPlayerWeapons(String[] args) {
         int id = Integer.parseInt(args[0]);
-        int[] wIDs = Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray();
-        Boolean[] wrapper = Arrays.stream(args).skip(1).map(x -> x.startsWith("+")).toArray(Boolean[]::new);
+        int[] wIDs = Arrays.stream(args[1].split("%%")).mapToInt(Integer::parseInt).toArray();
+        String[] names=Arrays.stream(args[2].split("%%")).toArray(String[]::new);
+        int[][] lcost=Arrays.stream(args[3].split("%%"))
+                .map(x-> Arrays.stream(x.split("££")).mapToInt(Integer::parseInt).toArray())
+                .toArray(int[][]::new);
+        Boolean[] wrapper = Arrays.stream(args[1].split("%%")).map(x -> x.startsWith("+")).toArray(Boolean[]::new);
         boolean[] charges = new boolean[wrapper.length];
         for (int i = 0; i < wrapper.length; i++)
             charges[i] = wrapper[i];
-        controller.setPlayerWeapons(id, wIDs, charges);
+        controller.setPlayerWeapons(id, wIDs,names,lcost, charges);
     }
 
     private void sendRemainingActions(String[] args) {

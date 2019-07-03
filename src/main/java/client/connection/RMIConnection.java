@@ -220,8 +220,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendSquareContent(int squareID, int tileID, int[] weapons) {
-        controller.setSquareContent(squareID, tileID, weapons);
+    public void sendSquareContent(int squareID, int tileID, int[] weapons, int[][] pcost) {
+        controller.setSquareContent(squareID, tileID, weapons, pcost);
     }
 
     @Override
@@ -265,8 +265,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendPlayerWeapons(int id, int[] weaponsIDs, boolean[] charges) {
-        controller.setPlayerWeapons(id, weaponsIDs, charges);
+    public void sendPlayerWeapons(int id, int[] weaponsIDs,String[] weaponNames, int[][] lcost, boolean[] charges) {
+        controller.setPlayerWeapons(id, weaponsIDs, weaponNames, lcost, charges);
     }
 
     @Override

@@ -224,7 +224,7 @@ public class Player {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
-        if(index==1 && figure.getWeapons().isEmpty()){
+        if(index==1 && figure.getWeapons().stream().noneMatch(Weapon::isLoaded)){
             client.sendMessage("You have no weapons to shoot with");
             return;
         }
