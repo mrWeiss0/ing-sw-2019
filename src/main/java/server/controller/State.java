@@ -18,30 +18,37 @@ import java.util.stream.Collectors;
 
 abstract class State {
     protected GameController controller;
-
+    private final String INVALID_MOMENT="Oak's words echoed... There's a time and place for everything, but not now.";
     protected State(GameController controller) {
         this.controller = controller;
     }
 
     void selectPowerUp(Player player, PowerUp[] powerUps) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectWeapon(Player player, Weapon[] weapons) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectFireMode(Player player, Weapon weapon, FireMode[] fireModes) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectGrabbable(Player player, Grabbable grabbable) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectAction(Player player, Action action) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectTargettable(Player player, Targettable[] targettables) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void selectColor(Player player, int color) {
+        player.sendMessage(INVALID_MOMENT);
     }
 
     void onEnter() {
@@ -115,6 +122,7 @@ class TurnState extends State {
             return;
         PowerUpType type = powerUps[0].getType();
         if (Arrays.asList(PowerUpType.NEWTON, PowerUpType.TELEPORTER).contains(type)) {
+            //TODO NON SCARTA POWERUP
             controller.addState(this);
             controller.setState(new FireState(controller, current, type.getStepList()));
         }
@@ -170,7 +178,7 @@ class SelectReloadState extends State {
         total = player.getFigure().getTotalAmmo();
         current.sendGameState(GameState.SELECT_RELOAD.ordinal());
     }
-
+    //TODO BLOCK
     @Override
     public void selectWeapon(Player player, Weapon[] weapons) {
         if (player != current)

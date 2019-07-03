@@ -103,7 +103,7 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        if(index.length==1 && index[0]==figure.getPowerUps().size()){
+        if(index.length==1 && index[0]==figure.getPowerUps().size() && spawnPowerUp!=null){
             game.enqueue(new SelectPowerUpEvent(this, new PowerUp[]{spawnPowerUp}));
             return;
         }
