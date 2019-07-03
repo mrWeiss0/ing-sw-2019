@@ -103,6 +103,8 @@ public class Scenes {
 
     public static Scene getLobbyChoiceScreen() { return lobbyChoiceScreen;  }
 
+    public static Scene getLobbyScreen() {  return lobbyScreen; }
+
     public static Scene getPlayScreen() { return playScreen; }
 
     public static Scene getConfirmScreen() { return confirmScreen; }

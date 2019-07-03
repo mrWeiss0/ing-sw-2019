@@ -1,60 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Lobby">
-
-    <top>
-        <StackPane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Lobby">
+   <children>
+        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="640.0" StackPane.alignment="TOP_LEFT">
             <children>
-                <VBox maxWidth="0" prefHeight="80.0" prefWidth="75.0" spacing="10.0">
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="75.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
                     <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
                     <children>
                         <ImageView fx:id="backButton" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../images/ICONback.png" />
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
                         </ImageView>
                     </children>
-                    <StackPane.margin>
-                        <Insets left="565.0" />
-                    </StackPane.margin>
                 </VBox>
-                <Label fx:id="title" prefHeight="50.0" prefWidth="565.0" text="LOBBY" StackPane.alignment="CENTER_LEFT" />
+                <Label fx:id="title" prefHeight="100.0" prefWidth="565.0" text="LOBBY" StackPane.alignment="TOP_LEFT" />
             </children>
         </StackPane>
-    </top>
 
-   <right>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="96.0" spacing="5.0" BorderPane.alignment="CENTER">
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="380.0" prefWidth="640.0" StackPane.alignment="BOTTOM_LEFT">
          <children>
-            <ImageView fx:id="player1" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="player2" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="player3" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="player4" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="player5" fitHeight="76.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="countdown" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="JUSTIFY" StackPane.alignment="CENTER">
+               <font><Font size="13.0" /></font>
+            </Text>
          </children>
-         <padding>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-         </padding>
-      </VBox>
-   </right>
-
-   <center>
-      <ImageView fx:id="map" fitHeight="225.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-   </center>
-
-
-   <stylesheets>
-       <URL value="@../css/Lobby.css" />
-   </stylesheets>
-
-</BorderPane>
+      </StackPane>
+   </children>
+</StackPane>
