@@ -2,12 +2,15 @@ package client.view.graphic.controllers;
 
 import client.view.View;
 import client.view.graphic.loaders.Scenes;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -17,10 +20,10 @@ public class LobbyChoice implements View {
 
     //TOP-RIGHT
     @FXML private ImageView quitButton;
-    @FXML private ImageView backButton;
     //TITLE
     @FXML private Label title;
-
+    //BUTTONS
+    @FXML private TextField newLobbyName;
     @FXML private Button createButton;
     @FXML private Button joinButton;
 
@@ -29,6 +32,7 @@ public class LobbyChoice implements View {
     @FXML void initialize() {
         //sets fonts
         title.setFont(Scenes.getItalicFont(50));
+        newLobbyName.setFont(Scenes.getItalicFont(13));
         createButton.setFont(Scenes.getItalicFont(13));
         joinButton.setFont(Scenes.getItalicFont(13));
 
@@ -39,17 +43,27 @@ public class LobbyChoice implements View {
                         WindowEvent.WINDOW_CLOSE_REQUEST
                 )
         ));
-        backButton.setOnMouseClicked(event -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getLoginScreen()));
 
         //sets available lobbies
         lobbies.setItems(FXCollections.observableArrayList());
 
         //sets actions
-        createButton.setOnAction(create -> Scenes.getClient().createLobby("bonobo bobo"));
-        joinButton.setOnAction(join -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getPlayScreen()));
+        createButton.setOnAction(create -> Scenes.getClient().createLobby(newLobbyName.getText()));
+        joinButton.setOnAction(join -> Scenes.getClient().joinLobby( (lobbies.getSelectionModel().getSelectedItem()).split("\\s+")[0] ));
     }
 
-    public void displayLobbies(List<String> lobbyList) {
-        lobbies.setItems(FXCollections.observableArrayList("Lobby 1", "Lobby 2"));
+    public void displayLobbyList(String[] lobbyList) {
+        Platform.runLater(()-> lobbies.setItems(FXCollections.observableArrayList(lobbyList)));
+    }
+
+    public void displayGameState(GameState currState) {
+        Platform.runLater(() -> {
+            if (currState == GameState.NOT_STARTED)
+            ((Stage) joinButton.getScene().getWindow()).setScene(Scenes.getLobbyScreen());
+        });
+    }
+
+    public void displayMessage(String message) {
+        System.out.println(message);
     }
 }
