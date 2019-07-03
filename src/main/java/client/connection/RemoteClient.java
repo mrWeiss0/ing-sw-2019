@@ -15,7 +15,7 @@ public interface RemoteClient extends Remote {
 
     void sendCurrentPlayer(int currentPlayer) throws RemoteException;
 
-    void sendPossibleActions(List<Integer> possibleActions) throws RemoteException;
+    void sendPossibleActions(int actionSetID) throws RemoteException;
 
     void sendGameParams(List<Integer> gameParams) throws RemoteException;
 

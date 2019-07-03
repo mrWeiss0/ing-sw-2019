@@ -94,8 +94,11 @@ public class MiniModel {
         return possibleActions;
     }
 
-    public void setPossibleActions(int[] possibleActions) {
-        this.possibleActions = possibleActions;
+    public void setPossibleActions(int actionSetID) {
+        //TODO
+        if(actionSetID==0 || actionSetID==1)
+            this.possibleActions=new int[]{0,1,2};
+
         view.displayPossibleActions(possibleActions);
     }
 

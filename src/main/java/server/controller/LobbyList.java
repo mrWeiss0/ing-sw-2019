@@ -52,15 +52,13 @@ public class LobbyList {
         player.getClient().sendGameState(GameState.NOT_STARTED.ordinal());
     }
 
-    public void remove(Player player, String name) {
+    public void remove(Player player) {
         if (player == null)
             throw new IllegalStateException("Not logged in");
-        if (!lobbyMap.containsKey(name))
-            throw new NoSuchElementException("No game with name: " + name);
-        if (!lobbyMap.get(name).isPresent(player))
-            throw new IllegalStateException("You are not in that lobby");
-        lobbyMap.get(name).remove(player);
-        player.getClient().sendMessage("Exit from lobby " + name);
+        if (lobbyMap.values().stream().noneMatch(x->x.isPresent(player)))
+            throw new NoSuchElementException("You are not in a lobby ");
+        lobbyMap.values().stream().filter(x->x.isPresent(player)).forEach(x->x.remove(player));
+        player.getClient().sendMessage("Exit from lobby ");
         player.getClient().sendGameState(GameState.CHOOSING_LOBBY.ordinal());
     }
 

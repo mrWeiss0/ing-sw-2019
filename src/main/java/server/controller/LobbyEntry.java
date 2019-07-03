@@ -34,10 +34,11 @@ public class LobbyEntry {
                 .killPoints(config.KILL_POINTS)
                 .frenzyPoints(config.FRENZY_POINTS)
                 .weapons(Arrays.stream(Weapons.values()).map(Weapons::build).toArray(Weapon[]::new))
+                .mapType(config.MAP_TYPE)
                 //TODO CHECK SUI PERCORSI NEL JAR
                 .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
                 .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))
-                .squares(FileParser.readSquares(new FileReader("src/main/resources/maps/" + config.MAP_FILE)));
+                .squares(FileParser.readSquares(new FileReader("src/main/resources/maps/" + config.MAP_FILES[config.MAP_TYPE])));
         this.config = config;
         if (config.MIN_PLAYERS > config.MAX_PLAYERS)
             throw new IllegalArgumentException("min players > max players");
@@ -67,9 +68,6 @@ public class LobbyEntry {
         resetCountdown();
         joinable = false;
         controller = new GameController(builder.build());
-        builder.getJoinedPlayers()
-                .forEach(x->x.getClient().sendGameParams(
-                        Arrays.asList(Character.getNumericValue(config.MAP_FILE.charAt(3)),config.N_KILLS)));
     }
 
     public void join(Player player) {
@@ -93,7 +91,6 @@ public class LobbyEntry {
     private void setCountdown() {
         countdown = new TimerTask() {
             private int c = config.TIMEOUT_START;
-
             @Override
             public void run() {
                 checkPlayerCount();

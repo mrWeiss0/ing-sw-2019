@@ -10,7 +10,7 @@ public interface RemotePlayer extends Remote {
 
     void joinLobby(String name) throws RemoteException;
 
-    void quitLobby(String name) throws RemoteException;
+    void quitLobby() throws RemoteException;
 
     void selectPowerUp(int[] selected) throws RemoteException;
 

@@ -64,9 +64,9 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void quitLobby(String name) {
+    public void quitLobby() {
         try {
-            player.quitLobby(name);
+            player.quitLobby();
         } catch (RemoteException e) {
             controller.print(e.toString());
         } catch (NullPointerException e) {
@@ -201,8 +201,8 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendPossibleActions(List<Integer> possibleActions) {
-        controller.setPossibleActions(possibleActions.stream().mapToInt(Integer::intValue).toArray());
+    public void sendPossibleActions(int actionSetID) {
+        controller.setPossibleActions(actionSetID);
     }
 
     @Override

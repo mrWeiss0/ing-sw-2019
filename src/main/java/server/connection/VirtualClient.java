@@ -44,7 +44,7 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendCurrentPlayer(int currentPlayer);
 
-    public abstract void sendPossibleActions(List<Integer> possibleActions);
+    public abstract void sendPossibleActions(int actionSetID);
 
     //0:map_type, 1:max_kills
     public abstract void sendGameParams(List<Integer> gameParams);

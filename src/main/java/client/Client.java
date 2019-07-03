@@ -69,8 +69,8 @@ public class Client {
         connection.joinLobby(name);
     }
 
-    public void quitLobby(String name) {
-        connection.quitLobby(name);
+    public void quitLobby() {
+        connection.quitLobby();
     }
 
     public void selectPowerUp(int[] selected) {
@@ -137,8 +137,8 @@ public class Client {
         model.setCurrentPlayer(currentPlayer);
     }
 
-    public void setPossibleActions(int[] possibleActions) {
-        model.setPossibleActions(possibleActions);
+    public void setPossibleActions(int actionSetID) {
+        model.setPossibleActions(actionSetID);
     }
 
     public void setGameParams(int[] gameParams) {

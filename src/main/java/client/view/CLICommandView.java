@@ -59,8 +59,7 @@ public class CLICommandView extends CLIView {
     }
 
     private void quitLobby(String[] args) throws CommandException {
-        if (args.length < 1) throw new CommandException("Please select the lobby name to exit from");
-        controller.quitLobby(args[0]);
+        controller.quitLobby();
     }
 
     private void selectPowerUp(String[] args) throws CommandException {

@@ -74,8 +74,8 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     @Override
-    public void quitLobby(String name) {
-        send("quit_l" + CMD_DELIMITER + name);
+    public void quitLobby() {
+        send("quit_l" + CMD_DELIMITER);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     private void sendPossibleActions(String[] args) {
-        controller.setPossibleActions(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        controller.setPossibleActions(Integer.parseInt(args[0]));
     }
 
     private void sendGameParams(String[] args) {

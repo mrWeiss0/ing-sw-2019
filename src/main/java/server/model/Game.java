@@ -1,5 +1,7 @@
 package server.model;
 
+import client.model.GameState;
+import server.Config;
 import server.controller.Player;
 import server.model.board.*;
 import server.model.weapon.Weapon;
@@ -40,6 +42,9 @@ public class Game {
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
     private int lastPlayer = -1;
+    private int mapType;
+    private int maxKills;
+
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
@@ -67,7 +72,17 @@ public class Game {
                 .collect(Collectors.toList()));
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
+        this.mapType=builder.mapType;
+        this.maxKills=builder.nKills;
         players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
+    }
+
+    public int getMapType(){
+        return mapType;
+    }
+
+    public int getMaxKills(){
+        return maxKills;
     }
 
     /**
@@ -161,7 +176,7 @@ public class Game {
 
     private void endGame() {
         // TODO give last points, determine winner
-        players.forEach(x->x.getClient().sendGameState(15));
+        players.forEach(x->x.getClient().sendGameState(GameState.ENDED.ordinal()));
     }
 
     public List<Boolean> getOverkills() {
@@ -196,6 +211,7 @@ public class Game {
         private int maxAmmo;
         private int maxWeapons;
         private int maxPowerUps;
+        private int mapType;
         private boolean frenzyOn;
         private int[] killPoints;
         private int[] frenzyPoints;
@@ -416,9 +432,15 @@ public class Game {
             return this;
         }
 
+        public Builder mapType(int mapType){
+            this.mapType=mapType;
+            return this;
+        }
+
         public List<Player> getJoinedPlayers() {
             return players;
         }
+
 
         /**
          * Returns an instance of <code>Game</code> created from the fields

@@ -9,6 +9,7 @@ import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -81,7 +82,6 @@ public class Player {
     }
 
     public void setActions(List<Action> actions) {
-        // TODO send to client
         this.actions = actions;
     }
 
@@ -223,6 +223,14 @@ public class Player {
         game.getGame().getPlayers().forEach(x->client.sendPlayerNPowerUps(x));
         game.getGame().getPlayers().forEach(x->client.sendPlayerLocation(x));
         game.getGame().getPlayers().forEach(x->client.sendPlayerWeapons(x));
-        //TODO SEND SQUARES AND GAME PARAMS
+        client.sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
+        client.sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
+        client.sendPlayers(game.getGame().getPlayers());
+        client.sendPowerUps(figure.getPowerUps());
+        client.sendPossibleActions(-1);
+        client.sendSquares(game.getGame().getBoard().getSquares());
+        game.getGame().getBoard().getSquares().forEach(x->client.sendSquareContent(x));
+        client.sendRemainingActions(0);
+        client.sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
     }
 }

@@ -93,10 +93,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendPossibleActions(List<Integer> possibleActions) {
-        send("actions" + CMD_DELIMITER + possibleActions.stream()
-                .map(x -> x.toString())
-                .collect(Collectors.joining(ARG_DELIMITER)));
+    public void sendPossibleActions(int actionSetID) {
+        send("actions" + CMD_DELIMITER + actionSetID);
     }
 
     @Override
@@ -336,9 +334,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void quitLobby(String[] args) throws CommandException {
-        if (args.length < 1) throw new CommandException("Please select the lobby name to exit from");
         try {
-            lobbyList.remove(player, args[0]);
+            lobbyList.remove(player);
         } catch (IllegalStateException | NoSuchElementException e) {
             sendMessage(e.toString());
         }

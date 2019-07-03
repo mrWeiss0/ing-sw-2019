@@ -19,5 +19,7 @@ public class Config {
     public int[] FRENZY_POINTS;
     public String AMMO_TILE_FILE;
     public String POWER_UP_FILE;
-    public String MAP_FILE;
+    public String[] MAP_FILES;
+    public int MAP_TYPE;
+
 }

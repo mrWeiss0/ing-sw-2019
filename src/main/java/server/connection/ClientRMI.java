@@ -75,9 +75,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void sendPossibleActions(List<Integer> possibleActions) {
+    public void sendPossibleActions(int actionSetID) {
         try {
-            remoteClient.sendPossibleActions(possibleActions);
+            remoteClient.sendPossibleActions(actionSetID);
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
@@ -143,7 +143,6 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = 0;
         int[] weapons = null;
-        AmmoCube ammoCube;
         if (square.peek().get(0) instanceof Weapon)
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
         else {
@@ -355,9 +354,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void quitLobby(String name) {
+    public void quitLobby() {
         try {
-            lobbyList.remove(player, name);
+            lobbyList.remove(player);
         } catch (IllegalStateException | NoSuchElementException e) {
             sendMessage(e.toString());
         }

@@ -26,5 +26,6 @@
   ],
   "AMMO_TILE_FILE": "tiles.json",
   "POWER_UP_FILE": "power_ups.json",
-  "MAP_FILE": "map1.json"
+  "MAP_FILES": ["map1.json"],
+  "MAP_TYPE":0
 }

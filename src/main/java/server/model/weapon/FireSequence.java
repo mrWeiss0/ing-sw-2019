@@ -18,7 +18,7 @@ public class FireSequence {
     private final Iterator<FireStep> steps;
     private final List<Targettable> lastTargets = new ArrayList<>();
     private FireStep currentStep;
-    private Set<Targettable> validTargets = new HashSet<>();
+    private List<Targettable> validTargets = new ArrayList<>();
     private boolean hasNext = true;
 
     /**
@@ -43,7 +43,7 @@ public class FireSequence {
      *
      * @return all previous targets on which effects have been applied
      */
-    public Set<Targettable> getTargets() {
+    public List<Targettable> getTargets() {
         return validTargets;
     }
 
@@ -83,6 +83,14 @@ public class FireSequence {
         return validTargets.containsAll(currentTargets);
     }
 
+    public int getMinTargets(){
+        return currentStep.getMinTargets();
+    }
+
+    public int getMaxTargets(){
+        return currentStep.getMaxTargets();
+    }
+
     /**
      * Returns true if there's still a step which effect has to be applied.
      *
@@ -95,7 +103,7 @@ public class FireSequence {
     private void next() {
         if (steps.hasNext()) {
             currentStep = steps.next();
-            validTargets = currentStep.getTargets(shooter, board, lastTargets);
+            validTargets = new ArrayList<>(currentStep.getTargets(shooter, board, lastTargets));
         } else
             hasNext = false;
     }

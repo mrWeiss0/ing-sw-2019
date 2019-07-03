@@ -9,7 +9,7 @@ public interface Connection {
 
     void joinLobby(String name);
 
-    void quitLobby(String name);
+    void quitLobby();
 
     void selectPowerUp(int[] selected);
 
