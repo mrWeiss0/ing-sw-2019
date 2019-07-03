@@ -177,40 +177,40 @@
                                        <HBox fx:id="yourDamages" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" spacing="1.1" StackPane.alignment="CENTER">
                                           <children>
                                              <ImageView fx:id="yourDamage0" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/green.png" />
+                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage1" fitHeight="50.0" fitWidth="32.0" layoutX="11.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/green.png" />
+                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage2" fitHeight="50.0" fitWidth="32.0" layoutX="44.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/grey.png" />
+                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage3" fitHeight="50.0" fitWidth="32.0" layoutX="77.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/green.png" />
+                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage4" fitHeight="50.0" fitWidth="32.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/blue.png" />
+                                                 <Image url="@../images/lifebar/0_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage5" fitHeight="50.0" fitWidth="32.0" layoutX="143.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/purple.png" />
+                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage6" fitHeight="50.0" fitWidth="32.0" layoutX="176.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/purple.png" />
+                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage7" fitHeight="50.0" fitWidth="32.0" layoutX="209.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/purple.png" />
+                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage8" fitHeight="50.0" fitWidth="32.0" layoutX="242.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/yellow.png" />
+                                                 <Image url="@../images/lifebar/4_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage9" fitHeight="50.0" fitWidth="32.0" layoutX="275.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/yellow.png" />
+                                                 <Image url="@../images/lifebar/4_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage10" fitHeight="50.0" fitWidth="32.0" layoutX="308.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/grey.png" />
+                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage11" fitHeight="50.0" fitWidth="32.0" layoutX="341.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/grey.png" />
+                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                           </children>
                                           <padding>
@@ -265,7 +265,7 @@
                      <StackPane>
                         <children>
                            <ImageView fx:id="yourPortrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                              <Image url="@../images/characters/blue.png" />
+                              <Image url="@../images/characters/0.png" />
                            </ImageView>
                            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="BOTTOM_RIGHT">
                               <children>
@@ -321,28 +321,28 @@
                 <HBox fx:id="killcount" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="76.0" prefWidth="432.0" spacing="6.0" StackPane.alignment="CENTER">
                   <children>
                      <ImageView fx:id="kills0" fitHeight="76.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/grey.png" />
+                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills1" fitHeight="76.0" fitWidth="54.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/yellow.png" />
+                         <Image url="@../images/lifebar/4_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills2" fitHeight="76.0" fitWidth="54.0" layoutX="64.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/grey.png" />
+                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills3" fitHeight="76.0" fitWidth="54.0" layoutX="118.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/blue.png" />
+                         <Image url="@../images/lifebar/0_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills4" fitHeight="76.0" fitWidth="54.0" layoutX="172.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/grey.png" />
+                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills5" fitHeight="76.0" fitWidth="54.0" layoutX="226.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/purple.png" />
+                         <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills6" fitHeight="76.0" fitWidth="54.0" layoutX="280.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/purple.png" />
+                         <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
                      <ImageView fx:id="kills7" fitHeight="76.0" fitWidth="54.0" layoutX="334.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/green.png" />
+                         <Image url="@../images/lifebar/1_1.png" />
                      </ImageView>
                   </children>
                </HBox>
