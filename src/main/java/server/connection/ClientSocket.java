@@ -261,6 +261,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         );
     }
 
+    @Override
     public boolean ping() {
         return !ostream.checkError();
     }

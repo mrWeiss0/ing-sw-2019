@@ -30,6 +30,8 @@ public abstract class VirtualClient implements Closeable {
         sendMessage("Logged in as " + player.getName());
     }
 
+    public abstract boolean ping();
+
     public abstract void send(String s);
 
     public abstract void sendMessage(String s);

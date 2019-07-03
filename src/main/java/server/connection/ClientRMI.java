@@ -30,6 +30,15 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
+    public boolean ping(){
+        try {
+            return remoteClient.ping();
+        }catch (RemoteException e){
+            return false;
+        }
+    }
+
+    @Override
     public void send(String s) {
         try {
             remoteClient.send(s);

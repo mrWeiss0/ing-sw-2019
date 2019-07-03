@@ -63,7 +63,7 @@ public class Player {
     }
 
     public boolean isOnline() {
-        // TODO ping client
+        online=client.ping();
         return online;
     }
 
