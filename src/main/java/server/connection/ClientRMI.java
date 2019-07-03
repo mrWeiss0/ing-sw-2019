@@ -1,6 +1,7 @@
 package server.connection;
 
 import client.connection.RemoteClient;
+import client.model.GameState;
 import server.Main;
 import server.controller.LobbyList;
 import server.controller.Player;
@@ -25,7 +26,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     public ClientRMI(LobbyList lobbyList, RemoteClient remoteClient) {
         super(lobbyList);
         this.remoteClient = remoteClient;
-        sendMessage("Connected");
+        sendGameState(GameState.NOT_LOGGED_IN.ordinal());
     }
 
     @Override
@@ -409,5 +410,6 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     @Override
     public void reconnect() {
         player.setActive();
+        player.updateAll();
     }
 }

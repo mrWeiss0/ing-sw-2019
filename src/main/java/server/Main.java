@@ -10,7 +10,6 @@ public final class Main {
     public static final Logger LOGGER = Logger.getLogger("Server");
 
     public static void main(String[] args) {
-        // TODO add configuration file
         try (Server server = new Server(FileParser.readServerConfig(
                 new FileReader("src/main/resources/server_config.json")))) {
             server.start();

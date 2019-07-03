@@ -16,5 +16,8 @@ public enum GameState{
     SPAWN,
     TAGBACK,
     TURN,
-    ENDED
+    ENDED,
+    NOT_CONNECTED,
+    NOT_LOGGED_IN,
+    CHOOSING_LOBBY
 }

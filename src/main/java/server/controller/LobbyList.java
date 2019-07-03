@@ -1,5 +1,6 @@
 package server.controller;
 
+import client.model.GameState;
 import server.Config;
 import server.connection.VirtualClient;
 
@@ -37,6 +38,7 @@ public class LobbyList {
         client.sendMessage("Registered as " + username);
         client.setPlayer(player);
         player.getClient().sendLobbyList(repr());
+        player.getClient().sendGameState(GameState.CHOOSING_LOBBY.ordinal());
     }
 
     public void join(Player player, String name) {
@@ -47,6 +49,7 @@ public class LobbyList {
         lobbyMap.values().forEach(x -> x.remove(player));
         lobbyMap.get(name).join(player);
         player.getClient().sendMessage("Joined lobby with name: " + name);
+        player.getClient().sendGameState(GameState.NOT_STARTED.ordinal());
     }
 
     public void remove(Player player, String name) {
@@ -58,6 +61,7 @@ public class LobbyList {
             throw new IllegalStateException("You are not in that lobby");
         lobbyMap.get(name).remove(player);
         player.getClient().sendMessage("Exit from lobby " + name);
+        player.getClient().sendGameState(GameState.CHOOSING_LOBBY.ordinal());
     }
 
     public void create(String name) throws FileNotFoundException {

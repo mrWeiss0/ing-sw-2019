@@ -1,5 +1,6 @@
 package server.controller;
 
+import client.model.GameState;
 import server.connection.VirtualClient;
 import server.model.PowerUp;
 import server.model.board.Figure;
@@ -146,6 +147,10 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
+        if(figure.getLocation()==null){
+            client.sendMessage("You are not on a square");
+            return;
+        }
         if (index < 0 || index >= figure.getLocation().peek().size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
@@ -194,8 +199,10 @@ public class Player {
             client.sendMessage(NOT_STARTED_MESSAGE);
             return;
         }
-        // TODO add index check
-        if (index >= actions.size()) {
+        if(actions==null){
+            client.sendMessage("You have no action to choose from");
+        }
+        if (index <0 || index >= actions.size()) {
             client.sendMessage(INVALID_ARGUMENT_MESSAGE);
             return;
         }
@@ -203,5 +210,18 @@ public class Player {
                 this,
                 actions.get(index)
         ));
+    }
+
+    public void updateAll(){
+        client.sendGameState(GameState.ENEMY_TURN.ordinal());
+        game.getGame().getPlayers().forEach(x->client.sendPlayerAmmo(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerDamages(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerMarks(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerDeaths(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerPoints(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerNPowerUps(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerLocation(x));
+        game.getGame().getPlayers().forEach(x->client.sendPlayerWeapons(x));
+        //TODO SEND SQUARES AND GAME PARAMS
     }
 }

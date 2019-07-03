@@ -19,7 +19,7 @@ public class MiniModel {
     private int maxToSelect;
     private int remainingActions;
     private int remainingTime;
-    private GameState state = GameState.NOT_STARTED;
+    private GameState state = GameState.NOT_CONNECTED;
     private final List<String[]> chat = new ArrayList<>();
 
     public MiniModel(View view) {

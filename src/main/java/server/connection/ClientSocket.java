@@ -384,5 +384,6 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     private void reconnect(String[] args) {
         player.setActive();
+        player.updateAll();
     }
 }
