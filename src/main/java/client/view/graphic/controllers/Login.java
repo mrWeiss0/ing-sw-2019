@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import server.model.Game;
 
 public class Login implements View {
 
@@ -44,33 +45,23 @@ public class Login implements View {
 
         //sets actions
         //TODO sends login message
-        connectButton.setOnAction(connectButton -> Scenes.getClient().connect(Scenes.getServerIP()));
-        loginButton.setOnAction(loginPressed -> {
-                Scenes.getClient().login(username.getText());
-                });
+        connectButton.setOnAction(  connectButton -> Scenes.getClient().connect(Scenes.getServerIP()) );
+        loginButton.setOnAction(    loginPressed -> Scenes.getClient().login(username.getText()) );
         //loginButton.setOnAction(event -> ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()));
     }
 
-    public void displayMessage(String message) {
+    public void displayGameState(GameState currState) {
         Platform.runLater(() -> {
-            if ("Connected".equals(message)) {
-                handleConnectionSuccess();
-            }
-            else if(message.startsWith("Logged in as")) {
-                handleLoginSuccess();
-            } else {
-                handleLoginFailure(message);
+            if (currState == GameState.NOT_LOGGED_IN) {
+                ((StackPane)connectButton.getParent()).getChildren().remove(connectButton);
+            } else if (currState == GameState.CHOOSING_LOBBY){
+                ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen());
             }
         });
     }
 
-    public void handleConnectionSuccess() {
-        ((StackPane)connectButton.getParent()).getChildren().remove(connectButton);
+    public void displayMessage(String message) {
+        System.out.println(message);
     }
 
-    public void handleLoginFailure(String message) {
-        failedLogin.setText(message);
-        failedLogin.setVisible(true);
-    }
-    public void handleLoginSuccess() { ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()); }
 }
