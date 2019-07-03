@@ -97,7 +97,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     public void sendPowerUps(List<PowerUp> powerUps) {
         try {
             remoteClient.sendPowerUps(powerUps.stream()
-                    .map(x -> new Integer[]{x.getType().ordinal(), x.getColor()})
+                    .map(x -> new int[]{x.getType().ordinal(), x.getColor()})
                     .collect(Collectors.toList()));
         } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);

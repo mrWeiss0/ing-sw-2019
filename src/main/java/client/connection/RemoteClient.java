@@ -11,7 +11,7 @@ public interface RemoteClient extends Remote {
 
     void sendTargets(int min, int max, List<Integer> targets) throws RemoteException;
 
-    void sendPowerUps(List<Integer[]> powerUps) throws RemoteException;
+    void sendPowerUps(List<int[]> powerUps) throws RemoteException;
 
     void sendCurrentPlayer(int currentPlayer) throws RemoteException;
 

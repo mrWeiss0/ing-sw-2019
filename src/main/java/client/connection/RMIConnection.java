@@ -169,30 +169,29 @@ public class RMIConnection implements Connection, RemoteClient {
         }
     }
 
-    //TODO SERVER->CLIENT
     @Override
-    public void send(String s) throws RemoteException {
+    public void send(String s) {
         controller.print(s);
     }
 
     @Override
-    public void sendLobbyList(String[] s) throws RemoteException {
+    public void sendLobbyList(String[] s) {
         controller.setLobbyList(s);
     }
 
     @Override
-    public boolean ping() throws RemoteException {
+    public boolean ping() {
         return true;
     }
 
     @Override
-    public void sendTargets(int min, int max, List<Integer> targets) throws RemoteException {
+    public void sendTargets(int min, int max, List<Integer> targets) {
         controller.setPossibleTargets(min, max, targets.stream().mapToInt(Integer::intValue).toArray());
     }
 
     @Override
-    public void sendPowerUps(List<Integer[]> powerUps) {
-        controller.setPowerUps((int[][]) powerUps.stream().map(x -> Arrays.stream(x).mapToInt(Integer::intValue).toArray()).toArray());
+    public void sendPowerUps(List<int[]> powerUps) {
+        controller.setPowerUps(powerUps.toArray(new int[0][0]));
     }
 
     @Override
