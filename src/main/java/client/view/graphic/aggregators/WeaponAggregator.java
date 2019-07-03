@@ -11,4 +11,12 @@ public class WeaponAggregator {
         this.weaponPortrait = weaponPortrait;
         this.weaponDescription = weaponDescription;
     }
+
+    public Image getPortrait() {
+        return weaponPortrait;
+    }
+
+    public Image getDescription() {
+        return weaponDescription;
+    }
 }

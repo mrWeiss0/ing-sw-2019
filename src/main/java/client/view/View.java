@@ -1,11 +1,11 @@
-package client.view
+package client.view;
 
-import client.model.GameState
-import client.model.Player
-import client.model.PowerUp
-import client.model.Square
+import client.model.GameState;
+import client.model.Player;
+import client.model.PowerUp;
+import client.model.Square;
 
-import java.util.List
+import java.util.List;
 
 public interface View {
     default void start() {}

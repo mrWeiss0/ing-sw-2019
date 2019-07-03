@@ -243,4 +243,6 @@ public class Client {
         connection.close();
         view.exit();
     }
+
+    public MiniModel getModel() { return model; }
 }
