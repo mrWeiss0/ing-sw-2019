@@ -51,7 +51,7 @@ public class Player {
     }
 
     public boolean isActive() {
-        return active;
+        return active && isOnline();
     }
 
     public void setActive() {
@@ -63,7 +63,8 @@ public class Player {
     }
 
     public boolean isOnline() {
-        online=client.ping();
+        if(online && !client.ping())
+            setOffline();
         return online;
     }
 

@@ -66,6 +66,10 @@ class TurnState extends State {
 
     @Override
     public void onEnter() {
+        if(!current.isActive()){
+            controller.setState(new TurnState(controller));
+            return;
+        }
         if (turnTimer == null) {
             turnTimer = new TimerTask() {
                 private int c = controller.getGame().getTurnTimeout();
@@ -406,14 +410,14 @@ class ScopeState extends State {
 
 class TagbackState extends State {
     private final Player current;
-    private final Set<Figure> damaged;
+    private final List<Figure> damaged;
     private TimerTask tagbackTimer;
     private boolean timeout;
 
     public TagbackState(GameController controller, Player player, Set<Figure> damaged) {
         super(controller);
         current = player;
-        this.damaged = damaged;
+        this.damaged = damaged.stream().filter(figure -> figure.getPlayer().isActive()).collect(Collectors.toList());
         current.sendGameState(GameState.TAGBACK.ordinal());
         damaged.stream()
                 .map(Figure::getPlayer)
@@ -498,14 +502,16 @@ class EndTurnState extends State {
                 .collect(Collectors.toList());
         if (kills.size() > 1)
             current.getFigure().addPoints(1);
-        kills.forEach(Player::setInactive);
         controller.addState(this);
-        controller.setState(new SelectSpawnState(controller, kills));
+        controller.addState(new SelectSpawnState(controller, kills.stream().filter(Player::isActive).collect(Collectors.toList())));
+        kills.forEach(Player::setInactive);
+        controller.nextState();
     }
 
     private void timeout() {
         respawnTimer.cancel();
         controller.clearStack();
+        controller.getGame().endTurn();
         controller.setState(new TurnState(controller));
     }
 }
