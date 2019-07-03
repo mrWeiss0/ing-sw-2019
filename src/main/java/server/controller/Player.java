@@ -67,6 +67,7 @@ public class Player {
 
     public void setOnline() {
         online = true;
+        updateAll();
     }
 
     public void setOffline() {
