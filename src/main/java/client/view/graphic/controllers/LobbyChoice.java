@@ -1,5 +1,6 @@
 package client.view.graphic.controllers;
 
+import client.model.GameState;
 import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.application.Platform;
@@ -49,7 +50,7 @@ public class LobbyChoice implements View {
 
         //sets actions
         createButton.setOnAction(create -> Scenes.getClient().createLobby(newLobbyName.getText()));
-        joinButton.setOnAction(join -> Scenes.getClient().joinLobby( (lobbies.getSelectionModel().getSelectedItem()).split("\\s+")[0] ));
+        joinButton.setOnAction(join -> Scenes.getClient().joinLobby( (lobbies.getSelectionModel().getSelectedItem()).split(":+")[0] ));
     }
 
     public void displayLobbyList(String[] lobbyList) {

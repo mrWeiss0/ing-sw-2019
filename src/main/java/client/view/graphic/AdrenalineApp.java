@@ -4,7 +4,6 @@ import client.view.graphic.loaders.Scenes;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import tools.parser.CommandExitException;
 
 import java.io.IOException;
 
@@ -39,10 +38,9 @@ public class AdrenalineApp extends Application implements ConfirmHandler {
         mainWindow.show();
     }
 
-    public void confirmHandle(boolean value) throws CommandExitException {
-        if(value) {
+    public void confirmHandle(boolean choice) {
+        if(choice) {
             mainWindow.close();
-            throw new CommandExitException();
         }
     }
 

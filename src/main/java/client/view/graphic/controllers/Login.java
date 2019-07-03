@@ -1,5 +1,6 @@
 package client.view.graphic.controllers;
 
+import client.model.GameState;
 import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.application.Platform;
@@ -44,10 +45,8 @@ public class Login implements View {
         settingsButton.setOnMouseClicked(settingsClicked -> ((Stage) settingsButton.getScene().getWindow()).setScene(Scenes.getSettingsScreen()));
 
         //sets actions
-        //TODO sends login message
-        connectButton.setOnAction(  connectButton -> Scenes.getClient().connect(Scenes.getServerIP()) );
+        connectButton.setOnAction(  connectButton -> Scenes.getClient().connect(Scenes.getServerIP()));
         loginButton.setOnAction(    loginPressed -> Scenes.getClient().login(username.getText()) );
-        //loginButton.setOnAction(event -> ((Stage) loginButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen()));
     }
 
     public void displayGameState(GameState currState) {

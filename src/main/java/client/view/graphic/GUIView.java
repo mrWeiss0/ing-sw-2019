@@ -1,6 +1,7 @@
 package client.view.graphic;
 
 import client.Client;
+import client.model.GameState;
 import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
@@ -38,7 +39,11 @@ public class GUIView implements View, Runnable {
         } catch (Exception e) {e.printStackTrace();}
     }
 
+    public void print(String s) {System.out.println(s);}
+
     public void exit() {thread.interrupt();}
+
+    public void displayGameState(GameState state) {((View)mainWindow.getScene().getUserData()).displayGameState(state);}
 
     public void displayMessage(String message) {((View)mainWindow.getScene().getUserData()).displayMessage(message); }
 
@@ -89,8 +94,6 @@ public class GUIView implements View, Runnable {
     public void displayPlayerLocation(Player player) {((View)mainWindow.getScene().getUserData()).displayPlayerLocation(player);};
 
     public void displaySquareContent(Square square) {((View)mainWindow.getScene().getUserData()).displaySquareContent(square);}
-
-    public void displayEndGame(boolean value) {((View)mainWindow.getScene().getUserData()).displayEndGame(value);}
 
     public void displayChat(List<String[]> chat) {((View)mainWindow.getScene().getUserData()).displayChat(chat);}
 
