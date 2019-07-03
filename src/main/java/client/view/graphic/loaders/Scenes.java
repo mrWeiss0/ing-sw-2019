@@ -1,5 +1,6 @@
 package client.view.graphic.loaders;
 
+import client.Client;
 import client.ConnectionType;
 import client.view.View;
 import client.view.graphic.controllers.Confirm;
@@ -25,6 +26,9 @@ public class Scenes {
     private static Scene playScreen;
     private static View playController;
 
+    //Client
+    private static Client client;
+
     //Confirm scene
     private static Scene confirmScreen;
     private static Confirm confirmController;
@@ -34,10 +38,15 @@ public class Scenes {
     private static int windowWidth = 640;
     private static int playWindowHeight = 768;
     private static int playWindowWidth = 1024;
-    private static boolean fullscreen = false;
     private static ConnectionType connectionChoice = ConnectionType.SOCKET;
     private static String serverIP = "localhost";
     private static int serverPort = 1099;
+
+    public static void setClient(Client client) {
+        Scenes.client = client;
+        System.out.println("client set");
+    }
+    public static Client getClient() {return client;}
 
     public static void initScenes() throws IOException {
 
@@ -71,6 +80,11 @@ public class Scenes {
         playController = playLoader.getController();
         playScreen.setUserData(playController);
 
+        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
+        Parent confirmRoot = confirmLoader.load();
+        confirmController = confirmLoader.getController();
+        confirmScreen = new Scene(confirmRoot, 300, 150);
+
         /*Parent loginRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
         loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
         Parent settingsRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
@@ -79,11 +93,6 @@ public class Scenes {
         lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
         Parent playRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
         playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);*/
-
-        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
-        Parent confirmRoot = confirmLoader.load();
-        confirmController = confirmLoader.getController();
-        confirmScreen = new Scene(confirmRoot, 300, 150);
     }
 
     public static Scene getLoginScreen() {
@@ -108,16 +117,17 @@ public class Scenes {
         return Font.loadFont(Scenes.class.getResourceAsStream("../../../../client/view/fonts/ethnocentric/ethnocentric rg it.ttf"), size);
     }
 
-
     //TODO
-    public static void saveSettings (Settings settingScene) {  }
+    public static void saveSettings (ConnectionType connectionChoice, String serverIP, int serverPort) {
+        Scenes.connectionChoice = connectionChoice;
+        Scenes.serverIP = serverIP;
+        Scenes.serverPort = serverPort;
+    }
 
-    public static boolean getFullscreen () { return fullscreen; }
+    public static ConnectionType getConnectionChoice () { return connectionChoice; }
 
     public static String getServerIP () { return  serverIP; }
 
     public static int getServerPort () { return serverPort; }
-
-    public static ConnectionType getConnectionChoice () { return connectionChoice; }
 
 }

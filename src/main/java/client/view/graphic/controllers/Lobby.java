@@ -20,10 +20,4 @@ public class Lobby implements View {
         title.setFont(Scenes.getItalicFont(50));
     }
 
-    public void start() {};
-
-    public void print(String s) {};
-
-    public void exit() {};
-
 }

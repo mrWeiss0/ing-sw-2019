@@ -45,17 +45,11 @@ public class LobbyChoice implements View {
         lobbies.setItems(FXCollections.observableArrayList());
 
         //sets actions
-        createButton.setOnAction(create -> lobbies.setItems(FXCollections.observableArrayList("Lobby 1")));
+        createButton.setOnAction(create -> Scenes.getClient());
         joinButton.setOnAction(join -> ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getPlayScreen()));
     }
 
     public void displayLobbies(List<String> lobbyList) {
         lobbies.setItems(FXCollections.observableArrayList("Lobby 1", "Lobby 2"));
     }
-
-    public void start() {};
-
-    public void print(String s) {};
-
-    public void exit() {};
 }

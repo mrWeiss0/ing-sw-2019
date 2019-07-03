@@ -16,7 +16,6 @@ public class Confirm {
         message.setFont(Scenes.getItalicFont(20));
         left.setFont(Scenes.getItalicFont(13));
         right.setFont(Scenes.getItalicFont(13));
-        System.out.println("init");
     }
 
     public void set(String message, String left, String right, ConfirmBox handler) {
@@ -25,6 +24,5 @@ public class Confirm {
         this.right.setText(right);
         this.left.setOnAction(e -> handler.leftClicked());
         this.right.setOnAction(e -> handler.rightClicked());
-        System.out.println("set");
     }
 }

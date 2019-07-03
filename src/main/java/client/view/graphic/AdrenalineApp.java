@@ -1,6 +1,5 @@
 package client.view.graphic;
 
-import client.view.View;
 import client.view.graphic.loaders.Scenes;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -8,32 +7,35 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class MainWindow extends Application implements ConfirmHandler {
+public class AdrenalineApp extends Application implements ConfirmHandler {
+
     private Stage mainWindow;
-    private View currController;
+    private static GUIView view;
+    public static void setView(GUIView view) {
+        AdrenalineApp.view = view;}
 
     @Override
     public void start(Stage stage) throws IOException {
-        //set window proprieties
-        this.mainWindow = stage;
-        stage.setTitle("Adrenaline");
-        stage.setResizable(false);
-        //stage.initStyle(StageStyle.UNDECORATED);
 
-        //initialize scenes
+        //set window proprieties
+        mainWindow = stage;
+        view.setMainWindow(mainWindow);
+        mainWindow.setTitle("Adrenaline");
+        mainWindow.setResizable(false);
+        mainWindow.initStyle(StageStyle.UNDECORATED);
+
+        //init Scenes
         Scenes.initScenes();
         //enter login screen
-        stage.setScene(Scenes.getLoginScreen());
+        mainWindow.setScene(Scenes.getLoginScreen());
 
         //close request
-        stage.setOnCloseRequest(event -> {
+        mainWindow.setOnCloseRequest(event -> {
             event.consume();
             ConfirmBox closeBox = new ConfirmBox("Close", "Do you want to quit?", "Confirm", "Cancel", this);
         });
 
-
-        stage.show();
-
+        mainWindow.show();
     }
 
     public void confirmHandle(boolean value) {
@@ -42,5 +44,4 @@ public class MainWindow extends Application implements ConfirmHandler {
         }
     }
 
-    //public View getCurrController () {};
 }

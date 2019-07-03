@@ -6,6 +6,7 @@ import client.connection.SocketConnection;
 import client.model.*;
 import client.view.commandLine.CLICommandView;
 import client.view.View;
+import client.view.graphic.GUIView;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -29,7 +30,7 @@ public class Client {
     private View viewFactory() {
         Supplier<View>[] viewSupplier = new Supplier[]{
                 () -> new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
-                () -> null//TODO GUI
+                () -> new GUIView(this)//TODO GUI
         };
         return viewSupplier[config.view_type].get();
     }

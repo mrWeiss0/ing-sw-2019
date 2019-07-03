@@ -29,9 +29,7 @@ public class CLIView implements View, Runnable {
     }
 
     @Override
-    public void start() {
-        thread.start();
-    }
+    public void start() { thread.start(); }
 
     @SuppressWarnings("squid:S106")
     @Override

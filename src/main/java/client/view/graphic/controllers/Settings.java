@@ -58,10 +58,10 @@ public class Settings implements View {
         connectionChoice.setValue(Scenes.getConnectionChoice());
         serverIP.setText(Scenes.getServerIP());
         serverPort.setText(Integer.toString(Scenes.getServerPort()));
-        fullscreen.setSelected(Scenes.getFullscreen());
+        //fullscreen.setSelected(Scenes.getFullscreen());
 
         //sets events
-        save.setOnAction(event -> Scenes.saveSettings(this));
+        save.setOnAction(event -> Scenes.saveSettings(connectionChoice.getValue(), serverIP.getText(), Integer.parseInt(serverPort.getText())));
 
     }
 
@@ -69,11 +69,4 @@ public class Settings implements View {
     public String getServerIP() { return serverIP.getText(); }
     public int getServerPort() { return  Integer.parseInt(serverPort.getText()); }
     public boolean getFullscreen() { return fullscreen.isSelected(); }
-
-
-    public void start() {};
-
-    public void print(String s) {};
-
-    public void exit() {};
 }
