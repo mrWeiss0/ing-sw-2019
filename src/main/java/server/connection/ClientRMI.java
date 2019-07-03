@@ -213,6 +213,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         if(player.getFigure().getLocation()==null){
             try {
                 remoteClient.sendPlayerLocation(id, new int[]{-1,-1});
+                return;
             } catch (RemoteException e) {
                 Main.LOGGER.warning(RMI_ERROR);
                 close();

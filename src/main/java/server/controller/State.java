@@ -211,6 +211,8 @@ class PayState extends State {
         current = player;
         this.cost = cost;
         current.sendGameState(GameState.PAY.ordinal());
+        current.sendPowerUps(current.getFigure().getPowerUps());
+        current.sendPlayerAmmo(current);
     }
 
     @Override
@@ -274,8 +276,11 @@ class FireModeSelectionState extends State {
     public void selectFireMode(Player player, Weapon weapon, FireMode[] fireModes) {
         if (player != current)
             return;
+        if(!weapon.isLoaded())
+            return;
         AmmoCube ammoCost = FireMode.flatCost(Arrays.asList(fireModes));
         if (total.greaterEqThan(ammoCost)) {
+            weapon.unload();
             controller.addState(new FireState(controller, current, FireMode.flatSteps(Arrays.asList(fireModes))));
             controller.setState(new PayState(controller, current, ammoCost));
         }
@@ -310,8 +315,9 @@ class FireState extends State {
             controller.setState(this);
         else {
             controller.getGame().getBoard().applyMarks();
-            controller.addState(new ScopeState(controller, player));
-            controller.setState(new TagbackState(controller, player, controller.getGame().getBoard().getDamaged()));
+            Set<Figure> damaged = controller.getGame().getBoard().getDamaged();
+            if(!damaged.isEmpty()) controller.addState(new ScopeState(controller, player));
+            controller.setState(new TagbackState(controller, player, damaged));
         }
     }
 }
@@ -367,8 +373,9 @@ class GrabState extends State {
         try {
             figure.getLocation().grab(figure, grabbable);
             if (discard != null) figure.getLocation().refill(discard);
-            controller.nextState();
+
             controller.getGame().getPlayers().forEach(x->x.sendSquareContent(figure.getLocation()));
+            controller.nextState();
         } catch (IllegalStateException e) {
             current.sendMessage("You have to discard a weapon");
         }
@@ -380,6 +387,7 @@ class GrabState extends State {
             return;
         if (weapons.length != 0) {
             discard = weapons[0];
+            discard.load();
             current.getFigure().getWeapons().remove(discard);
         }
         controller.getGame().getPlayers().forEach(x->x.sendPlayerWeapons(current));
