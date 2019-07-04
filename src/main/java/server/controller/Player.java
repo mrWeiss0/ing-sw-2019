@@ -10,9 +10,10 @@ import server.model.board.Targettable;
 import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Player {
     private static final String NOT_STARTED_MESSAGE = "The game is not started yet";
@@ -25,6 +26,13 @@ public class Player {
     private boolean online = true;
     private List<Action> actions;
     private PowerUp spawnPowerUp;
+
+    private GameState lastState=GameState.ENEMY_TURN;
+    private int lastActions =-1;
+    private int lastRemainingActions=0;
+    private int lastMinTargets=0;
+    private int lastMaxtargets=0;
+    private List<Targettable> lastTargets=new ArrayList<>();
 
     public void setSpawnPowerUp(PowerUp pup){
         spawnPowerUp=pup;
@@ -69,21 +77,40 @@ public class Player {
 
     public void setInactive() {
         active = false;
+        signalDisconnect();
     }
 
     public boolean isOnline() {
-        if(online && !client.ping())
+        if(online  && (client==null || !client.ping()))
             setOffline();
         return online;
     }
 
     public void setOnline() {
         online = true;
+        active= true;
+        signalReconnect();
         updateAll();
     }
 
     public void setOffline() {
         online = false;
+        active=false;
+        signalDisconnect();
+    }
+
+    private void signalDisconnect(){
+        if(game==null) return;
+        game.getGame().getPlayers().stream()
+                .filter(Player::isOnline)
+                .forEach(x->x.sendMessage("Player "+name+" has disconnected!"));
+    }
+
+    private void signalReconnect(){
+        if(game==null) return;
+        game.getGame().getPlayers().stream()
+                .filter(Player::isOnline)
+                .forEach(x->x.sendMessage("Player "+name+" has reconnected!"));
     }
 
     public GameController getGame() {
@@ -96,6 +123,14 @@ public class Player {
 
     public void setActions(List<Action> actions) {
         this.actions = actions;
+    }
+
+    public void endTurn(){
+        if (game == null) {
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        game.enqueue(new EndTurnEvent(this));
     }
 
     public void selectPowerUp(int[] index) {
@@ -234,8 +269,22 @@ public class Player {
         ));
     }
 
+    public void reconnect(){
+        if(active){
+            client.sendMessage("You are active, don't need to reconnect");
+            return;
+        }
+        setActive();
+        updateAll();
+        signalReconnect();
+    }
+
     public void updateAll(){
         sendGameState(GameState.ENEMY_TURN.ordinal());
+        sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
+        sendSquares(game.getGame().getBoard().getSquares());
+        sendPlayers(game.getGame().getPlayers());
+        sendPlayerID(game.getGame().getPlayers().indexOf(this));
         game.getGame().getPlayers().stream()
                 .peek(this::sendPlayerAmmo)
                 .peek(this::sendPlayerDamages)
@@ -245,16 +294,12 @@ public class Player {
                 .peek(this::sendPlayerNPowerUps)
                 .peek(this::sendPlayerLocation)
                 .forEach(this::sendPlayerWeapons);
-        sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
         sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
-        sendPlayers(game.getGame().getPlayers());
         sendPowerUps(figure.getPowerUps());
-        sendPlayerID(game.getGame().getPlayers().indexOf(this));
-        sendPossibleActions(-1);
-        sendSquares(game.getGame().getBoard().getSquares());
+        sendPossibleActions(lastActions);
         game.getGame().getBoard().getSquares().forEach(this::sendSquareContent);
-        sendRemainingActions(0);
-        sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
+        sendRemainingActions(lastRemainingActions);
+        sendTargets(lastMinTargets,lastMaxtargets, lastTargets,game.getGame().getBoard());
     }
 
     public void sendMessage(String s){
@@ -275,6 +320,9 @@ public class Player {
     public void sendTargets(int min, int max, List<Targettable> targets, Board board){
         if(!isOnline()) return;
         client.sendTargets(min, max, targets, board);
+        lastMinTargets=min;
+        lastMaxtargets=max;
+        lastTargets=targets;
     }
 
     public void sendPowerUps(List<PowerUp> powerUps){
@@ -290,6 +338,7 @@ public class Player {
     public void sendPossibleActions(int actionSetID){
         if(!isOnline()) return;
         client.sendPossibleActions(actionSetID);
+        lastActions=actionSetID;
     }
 
     //0:map_type, 1:max_kills
@@ -361,11 +410,13 @@ public class Player {
     public void sendRemainingActions(int remaining){
         if(!isOnline()) return;
         client.sendRemainingActions(remaining);
+        lastRemainingActions=remaining;
     }
 
     public void sendGameState(int value){
         if(!isOnline()) return;
         client.sendGameState(value);
+        lastState=GameState.values()[value];
     }
 
     public void sendCountDown(int value){
@@ -376,5 +427,58 @@ public class Player {
     public void sendPlayerID(int id){
         if(!isOnline()) return;
         client.sendPlayerID(id);
+    }
+
+    public void sendLeaderBoard(int[] points){
+        if(!isOnline()) return;
+        client.sendLeaderBoard(points);
+    }
+
+    public void sendNKills(int[] nKills){
+        if(!isOnline()) return;
+        client.sendNKills(nKills);
+    }
+
+
+    //BROADCASTS
+
+    public void broadcastAmmo(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerAmmo(this));
+    }
+
+    public void broadcastLocation(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerLocation(this));;
+    }
+
+    public void broadcastWeapons(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerWeapons(this));
+    }
+
+    public void broadcastNPowerUps(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(this));
+    }
+
+    public void broadcastDamages(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerDamages(this));
+    }
+
+    public void broadcastMarks(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerMarks(this));
+    }
+
+    public void broadcastDeaths(){
+        if(game==null) return;
+        game.getGame().getPlayers().forEach(x -> x.sendPlayerDeaths(this));
+    }
+
+    public void broadcastPoints(){
+        if(game==null) return;
+        getGame().getGame().getPlayers().forEach(x -> x.sendPlayerPoints(this));
     }
 }

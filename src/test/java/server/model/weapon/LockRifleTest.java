@@ -72,7 +72,7 @@ public class LockRifleTest {
         FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Collections.singletonList(base)));
         assertTrue(fs.hasNext());
 
-        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertTrue(fs.getTargets().containsAll(Arrays.asList(figures[1], figures[2], figures[3], figures[4])));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertFalse(fs.hasNext());
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), board.getDamaged());
@@ -90,13 +90,13 @@ public class LockRifleTest {
     void testSecondLock() {
         FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, secondLock)));
         assertTrue(fs.hasNext());
-        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertTrue(fs.getTargets().containsAll(Arrays.asList(figures[1], figures[2], figures[3], figures[4])));
         fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         assertEquals(Stream.of(figures[4]).collect(Collectors.toSet()), board.getDamaged());
         board.applyMarks();
         assertEquals(new HashSet<>(), board.getDamaged());
-        assertEquals(Stream.of(figures[1], figures[2], figures[3]).collect(Collectors.toSet()), fs.getTargets());
+        assertTrue(fs.getTargets().containsAll(Arrays.asList(figures[1], figures[2], figures[3])));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         board.applyMarks();
         assertEquals(Arrays.asList(figures[0], figures[0]), figures[4].getDamages());

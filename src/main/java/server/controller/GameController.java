@@ -81,6 +81,10 @@ public class GameController implements Runnable {
         state.selectColor(event.getPlayer(), event.getColor());
     }
 
+    void visit(EndTurnEvent event){
+        state.endTurn(event.getPlayer());
+    }
+
     public void enqueue(Event selectPowerUpEvent) {
         try {
             eventQueue.put(selectPowerUpEvent);

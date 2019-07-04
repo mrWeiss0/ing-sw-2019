@@ -28,4 +28,6 @@ public interface Connection {
     void sendChat(String msg);
 
     void reconnect();
+
+    void endTurn();
 }

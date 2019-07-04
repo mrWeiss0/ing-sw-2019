@@ -10,6 +10,7 @@ import server.model.board.Figure;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -80,20 +81,20 @@ public class FlameThrowerTest {
         assertTrue(fs.hasNext());
         Set<AbstractSquare> expected = Stream.of(figures[1].getLocation(), figures[4].getLocation())
                 .collect(Collectors.toSet());
-        assertEquals(expected, fs.getTargets());
+        assertEquals(expected, new HashSet<>(fs.getTargets()));
 
         fs.run(Stream.of(figures[1].getLocation()).collect(Collectors.toSet()));
 
-        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
 
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
 
         assertEquals(1, figures[1].getDamages().size());
-        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
 
         fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
 
-        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[2]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
 
         fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
 
@@ -116,9 +117,9 @@ public class FlameThrowerTest {
     @Test
     void testBarbecue() {
         FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Collections.singletonList(barbecue)));
-        assertEquals(Stream.of(figures[1].getLocation(), figures[4].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1].getLocation(), figures[4].getLocation()).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         fs.run(Stream.of(figures[1].getLocation()).collect(Collectors.toSet()));
-        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         fs.run(Stream.of(figures[2].getLocation()).collect(Collectors.toSet()));
         assertEquals(2, figures[2].getDamages().size());
         assertEquals(2, figures[1].getDamages().size());

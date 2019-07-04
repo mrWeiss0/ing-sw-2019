@@ -68,5 +68,10 @@ public interface View {
 
     void displayChat(List<String[]> chat);
 
+    void displayLeaderBoard(Player player);
+
+    void displayNKills(Player player);
+
     void displayRemainingTime(int v);
+
 }

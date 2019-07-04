@@ -74,7 +74,7 @@ class FireSequenceTest {
         // Base mode
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[0]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[3], figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Collections.emptySet()));
@@ -97,7 +97,7 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Collections.emptySet()));
@@ -117,14 +117,14 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
         fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
@@ -144,14 +144,14 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
         fs.run(Collections.emptySet());
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
@@ -171,14 +171,14 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1], figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         // Run
         fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
@@ -199,13 +199,13 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[2]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         // Run
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3], figures[4]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[1]).collect(Collectors.toSet())));
         // Run
@@ -228,7 +228,7 @@ class FireSequenceTest {
         fs.run(Stream.of(figures[4]).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
         // Target gen
-        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[2]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[3]).collect(Collectors.toSet())));
         assertThrows(IllegalArgumentException.class, () -> fs.run(Stream.of(figures[4]).collect(Collectors.toSet())));

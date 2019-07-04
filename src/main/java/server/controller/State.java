@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 abstract class State {
     protected GameController controller;
+
     private final String INVALID_MOMENT = "Oak's words echoed... There's a time and place for everything, but not now.";
 
     protected State(GameController controller) {
@@ -49,6 +50,10 @@ abstract class State {
     }
 
     void selectColor(Player player, int color) {
+        player.sendMessage(INVALID_MOMENT);
+    }
+
+    void endTurn(Player player){
         player.sendMessage(INVALID_MOMENT);
     }
 
@@ -94,10 +99,6 @@ class TurnState extends State {
         if (current.getFigure().getLocation() == null) {
             controller.addState(this);
             controller.setState(new SelectSpawnState(controller, Collections.singletonList(current)));
-        } else if (remainingActions-- <= 0) {
-            turnTimer.cancel();
-            controller.addState(new EndTurnState(controller, current));
-            controller.setState(new SelectReloadState(controller, current));
         }
     }
 
@@ -110,6 +111,13 @@ class TurnState extends State {
 
     @Override
     public void selectAction(Player player, Action action) {
+        if (player != this.current)
+            return;
+        if (remainingActions <= 0) {
+            current.sendMessage("No actions left, use end or a powerUp");
+            return;
+        }
+        remainingActions--;
         controller.addState(this);
         List<State> states = action.getStates(controller, player);
         Collections.reverse(states);
@@ -128,6 +136,15 @@ class TurnState extends State {
             controller.addState(this);
             controller.setState(new FireState(controller, current, powerUp.getType().getStepList()));
         }
+    }
+
+    @Override
+    public void endTurn(Player player){
+        if(player!=current)
+            return;
+        turnTimer.cancel();
+        controller.addState(new EndTurnState(controller, current));
+        controller.setState(new SelectReloadState(controller, current));
     }
 }
 
@@ -182,7 +199,6 @@ class SelectReloadState extends State {
         current.sendGameState(GameState.SELECT_RELOAD.ordinal());
     }
 
-    //TODO BLOCK
     @Override
     public void selectWeapon(Player player, Weapon[] weapons) {
         if (player != current)
@@ -194,6 +210,8 @@ class SelectReloadState extends State {
         if (total.greaterEqThan(cost)) {
             controller.addState(new ReloadState(controller, weapons));
             controller.setState(new PayState(controller, current, cost));
+        }else{
+            current.sendMessage("You can't afford reloading those, please select another weapon or no weapons");
         }
     }
 }
@@ -245,6 +263,8 @@ class PayState extends State {
             current.sendPowerUps(current.getFigure().getPowerUps());
             controller.getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(current));
             controller.nextState();
+        }else{
+            current.sendMessage("Please select some powerups because you don't have enough ammo");
         }
     }
 }
@@ -280,6 +300,10 @@ class FireModeSelectionState extends State {
         super(controller);
         current = player;
         total = player.getFigure().getTotalAmmo();
+    }
+
+    @Override
+    public void onEnter(){
         current.sendGameState(GameState.FIRE_MODE.ordinal());
         current.sendPlayerWeapons(current);
     }
@@ -309,20 +333,20 @@ class FireState extends State {
 
     @Override
     public void onEnter() {
-        if (fireSequence.getTargets().size() < fireSequence.getMinTargets()) {
-            fireSequence.getShooter().getPlayer().sendMessage("Not enough targets for this weapon");
+        fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
+        fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
+                ,fireSequence.getMaxTargets()
+                ,fireSequence.getTargets(),
+                controller.getGame().getBoard());
+        if(fireSequence.getTargets().size()<fireSequence.getMinTargets()){
+            fireSequence.getShooter().getPlayer().sendMessage("Not enough targets");
             controller.nextState();
             return;
         }
-        if (fireSequence.getTargets().size() < fireSequence.getMaxTargets()) {
+        if(fireSequence.getTargets().size()<=fireSequence.getMaxTargets()){
             fireSequence.getShooter().getPlayer().sendMessage("Automatically chosen targets");
             selectTargettable(fireSequence.getShooter().getPlayer(), fireSequence.getTargets().toArray(Targettable[]::new));
         }
-        fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
-        fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
-                , fireSequence.getMaxTargets()
-                , fireSequence.getTargets(),
-                controller.getGame().getBoard());
 
     }
 
@@ -368,11 +392,24 @@ class SelectGrabState extends State {
     public void selectGrabbable(Player player, Grabbable grabbable) {
         if (player != current)
             return;
-        controller.addState(new GrabState(controller, current, grabbable));
-        if (grabbable instanceof Weapon)
-            controller.setState(new PayState(controller, current, ((Weapon) grabbable).getPickupCost()));
-        else
+
+        if (grabbable instanceof Weapon) {
+            if(current.getFigure().getLocation().peek().stream()
+                    .noneMatch(x->current.getFigure().getTotalAmmo().greaterEqThan(((Weapon)x).getPickupCost()))){
+                current.sendMessage("You can't afford none of the weapons in this square");
+                controller.nextState();
+            }
+            if(current.getFigure().getTotalAmmo().greaterEqThan( ((Weapon) grabbable).getPickupCost())) {
+                controller.addState(new GrabState(controller, current, grabbable));
+                controller.setState(new PayState(controller, current, ((Weapon) grabbable).getPickupCost()));
+            } else {
+                current.sendMessage("You can't afford that weapon's pickup cost");
+            }
+        }
+        else {
+            controller.addState(new GrabState(controller, current, grabbable));
             controller.nextState();
+        }
     }
 }
 
@@ -385,11 +422,11 @@ class GrabState extends State {
         super(controller);
         current = player;
         this.grabbable = grabbable;
-        current.sendGameState(GameState.GRAB.ordinal());
     }
 
     @Override
     public void onEnter() {
+        current.sendGameState(GameState.GRAB.ordinal());
         Figure figure = current.getFigure();
 
         try {
@@ -400,6 +437,7 @@ class GrabState extends State {
             controller.nextState();
         } catch (IllegalStateException e) {
             current.sendMessage("You have to discard a weapon");
+            current.sendPlayerWeapons(current);
         }
     }
 
@@ -477,7 +515,7 @@ class TagbackState extends State {
 
     @Override
     public void onEnter() {
-        if (timeout || damaged.isEmpty()) {
+        if (timeout || damaged.isEmpty()){
             tagbackTimer.cancel();
             controller.nextState();
         }

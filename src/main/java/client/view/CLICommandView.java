@@ -34,13 +34,18 @@ public class CLICommandView extends CLIView {
                 Map.entry("action", Command.documented(this::selectAction, "Tell the server the action that is being selected")),
                 Map.entry("lobby_list", Command.documented(this::displayLobby, "Show the lobby list saved in local (Could be not updated)")),
                 Map.entry("chat", Command.documented(this::chatMessage, "Send a message to everyone")),
-                Map.entry("reconnect", Command.documented(this::reconnect, "If you go inactive because of the timer, use this command to return active"))
+                Map.entry("reconnect", Command.documented(this::reconnect, "If you go inactive because of the timer, use this command to return active")),
+                Map.entry("end", Command.documented(this::endTurn, "Ends the current turn, use it in TURN"))
         );
     }
 
     private void connect(String[] args) throws CommandException {
         if (args.length < 1) throw new CommandException("Insert a host");
         controller.connect(args[0]);
+    }
+
+    private void endTurn(String[] args) throws CommandException{
+        controller.endTurn();
     }
 
     private void login(String[] args) throws CommandException {

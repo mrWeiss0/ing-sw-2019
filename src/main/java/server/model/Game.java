@@ -76,7 +76,7 @@ public class Game {
         frenzyOn = builder.frenzyOn;
         this.mapType = builder.mapType;
         this.maxKills = builder.nKills;
-        players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
+        players.stream().filter(Objects::nonNull).forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
         turnTimeout = builder.turnTimeout;
         otherTimeout = builder.otherTimeout;
     }
@@ -109,7 +109,7 @@ public class Game {
         fillBoard();
         currPlayer++;
         currPlayer %= players.size();
-        players.forEach(x -> x.sendCurrentPlayer(currPlayer));
+        players.stream().filter(Objects::nonNull).forEach(x -> x.sendCurrentPlayer(currPlayer));
         return players.get(currPlayer);
     }
 
@@ -124,7 +124,7 @@ public class Game {
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
-        board.getSquares().forEach(x -> players.forEach(y -> y.sendSquareContent(x)));
+        board.getSquares().forEach(x -> players.stream().filter(Objects::nonNull).forEach(y -> y.sendSquareContent(x)));
     }
 
     public PowerUp drawPowerup() {
@@ -157,7 +157,7 @@ public class Game {
             f.setFirstBlood(false);
         }
         --remainingKills;
-        players.forEach(x -> x.sendKillTrack(killCount, overkills));
+        players.stream().filter(Objects::nonNull).forEach(x -> x.sendKillTrack(killCount, overkills));
     }
 
     public void endTurn() {
@@ -226,7 +226,7 @@ public class Game {
             positionsMap.put(sortedFigures.get(j), index);
         }
 
-        players.forEach(x -> x.sendGameState(GameState.ENDED.ordinal()));
+        players.stream().filter(Objects::nonNull).forEach(x -> x.sendGameState(GameState.ENDED.ordinal()));
 
         Comparator<Map.Entry<Figure, ?>> sortByPlayerID = Comparator.comparingInt(e -> players.indexOf(e.getKey().getPlayer()));
 

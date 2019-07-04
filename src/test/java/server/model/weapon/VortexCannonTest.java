@@ -78,12 +78,12 @@ public class VortexCannonTest {
         FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Collections.singletonList(base)));
         assertTrue(fs.hasNext());
 
-        assertNotEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertEquals(board.getSquares().stream().filter(x -> x != figures[0].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        assertNotEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
+        assertEquals(board.getSquares().stream().filter(x -> x != figures[0].getLocation()).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         Targettable target = (Targettable) fs.getTargets().toArray()[0];
         fs.run(Stream.of(target).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
-        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), board.getDamaged());
         board.applyMarks();
@@ -97,12 +97,12 @@ public class VortexCannonTest {
         FireSequence fs = new FireSequence(figures[0], board, FireMode.flatSteps(Arrays.asList(base, blackhole)));
         assertTrue(fs.hasNext());
 
-        assertNotEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
-        assertEquals(board.getSquares().stream().filter(x -> x != figures[0].getLocation()).collect(Collectors.toSet()), fs.getTargets());
+        assertNotEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
+        assertEquals(board.getSquares().stream().filter(x -> x != figures[0].getLocation()).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         Targettable target = (Targettable) fs.getTargets().toArray()[0];
         fs.run(Stream.of(target).collect(Collectors.toSet()));
         assertTrue(fs.hasNext());
-        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[1], figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
         fs.run(Stream.of(figures[1]).collect(Collectors.toSet()));
         assertEquals(Stream.of(figures[1]).collect(Collectors.toSet()), board.getDamaged());
         board.applyMarks();
@@ -111,7 +111,7 @@ public class VortexCannonTest {
         assertEquals(target, figures[1].getLocation());
 
         assertTrue(fs.hasNext());
-        assertEquals(Stream.of(figures[2], figures[3], figures[4]).collect(Collectors.toSet()), fs.getTargets());
+        assertEquals(Stream.of(figures[2], figures[3], figures[4]).collect(Collectors.toSet()), new HashSet<>(fs.getTargets()));
 
         fs.run(Stream.of(figures[2], figures[3]).collect(Collectors.toSet()));
         assertEquals(Stream.of(figures[2], figures[3]).collect(Collectors.toSet()), board.getDamaged());

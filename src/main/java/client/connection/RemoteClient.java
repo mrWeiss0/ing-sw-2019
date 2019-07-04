@@ -53,6 +53,10 @@ public interface RemoteClient extends Remote {
 
     void sendPlayerID(int id) throws RemoteException;
 
+    void sendLeaderBoard(int[] points) throws RemoteException;
+
+    void sendNKills(int[] kills) throws RemoteException;
+
     boolean ping() throws RemoteException;
 
 

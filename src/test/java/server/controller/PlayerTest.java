@@ -32,22 +32,4 @@ class PlayerTest {
         assertEquals(c, player.getClient());
         assertEquals(g, player.getGame());
     }
-
-    @Test
-    void testActive() {
-        assertTrue(player.isActive());
-        player.setInactive();
-        assertFalse(player.isActive());
-        player.setActive();
-        assertTrue(player.isActive());
-    }
-
-    @Test
-    void testOnline() {
-        assertTrue(player.isOnline());
-        player.setOffline();
-        assertFalse(player.isOnline());
-        player.setOnline();
-        assertTrue(player.isOnline());
-    }
 }

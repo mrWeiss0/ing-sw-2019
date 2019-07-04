@@ -76,9 +76,10 @@ public class SpawnSquare extends AbstractSquare {
     @Override
     public void grab(Figure grabber, Grabbable grabbed) {
         Weapon w = (Weapon) grabbed;
-        if (!weapons.remove(w))
+        if (!weapons.contains(w))
             throw new IllegalStateException("Square " + this + " does not contain item " + w);
         grabber.grab(w);
+        weapons.remove(w);
     }
 
     /**
