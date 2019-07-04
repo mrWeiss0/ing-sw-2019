@@ -78,6 +78,9 @@ class TurnState extends State {
     @Override
     public void onEnter() {
         current.sendGameState(GameState.TURN.ordinal());
+        controller.getGame().getPlayers().stream()
+                .filter(x->x!=current)
+                .forEach(x -> x.sendGameState(GameState.ENEMY_TURN.ordinal()));
         if (!current.isActive()) {
             controller.setState(new TurnState(controller));
             return;
@@ -261,7 +264,7 @@ class PayState extends State {
                 powerUp.discard();
             }
             current.sendPowerUps(current.getFigure().getPowerUps());
-            controller.getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(current));
+            current.broadcastNPowerUps();
             controller.nextState();
         } else {
             current.sendMessage("Please select some powerups because you don't have enough ammo");

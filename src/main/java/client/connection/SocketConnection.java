@@ -293,8 +293,8 @@ public class SocketConnection implements Connection, Runnable {
                 .mapToInt(Integer::parseInt).toArray();
         String[] names = Arrays.stream(args[2].split("%%")).toArray(String[]::new);
         int[][] lcost = Arrays.stream(args[3].split("%%"))
-                .filter(x -> x.matches("[0-9]+"))
                 .map(x -> Arrays.stream(x.split("££"))
+                        .filter(y -> y.matches("[0-9]+"))
                         .mapToInt(Integer::parseInt)
                         .toArray())
                 .toArray(int[][]::new);
