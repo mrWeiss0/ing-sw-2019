@@ -27,7 +27,12 @@ public final class Effects {
     }
 
     public static Effect moveCurrToLast() {
-        return (shooter, currentTargets, lastTargets) -> currentTargets.forEach(x -> ((Figure) x).moveTo((AbstractSquare) lastTargets.get(0)));
+        return (shooter, currentTargets, lastTargets) -> currentTargets.forEach(x -> {
+            try {
+                ((Figure) x).moveTo((AbstractSquare) lastTargets.get(0));
+            }catch(IndexOutOfBoundsException ignore){
+            }
+        });
     }
 
     public static Effect moveLastToCurr() {
@@ -35,7 +40,7 @@ public final class Effects {
             try {
                 ((Figure) lastTargets.get(lastTargets.size() - 1))
                         .moveTo(((AbstractSquare) currentTargets.iterator().next()));
-            } catch (NoSuchElementException ignore) {
+            } catch (NoSuchElementException | IndexOutOfBoundsException ignore) {
             }
         };
     }
@@ -45,7 +50,7 @@ public final class Effects {
             try {
                 ((Figure) lastTargets.get(0))
                         .moveTo(((AbstractSquare) currentTargets.iterator().next()));
-            } catch (NoSuchElementException ignore) {
+            } catch (NoSuchElementException | IndexOutOfBoundsException ignore) {
             }
         };
     }
@@ -81,8 +86,10 @@ public final class Effects {
     }
 
     public static Effect addCurrFigureSquareToLast() {
-        return (shooter, currentTargets, lastTargets) -> lastTargets
-                .add(((Figure) currentTargets.iterator().next()).getLocation());
+        return (shooter, currentTargets, lastTargets) -> {
+            if(!currentTargets.isEmpty())
+                lastTargets.add(((Figure) currentTargets.iterator().next()).getLocation());
+        };
     }
 
     public static Effect clearLast() {

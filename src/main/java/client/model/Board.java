@@ -71,6 +71,6 @@ public class Board {
     }
 
     public Square[] getRoom(int id) {
-        return (Square[]) Arrays.stream(squares).filter(x -> x.getRoom() == id).toArray();
+        return Arrays.stream(squares).filter(x -> x.getRoom() == id).toArray(Square[]::new);
     }
 }
