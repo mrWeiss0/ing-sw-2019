@@ -2,11 +2,10 @@ package server.model.weapon;
 
 import server.model.board.AbstractSquare;
 import server.model.board.Figure;
+import server.model.board.Targettable;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -249,36 +248,44 @@ public final class TargetGens {
      */
     public static TargetGen sameDirectionAsLastSquares() {
         return (shooter, board, lastTargets) -> {
-            int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
-            int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
-            if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1]).collect(Collectors.toSet());
-            else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1]).collect(Collectors.toSet());
-            else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
-                    .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0]).collect(Collectors.toSet());
-            else return board.getSquares()
-                        .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0]).collect(Collectors.toSet());
+            try {
+                int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
+                int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
+                if (origin[0] == last[0] && origin[1] > last[1]) return board.getSquares()
+                        .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1]).collect(Collectors.toSet());
+                else if (origin[0] == last[0] && origin[1] < last[1]) return board.getSquares()
+                        .stream().filter(x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1]).collect(Collectors.toSet());
+                else if (origin[1] == last[1] && origin[0] < last[0]) return board.getSquares()
+                        .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0]).collect(Collectors.toSet());
+                else return board.getSquares()
+                            .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0]).collect(Collectors.toSet());
+            }catch (IndexOutOfBoundsException ignore){
+                return new HashSet<>();
+            }
         };
     }
 
     public static TargetGen sameDirectionAsLastFigures() {
         return (shooter, board, lastTargets) -> {
-            int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
-            int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
-            Predicate<AbstractSquare> p;
-            if (origin[0] == last[0] && origin[1] > last[1])
-                p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1];
-            else if (origin[0] == last[0] && origin[1] < last[1])
-                p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1];
-            else if (origin[1] == last[1] && origin[0] < last[0])
-                p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0];
-            else
-                p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0];
-            return board.getSquares().stream()
-                    .filter(p)
-                    .map(AbstractSquare::getOccupants)
-                    .collect(HashSet::new, HashSet::addAll, HashSet::addAll);
+            try {
+                int[] origin = ((AbstractSquare) lastTargets.get(0)).getCoordinates();
+                int[] last = ((AbstractSquare) lastTargets.get(1)).getCoordinates();
+                Predicate<AbstractSquare> p;
+                if (origin[0] == last[0] && origin[1] > last[1])
+                    p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] < origin[1];
+                else if (origin[0] == last[0] && origin[1] < last[1])
+                    p = x -> x.getCoordinates()[0] == origin[0] && x.getCoordinates()[1] > origin[1];
+                else if (origin[1] == last[1] && origin[0] < last[0])
+                    p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0];
+                else
+                    p = x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0];
+                return board.getSquares().stream()
+                        .filter(p)
+                        .map(AbstractSquare::getOccupants)
+                        .collect(HashSet::new, HashSet::addAll, HashSet::addAll);
+            }catch (IndexOutOfBoundsException ignore){
+                return new HashSet<>();
+            }
         };
     }
 

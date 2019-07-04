@@ -59,7 +59,7 @@ public class Player {
     }
 
     public void setCoordinates(int[] coordinates) {
-        this.coordinates = coordinates;
+        this.coordinates = coordinates==null?new int[]{-1,-1}:coordinates;
         view.displayPlayerLocation(this);
     }
 

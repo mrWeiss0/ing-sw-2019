@@ -363,10 +363,10 @@ class FireState extends State {
         if (fireSequence.hasNext())
             controller.setState(this);
         else {
-            controller.getGame().getBoard().applyMarks();
             Set<Figure> damaged = controller.getGame().getBoard().getDamaged();
             if (!damaged.isEmpty()) controller.addState(new ScopeState(controller, player));
             controller.setState(new TagbackState(controller, player, damaged));
+            controller.getGame().getBoard().applyMarks();
         }
     }
 }
