@@ -180,8 +180,67 @@ public class Game {
 
     private void endGame() {
         ended = true;
-        // TODO give last points, determine winner
+        board.getFigures().forEach(Figure::givePoints);
+
+        Map<Figure, Integer> killsMap = IntStream.range(0, killCount.size())
+                .boxed()
+                .collect(Collectors.groupingBy(
+                        killCount::get,
+                        Collectors.reducing(
+                                0,
+                                (r, e) -> overkills.size() > e && overkills.get(e) ? 2 : 1)
+                ));
+        List<Figure> killsFigures = killsMap.entrySet()
+                .stream()
+                .sorted(Comparator
+                        .comparingInt((ToIntFunction<Map.Entry<Figure, Integer>>) Map.Entry::getValue).reversed()
+                        .thenComparingInt(x -> killCount.indexOf(x.getKey()))
+                )
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        int i = 0;
+        Map<Figure, Integer> killtrackPoints = new HashMap<>();
+        for (Figure figure : killsFigures) {
+            killtrackPoints.put(figure, finalPoints[i]);
+            figure.addPoints(finalPoints[i]);
+            if (i < finalPoints.length - 1)
+                ++i;
+        }
+
+        Comparator<Figure> scoring = Comparator
+                .comparingInt(Figure::getPoints)
+                .thenComparingInt(figure -> killtrackPoints.getOrDefault(figure, 0))
+                .reversed();
+
+        List<Figure> sortedFigures = board.getFigures().stream()
+                .sorted(scoring)
+                .collect(Collectors.toList());
+
+        Map<Figure, Integer> positionsMap = new HashMap<>();
+
+        int index = 1;
+        for (int j = 0; j < sortedFigures.size(); j++) {
+            if (j == 0 || scoring.compare(sortedFigures.get(j), sortedFigures.get(j - 1)) > 0)
+                index = j + 1;
+            positionsMap.put(sortedFigures.get(j), index);
+        }
+
         players.forEach(x -> x.sendGameState(GameState.ENDED.ordinal()));
+
+        Comparator<Map.Entry<Figure, ?>> sortByPlayerID = Comparator.comparingInt(e -> players.indexOf(e.getKey().getPlayer()));
+
+        int[] nKills = killsMap.entrySet().stream()
+                .sorted(sortByPlayerID)
+                .mapToInt(Map.Entry::getValue)
+                .toArray();
+
+        int[] positions = positionsMap.entrySet().stream()
+                .sorted(sortByPlayerID)
+                .mapToInt(Map.Entry::getValue)
+                .toArray();
+
+        // TODO SEND
     }
 
     public List<Boolean> getOverkills() {
