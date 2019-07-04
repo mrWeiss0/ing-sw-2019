@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <StackPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Play">
    <StackPane fx:id="bottom" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1024.0" StackPane.alignment="BOTTOM_CENTER">
@@ -68,6 +69,23 @@
                                  <ImageView fx:id="player0Damage11" fitHeight="36.0" fitWidth="24.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </HBox>
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="TOP_LEFT">
+                              <children>
+                                 <ImageView fx:id="player0RedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player0YellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player0BlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </HBox>
+                           <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="36.0" right="286.0" />
+                              </StackPane.margin>
+                           </ImageView>
+                           <Text fx:id="player0NPup" strokeType="OUTSIDE" strokeWidth="0.0" text="0" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="51.0" right="301.0" />
+                              </StackPane.margin>
+                           </Text>
                         </children>
                      </StackPane>
                      <StackPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="172.0" prefWidth="324.0">
@@ -117,6 +135,23 @@
                                  <ImageView fx:id="player1Damage11" fitHeight="36.0" fitWidth="24.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </HBox>
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="TOP_LEFT">
+                              <children>
+                                 <ImageView fx:id="player1RedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player1YellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player1BlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </HBox>
+                           <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="36.0" right="286.0" />
+                              </StackPane.margin>
+                           </ImageView>
+                           <Text fx:id="player1NPup" strokeType="OUTSIDE" strokeWidth="0.0" text="0" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="51.0" right="301.0" />
+                              </StackPane.margin>
+                           </Text>
                         </children>
                      </StackPane>
                      <StackPane layoutX="10.0" layoutY="182.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="172.0" prefWidth="324.0">
@@ -166,6 +201,23 @@
                                  <ImageView fx:id="player2Damage11" fitHeight="36.0" fitWidth="24.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </HBox>
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="TOP_LEFT">
+                              <children>
+                                 <ImageView fx:id="player2RedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player2YellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player2BlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </HBox>
+                           <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="36.0" right="286.0" />
+                              </StackPane.margin>
+                           </ImageView>
+                           <Text fx:id="player2NPup" strokeType="OUTSIDE" strokeWidth="0.0" text="0" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="51.0" right="301.0" />
+                              </StackPane.margin>
+                           </Text>
                         </children>
                      </StackPane>
                      <StackPane layoutX="10.0" layoutY="354.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="172.0" prefWidth="324.0">
@@ -215,6 +267,23 @@
                                  <ImageView fx:id="player3Damage11" fitHeight="36.0" fitWidth="24.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </HBox>
+                           <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="TOP_LEFT">
+                              <children>
+                                 <ImageView fx:id="player3RedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player3YellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player3BlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </HBox>
+                           <ImageView fx:id="pupImage3" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="36.0" right="286.0" />
+                              </StackPane.margin>
+                           </ImageView>
+                           <Text fx:id="player3NPup" strokeType="OUTSIDE" strokeWidth="0.0" text="0" StackPane.alignment="BOTTOM_RIGHT">
+                              <StackPane.margin>
+                                 <Insets bottom="51.0" right="301.0" />
+                              </StackPane.margin>
+                           </Text>
                         </children>
                      </StackPane>
                   </children></VBox>
@@ -597,13 +666,13 @@
                            <VBox fx:id="yourVariableActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="45.0">
                               <children>
                                  <ImageView fx:id="yourAction0" fitHeight="30.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/actions/move.png" />
+                                  <!--   <Image url="@../images/actions/0.png" /> -->
                                  </ImageView>
                                  <ImageView fx:id="yourAction1" fitHeight="30.0" fitWidth="45.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/actions/grab.png" />
+                                   <!--  <Image url="@../images/actions/1.png" /> -->
                                  </ImageView>
                                  <ImageView fx:id="yourAction2" fitHeight="30.0" fitWidth="45.0" layoutX="12.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/actions/shoot.png" />
+                                   <!--  <Image url="@../images/actions/2.png" /> -->
                                  </ImageView>
                               </children>
                            </VBox>

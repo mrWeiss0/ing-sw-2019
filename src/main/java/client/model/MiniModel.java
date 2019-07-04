@@ -14,6 +14,7 @@ public class MiniModel {
     private String[] lobbyList = new String[]{};
     private PowerUp[] powerups;
     private int[] possibleActions;
+    private int actionSetID;
     private int currentPlayer;
     private int[] possibleTargets;
     private int minToSelect;
@@ -91,15 +92,18 @@ public class MiniModel {
         view.displayCurrentPlayer(currentPlayer);
     }
 
+    public int getActionSetID() { return actionSetID; }
+
     public int[] getPossibleActions() {
         return possibleActions;
     }
 
     public void setPossibleActions(int actionSetID) {
-        if (actionSetID == 0 || actionSetID == 1)
-            this.possibleActions = new int[]{0, 1, 2};
-        else if (actionSetID == 2)
-            this.possibleActions = new int[]{0, 1};
+        this.actionSetID = actionSetID;
+        if(actionSetID==0 || actionSetID==1)
+            this.possibleActions=new int[]{0,1,2};
+        else if(actionSetID==2)
+            this.possibleActions=new int[]{0,1};
         else
             this.possibleActions = new int[]{-1};
         view.displayPossibleActions(possibleActions);

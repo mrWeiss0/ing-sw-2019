@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -23,17 +25,19 @@ import java.util.stream.Collectors;
 
 public class Play implements View {
     private ImageLoader loader = new ImageLoader();
-    //private Pane[][] mapCells = new Pane[3][4];
+
     private ImageView[] killcountImages = new ImageView[8];
     private ImageView[] playerPortraits = new ImageView[5];
     private ImageView[][] weapImages = new ImageView[5][3];
-    private ImageView[] pupImages;
-    private ImageView[] yourPupImages;
+    private Text[] pupNumber = new Text[4];
+    private ImageView[] yourPupImages = new ImageView[4];
     private ImageView[][] actionImages = new ImageView[5][3];
     private ImageView[][] damageImages = new ImageView[5][12];
     private ImageView[][] markImages = new ImageView[5][4];
     private ImageView[][] ammoCubeImages = new ImageView[5][3];
     private WeaponAggregator[][] weapAggr = new WeaponAggregator[5][3];
+    private WeaponAggregator[] pupAggr = new WeaponAggregator[4];
+    private ImageView[][] squareContents = new ImageView[12][6];
 
     //Killtrack
     @FXML ImageView killtrackImage;
@@ -73,6 +77,18 @@ public class Play implements View {
     @FXML ImageView yourWeapon1;
     @FXML ImageView yourWeapon2;
 
+    //Other players PowerUps
+    @FXML Text player0NPup;
+    @FXML Text player1NPup;
+    @FXML Text player2NPup;
+    @FXML Text player3NPup;
+
+    //Your PowerUps
+    @FXML ImageView yourPowerUp0;
+    @FXML ImageView yourPowerUp1;
+    @FXML ImageView yourPowerUp2;
+    @FXML ImageView yourPowerUp3;
+
     @FXML Button yourWeapon2fireMode1;
     @FXML Button yourWeapon2fireMode2;
     @FXML Button yourWeapon2fireMode3;
@@ -84,23 +100,26 @@ public class Play implements View {
     @FXML Button yourWeapon1fireMode3;
 
     //Actions
-    /*
-    @FXML ImageView player0Action0;
-    @FXML ImageView player0Action1;
-    @FXML ImageView player0Action2;
-    @FXML ImageView player1Action0;
-    @FXML ImageView player1Action1;
-    @FXML ImageView player1Action2;
-    @FXML ImageView player2Action0;
-    @FXML ImageView player2Action1;
-    @FXML ImageView player2Action2;
-    @FXML ImageView player3Action0;
-    @FXML ImageView player3Action1;
-    @FXML ImageView player3Action2;
-    */
     @FXML ImageView yourAction0;
     @FXML ImageView yourAction1;
     @FXML ImageView yourAction2;
+
+    //AmmoCubes
+    @FXML ImageView player0RedAmmo;
+    @FXML ImageView player0YellowAmmo;
+    @FXML ImageView player0BlueAmmo;
+    @FXML ImageView player1RedAmmo;
+    @FXML ImageView player1YellowAmmo;
+    @FXML ImageView player1BlueAmmo;
+    @FXML ImageView player2RedAmmo;
+    @FXML ImageView player2YellowAmmo;
+    @FXML ImageView player2BlueAmmo;
+    @FXML ImageView player3RedAmmo;
+    @FXML ImageView player3YellowAmmo;
+    @FXML ImageView player3BlueAmmo;
+    @FXML ImageView yourRedAmmo;
+    @FXML ImageView yourYellowAmmo;
+    @FXML ImageView yourBlueAmmo;
 
     //Damages
     @FXML ImageView player0Damage0;
@@ -221,24 +240,39 @@ public class Play implements View {
         weapImages[4][1] = yourWeapon1;
         weapImages[4][2] = yourWeapon2;
 
+        //Other players PowerUps
+        pupNumber[0] = player0NPup;
+        pupNumber[1] = player1NPup;
+        pupNumber[2] = player2NPup;
+        pupNumber[3] = player3NPup;
+
+        //Your PowerUps
+        yourPupImages[0] = yourPowerUp0;
+        yourPupImages[1] = yourPowerUp1;
+        yourPupImages[2] = yourPowerUp2;
+        yourPupImages[3] = yourPowerUp3;
+
         //Actions
-        /*
-        actionImages[0][0] = player0Action0;
-        actionImages[0][1] = player0Action1;
-        actionImages[0][2] = player0Action2;
-        actionImages[1][0] = player1Action0;
-        actionImages[1][1] = player1Action1;
-        actionImages[1][2] = player1Action2;
-        actionImages[2][0] = player2Action0;
-        actionImages[2][1] = player2Action1;
-        actionImages[2][2] = player2Action2;
-        actionImages[3][0] = player3Action0;
-        actionImages[3][1] = player3Action1;
-        actionImages[3][2] = player3Action2;
-        */
         actionImages[4][0] = yourAction0;
         actionImages[4][1] = yourAction1;
         actionImages[4][2] = yourAction2;
+
+        //Ammocubes
+        ammoCubeImages[0][0] = player0RedAmmo;
+        ammoCubeImages[0][1] = player0YellowAmmo;
+        ammoCubeImages[0][2] = player0BlueAmmo;
+        ammoCubeImages[1][0] = player1RedAmmo;
+        ammoCubeImages[1][1] = player1YellowAmmo;
+        ammoCubeImages[1][2] = player1BlueAmmo;
+        ammoCubeImages[2][0] = player2RedAmmo;
+        ammoCubeImages[2][1] = player2YellowAmmo;
+        ammoCubeImages[2][2] = player2BlueAmmo;
+        ammoCubeImages[3][0] = player3RedAmmo;
+        ammoCubeImages[3][1] = player3YellowAmmo;
+        ammoCubeImages[3][2] = player3BlueAmmo;
+        ammoCubeImages[4][0] = yourRedAmmo;
+        ammoCubeImages[4][1] = yourYellowAmmo;
+        ammoCubeImages[4][2] = yourBlueAmmo;
 
         //Damages
         damageImages[0][0] = player0Damage0;
@@ -340,20 +374,40 @@ public class Play implements View {
 
     public void displayMaxToSelect(int max) {}
 
-    public void displayPowerUps(PowerUp[] powerUps) {}
-
-    public void displayPossibleActions(int[] actions) {
-        /*
-        Platform.runLater( () ->
-
-                for(i))
-                actionImages[4]
-
+    public void displayPowerUps(PowerUp[] powerUps) {
+        Platform.runLater( () -> {
+                    for (int i = 0; i < powerUps.length; i++) {
+                        pupAggr[i] = loader.getPowerUpImages(powerUps[i].getType(), powerUps[i].getColor());
+                        yourPupImages[i].setImage(pupAggr[i].getPortrait());
+                    }
         });
-        */
     }
 
-    public void displayCurrentPlayer(int currPlayer) {};
+    public void displayPossibleActions(int[] actions) {
+        Platform.runLater( () -> {
+            if (actions.length == 3 &&
+                    Scenes.getClient().getModel().getActionSetID() == 0) {
+                actionImages[4][0].setImage(loader.getAction(0));
+                actionImages[4][1].setImage(loader.getAction(1));
+                actionImages[4][2].setImage(loader.getAction(2));
+            } else if (actions.length == 3 &&
+                    Scenes.getClient().getModel().getActionSetID() == 1) {
+                actionImages[4][0].setImage(loader.getAction(5));
+                actionImages[4][1].setImage(loader.getAction(6));
+                actionImages[4][2].setImage(loader.getAction(7));
+            } else if (actions.length == 2 && Scenes.getClient().getModel().getActionSetID() == 2) {
+                actionImages[4][0].setImage(loader.getAction(8));
+                actionImages[4][1].setImage(loader.getAction(9));
+                actionImages[4][2].setImage(loader.getAction(-1));
+            } else {
+                actionImages[4][0].setImage(loader.getAction(-1));
+                actionImages[4][1].setImage(loader.getAction(-1));
+                actionImages[4][2].setImage(loader.getAction(-1));
+            }
+        });
+    }
+
+    public void displayCurrentPlayer(int currPlayer) {}
 
     public void displayRemainingActions(int remaining) {};
 
@@ -383,7 +437,7 @@ public class Play implements View {
         });
     }
 
-    public void displaySquares(Square[] squares) {};
+    public void displaySquares(Square[] squares) {}
 
     public void displayPlayerDamage(Player player) {
         Platform.runLater( () -> {
@@ -392,6 +446,12 @@ public class Play implements View {
         int relativeID = getRelativeID(playerID, myID);
         for (int i = 0; i < 11; i++) {
             damageImages[relativeID][i].setImage(loader.getDamage(getRelativeID(player.getDamages()[i] ,myID),1));
+        }
+        if(playerID == myID && player.getDamages().length > 2) {
+            actionImages[4][1].setImage(loader.getAction(3));
+        }
+        if(playerID == myID && player.getDamages().length > 5) {
+            actionImages[4][2].setImage(loader.getAction(5));
         }
         });
     }
@@ -427,9 +487,18 @@ public class Play implements View {
     public void displayPlayerAmmo(Player player) {
         int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
         int myID = Scenes.getClient().getModel().getPlayerID();
+        int relativeID = getRelativeID(playerID, myID);
+        for (int i = 0; i < 3; i++) {
+            ammoCubeImages[relativeID][i].setImage(loader.getAmmoCubesImages(player.getAmmo()).getRybImages()[i]);
+        }
     }
 
-    public void displayPlayerNPowerUps(Player player) {};
+    public void displayPlayerNPowerUps(Player player) {
+        int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
+        int myID = Scenes.getClient().getModel().getPlayerID();
+        int relativeID = getRelativeID(playerID, myID);
+        pupNumber[relativeID].setText(Integer.toString(player.getnPowerup()));
+    }
 
     public void displayPlayerLocation(Player player) {};
 
