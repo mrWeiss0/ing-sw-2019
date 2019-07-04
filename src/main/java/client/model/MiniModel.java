@@ -11,7 +11,7 @@ public class MiniModel {
     private final View view;
     private final Board board;
     private final List<String[]> chat = new ArrayList<>();
-    private String[] lobbyList;
+    private String[] lobbyList = new String[]{};
     private PowerUp[] powerups;
     private int[] possibleActions;
     private int currentPlayer;
