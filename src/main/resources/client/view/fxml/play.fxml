@@ -132,7 +132,7 @@
                                  <ImageView fx:id="player2Action2" fitHeight="25.0" fitWidth="37.5" layoutX="10.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </VBox>
-                           <VBox fx:id="player1Marks1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="39.0" StackPane.alignment="BOTTOM_RIGHT">
+                           <VBox fx:id="player2Marks" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="39.0" StackPane.alignment="BOTTOM_RIGHT">
                               <children>
                                  <ImageView fx:id="player2Marks0" fitHeight="24.25" fitWidth="39.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player2Marks1" fitHeight="24.25" fitWidth="39.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
@@ -189,7 +189,7 @@
                                  <ImageView fx:id="player3Marks3" fitHeight="24.25" fitWidth="39.0" layoutX="10.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
                               </children>
                            </VBox>
-                           <HBox fx:id="player2Weapons1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="62.0" prefWidth="247.0" StackPane.alignment="BOTTOM_RIGHT">
+                           <HBox fx:id="player3Weapons" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="62.0" prefWidth="247.0" StackPane.alignment="BOTTOM_RIGHT">
                               <StackPane.margin>
                                  <Insets bottom="36.0" right="39.0" />
                               </StackPane.margin>
@@ -207,9 +207,9 @@
                                  <ImageView fx:id="player3Damage3" fitHeight="36.0" fitWidth="24.0" layoutX="58.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player3Damage4" fitHeight="36.0" fitWidth="24.0" layoutX="82.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player3Damage5" fitHeight="36.0" fitWidth="24.0" layoutX="106.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                 <ImageView fx:id="player3Damage61" fitHeight="36.0" fitWidth="24.0" layoutX="130.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                 <ImageView fx:id="player3Damage71" fitHeight="36.0" fitWidth="24.0" layoutX="154.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                 <ImageView fx:id="player3Damage81" fitHeight="36.0" fitWidth="24.0" layoutX="178.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player3Damage6" fitHeight="36.0" fitWidth="24.0" layoutX="130.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player3Damage7" fitHeight="36.0" fitWidth="24.0" layoutX="154.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                 <ImageView fx:id="player3Damage8" fitHeight="36.0" fitWidth="24.0" layoutX="178.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player3Damage9" fitHeight="36.0" fitWidth="24.0" layoutX="202.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player3Damage10" fitHeight="36.0" fitWidth="24.0" layoutX="226.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
                                  <ImageView fx:id="player3Damage11" fitHeight="36.0" fitWidth="24.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
@@ -665,33 +665,33 @@
          </HBox>
           <StackPane fx:id="topLeft" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="440.0" StackPane.alignment="TOP_LEFT">
             <children>
-               <ImageView fx:id="killcountImage" fitHeight="76.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true">
-                   <Image url="@../images/lifebar/killtrack.png" />
+               <ImageView fx:id="killtrackImage" fitHeight="76.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true">
+                   <Image url="@../images/lifebar/killtrack_8.png" />
                </ImageView>
                 <HBox fx:id="killcount" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="76.0" prefWidth="432.0" spacing="6.0" StackPane.alignment="CENTER">
                   <children>
-                     <ImageView fx:id="kills0" fitHeight="76.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill0" fitHeight="76.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills1" fitHeight="76.0" fitWidth="54.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill1" fitHeight="76.0" fitWidth="54.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/4_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills2" fitHeight="76.0" fitWidth="54.0" layoutX="64.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill2" fitHeight="76.0" fitWidth="54.0" layoutX="64.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills3" fitHeight="76.0" fitWidth="54.0" layoutX="118.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill3" fitHeight="76.0" fitWidth="54.0" layoutX="118.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/0_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills4" fitHeight="76.0" fitWidth="54.0" layoutX="172.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill4" fitHeight="76.0" fitWidth="54.0" layoutX="172.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills5" fitHeight="76.0" fitWidth="54.0" layoutX="226.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill5" fitHeight="76.0" fitWidth="54.0" layoutX="226.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills6" fitHeight="76.0" fitWidth="54.0" layoutX="280.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill6" fitHeight="76.0" fitWidth="54.0" layoutX="280.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
-                     <ImageView fx:id="kills7" fitHeight="76.0" fitWidth="54.0" layoutX="334.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="kill7" fitHeight="76.0" fitWidth="54.0" layoutX="334.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                          <Image url="@../images/lifebar/1_1.png" />
                      </ImageView>
                   </children>

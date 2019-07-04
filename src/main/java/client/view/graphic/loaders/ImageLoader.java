@@ -37,4 +37,12 @@ public class ImageLoader {
         return new Image("../../../../client/view/images/lifebar/"+ id +"_"+ qnty);
     }
 
+    public Image getKillTrack(int maxKill) {
+        return new Image("../../../../client/view/images/lifebar/killtrack_" + maxKill);
+    }
+
+    public Image getMap(int mapID) {
+        return new Image("../../../../client/view/images/maps/map" + mapID);
+    }
+
 }
