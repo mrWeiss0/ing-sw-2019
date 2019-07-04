@@ -8,7 +8,6 @@ import server.model.PowerUp;
 import server.model.weapon.Weapon;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
@@ -120,8 +119,8 @@ public class Figure implements Targettable {
      */
     public void addAmmo(AmmoCube ammo) {
         this.ammo = this.ammo.add(ammo).cap(maxAmmo);
-        if(player!=null)
-            player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerAmmo(player));
+        if (player != null)
+            player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerAmmo(player));
     }
 
     /**
@@ -135,7 +134,7 @@ public class Figure implements Targettable {
         if (!this.ammo.greaterEqThan(ammo))
             throw new IllegalStateException("Not enough ammo");
         this.ammo = this.ammo.sub(ammo);
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerAmmo(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerAmmo(player));
     }
 
     /**
@@ -165,7 +164,7 @@ public class Figure implements Targettable {
         if (this.location != null) this.location.removeOccupant(this);
         this.location = square;
         if (this.location != null) this.location.addOccupant(this);
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerLocation(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerLocation(player));
     }
 
     /**
@@ -179,7 +178,7 @@ public class Figure implements Targettable {
         if (weapons.size() >= maxWeapons)
             throw new IllegalStateException("Reached limit of " + maxWeapons + " weapons");
         weapons.add(grabbed);
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerWeapons(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerWeapons(player));
     }
 
     /**
@@ -195,7 +194,7 @@ public class Figure implements Targettable {
         if (powerUps.size() < maxPowerUps)
             grabbed.getPowerUp().ifPresent(powerUps::add);
         grabbed.discard();
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(player));
         player.sendPowerUps(powerUps);
     }
 
@@ -216,7 +215,7 @@ public class Figure implements Targettable {
                     dealer));
             marks.put(dealer, 0);
             damaged = true;
-            player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerDamages(player));
+            player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerDamages(player));
         }
     }
 
@@ -255,7 +254,7 @@ public class Figure implements Targettable {
         );
         newMarks.clear();
         damaged = false;
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerMarks(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerMarks(player));
     }
 
     public boolean resolveDeath(Game game) {
@@ -270,14 +269,14 @@ public class Figure implements Targettable {
             moveTo(null);
             ++deaths;
             damages.clear();
-            player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerDeaths(player));
+            player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerDeaths(player));
             return true;
         }
         return false;
     }
 
     public void givePoints() {
-        damages.stream()
+        List<Figure> figures = damages.stream()
                 .collect(Collectors.groupingBy(
                         Function.identity(),
                         Collectors.counting()))
@@ -287,17 +286,15 @@ public class Figure implements Targettable {
                         .comparingLong((ToLongFunction<Map.Entry<Figure, Long>>) Map.Entry::getValue).reversed()
                         .thenComparingInt(x -> damages.indexOf(x.getKey())))
                 .map(Map.Entry::getKey)
-                .forEach(new Consumer<>() {
-                             int i = deaths;
+                .collect(Collectors.toList());
 
-                             @Override
-                             public void accept(Figure figure) {
-                                 figure.addPoints(killPoints[i]);
-                                 if (i < killPoints.length - 1)
-                                     ++i;
-                             }
-                         }
-                );
+        int i = deaths;
+        for (Figure figure : figures) {
+            figure.addPoints(killPoints[i]);
+            if (i < killPoints.length - 1)
+                ++i;
+        }
+
         if (firstBlood)
             damages.get(0).addPoints(1); // First blood
 
@@ -317,7 +314,7 @@ public class Figure implements Targettable {
 
     public void addPoints(int points) {
         this.points += points;
-        player.getGame().getGame().getPlayers().forEach(x->x.sendPlayerPoints(player));
+        player.getGame().getGame().getPlayers().forEach(x -> x.sendPlayerPoints(player));
     }
 
     public Player getPlayer() {
