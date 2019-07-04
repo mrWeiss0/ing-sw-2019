@@ -1,6 +1,6 @@
 package client.model;
 
-public enum GameState{
+public enum GameState {
     NOT_STARTED,
     ENEMY_TURN,
     END_TURN,

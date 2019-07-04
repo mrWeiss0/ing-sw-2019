@@ -1,6 +1,5 @@
 package server.connection;
 
-import client.model.GameState;
 import server.controller.LobbyList;
 import server.controller.Player;
 import server.model.PowerUp;

@@ -13,7 +13,7 @@ public class Square {
     private final boolean spawn;
     private final int room;
     private int tileID;
-    private int[] weapons= new int[]{-1,-1,-1};
+    private int[] weapons = new int[]{-1, -1, -1};
     private int[][] pcost;
 
 
@@ -46,7 +46,7 @@ public class Square {
 
     public void setWeapons(int[] weapons, int[][] pcost) {
         this.weapons = weapons;
-        this.pcost=pcost;
+        this.pcost = pcost;
         view.displaySquareContent(this);
     }
 
@@ -57,9 +57,9 @@ public class Square {
     @Override
     public String toString() {
         return "s: " + spawn + " at (" + coordinates[0] + "," + coordinates[1] + ") : " + (spawn ?
-                IntStream.range(0,weapons.length).mapToObj(x->weapons[x]+" ["+Arrays.stream(pcost[x])
+                IntStream.range(0, weapons.length).mapToObj(x -> weapons[x] + " [" + Arrays.stream(pcost[x])
                         .mapToObj(Integer::toString)
-                        .collect(Collectors.joining(","))+"] ")
+                        .collect(Collectors.joining(",")) + "] ")
                         .collect(Collectors.joining(" "))
                 : "TileID:" + tileID);
     }

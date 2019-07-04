@@ -43,9 +43,9 @@ public class SocketConnection implements Connection, Runnable {
             Map.entry("state", this::sendGameState),
             Map.entry("chat", this::sendChatMessage),
             Map.entry("cd", this::sendCountDown),
-            Map.entry("pid",this::sendPlayerID),
-            Map.entry("leader",this::sendLeaderBoard),
-            Map.entry("nkills",this::sendNKills)
+            Map.entry("pid", this::sendPlayerID),
+            Map.entry("leader", this::sendLeaderBoard),
+            Map.entry("nkills", this::sendNKills)
     ), CMD_DELIMITER, ARG_DELIMITER);
     private Socket socket;
     private PrintStream ostream;
@@ -62,8 +62,8 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     @Override
-    public void endTurn(){
-        send("end"+CMD_DELIMITER);
+    public void endTurn() {
+        send("end" + CMD_DELIMITER);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class SocketConnection implements Connection, Runnable {
                 , Integer.parseInt(args[1])
                 , Arrays.stream(args)
                         .skip(2)
-                        .filter(x->x.matches("[0-9]+"))
+                        .filter(x -> x.matches("[0-9]+"))
                         .mapToInt(Integer::parseInt)
                         .toArray());
     }
@@ -202,7 +202,7 @@ public class SocketConnection implements Connection, Runnable {
         boolean[] overkills = new boolean[wrapper.length];
         for (int i = 0; i < wrapper.length; i++)
             overkills[i] = wrapper[i];
-        controller.setKillTrack(Arrays.stream(args).filter(x->x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray(),
+        controller.setKillTrack(Arrays.stream(args).filter(x -> x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray(),
                 overkills);
     }
 
@@ -225,15 +225,15 @@ public class SocketConnection implements Connection, Runnable {
         int squareID = Integer.parseInt(args[0]);
         int tileID = Integer.parseInt(args[1]);
         int[] weapons = Arrays.stream(args[2].split("%%"))
-                .filter(x->x.matches("[0-9]+"))
+                .filter(x -> x.matches("[0-9]+"))
                 .mapToInt(Integer::parseInt)
                 .toArray();
-        int[][] pcost= Arrays.stream(args[3].split("%%"))
-                        .map(x-> Arrays.stream(x.split("££"))
-                                .filter(y->y.matches("[0-9]+"))
-                                .mapToInt(Integer::parseInt)
-                                .toArray())
-                        .toArray(int[][]::new);
+        int[][] pcost = Arrays.stream(args[3].split("%%"))
+                .map(x -> Arrays.stream(x.split("££"))
+                        .filter(y -> y.matches("[0-9]+"))
+                        .mapToInt(Integer::parseInt)
+                        .toArray())
+                .toArray(int[][]::new);
         controller.setSquareContent(squareID, tileID, weapons, pcost);
     }
 
@@ -289,23 +289,23 @@ public class SocketConnection implements Connection, Runnable {
     private void sendPlayerWeapons(String[] args) {
         int id = Integer.parseInt(args[0]);
         int[] wIDs = Arrays.stream(args[1].split("%%"))
-                .filter(x->x.matches("\\+?[0-9]+"))
+                .filter(x -> x.matches("\\+?[0-9]+"))
                 .mapToInt(Integer::parseInt).toArray();
-        String[] names=Arrays.stream(args[2].split("%%")).toArray(String[]::new);
-        int[][] lcost=Arrays.stream(args[3].split("%%"))
-                .filter(x->x.matches("[0-9]+"))
-                .map(x-> Arrays.stream(x.split("££"))
+        String[] names = Arrays.stream(args[2].split("%%")).toArray(String[]::new);
+        int[][] lcost = Arrays.stream(args[3].split("%%"))
+                .filter(x -> x.matches("[0-9]+"))
+                .map(x -> Arrays.stream(x.split("££"))
                         .mapToInt(Integer::parseInt)
                         .toArray())
                 .toArray(int[][]::new);
         Boolean[] wrapper = Arrays.stream(args[1].split("%%"))
-                .filter(x->x.matches("\\+?[0-9]+"))
+                .filter(x -> x.matches("\\+?[0-9]+"))
                 .map(x -> x.startsWith("+"))
                 .toArray(Boolean[]::new);
         boolean[] charges = new boolean[wrapper.length];
         for (int i = 0; i < wrapper.length; i++)
             charges[i] = wrapper[i];
-        controller.setPlayerWeapons(id, wIDs,names,lcost, charges);
+        controller.setPlayerWeapons(id, wIDs, names, lcost, charges);
     }
 
     private void sendRemainingActions(String[] args) {
@@ -324,19 +324,19 @@ public class SocketConnection implements Connection, Runnable {
         controller.setRemainingTime(Integer.parseInt(args[0]));
     }
 
-    private void sendPlayerID(String[] args){
+    private void sendPlayerID(String[] args) {
         controller.setPlayerID(Integer.parseInt(args[0]));
     }
 
-    private void sendLeaderBoard(String[] args){
+    private void sendLeaderBoard(String[] args) {
         controller.setPlayerLeaderBoard(Arrays.stream(args)
-                .filter(x->x.matches("[0-9]+"))
+                .filter(x -> x.matches("[0-9]+"))
                 .mapToInt(Integer::parseInt).toArray());
     }
 
-    private void sendNKills(String[] args){
+    private void sendNKills(String[] args) {
         controller.setNKills(Arrays.stream(args)
-                .filter(x->x.matches("[0-9]+"))
+                .filter(x -> x.matches("[0-9]+"))
                 .mapToInt(Integer::parseInt).toArray());
     }
 

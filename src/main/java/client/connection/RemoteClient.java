@@ -41,7 +41,7 @@ public interface RemoteClient extends Remote {
 
     void sendPlayerAmmo(int id, int[] ammo) throws RemoteException;
 
-    void sendPlayerWeapons(int id, int[] weaponIDs,String[] names, int[][] lcost, boolean[] charges) throws RemoteException;
+    void sendPlayerWeapons(int id, int[] weaponIDs, String[] names, int[][] lcost, boolean[] charges) throws RemoteException;
 
     void sendRemainingActions(int remainingActions) throws RemoteException;
 

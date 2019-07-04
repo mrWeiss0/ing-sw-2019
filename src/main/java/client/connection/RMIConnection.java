@@ -8,7 +8,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
 import java.util.List;
 
 public class RMIConnection implements Connection, RemoteClient {
@@ -31,10 +30,10 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void endTurn(){
-        try{
+    public void endTurn() {
+        try {
             player.endTurn();
-        }catch (RemoteException e) {
+        } catch (RemoteException e) {
             controller.print(e.toString());
         } catch (NullPointerException e) {
             controller.print(ERRORSTRING);
@@ -276,7 +275,7 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendPlayerWeapons(int id, int[] weaponsIDs,String[] weaponNames, int[][] lcost, boolean[] charges) {
+    public void sendPlayerWeapons(int id, int[] weaponsIDs, String[] weaponNames, int[][] lcost, boolean[] charges) {
         controller.setPlayerWeapons(id, weaponsIDs, weaponNames, lcost, charges);
     }
 
@@ -301,15 +300,17 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void sendPlayerID(int id){
+    public void sendPlayerID(int id) {
         controller.setPlayerID(id);
     }
 
     @Override
-    public void sendLeaderBoard(int[] points){
+    public void sendLeaderBoard(int[] points) {
         controller.setPlayerLeaderBoard(points);
     }
 
     @Override
-    public void sendNKills(int[] kills){controller.setNKills(kills);}
+    public void sendNKills(int[] kills) {
+        controller.setNKills(kills);
+    }
 }

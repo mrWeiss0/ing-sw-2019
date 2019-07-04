@@ -4,28 +4,24 @@ package server.controller;
 import client.model.GameState;
 import server.model.Game;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class GameController implements Runnable {
     private final Game game;
     private final ArrayBlockingQueue<Event> eventQueue = new ArrayBlockingQueue<>(5);
     private final Deque<State> stateStack = new ArrayDeque<>();
-    private State state;
     private final Timer timer = new Timer(true);
+    private State state;
 
     public GameController(Game game) {
         this.game = game;
         game.getPlayers().forEach(x -> x.setGame(this));
-        game.getPlayers().forEach(x->x.sendGameParams(Arrays.asList(game.getMapType(),game.getMaxKills())));
-        game.getPlayers().forEach(x->x.sendGameState(GameState.ENEMY_TURN.ordinal()));
-        game.getPlayers().forEach(x->x.sendPlayers(this.game.getPlayers()));
-        game.getPlayers().forEach(x->x.sendSquares(this.game.getBoard().getSquares()));
-        game.getPlayers().forEach(x->x.sendPlayerID(this.game.getPlayers().indexOf(x)));
+        game.getPlayers().forEach(x -> x.sendGameParams(Arrays.asList(game.getMapType(), game.getMaxKills())));
+        game.getPlayers().forEach(x -> x.sendGameState(GameState.ENEMY_TURN.ordinal()));
+        game.getPlayers().forEach(x -> x.sendPlayers(this.game.getPlayers()));
+        game.getPlayers().forEach(x -> x.sendSquares(this.game.getBoard().getSquares()));
+        game.getPlayers().forEach(x -> x.sendPlayerID(this.game.getPlayers().indexOf(x)));
     }
 
     @Override
@@ -81,7 +77,7 @@ public class GameController implements Runnable {
         state.selectColor(event.getPlayer(), event.getColor());
     }
 
-    void visit(EndTurnEvent event){
+    void visit(EndTurnEvent event) {
         state.endTurn(event.getPlayer());
     }
 

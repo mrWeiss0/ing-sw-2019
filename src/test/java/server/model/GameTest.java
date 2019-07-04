@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.controller.Player;
 import server.model.board.BoardBuilderTest;
-import tools.FileParser;
 
-import java.io.FileReader;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,20 +23,20 @@ class GameTest {
     void init() {
         gameBuilder = new Game.Builder()
                 .squares(BoardBuilderTest.squareImages)
-                .ammoTiles(new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0),
-                            new AmmoTileImage(1,false,0))
+                .ammoTiles(new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0),
+                        new AmmoTileImage(1, false, 0))
                 .powerUps(
                         new PowerUpImage(1, PowerUpType.NEWTON),
                         new PowerUpImage(1, PowerUpType.TAGBACK),

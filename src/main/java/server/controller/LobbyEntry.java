@@ -97,6 +97,7 @@ public class LobbyEntry {
     private void setCountdown() {
         countdown = new TimerTask() {
             private int c = config.TIMEOUT_START;
+
             @Override
             public void run() {
                 checkPlayerCount();

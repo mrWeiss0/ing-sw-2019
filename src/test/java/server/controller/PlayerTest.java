@@ -6,7 +6,7 @@ import server.connection.VirtualClient;
 import server.model.Game;
 import server.model.board.Figure;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerTest {
     String name = "Pasolini";

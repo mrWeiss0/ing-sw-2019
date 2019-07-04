@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class ClientSocket extends VirtualClient implements Runnable {
     private static final String CMD_DELIMITER = "&&";
     private static final String ARG_DELIMITER = "--";
-    private static final String NUMERIC ="[0-9]+";
+    private static final String NUMERIC = "[0-9]+";
     private final Socket socket;
     private final PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
@@ -44,7 +44,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Map.entry("action", this::selectAction),
             Map.entry("reconnect", this::reconnect),
             Map.entry("chat", this::chatMessage),
-            Map.entry("end",this::endTurn)
+            Map.entry("end", this::endTurn)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
     public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
@@ -137,30 +137,29 @@ public class ClientSocket extends VirtualClient implements Runnable {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = -1;
         int[] weapons = null;
-        int[][] pcost=null;
+        int[][] pcost = null;
         if (square instanceof SpawnSquare) {
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
-            pcost =square.peek().stream().map(x->{
-                        AmmoCube cost=((Weapon)x).getPickupCost();
+            pcost = square.peek().stream().map(x -> {
+                        AmmoCube cost = ((Weapon) x).getPickupCost();
                         int[] ammo = new int[]{0, 0, 0};
                         for (int i = 0; i < 3; i++)
                             ammo[i] = cost.value(i);
                         return ammo;
                     }
             ).toArray(int[][]::new);
-        }
-        else tileID = square.peek().isEmpty()?-1:((AmmoTile) square.peek().get(0)).getId();
+        } else tileID = square.peek().isEmpty() ? -1 : ((AmmoTile) square.peek().get(0)).getId();
 
         send("fill" + CMD_DELIMITER + id
                 + ARG_DELIMITER + tileID
                 + ARG_DELIMITER
-                + (weapons == null ? "-1"+ARG_DELIMITER+"0" :
-                 Arrays.stream(weapons)
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining("%%"))+ARG_DELIMITER
-                +String.join("%%", Arrays.stream(pcost)
-                         .map(x-> Arrays.stream(x).mapToObj(Integer::toString)
-                                 .collect(Collectors.joining("££"))).toArray(String[]::new)))
+                + (weapons == null ? "-1" + ARG_DELIMITER + "0" :
+                Arrays.stream(weapons)
+                        .mapToObj(Integer::toString)
+                        .collect(Collectors.joining("%%")) + ARG_DELIMITER
+                        + String.join("%%", Arrays.stream(pcost)
+                        .map(x -> Arrays.stream(x).mapToObj(Integer::toString)
+                                .collect(Collectors.joining("££"))).toArray(String[]::new)))
         );
     }
 
@@ -181,7 +180,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerDamages(Player player) {
         List<Player> players = player.getGame().getGame().getPlayers();
         send("damages" + CMD_DELIMITER
-                + players.indexOf(player) + (player.getFigure().getDamages().isEmpty()?"":ARG_DELIMITER)
+                + players.indexOf(player) + (player.getFigure().getDamages().isEmpty() ? "" : ARG_DELIMITER)
                 + player.getFigure().getDamages().stream()
                 .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -192,7 +191,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerMarks(Player player) {
         List<Player> players = player.getGame().getGame().getPlayers();
         send("marks" + CMD_DELIMITER
-                + players.indexOf(player) + (player.getFigure().getMarks().isEmpty()?"":ARG_DELIMITER)
+                + players.indexOf(player) + (player.getFigure().getMarks().isEmpty() ? "" : ARG_DELIMITER)
                 + player.getFigure().getMarks().stream()
                 .map(x -> Integer.toString(players.indexOf(x.getPlayer())))
                 .collect(Collectors.joining(ARG_DELIMITER))
@@ -203,10 +202,10 @@ public class ClientSocket extends VirtualClient implements Runnable {
     public void sendPlayerLocation(Player player) {
         send("location" + CMD_DELIMITER
                 + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
-                +(player.getFigure().getLocation()==null?"-1"+ARG_DELIMITER+"-1":
+                + (player.getFigure().getLocation() == null ? "-1" + ARG_DELIMITER + "-1" :
                 Arrays.stream(player.getFigure().getLocation().getCoordinates())
-                .mapToObj(Integer::toString)
-                .collect(Collectors.joining(ARG_DELIMITER)))
+                        .mapToObj(Integer::toString)
+                        .collect(Collectors.joining(ARG_DELIMITER)))
         );
     }
 
@@ -247,23 +246,23 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void sendPlayerWeapons(Player player) {
-        int[][] lcost = player.getFigure().getWeapons().stream().map(x->{
+        int[][] lcost = player.getFigure().getWeapons().stream().map(x -> {
             int[] ammo = new int[]{0, 0, 0};
             for (int i = 0; i < 3; i++)
                 ammo[i] = x.getReloadCost().value(i);
             return ammo;
         }).toArray(int[][]::new);
-        String[] names= player.getFigure().getWeapons().stream()
-                .map(x-> Weapons.values()[x.getID()].toString())
+        String[] names = player.getFigure().getWeapons().stream()
+                .map(x -> Weapons.values()[x.getID()].toString())
                 .toArray(String[]::new);
         send("weapons" + CMD_DELIMITER
                 + player.getGame().getGame().getPlayers().indexOf(player) + ARG_DELIMITER
                 + player.getFigure().getWeapons().stream()
                 .map(x -> (x.isLoaded() ? "+" : "") + x.getID())
-                .collect(Collectors.joining("%%"))+ARG_DELIMITER
-                +String.join("%%",names)+ARG_DELIMITER
-                +String.join("%%", Arrays.stream(lcost)
-                .map(x-> Arrays.stream(x)
+                .collect(Collectors.joining("%%")) + ARG_DELIMITER
+                + String.join("%%", names) + ARG_DELIMITER
+                + String.join("%%", Arrays.stream(lcost)
+                .map(x -> Arrays.stream(x)
                         .mapToObj(Integer::toString)
                         .collect(Collectors.joining("££"))).toArray(String[]::new))
         );
@@ -293,20 +292,20 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
-    public void sendPlayerID(int id){
-        send("pid"+CMD_DELIMITER+id);
+    public void sendPlayerID(int id) {
+        send("pid" + CMD_DELIMITER + id);
     }
 
     @Override
     public void sendLeaderBoard(int[] points) {
-        send("leader"+CMD_DELIMITER+ Arrays.stream(points)
+        send("leader" + CMD_DELIMITER + Arrays.stream(points)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
 
     @Override
     public void sendNKills(int[] kills) {
-        send("nkills"+CMD_DELIMITER+ Arrays.stream(kills)
+        send("nkills" + CMD_DELIMITER + Arrays.stream(kills)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining(ARG_DELIMITER)));
     }
@@ -355,7 +354,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
             sendMessage(parser.help(args[0]));
     }
 
-    private void endTurn(String[] args){
+    private void endTurn(String[] args) {
         player.endTurn();
     }
 
@@ -405,7 +404,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectFireMode(String[] args) {
-        if(args.length<2)
+        if (args.length < 2)
             player.sendMessage("Please select at least one weapon and one fire mode");
         player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).filter(x -> x.matches(NUMERIC)).skip(1).mapToInt(Integer::parseInt).toArray());
     }

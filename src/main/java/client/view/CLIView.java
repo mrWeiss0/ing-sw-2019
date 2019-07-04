@@ -101,10 +101,10 @@ public class CLIView implements View, Runnable {
     @Override
     public void displayPossibleActions(int[] actions) {
         print("Possible actions: " + Arrays.stream(actions)
-                .mapToObj( x->Map.ofEntries(Map.entry(0,"grab"),
-                        Map.entry(1,"shoot"),
-                        Map.entry(2,"move"),
-                        Map.entry(-1,"none")).get(x))
+                .mapToObj(x -> Map.ofEntries(Map.entry(0, "grab"),
+                        Map.entry(1, "shoot"),
+                        Map.entry(2, "move"),
+                        Map.entry(-1, "none")).get(x))
                 .collect(Collectors.joining(", ")));
     }
 
@@ -151,16 +151,16 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayPlayerDamage(Player player) {
-        print("Player damages of " + player.toString() +" ["+ Arrays.stream(player.getDamages())
+        print("Player damages of " + player.toString() + " [" + Arrays.stream(player.getDamages())
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(", "))+"] ");
+                .collect(Collectors.joining(", ")) + "] ");
     }
 
     @Override
     public void displayPlayerMarks(Player player) {
-        print("Player marks of " + player.toString() +" ["+ Arrays.stream(player.getMarks())
+        print("Player marks of " + player.toString() + " [" + Arrays.stream(player.getMarks())
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(", "))+"] ");
+                .collect(Collectors.joining(", ")) + "] ");
     }
 
     @Override
@@ -219,7 +219,7 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayGameState(GameState value) {
-        print("Game state: "+value.toString());
+        print("Game state: " + value.toString());
     }
 
     @Override
@@ -234,12 +234,12 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayLeaderBoard(Player player) {
-        print(player.getName()+" is in position: "+player.getLeaderBoard());
+        print(player.getName() + " is in position: " + player.getLeaderBoard());
     }
 
     @Override
     public void displayNKills(Player player) {
-        print(player.getName()+" has "+player.getNKills()+" kills");
+        print(player.getName() + " has " + player.getNKills() + " kills");
     }
 
     private void parse(String line) {

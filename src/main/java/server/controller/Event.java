@@ -152,11 +152,13 @@ class SelectColorEvent extends Event {
     }
 }
 
-class EndTurnEvent extends Event{
-    EndTurnEvent(Player player){
+class EndTurnEvent extends Event {
+    EndTurnEvent(Player player) {
         super(player);
     }
 
     @Override
-    void accept(GameController visitor){visitor.visit(this);}
+    void accept(GameController visitor) {
+        visitor.visit(this);
+    }
 }

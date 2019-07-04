@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 public class MiniModel {
     private final View view;
     private final Board board;
+    private final List<String[]> chat = new ArrayList<>();
     private String[] lobbyList;
     private PowerUp[] powerups;
     private int[] possibleActions;
@@ -20,7 +21,6 @@ public class MiniModel {
     private int remainingActions;
     private int remainingTime;
     private GameState state = GameState.NOT_CONNECTED;
-    private final List<String[]> chat = new ArrayList<>();
     private int playerID;
 
     public MiniModel(View view) {
@@ -96,12 +96,12 @@ public class MiniModel {
     }
 
     public void setPossibleActions(int actionSetID) {
-        if(actionSetID==0 || actionSetID==1)
-            this.possibleActions=new int[]{0,1,2};
-        else if(actionSetID==2)
-            this.possibleActions=new int[]{0,1};
+        if (actionSetID == 0 || actionSetID == 1)
+            this.possibleActions = new int[]{0, 1, 2};
+        else if (actionSetID == 2)
+            this.possibleActions = new int[]{0, 1};
         else
-            this.possibleActions=new int[]{-1};
+            this.possibleActions = new int[]{-1};
         view.displayPossibleActions(possibleActions);
     }
 
@@ -133,11 +133,11 @@ public class MiniModel {
         return chat;
     }
 
-    public void setPlayerID(int id){
-        this.playerID=id;
+    public int getPlayerID() {
+        return playerID;
     }
 
-    public int getPlayerID(){
-        return playerID;
+    public void setPlayerID(int id) {
+        this.playerID = id;
     }
 }

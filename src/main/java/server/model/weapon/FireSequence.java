@@ -83,11 +83,11 @@ public class FireSequence {
         return validTargets.containsAll(currentTargets);
     }
 
-    public int getMinTargets(){
+    public int getMinTargets() {
         return currentStep.getMinTargets();
     }
 
-    public int getMaxTargets(){
+    public int getMaxTargets() {
         return currentStep.getMaxTargets();
     }
 

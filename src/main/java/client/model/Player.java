@@ -6,16 +6,16 @@ public class Player {
     private final View view;
     private final String name;
     private final int avatar;
-    private int[] damages=new int[]{};
-    private int[] marks=new int[]{};
-    private int points=0;
-    private int deaths=0;
-    private Weapon[] weapons=new Weapon[]{};
-    private int[] ammo=new int[]{0,0,0};
-    private int nPowerup=0;
-    private int[] coordinates=new int[]{-1,-1};
-    private int leaderBoard=0;
-    private int nKills=0;
+    private int[] damages = new int[]{};
+    private int[] marks = new int[]{};
+    private int points = 0;
+    private int deaths = 0;
+    private Weapon[] weapons = new Weapon[]{};
+    private int[] ammo = new int[]{0, 0, 0};
+    private int nPowerup = 0;
+    private int[] coordinates = new int[]{-1, -1};
+    private int leaderBoard = 0;
+    private int nKills = 0;
 
     public Player(View view, String name, int avatar) {
         this.name = name;
@@ -107,21 +107,21 @@ public class Player {
         return name;
     }
 
-    public int getLeaderBoard(){
+    public int getLeaderBoard() {
         return leaderBoard;
     }
 
-    public void setLeaderBoard(int value){
-        leaderBoard=value;
+    public void setLeaderBoard(int value) {
+        leaderBoard = value;
         view.displayLeaderBoard(this);
     }
 
-    public int getNKills(){
+    public int getNKills() {
         return nKills;
     }
 
-    public void setNKills(int v){
-        nKills=v;
+    public void setNKills(int v) {
+        nKills = v;
         view.displayNKills(this);
     }
 }

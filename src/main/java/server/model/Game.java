@@ -38,13 +38,13 @@ public class Game {
     private final int[] frenzyPoints;
     private final int[] finalPoints;
     private final Board board;
-    private int remainingKills; // Kills to finish game
-    private int currPlayer = -1;
-    private int lastPlayer = -1;
     private final int mapType;
     private final int maxKills;
     private final int turnTimeout;
     private final int otherTimeout;
+    private int remainingKills; // Kills to finish game
+    private int currPlayer = -1;
+    private int lastPlayer = -1;
     private boolean ended;
 
     private Game(Builder builder) {

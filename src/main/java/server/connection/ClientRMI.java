@@ -31,10 +31,10 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public boolean ping(){
+    public boolean ping() {
         try {
             return remoteClient.ping();
-        }catch (RemoteException e){
+        } catch (RemoteException e) {
             return false;
         }
     }
@@ -153,21 +153,20 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
         int id = player.getGame().getGame().getBoard().getSquares().indexOf(square);
         int tileID = 0;
         int[] weapons = null;
-        int[][] pcost=null;
-        if(square.peek().isEmpty())
+        int[][] pcost = null;
+        if (square.peek().isEmpty())
             return;
         else if (square.peek().get(0) instanceof Weapon) {
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
-            pcost =square.peek().stream().map(x->{
-                AmmoCube cost=((Weapon)x).getPickupCost();
-                int[] ammo = new int[]{0, 0, 0};
-                for (int i = 0; i < 3; i++)
-                    ammo[i] = cost.value(i);
-                return ammo;
-            }
+            pcost = square.peek().stream().map(x -> {
+                        AmmoCube cost = ((Weapon) x).getPickupCost();
+                        int[] ammo = new int[]{0, 0, 0};
+                        for (int i = 0; i < 3; i++)
+                            ammo[i] = cost.value(i);
+                        return ammo;
+                    }
             ).toArray(int[][]::new);
-        }
-        else tileID = ((AmmoTile) square.peek().get(0)).getId();
+        } else tileID = ((AmmoTile) square.peek().get(0)).getId();
         try {
             remoteClient.sendSquareContent(id, tileID, weapons, pcost);
         } catch (RemoteException e) {
@@ -219,9 +218,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     @Override
     public void sendPlayerLocation(Player player) {
         int id = player.getGame().getGame().getPlayers().indexOf(player);
-        if(player.getFigure().getLocation()==null){
+        if (player.getFigure().getLocation() == null) {
             try {
-                remoteClient.sendPlayerLocation(id, new int[]{-1,-1});
+                remoteClient.sendPlayerLocation(id, new int[]{-1, -1});
                 return;
             } catch (RemoteException e) {
                 Main.LOGGER.warning(RMI_ERROR);
@@ -286,15 +285,15 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     @Override
     public void sendPlayerWeapons(Player player) {
         int[] weaponsIDs = player.getFigure().getWeapons().stream().mapToInt(Weapon::getID).toArray();
-        String[] names= player.getFigure().getWeapons().stream()
-                .map(x-> Weapons.values()[x.getID()].toString())
+        String[] names = player.getFigure().getWeapons().stream()
+                .map(x -> Weapons.values()[x.getID()].toString())
                 .toArray(String[]::new);
-        int[][] lcost = player.getFigure().getWeapons().stream().map(x->{
-                int[] ammo = new int[]{0, 0, 0};
-                for (int i = 0; i < 3; i++)
-                    ammo[i] = x.getReloadCost().value(i);
-                return ammo;
-            }).toArray(int[][]::new);
+        int[][] lcost = player.getFigure().getWeapons().stream().map(x -> {
+            int[] ammo = new int[]{0, 0, 0};
+            for (int i = 0; i < 3; i++)
+                ammo[i] = x.getReloadCost().value(i);
+            return ammo;
+        }).toArray(int[][]::new);
         Boolean[] wrapper = player.getFigure().getWeapons().stream().map(Weapon::isLoaded).toArray(Boolean[]::new);
         boolean[] charges = new boolean[wrapper.length];
         for (int i = 0; i < wrapper.length; i++)
@@ -352,10 +351,10 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void sendPlayerID(int id){
-        try{
+    public void sendPlayerID(int id) {
+        try {
             remoteClient.sendPlayerID(id);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
         }
@@ -363,9 +362,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendLeaderBoard(int[] points) {
-        try{
+        try {
             remoteClient.sendLeaderBoard(points);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
         }
@@ -373,9 +372,9 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void sendNKills(int[] kills) {
-        try{
+        try {
             remoteClient.sendNKills(kills);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
             Main.LOGGER.warning(RMI_ERROR);
             close();
         }
@@ -398,7 +397,7 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
-    public void endTurn(){
+    public void endTurn() {
         player.endTurn();
     }
 

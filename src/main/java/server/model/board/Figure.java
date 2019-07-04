@@ -47,7 +47,7 @@ public class Figure implements Targettable {
     private int deaths;
     private int points;
     private AmmoCube ammo = new AmmoCube();
-    private Player player= new Player(null);
+    private Player player = new Player(null);
     private int[] killPoints;
     private boolean firstBlood;
 

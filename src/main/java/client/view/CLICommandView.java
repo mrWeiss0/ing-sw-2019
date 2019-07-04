@@ -44,7 +44,7 @@ public class CLICommandView extends CLIView {
         controller.connect(args[0]);
     }
 
-    private void endTurn(String[] args) throws CommandException{
+    private void endTurn(String[] args) throws CommandException {
         controller.endTurn();
     }
 
@@ -125,8 +125,8 @@ public class CLICommandView extends CLIView {
                     Map.entry("shoot", 1),
                     Map.entry("move", 2))
                     .get(args[0]));
-        }catch(NullPointerException e){
-            throw new CommandException("Action "+args[0]+" not found!");
+        } catch (NullPointerException e) {
+            throw new CommandException("Action " + args[0] + " not found!");
         }
     }
 
