@@ -98,6 +98,14 @@ public class Player {
         this.actions = actions;
     }
 
+    public void endTurn(){
+        if (game == null) {
+            client.sendMessage(NOT_STARTED_MESSAGE);
+            return;
+        }
+        game.enqueue(new EndTurnEvent(this));
+    }
+
     public void selectPowerUp(int[] index) {
         if (game == null) {
             client.sendMessage(NOT_STARTED_MESSAGE);

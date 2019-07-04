@@ -31,6 +31,17 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
+    public void endTurn(){
+        try{
+            player.endTurn();
+        }catch (RemoteException e) {
+            controller.print(e.toString());
+        } catch (NullPointerException e) {
+            controller.print(ERRORSTRING);
+        }
+    }
+
+    @Override
     public void login(String username) {
         try {
             player.login(username);

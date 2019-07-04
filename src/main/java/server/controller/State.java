@@ -51,6 +51,10 @@ abstract class State {
         player.sendMessage(INVALID_MOMENT);
     }
 
+    void endTurn(Player player){
+        player.sendMessage(INVALID_MOMENT);
+    }
+
     void onEnter() {
     }
 }

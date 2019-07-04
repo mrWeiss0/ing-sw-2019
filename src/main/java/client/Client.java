@@ -57,6 +57,10 @@ public class Client {
 
     //CLIENT->SERVER METHODS:
 
+    public void endTurn(){
+        connection.endTurn();
+    }
+
     public void login(String name) {
         connection.login(name);
     }

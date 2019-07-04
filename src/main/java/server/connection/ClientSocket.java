@@ -43,7 +43,8 @@ public class ClientSocket extends VirtualClient implements Runnable {
             Map.entry("color", this::selectColor),
             Map.entry("action", this::selectAction),
             Map.entry("reconnect", this::reconnect),
-            Map.entry("chat", this::chatMessage)
+            Map.entry("chat", this::chatMessage),
+            Map.entry("end",this::endTurn)
     ), CMD_DELIMITER, ARG_DELIMITER);
 
     public ClientSocket(LobbyList lobbyList, Socket socket) throws IOException {
@@ -338,6 +339,10 @@ public class ClientSocket extends VirtualClient implements Runnable {
             sendMessage(parser.help());
         else
             sendMessage(parser.help(args[0]));
+    }
+
+    private void endTurn(String[] args){
+        player.endTurn();
     }
 
     private void login(String[] args) throws CommandException {

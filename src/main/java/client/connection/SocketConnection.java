@@ -60,6 +60,11 @@ public class SocketConnection implements Connection, Runnable {
     }
 
     @Override
+    public void endTurn(){
+        send("end"+CMD_DELIMITER);
+    }
+
+    @Override
     public void login(String username) {
         send("login" + CMD_DELIMITER + username);
     }

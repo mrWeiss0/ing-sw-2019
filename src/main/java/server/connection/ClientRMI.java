@@ -377,6 +377,11 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
     }
 
     @Override
+    public void endTurn(){
+        player.endTurn();
+    }
+
+    @Override
     public void createLobby(String name) {
         try {
             lobbyList.create(name);

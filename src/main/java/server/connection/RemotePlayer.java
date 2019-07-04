@@ -6,6 +6,8 @@ import java.rmi.RemoteException;
 public interface RemotePlayer extends Remote {
     void login(String username) throws RemoteException;
 
+    void endTurn() throws RemoteException;
+
     void createLobby(String name) throws RemoteException;
 
     void joinLobby(String name) throws RemoteException;
