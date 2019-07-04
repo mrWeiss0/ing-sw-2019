@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 
 abstract class State {
     protected GameController controller;
-    private final String INVALID_MOMENT="Oak's words echoed... There's a time and place for everything, but not now.";
+    private final String INVALID_MOMENT = "Oak's words echoed... There's a time and place for everything, but not now.";
+
     protected State(GameController controller) {
         this.controller = controller;
     }
@@ -73,7 +74,7 @@ class TurnState extends State {
     @Override
     public void onEnter() {
         current.sendGameState(GameState.TURN.ordinal());
-        if(!current.isActive()){
+        if (!current.isActive()) {
             controller.setState(new TurnState(controller));
             return;
         }
@@ -136,10 +137,10 @@ class SelectSpawnState extends State {
     public SelectSpawnState(GameController controller, List<Player> players) {
         super(controller);
         current = new ArrayList<>(players);
-        current.forEach(x->x.setSpawnPowerUp(controller.getGame().drawPowerup()));
-        current.forEach(x->x.sendGameState(GameState.SPAWN.ordinal()));
-        current.forEach(x->{
-            List<PowerUp> powerUps=new ArrayList<>(x.getFigure().getPowerUps());
+        current.forEach(x -> x.setSpawnPowerUp(controller.getGame().drawPowerup()));
+        current.forEach(x -> x.sendGameState(GameState.SPAWN.ordinal()));
+        current.forEach(x -> {
+            List<PowerUp> powerUps = new ArrayList<>(x.getFigure().getPowerUps());
             powerUps.add(x.getSpawnPowerUp());
             x.sendPowerUps(powerUps);
         });
@@ -163,6 +164,7 @@ class SelectSpawnState extends State {
             figure.moveTo(powerUps[0].getSpawn());
             powerUps[0].discard();
             current.remove(player);
+            // TODO send number
             player.sendPowerUps(player.getFigure().getPowerUps());
             controller.setState(this);
         }
@@ -179,6 +181,7 @@ class SelectReloadState extends State {
         total = player.getFigure().getTotalAmmo();
         current.sendGameState(GameState.SELECT_RELOAD.ordinal());
     }
+
     //TODO BLOCK
     @Override
     public void selectWeapon(Player player, Weapon[] weapons) {
@@ -240,7 +243,7 @@ class PayState extends State {
                 powerUp.discard();
             }
             current.sendPowerUps(current.getFigure().getPowerUps());
-            controller.getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(current));
+            controller.getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(current));
             controller.nextState();
         }
     }
@@ -285,7 +288,7 @@ class FireModeSelectionState extends State {
     public void selectFireMode(Player player, Weapon weapon, FireMode[] fireModes) {
         if (player != current)
             return;
-        if(!weapon.isLoaded())
+        if (!weapon.isLoaded())
             return;
         AmmoCube ammoCost = FireMode.flatCost(Arrays.asList(fireModes));
         if (total.greaterEqThan(ammoCost)) {
@@ -306,19 +309,19 @@ class FireState extends State {
 
     @Override
     public void onEnter() {
-        if(fireSequence.getTargets().size()<fireSequence.getMinTargets()){
+        if (fireSequence.getTargets().size() < fireSequence.getMinTargets()) {
             fireSequence.getShooter().getPlayer().sendMessage("Not enough targets for this weapon");
             controller.nextState();
             return;
         }
-        if(fireSequence.getTargets().size()<fireSequence.getMaxTargets()){
+        if (fireSequence.getTargets().size() < fireSequence.getMaxTargets()) {
             fireSequence.getShooter().getPlayer().sendMessage("Automatically chosen targets");
-            selectTargettable(fireSequence.getShooter().getPlayer(),fireSequence.getTargets().toArray(Targettable[]::new));
+            selectTargettable(fireSequence.getShooter().getPlayer(), fireSequence.getTargets().toArray(Targettable[]::new));
         }
         fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
         fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
-                ,fireSequence.getMaxTargets()
-                ,fireSequence.getTargets(),
+                , fireSequence.getMaxTargets()
+                , fireSequence.getTargets(),
                 controller.getGame().getBoard());
 
     }
@@ -328,14 +331,14 @@ class FireState extends State {
         if (player != fireSequence.getShooter().getPlayer())
             return;
         Set<Targettable> targets = Set.of(targettables);
-        if(fireSequence.validateTargets(targets))
+        if (fireSequence.validateTargets(targets))
             fireSequence.run(targets);
         if (fireSequence.hasNext())
             controller.setState(this);
         else {
             controller.getGame().getBoard().applyMarks();
             Set<Figure> damaged = controller.getGame().getBoard().getDamaged();
-            if(!damaged.isEmpty()) controller.addState(new ScopeState(controller, player));
+            if (!damaged.isEmpty()) controller.addState(new ScopeState(controller, player));
             controller.setState(new TagbackState(controller, player, damaged));
         }
     }
@@ -357,7 +360,7 @@ class SelectGrabState extends State {
             controller.nextState();
         else if (list.size() == 1)
             selectGrabbable(current, list.get(0));
-        else if(current.getFigure().getLocation()!=null)
+        else if (current.getFigure().getLocation() != null)
             current.sendSquareContent(current.getFigure().getLocation());
     }
 
@@ -393,7 +396,7 @@ class GrabState extends State {
             figure.getLocation().grab(figure, grabbable);
             if (discard != null) figure.getLocation().refill(discard);
 
-            controller.getGame().getPlayers().forEach(x->x.sendSquareContent(figure.getLocation()));
+            controller.getGame().getPlayers().forEach(x -> x.sendSquareContent(figure.getLocation()));
             controller.nextState();
         } catch (IllegalStateException e) {
             current.sendMessage("You have to discard a weapon");
@@ -409,7 +412,7 @@ class GrabState extends State {
             discard.load();
             current.getFigure().getWeapons().remove(discard);
         }
-        controller.getGame().getPlayers().forEach(x->x.sendPlayerWeapons(current));
+        controller.getGame().getPlayers().forEach(x -> x.sendPlayerWeapons(current));
         controller.setState(this);
     }
 }
@@ -423,7 +426,7 @@ class ScopeState extends State {
     }
 
     @Override
-    public void onEnter(){
+    public void onEnter() {
         current.sendGameState(GameState.SCOPE.ordinal());
     }
 
@@ -458,7 +461,7 @@ class TagbackState extends State {
         damaged.stream()
                 .map(Figure::getPlayer)
                 .peek(Player::setInactive)
-                .forEach(x->x.sendGameState(GameState.TAGBACK.ordinal()));
+                .forEach(x -> x.sendGameState(GameState.TAGBACK.ordinal()));
         tagbackTimer = new TimerTask() {
             private int c = controller.getGame().getOtherTimeout();
 
@@ -474,7 +477,7 @@ class TagbackState extends State {
 
     @Override
     public void onEnter() {
-        if (timeout || damaged.isEmpty()){
+        if (timeout || damaged.isEmpty()) {
             tagbackTimer.cancel();
             controller.nextState();
         }
@@ -498,7 +501,7 @@ class TagbackState extends State {
                 }
         );
         player.sendPowerUps(player.getFigure().getPowerUps());
-        controller.getGame().getPlayers().forEach(x->x.sendPlayerNPowerUps(player));
+        controller.getGame().getPlayers().forEach(x -> x.sendPlayerNPowerUps(player));
         damaged.remove(player.getFigure());
         player.setActive();
         controller.setState(this);
@@ -518,6 +521,11 @@ class EndTurnState extends State {
 
     @Override
     public void onEnter() {
+        controller.getGame().endTurn();
+        if (controller.getGame().isEnded()) {
+            controller.setState(new EndGameState(controller));
+            return;
+        }
         if (respawnTimer != null) {
             timeout();
             return;
@@ -548,7 +556,17 @@ class EndTurnState extends State {
     private void timeout() {
         respawnTimer.cancel();
         controller.clearStack();
-        controller.getGame().endTurn();
         controller.setState(new TurnState(controller));
+    }
+}
+
+class EndGameState extends State {
+    public EndGameState(GameController controller) {
+        super(controller);
+    }
+
+    @Override
+    void onEnter() {
+
     }
 }
