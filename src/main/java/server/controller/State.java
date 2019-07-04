@@ -120,11 +120,12 @@ class TurnState extends State {
     public void selectPowerUp(Player player, PowerUp[] powerUps) {
         if (player != this.current || powerUps.length < 1)
             return;
-        PowerUpType type = powerUps[0].getType();
-        if (Arrays.asList(PowerUpType.NEWTON, PowerUpType.TELEPORTER).contains(type)) {
-            //TODO NON SCARTA POWERUP
+        PowerUp powerUp = powerUps[0];
+        if (Arrays.asList(PowerUpType.NEWTON, PowerUpType.TELEPORTER).contains(powerUp.getType())) {
+            // TODO send powerup
+            player.getFigure().getPowerUps().remove(powerUp);
             controller.addState(this);
-            controller.setState(new FireState(controller, current, type.getStepList()));
+            controller.setState(new FireState(controller, current, powerUp.getType().getStepList()));
         }
     }
 }
