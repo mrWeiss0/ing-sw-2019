@@ -96,6 +96,7 @@ public class Player {
         online = false;
         active = false;
         signalDisconnect();
+
     }
 
     private void signalDisconnect() {
@@ -279,6 +280,7 @@ public class Player {
     }
 
     public void updateAll() {
+        if(game==null) return;
         sendGameState(GameState.ENEMY_TURN.ordinal());
         sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
         sendSquares(game.getGame().getBoard().getSquares());

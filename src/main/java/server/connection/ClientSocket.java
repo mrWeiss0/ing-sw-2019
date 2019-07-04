@@ -312,7 +312,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public boolean ping() {
-        return !ostream.checkError();
+        return !socket.isClosed();
     }
 
     @Override
@@ -329,7 +329,6 @@ public class ClientSocket extends VirtualClient implements Runnable {
 
     @Override
     public void close() {
-        player.setOffline();
         try {
             socket.close();
         } catch (IOException e) {
