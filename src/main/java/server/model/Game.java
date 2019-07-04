@@ -1,7 +1,6 @@
 package server.model;
 
 import client.model.GameState;
-import server.Config;
 import server.controller.Player;
 import server.model.board.*;
 import server.model.weapon.Weapon;
@@ -73,18 +72,18 @@ public class Game {
                 .collect(Collectors.toList()));
         frenzyPoints = builder.frenzyPoints;
         frenzyOn = builder.frenzyOn;
-        this.mapType=builder.mapType;
-        this.maxKills=builder.nKills;
+        this.mapType = builder.mapType;
+        this.maxKills = builder.nKills;
         players.forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
         turnTimeout = builder.turnTimeout;
         otherTimeout = builder.otherTimeout;
     }
 
-    public int getMapType(){
+    public int getMapType() {
         return mapType;
     }
 
-    public int getMaxKills(){
+    public int getMaxKills() {
         return maxKills;
     }
 
@@ -108,7 +107,7 @@ public class Game {
         fillBoard();
         currPlayer++;
         currPlayer %= players.size();
-        players.forEach(x->x.sendCurrentPlayer(currPlayer));
+        players.forEach(x -> x.sendCurrentPlayer(currPlayer));
         return players.get(currPlayer);
     }
 
@@ -123,7 +122,7 @@ public class Game {
     public void fillBoard() {
         for (AbstractSquare current : board.getSquares())
             current.accept(this);
-        board.getSquares().forEach(x->players.forEach(y->y.sendSquareContent(x)));
+        board.getSquares().forEach(x -> players.forEach(y -> y.sendSquareContent(x)));
     }
 
     public PowerUp drawPowerup() {
@@ -156,7 +155,7 @@ public class Game {
             f.setFirstBlood(false);
         }
         --remainingKills;
-        players.forEach(x->x.sendKillTrack(killCount,overkills));
+        players.forEach(x -> x.sendKillTrack(killCount, overkills));
     }
 
     public void endTurn() {
@@ -179,7 +178,7 @@ public class Game {
 
     private void endGame() {
         // TODO give last points, determine winner
-        players.forEach(x->x.sendGameState(GameState.ENDED.ordinal()));
+        players.forEach(x -> x.sendGameState(GameState.ENDED.ordinal()));
     }
 
     public List<Boolean> getOverkills() {
@@ -445,8 +444,8 @@ public class Game {
             return this;
         }
 
-        public Builder mapType(int mapType){
-            this.mapType=mapType;
+        public Builder mapType(int mapType) {
+            this.mapType = mapType;
             return this;
         }
 
