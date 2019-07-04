@@ -14,7 +14,7 @@ public class Player {
     private int[] ammo=new int[]{0,0,0};
     private int nPowerup=0;
     private int[] coordinates=new int[]{-1,-1};
-    private int leaderBoardPoints=0;
+    private int leaderBoard=0;
     private int nKills=0;
 
     public Player(View view, String name, int avatar) {
@@ -107,13 +107,13 @@ public class Player {
         return name;
     }
 
-    public int getLeaderBoardPoints(){
-        return leaderBoardPoints;
+    public int getLeaderBoard(){
+        return leaderBoard;
     }
 
-    public void setLeaderBoardPoints(int value){
-        leaderBoardPoints=value;
-        view.displayLeaderBoardPoints(this);
+    public void setLeaderBoard(int value){
+        leaderBoard=value;
+        view.displayLeaderBoard(this);
     }
 
     public int getNKills(){

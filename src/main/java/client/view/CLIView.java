@@ -232,6 +232,16 @@ public class CLIView implements View, Runnable {
         print(">> " + String.join(" : ", chat.get(chat.size() - 1)));
     }
 
+    @Override
+    public void displayLeaderBoard(Player player) {
+        print(player.getName()+" is in position: "+player.getLeaderBoard());
+    }
+
+    @Override
+    public void displayNKills(Player player) {
+        print(player.getName()+" has "+player.getNKills()+" kills");
+    }
+
     private void parse(String line) {
         try {
             parser.parse(line);

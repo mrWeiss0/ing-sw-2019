@@ -221,7 +221,7 @@ public class Client {
 
     public void setPlayerLeaderBoard(int[] points){
         IntStream.range(0,points.length)
-                .forEach(x->model.getBoard().getPlayers()[x].setLeaderBoardPoints(points[x]));
+                .forEach(x->model.getBoard().getPlayers()[x].setLeaderBoard(points[x]));
     }
 
     public void setNKills(int[] nKills){
