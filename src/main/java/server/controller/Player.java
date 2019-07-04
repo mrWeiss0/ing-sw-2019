@@ -236,14 +236,15 @@ public class Player {
 
     public void updateAll(){
         sendGameState(GameState.ENEMY_TURN.ordinal());
-        game.getGame().getPlayers().forEach(this::sendPlayerAmmo);
-        game.getGame().getPlayers().forEach(this::sendPlayerDamages);
-        game.getGame().getPlayers().forEach(this::sendPlayerMarks);
-        game.getGame().getPlayers().forEach(this::sendPlayerDeaths);
-        game.getGame().getPlayers().forEach(this::sendPlayerPoints);
-        game.getGame().getPlayers().forEach(this::sendPlayerNPowerUps);
-        game.getGame().getPlayers().forEach(this::sendPlayerLocation);
-        game.getGame().getPlayers().forEach(this::sendPlayerWeapons);
+        game.getGame().getPlayers().stream()
+                .peek(this::sendPlayerAmmo)
+                .peek(this::sendPlayerDamages)
+                .peek(this::sendPlayerMarks)
+                .peek(this::sendPlayerDeaths)
+                .peek(this::sendPlayerPoints)
+                .peek(this::sendPlayerNPowerUps)
+                .peek(this::sendPlayerLocation)
+                .forEach(this::sendPlayerWeapons);
         sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
         sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
         sendPlayers(game.getGame().getPlayers());
