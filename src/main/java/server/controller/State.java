@@ -130,8 +130,9 @@ class TurnState extends State {
             return;
         PowerUp powerUp = powerUps[0];
         if (Arrays.asList(PowerUpType.NEWTON, PowerUpType.TELEPORTER).contains(powerUp.getType())) {
-            // TODO send powerup
             player.getFigure().getPowerUps().remove(powerUp);
+            player.sendPowerUps(player.getFigure().getPowerUps());
+            player.broadcastNPowerUps();
             controller.addState(this);
             controller.setState(new FireState(controller, current, powerUp.getType().getStepList()));
         }
@@ -180,7 +181,7 @@ class SelectSpawnState extends State {
             figure.moveTo(powerUps[0].getSpawn());
             powerUps[0].discard();
             current.remove(player);
-            // TODO send number
+            player.broadcastNPowerUps();
             player.sendPowerUps(player.getFigure().getPowerUps());
             controller.setState(this);
         }

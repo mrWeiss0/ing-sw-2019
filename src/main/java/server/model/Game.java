@@ -45,6 +45,7 @@ public class Game {
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
     private int lastPlayer = -1;
+    private final int minPlayers;
     private boolean ended;
 
     private Game(Builder builder) {
@@ -79,6 +80,7 @@ public class Game {
         players.stream().filter(Objects::nonNull).forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
         turnTimeout = builder.turnTimeout;
         otherTimeout = builder.otherTimeout;
+        minPlayers=builder.minPlayers;
     }
 
     public int getMapType() {
@@ -161,7 +163,7 @@ public class Game {
     }
 
     public void endTurn() {
-        if (lastPlayer == currPlayer)
+        if (lastPlayer == currPlayer || players.stream().filter(Player::isActive).count()<minPlayers)
             endGame();
         else if (remainingKills <= 0)
             toggleFrenzy();
@@ -240,7 +242,7 @@ public class Game {
                 .mapToInt(Map.Entry::getValue)
                 .toArray();
 
-        // TODO SEND
+        players.stream().peek(x->x.sendLeaderBoard(positions)).forEach(x->x.sendNKills(nKills));
     }
 
     public List<Boolean> getOverkills() {
@@ -288,6 +290,7 @@ public class Game {
         private int maxWeapons;
         private int maxPowerUps;
         private int mapType;
+        private int minPlayers;
         private boolean frenzyOn;
         private int[] killPoints;
         private int[] frenzyPoints;
@@ -531,6 +534,11 @@ public class Game {
             return this;
         }
 
+        public Builder minPlayer(int minPlayers) {
+            this.minPlayers=minPlayers;
+            return this;
+        }
+
         public List<Player> getJoinedPlayers() {
             return players;
         }
@@ -550,5 +558,7 @@ public class Game {
             }
             return new Game(this);
         }
+
+
     }
 }

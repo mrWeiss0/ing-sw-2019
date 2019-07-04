@@ -41,6 +41,7 @@ public class LobbyEntry {
                 .mapType(config.MAP_TYPE)
                 .spawnCapacity(config.SPAWN_CAPACITY)
                 .defaultAmmo(new AmmoCube(config.DEFAULT_AMMO))
+                .minPlayer(config.MIN_PLAYERS)
                 //TODO CHECK SUI PERCORSI NEL JAR
                 .ammoTiles(FileParser.readAmmoTiles(new FileReader("src/main/resources/" + config.AMMO_TILE_FILE)))
                 .powerUps(FileParser.readPowerUps(new FileReader("src/main/resources/" + config.POWER_UP_FILE)))
