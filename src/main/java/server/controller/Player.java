@@ -242,6 +242,15 @@ public class Player {
         ));
     }
 
+    public void reconnect(){
+        if(active){
+            client.sendMessage("You are active, don't need to reconnect");
+            return;
+        }
+        setActive();
+        updateAll();
+    }
+
     public void updateAll(){
         sendGameState(GameState.ENEMY_TURN.ordinal());
         game.getGame().getPlayers().forEach(this::sendPlayerAmmo);

@@ -151,16 +151,16 @@ public class CLIView implements View, Runnable {
 
     @Override
     public void displayPlayerDamage(Player player) {
-        print("Player damages of " + player.toString() + Arrays.stream(player.getDamages())
+        print("Player damages of " + player.toString() +" ["+ Arrays.stream(player.getDamages())
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(", ")));
+                .collect(Collectors.joining(", "))+"] ");
     }
 
     @Override
     public void displayPlayerMarks(Player player) {
-        print("Player marks of " + player.toString() + Arrays.stream(player.getMarks())
+        print("Player marks of " + player.toString() +" ["+ Arrays.stream(player.getMarks())
                 .mapToObj(Integer::toString)
-                .collect(Collectors.joining(", ")));
+                .collect(Collectors.joining(", "))+"] ");
     }
 
     @Override

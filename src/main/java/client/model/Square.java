@@ -57,10 +57,9 @@ public class Square {
     @Override
     public String toString() {
         return "s: " + spawn + " at (" + coordinates[0] + "," + coordinates[1] + ") : " + (spawn ?
-                IntStream.range(0,weapons.length).mapToObj(x->weapons[x]+" "
-                        + Arrays.stream(pcost[x])
+                IntStream.range(0,weapons.length).mapToObj(x->weapons[x]+" ["+Arrays.stream(pcost[x])
                         .mapToObj(Integer::toString)
-                        .collect(Collectors.joining(",")))
+                        .collect(Collectors.joining(","))+"] ")
                         .collect(Collectors.joining(" "))
                 : "TileID:" + tileID);
     }

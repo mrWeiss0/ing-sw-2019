@@ -97,11 +97,6 @@ class TurnState extends State {
         if (current.getFigure().getLocation() == null) {
             controller.addState(this);
             controller.setState(new SelectSpawnState(controller, Collections.singletonList(current)));
-        } else if (remainingActions-- <= 0) {
-            current.sendMessage("No action left");
-            turnTimer.cancel();
-            controller.addState(new EndTurnState(controller, current));
-            controller.setState(new SelectReloadState(controller, current));
         }
     }
 
@@ -114,6 +109,13 @@ class TurnState extends State {
 
     @Override
     public void selectAction(Player player, Action action) {
+        if (player != this.current)
+            return;
+        if (remainingActions <= 0) {
+            current.sendMessage("No actions left, use end or a powerUp");
+            return;
+        }
+        remainingActions--;
         controller.addState(this);
         List<State> states = action.getStates(controller, player);
         Collections.reverse(states);
@@ -127,10 +129,18 @@ class TurnState extends State {
             return;
         PowerUpType type = powerUps[0].getType();
         if (Arrays.asList(PowerUpType.NEWTON, PowerUpType.TELEPORTER).contains(type)) {
-            //TODO NON SCARTA POWERUP E CONSUMA AZIONE
             controller.addState(this);
             controller.setState(new FireState(controller, current, type.getStepList()));
         }
+    }
+
+    @Override
+    public void endTurn(Player player){
+        if(player!=current)
+            return;
+        turnTimer.cancel();
+        controller.addState(new EndTurnState(controller, current));
+        controller.setState(new SelectReloadState(controller, current));
     }
 }
 
@@ -317,6 +327,11 @@ class FireState extends State {
 
     @Override
     public void onEnter() {
+        fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
+        fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
+                ,fireSequence.getMaxTargets()
+                ,fireSequence.getTargets(),
+                controller.getGame().getBoard());
         if(fireSequence.getTargets().size()<fireSequence.getMinTargets()){
             fireSequence.getShooter().getPlayer().sendMessage("Not enough targets");
             controller.nextState();
@@ -326,12 +341,6 @@ class FireState extends State {
             fireSequence.getShooter().getPlayer().sendMessage("Automatically chosen targets");
             selectTargettable(fireSequence.getShooter().getPlayer(),fireSequence.getTargets().toArray(Targettable[]::new));
         }
-        fireSequence.getShooter().getPlayer().sendGameState(GameState.FIRE.ordinal());
-        fireSequence.getShooter().getPlayer().sendTargets(fireSequence.getMinTargets()
-                ,fireSequence.getMaxTargets()
-                ,fireSequence.getTargets(),
-                controller.getGame().getBoard());
-
     }
 
     @Override
@@ -366,7 +375,6 @@ class SelectGrabState extends State {
         List<Grabbable> list = current.getFigure().getLocation().peek();
         if (list.isEmpty())
             controller.nextState();
-        //TODO NON PRENDE PUP
         else if (list.size() == 1)
             selectGrabbable(current, list.get(0));
         else if(current.getFigure().getLocation()!=null)
@@ -377,14 +385,24 @@ class SelectGrabState extends State {
     public void selectGrabbable(Player player, Grabbable grabbable) {
         if (player != current)
             return;
-        controller.addState(new GrabState(controller, current, grabbable));
+
         if (grabbable instanceof Weapon) {
-            if(current.getFigure().getTotalAmmo().greaterEqThan( ((Weapon) grabbable).getPickupCost()))
+            if(current.getFigure().getLocation().peek().stream()
+                    .noneMatch(x->current.getFigure().getTotalAmmo().greaterEqThan(((Weapon)x).getPickupCost()))){
+                current.sendMessage("You can't afford none of the weapons in this square");
+                controller.nextState();
+            }
+            if(current.getFigure().getTotalAmmo().greaterEqThan( ((Weapon) grabbable).getPickupCost())) {
+                controller.addState(new GrabState(controller, current, grabbable));
                 controller.setState(new PayState(controller, current, ((Weapon) grabbable).getPickupCost()));
-            else current.sendMessage("You can't afford that weapon's pickup cost");
+            } else {
+                current.sendMessage("You can't afford that weapon's pickup cost");
+            }
         }
-        else
+        else {
+            controller.addState(new GrabState(controller, current, grabbable));
             controller.nextState();
+        }
     }
 }
 
@@ -397,11 +415,11 @@ class GrabState extends State {
         super(controller);
         current = player;
         this.grabbable = grabbable;
-        current.sendGameState(GameState.GRAB.ordinal());
     }
 
     @Override
     public void onEnter() {
+        current.sendGameState(GameState.GRAB.ordinal());
         Figure figure = current.getFigure();
 
         try {
@@ -412,6 +430,7 @@ class GrabState extends State {
             controller.nextState();
         } catch (IllegalStateException e) {
             current.sendMessage("You have to discard a weapon");
+            current.sendPlayerWeapons(current);
         }
     }
 
@@ -419,7 +438,6 @@ class GrabState extends State {
     public void selectWeapon(Player player, Weapon[] weapons) {
         if (!(player == current && current.getFigure().getLocation() instanceof SpawnSquare))
             return;
-        //TODO POSSO SCARTARE PIù DI UN'ARMA
         if (weapons.length != 0) {
             discard = weapons[0];
             discard.load();
@@ -470,7 +488,6 @@ class TagbackState extends State {
         super(controller);
         current = player;
         this.damaged = damaged.stream().filter(figure -> figure.getPlayer().isActive()).collect(Collectors.toList());
-        current.sendGameState(GameState.TAGBACK.ordinal());
         damaged.stream()
                 .map(Figure::getPlayer)
                 .peek(Player::setInactive)
@@ -491,6 +508,7 @@ class TagbackState extends State {
     @Override
     public void onEnter() {
         if (timeout || damaged.isEmpty()){
+            current.sendGameState(GameState.TAGBACK.ordinal());
             tagbackTimer.cancel();
             controller.nextState();
         }

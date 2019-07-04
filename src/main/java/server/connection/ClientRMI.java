@@ -456,7 +456,6 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void reconnect() {
-        player.setActive();
-        player.updateAll();
+        player.reconnect();
     }
 }
