@@ -55,7 +55,7 @@ public class SocketConnection implements Connection, Runnable {
         this.controller = controller;
     }
 
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws IOException {
         socket = new Socket(host, port);
         ostream = new PrintStream(socket.getOutputStream());
         new Thread(this).start();
@@ -342,7 +342,8 @@ public class SocketConnection implements Connection, Runnable {
 
     public void close() {
         try {
-            socket.close();
+            if (socket != null)
+                socket.close();
         } catch (IOException e) {
             controller.print(e.toString());
         }

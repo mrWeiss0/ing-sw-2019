@@ -1,7 +1,10 @@
 package client.connection;
 
-public interface Connection {
-    void connect(String host, int port) throws Exception;
+import java.io.Closeable;
+import java.io.IOException;
+
+public interface Connection extends Closeable {
+    void connect(String host, int port) throws IOException;
 
     void login(String username);
 
@@ -30,4 +33,7 @@ public interface Connection {
     void reconnect();
 
     void endTurn();
+
+    @Override
+    void close();
 }

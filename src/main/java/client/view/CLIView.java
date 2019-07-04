@@ -246,8 +246,7 @@ public class CLIView implements View, Runnable {
         try {
             parser.parse(line);
         } catch (CommandExitException e) {
-            print(e.toString());
-            exit();
+            controller.exit();
         } catch (CommandException e) {
             print(e.toString());
         }

@@ -7,6 +7,8 @@ import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
 
+import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -23,6 +25,7 @@ public class Client {
         model = new MiniModel(view);
     }
 
+    @SuppressWarnings("unchecked")
     private View viewFactory() {
         Supplier<View>[] viewSupplier = new Supplier[]{
                 () -> new CLICommandView(this, config.CMD_DELIMITER, config.ARG_DELIMITER),
@@ -31,6 +34,7 @@ public class Client {
         return viewSupplier[config.view_type].get();
     }
 
+    @SuppressWarnings("unchecked")
     private Connection connectionFactory() {
         Supplier<Connection>[] connectionSupp = new Supplier[]{
                 () -> new SocketConnection(this),
@@ -41,9 +45,10 @@ public class Client {
 
     public void connect(String host) {
         try {
+            connection.close();
             connection.connect(host, config.port[config.connection_type]);
-        } catch (Exception e) {
-            view.print(e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -233,4 +238,8 @@ public class Client {
         view.displayLobbyList(model.getLobbyList());
     }
 
+    public void exit() {
+        connection.close();
+        view.exit();
+    }
 }

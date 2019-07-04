@@ -4,6 +4,8 @@ import client.Client;
 import server.connection.RemoteConnection;
 import server.connection.RemotePlayer;
 
+import java.rmi.NoSuchObjectException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,9 +24,13 @@ public class RMIConnection implements Connection, RemoteClient {
     }
 
     @Override
-    public void connect(String host, int port) throws Exception {
+    public void connect(String host, int port) throws RemoteException {
         registry = LocateRegistry.getRegistry(host, port);
-        remote = (RemoteConnection) registry.lookup("server.connection");
+        try {
+            remote = (RemoteConnection) registry.lookup("server.connection");
+        } catch (NotBoundException e) {
+            throw new RemoteException(e.getMessage());
+        }
         UnicastRemoteObject.exportObject(this, 0);
         player = remote.connectRMI(this);
     }
@@ -37,6 +43,14 @@ public class RMIConnection implements Connection, RemoteClient {
             controller.print(e.toString());
         } catch (NullPointerException e) {
             controller.print(ERRORSTRING);
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+        } catch (NoSuchObjectException ignore) {
         }
     }
 
