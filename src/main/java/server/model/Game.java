@@ -5,12 +5,10 @@ import server.controller.Player;
 import server.model.board.*;
 import server.model.weapon.Weapon;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The <code>Game</code> class contains all of the major elements of a game:
@@ -45,6 +43,7 @@ public class Game {
     private final int maxKills;
     private final int turnTimeout;
     private final int otherTimeout;
+    private boolean ended;
 
     private Game(Builder builder) {
         remainingKills = builder.nKills;
@@ -177,6 +176,7 @@ public class Game {
     }
 
     private void endGame() {
+        ended = true;
         // TODO give last points, determine winner
         players.forEach(x -> x.sendGameState(GameState.ENDED.ordinal()));
     }
@@ -205,6 +205,10 @@ public class Game {
 
     public int getOtherTimeout() {
         return otherTimeout;
+    }
+
+    public boolean isEnded() {
+        return ended;
     }
 
     /**
