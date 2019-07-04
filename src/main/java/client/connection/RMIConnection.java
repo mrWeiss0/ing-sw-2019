@@ -304,4 +304,12 @@ public class RMIConnection implements Connection, RemoteClient {
     public void sendPlayerID(int id){
         controller.setPlayerID(id);
     }
+
+    @Override
+    public void sendLeaderBoard(int[] points){
+        controller.setPlayerLeaderBoard(points);
+    }
+
+    @Override
+    public void sendNKills(int[] kills){controller.setNKills(kills);}
 }

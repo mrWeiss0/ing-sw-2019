@@ -83,6 +83,10 @@ public abstract class VirtualClient implements Closeable {
 
     public abstract void sendPlayerID(int id);
 
+    public abstract void sendLeaderBoard(int[] points);
+
+    public abstract void sendNKills(int[] kills);
+
     @Override
     public abstract void close();
 

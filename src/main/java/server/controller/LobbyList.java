@@ -31,14 +31,16 @@ public class LobbyList {
         if (player == null) {
             player = new Player(username);
             players.put(username, player);
+            client.sendMessage("Registered as " + username);
+            client.setPlayer(player);
+            player.sendGameState(GameState.CHOOSING_LOBBY.ordinal());
+            player.sendLobbyList(repr());
         } else if (player.isOnline()) {
             client.sendMessage("Username " + username + " already taken");
-            return;
-        } else player.setOnline();
-        client.sendMessage("Registered as " + username);
-        client.setPlayer(player);
-        player.sendLobbyList(repr());
-        player.sendGameState(GameState.CHOOSING_LOBBY.ordinal());
+        } else {
+            client.setPlayer(player);
+            player.setOnline();
+        }
     }
 
     public void join(Player player, String name) {

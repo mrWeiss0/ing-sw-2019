@@ -7,7 +7,6 @@ import client.model.*;
 import client.view.CLICommandView;
 import client.view.View;
 
-import java.util.Arrays;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -16,13 +15,6 @@ public class Client {
     private final View view;
     private final MiniModel model;
     private final Config config;
-    private final State initState = new State() {
-        @Override
-        public void onEnter() {
-
-        }
-    };
-    private State state;
 
     public Client(Config config) {
         this.config = config;
@@ -227,14 +219,18 @@ public class Client {
         model.setPlayerID(id);
     }
 
-    public void displayLobby() {
-        view.displayLobbyList(model.getLobbyList());
+    public void setPlayerLeaderBoard(int[] points){
+        IntStream.range(0,points.length)
+                .forEach(x->model.getBoard().getPlayers()[x].setLeaderBoardPoints(points[x]));
     }
 
-    //TODO IMPLEMENT METHODS
-    private interface State {
-        default void onEnter() {
-        }
+    public void setNKills(int[] nKills){
+        IntStream.range(0,nKills.length)
+                .forEach(x->model.getBoard().getPlayers()[x].setNKills(nKills[x]));
+    }
+
+    public void displayLobby() {
+        view.displayLobbyList(model.getLobbyList());
     }
 
 }

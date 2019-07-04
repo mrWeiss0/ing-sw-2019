@@ -10,8 +10,8 @@ import server.model.board.Targettable;
 import server.model.weapon.FireMode;
 import server.model.weapon.Weapon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -25,6 +25,13 @@ public class Player {
     private boolean online = true;
     private List<Action> actions;
     private PowerUp spawnPowerUp;
+
+    private GameState lastState=GameState.ENEMY_TURN;
+    private int lastActions =-1;
+    private int lastRemainingActions=0;
+    private int lastMinTargets=0;
+    private int lastMaxtargets=0;
+    private List<Targettable> lastTargets=new ArrayList<>();
 
     public void setSpawnPowerUp(PowerUp pup){
         spawnPowerUp=pup;
@@ -69,6 +76,7 @@ public class Player {
 
     public void setInactive() {
         active = false;
+        signalDisconnect();
     }
 
     public boolean isOnline() {
@@ -79,11 +87,27 @@ public class Player {
 
     public void setOnline() {
         online = true;
+        active= true;
+        signalReconnect();
         updateAll();
     }
 
     public void setOffline() {
         online = false;
+        active=false;
+        signalDisconnect();
+    }
+
+    private void signalDisconnect(){
+        game.getGame().getPlayers().stream()
+                .filter(Player::isOnline)
+                .forEach(x->x.sendMessage("Player "+name+" has disconnected!"));
+    }
+
+    private void signalReconnect(){
+        game.getGame().getPlayers().stream()
+                .filter(Player::isOnline)
+                .forEach(x->x.sendMessage("Player "+name+" has reconnected!"));
     }
 
     public GameController getGame() {
@@ -249,10 +273,15 @@ public class Player {
         }
         setActive();
         updateAll();
+        signalReconnect();
     }
 
     public void updateAll(){
-        sendGameState(GameState.ENEMY_TURN.ordinal());
+        sendGameState(lastState.ordinal());
+        sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
+        sendSquares(game.getGame().getBoard().getSquares());
+        sendPlayers(game.getGame().getPlayers());
+        sendPlayerID(game.getGame().getPlayers().indexOf(this));
         game.getGame().getPlayers().forEach(this::sendPlayerAmmo);
         game.getGame().getPlayers().forEach(this::sendPlayerDamages);
         game.getGame().getPlayers().forEach(this::sendPlayerMarks);
@@ -261,16 +290,12 @@ public class Player {
         game.getGame().getPlayers().forEach(this::sendPlayerNPowerUps);
         game.getGame().getPlayers().forEach(this::sendPlayerLocation);
         game.getGame().getPlayers().forEach(this::sendPlayerWeapons);
-        sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
         sendKillTrack(game.getGame().getKillCount(),game.getGame().getOverkills());
-        sendPlayers(game.getGame().getPlayers());
         sendPowerUps(figure.getPowerUps());
-        sendPlayerID(game.getGame().getPlayers().indexOf(this));
-        sendPossibleActions(-1);
-        sendSquares(game.getGame().getBoard().getSquares());
+        sendPossibleActions(lastActions);
         game.getGame().getBoard().getSquares().forEach(this::sendSquareContent);
-        sendRemainingActions(0);
-        sendTargets(0,0, Collections.emptyList(),game.getGame().getBoard());
+        sendRemainingActions(lastRemainingActions);
+        sendTargets(lastMinTargets,lastMaxtargets, lastTargets,game.getGame().getBoard());
     }
 
     public void sendMessage(String s){
@@ -291,6 +316,9 @@ public class Player {
     public void sendTargets(int min, int max, List<Targettable> targets, Board board){
         if(!isOnline()) return;
         client.sendTargets(min, max, targets, board);
+        lastMinTargets=min;
+        lastMaxtargets=max;
+        lastTargets=targets;
     }
 
     public void sendPowerUps(List<PowerUp> powerUps){
@@ -306,6 +334,7 @@ public class Player {
     public void sendPossibleActions(int actionSetID){
         if(!isOnline()) return;
         client.sendPossibleActions(actionSetID);
+        lastActions=actionSetID;
     }
 
     //0:map_type, 1:max_kills
@@ -377,11 +406,13 @@ public class Player {
     public void sendRemainingActions(int remaining){
         if(!isOnline()) return;
         client.sendRemainingActions(remaining);
+        lastRemainingActions=remaining;
     }
 
     public void sendGameState(int value){
         if(!isOnline()) return;
         client.sendGameState(value);
+        lastState=GameState.values()[value];
     }
 
     public void sendCountDown(int value){
@@ -392,5 +423,15 @@ public class Player {
     public void sendPlayerID(int id){
         if(!isOnline()) return;
         client.sendPlayerID(id);
+    }
+
+    public void sendLeaderBoard(int[] points){
+        if(!isOnline()) return;
+        client.sendLeaderBoard(points);
+    }
+
+    public void sendNKills(int[] nKills){
+        if(!isOnline()) return;
+        client.sendNKills(nKills);
     }
 }

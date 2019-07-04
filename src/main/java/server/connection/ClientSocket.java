@@ -298,6 +298,20 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     @Override
+    public void sendLeaderBoard(int[] points) {
+        send("leader"+CMD_DELIMITER+ Arrays.stream(points)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
+    public void sendNKills(int[] kills) {
+        send("nkills"+CMD_DELIMITER+ Arrays.stream(kills)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining(ARG_DELIMITER)));
+    }
+
+    @Override
     public boolean ping() {
         return !ostream.checkError();
     }
