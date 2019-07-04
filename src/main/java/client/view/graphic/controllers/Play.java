@@ -377,8 +377,9 @@ public class Play implements View {
         Platform.runLater( () -> {
             for(int i = 0; i < players.length; i++) {
                playerPortraits[getRelativeID(Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(players[i]), Scenes.getClient().getModel().getPlayerID())]
-                       .setImage(loader.getPlayerPotrait(Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(players[i])));
+                       .setImage(loader.getPlayerPortrait(Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(players[i])));
             }
+
         });
     }
 

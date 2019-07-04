@@ -22,7 +22,7 @@ public class AdrenalineApp extends Application implements ConfirmHandler {
         view.setMainWindow(mainWindow);
         mainWindow.setTitle("Adrenaline");
         mainWindow.setResizable(false);
-        mainWindow.initStyle(StageStyle.UNDECORATED);
+        //mainWindow.initStyle(StageStyle.UNDECORATED);
 
         //init Scenes
         Scenes.initScenes();

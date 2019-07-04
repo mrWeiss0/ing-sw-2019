@@ -615,7 +615,7 @@
                      <StackPane>
                         <children>
                            <ImageView fx:id="yourPortrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                              <Image url="@../images/characters/0.png" />
+                              <!--<Image url="@../images/characters/0.png" />-->
                            </ImageView>
                            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="BOTTOM_RIGHT">
                               <children>

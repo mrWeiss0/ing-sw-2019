@@ -19,6 +19,7 @@ public class Lobby implements View {
     @FXML public void initialize() {
         title.setFont(Scenes.getItalicFont(50));
         countdown.setFont(Scenes.getItalicFont(45));
+        countdown.setText("Waiting");
 
         //TODO salvare nome lobby
         backButton.setOnMouseClicked(quitFromLobby -> Scenes.getClient().quitLobby());
@@ -32,13 +33,12 @@ public class Lobby implements View {
         System.out.println(message);
     }
 
-
     public void displayGameState(GameState currState) {
         Platform.runLater(() -> {
             if (currState == GameState.CHOOSING_LOBBY) {
-                ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getLobbyScreen());
+                ((Stage) backButton.getScene().getWindow()).setScene(Scenes.getLobbyChoiceScreen());
             } else if (currState == GameState.ENEMY_TURN) {
-                ((Stage) countdown.getScene().getWindow()).setScene(Scenes.getLobbyScreen());
+                ((Stage) countdown.getScene().getWindow()).setScene(Scenes.getPlayScreen());
             }
         });
     }

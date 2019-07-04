@@ -9,6 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.graphic.controllers.Lobby">
    <children>
         <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="640.0" StackPane.alignment="TOP_LEFT">
@@ -33,4 +34,8 @@
          </children>
       </StackPane>
    </children>
+
+    <stylesheets>
+        <URL value="@../css/Lobby.css" />
+    </stylesheets>
 </StackPane>
