@@ -17,6 +17,7 @@ public class Config {
     public int MAX_POWERUPS;
     public int[] KILL_POINTS;
     public int[] FRENZY_POINTS;
+    public int[] FINAL_POINTS;
     public int TURN_TIMEOUT;
     public int OTHER_TIMEOUT;
     public String AMMO_TILE_FILE;
@@ -25,5 +26,4 @@ public class Config {
     public int MAP_TYPE;
     public int SPAWN_CAPACITY;
     public int[] DEFAULT_AMMO;
-
 }

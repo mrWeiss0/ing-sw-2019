@@ -25,10 +25,23 @@
     2,
     1
   ],
+  "FINAL_POINTS": [
+    8,
+    6,
+    4,
+    2,
+    1
+  ],
   "AMMO_TILE_FILE": "tiles.json",
   "POWER_UP_FILE": "power_ups.json",
-  "MAP_FILES": ["map1.json"],
-  "MAP_TYPE":0,
-  "SPAWN_CAPACITY":3,
-  "DEFAULT_AMMO":[1,1,1]
+  "MAP_FILES": [
+    "map1.json"
+  ],
+  "MAP_TYPE": 0,
+  "SPAWN_CAPACITY": 3,
+  "DEFAULT_AMMO": [
+    1,
+    1,
+    1
+  ]
 }

@@ -7,6 +7,7 @@ import server.model.weapon.Weapon;
 
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,6 +36,7 @@ public class Game {
     private final Deck<PowerUp> powerUpDeck = new Deck<>();
     private final boolean frenzyOn;
     private final int[] frenzyPoints;
+    private final int[] finalPoints;
     private final Board board;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
@@ -70,6 +72,7 @@ public class Game {
                         ammoTileDeck::discard))
                 .collect(Collectors.toList()));
         frenzyPoints = builder.frenzyPoints;
+        finalPoints = builder.finalPoints;
         frenzyOn = builder.frenzyOn;
         this.mapType = builder.mapType;
         this.maxKills = builder.nKills;
@@ -229,6 +232,7 @@ public class Game {
         private boolean frenzyOn;
         private int[] killPoints;
         private int[] frenzyPoints;
+        private int[] finalPoints;
         private int turnTimeout;
         private int otherTimeout;
         private AmmoCube defaultAmmo = new AmmoCube();
@@ -255,6 +259,11 @@ public class Game {
 
         public Builder frenzyPoints(int[] val) {
             frenzyPoints = val;
+            return this;
+        }
+
+        public Builder finalPoints(int[] val) {
+            finalPoints = val;
             return this;
         }
 
