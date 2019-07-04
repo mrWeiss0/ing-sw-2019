@@ -266,7 +266,7 @@ public class SocketConnection implements Connection, Runnable {
     private void sendPlayerNPowerUps(String[] args) {
         int id = Integer.parseInt(args[0]);
         int nPowerUps = Integer.parseInt(args[1]);
-        controller.setPlayerDeaths(id, nPowerUps);
+        controller.setPlayerNPowerUps(id, nPowerUps);
     }
 
     private void sendPlayerWeapons(String[] args) {

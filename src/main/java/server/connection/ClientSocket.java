@@ -26,6 +26,7 @@ import java.util.stream.IntStream;
 public class ClientSocket extends VirtualClient implements Runnable {
     private static final String CMD_DELIMITER = "&&";
     private static final String ARG_DELIMITER = "--";
+    private static final String NUMERIC ="[0-9]+";
     private final Socket socket;
     private final PrintStream ostream;
     private final Parser parser = new Parser(Map.ofEntries(
@@ -136,9 +137,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         int tileID = -1;
         int[] weapons = null;
         int[][] pcost=null;
-        if(square.peek().isEmpty())
-            return;
-        if (square.peek().get(0) instanceof Weapon) {
+        if (square instanceof SpawnSquare) {
             weapons = square.peek().stream().mapToInt(x -> ((Weapon) x).getID()).toArray();
             pcost =square.peek().stream().map(x->{
                         AmmoCube cost=((Weapon)x).getPickupCost();
@@ -149,7 +148,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
                     }
             ).toArray(int[][]::new);
         }
-        else tileID = ((AmmoTile) square.peek().get(0)).getId();
+        else tileID = square.peek().isEmpty()?-1:((AmmoTile) square.peek().get(0)).getId();
 
         send("fill" + CMD_DELIMITER + id
                 + ARG_DELIMITER + tileID
@@ -379,17 +378,17 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectPowerUp(String[] args) {
-        player.selectPowerUp(Arrays.stream(args).filter(x -> x.matches("[0-9]+")).mapToInt(Integer::parseInt).toArray());
+        player.selectPowerUp(Arrays.stream(args).filter(x -> x.matches(NUMERIC)).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectWeapon(String[] args) {
-        player.selectWeaponToReload(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        player.selectWeaponToReload(Arrays.stream(args).filter(x -> x.matches(NUMERIC)).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectFireMode(String[] args) {
         if(args.length<2)
             player.sendMessage("Please select at least one weapon and one fire mode");
-        player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).skip(1).mapToInt(Integer::parseInt).toArray());
+        player.selectWeaponFireMode(Integer.parseInt(args[0]), Arrays.stream(args).filter(x -> x.matches(NUMERIC)).skip(1).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectGrabbable(String[] args) {
@@ -397,7 +396,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
     }
 
     private void selectTargettable(String[] args) {
-        player.selectTargettable(Arrays.stream(args).mapToInt(Integer::parseInt).toArray());
+        player.selectTargettable(Arrays.stream(args).filter(x -> x.matches(NUMERIC)).mapToInt(Integer::parseInt).toArray());
     }
 
     private void selectColor(String[] args) {
