@@ -1,7 +1,10 @@
 package server.controller;
 
 import client.model.GameState;
-import server.model.*;
+import server.model.AmmoCube;
+import server.model.Grabbable;
+import server.model.PowerUp;
+import server.model.PowerUpType;
 import server.model.board.Figure;
 import server.model.board.SpawnSquare;
 import server.model.board.Targettable;
@@ -76,7 +79,7 @@ class TurnState extends State {
     public void onEnter() {
         current.sendGameState(GameState.TURN.ordinal());
         controller.getGame().getPlayers().stream()
-                .filter(x->x!=current)
+                .filter(x -> x != current)
                 .forEach(x -> x.sendGameState(GameState.ENEMY_TURN.ordinal()));
         if (!current.isActive()) {
             controller.setState(new TurnState(controller));
@@ -459,10 +462,11 @@ class GrabState extends State {
 class ScopeState extends State {
     private final Player current;
     private final Set<Figure> damaged;
+
     public ScopeState(GameController controller, Player player, Set<Figure> damaged) {
         super(controller);
         current = player;
-        this.damaged=damaged;
+        this.damaged = damaged;
     }
 
     @Override
@@ -482,11 +486,11 @@ class ScopeState extends State {
         if (type != PowerUpType.SCOPE)
             return;
         player.getFigure().getPowerUps().remove(powerUps[0]);
-        List<FireStep> steps= Collections.singletonList(
+        List<FireStep> steps = Collections.singletonList(
                 new FireStep(1, 1,
-                (shooter, gameBoard, last) -> new HashSet<>(damaged),
-                (shooter, curr, last) -> curr.forEach(x -> x.damageFrom(shooter, 1))
-        ));
+                        (shooter, gameBoard, last) -> new HashSet<>(damaged),
+                        (shooter, curr, last) -> curr.forEach(x -> x.damageFrom(shooter, 1))
+                ));
 
         powerUps[0].discard();
         controller.addState(this);
@@ -508,7 +512,7 @@ class TagbackState extends State {
         damaged.stream()
                 .map(Figure::getPlayer)
                 .peek(Player::setInactive)
-                .peek(x->x.sendPowerUps(x.getFigure().getPowerUps()))
+                .peek(x -> x.sendPowerUps(x.getFigure().getPowerUps()))
                 .forEach(x -> x.sendGameState(GameState.TAGBACK.ordinal()));
         tagbackTimer = new TimerTask() {
             private int c = controller.getGame().getOtherTimeout();
@@ -598,7 +602,7 @@ class EndTurnState extends State {
             current.getFigure().addPoints(1);
         controller.addState(this);
         controller.addState(new SelectSpawnState(controller, kills.stream().filter(Player::isActive).collect(Collectors.toList())));
-        inactivePlayersBefore=controller.getGame().getPlayers().stream().filter(x->!x.isActive()).collect(Collectors.toSet());
+        inactivePlayersBefore = controller.getGame().getPlayers().stream().filter(x -> !x.isActive()).collect(Collectors.toSet());
         controller.getGame().endTurn();
         kills.forEach(Player::setInactive);
         controller.nextState();
@@ -606,7 +610,7 @@ class EndTurnState extends State {
 
     private void timeout() {
         controller.getGame().getPlayers().stream()
-                .filter(x->!inactivePlayersBefore.contains(x) && !x.isActive())
+                .filter(x -> !inactivePlayersBefore.contains(x) && !x.isActive())
                 .forEach(Player::signalDisconnect);
         respawnTimer.cancel();
         controller.clearStack();

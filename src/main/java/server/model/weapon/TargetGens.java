@@ -2,10 +2,11 @@ package server.model.weapon;
 
 import server.model.board.AbstractSquare;
 import server.model.board.Figure;
-import server.model.board.Targettable;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -259,7 +260,7 @@ public final class TargetGens {
                         .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] > origin[0]).collect(Collectors.toSet());
                 else return board.getSquares()
                             .stream().filter(x -> x.getCoordinates()[1] == origin[1] && x.getCoordinates()[0] < origin[0]).collect(Collectors.toSet());
-            }catch (IndexOutOfBoundsException ignore){
+            } catch (IndexOutOfBoundsException ignore) {
                 return new HashSet<>();
             }
         };
@@ -283,7 +284,7 @@ public final class TargetGens {
                         .filter(p)
                         .map(AbstractSquare::getOccupants)
                         .collect(HashSet::new, HashSet::addAll, HashSet::addAll);
-            }catch (IndexOutOfBoundsException ignore){
+            } catch (IndexOutOfBoundsException ignore) {
                 return new HashSet<>();
             }
         };

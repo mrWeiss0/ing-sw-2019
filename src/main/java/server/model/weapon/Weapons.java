@@ -101,7 +101,7 @@ final class FireModes {
             new FireMode(new FireStep(1, 1,
                     TargetGens.atDistanceFromVisibleSquareFigures(2),
                     Effects.addCurrToLast()), new FireStep(1, 1,
-                    TargetGens.atDistanceFromLastFigureSquare(0,2).and(TargetGens.visibleSquares()),
+                    TargetGens.atDistanceFromLastFigureSquare(0, 2).and(TargetGens.visibleSquares()),
                     Effects.moveLastToCurr().and(Effects.damageLast(1)))),
             new FireMode(new AmmoCube(1, 1, 0), new FireStep(1, 1,
                     TargetGens.atDistanceFigures(2),

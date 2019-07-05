@@ -9,7 +9,7 @@
   "FRENZY_ON": true,
   "N_KILLS": 1,
   "KILL_DAMAGE": 1,
-  "MAX_DAMAGE": 2,
+  "MAX_DAMAGE": 20,
   "MAX_MARKS": 3,
   "MAX_AMMO": 3,
   "MAX_WEAPONS": 3,

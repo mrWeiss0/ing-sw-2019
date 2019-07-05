@@ -279,7 +279,7 @@ public class Player {
     }
 
     public void updateAll() {
-        if(game==null) return;
+        if (game == null) return;
         sendGameState(GameState.ENEMY_TURN.ordinal());
         sendGameParams(Arrays.asList(game.getGame().getMapType(), game.getGame().getMaxKills()));
         sendSquares(game.getGame().getBoard().getSquares());

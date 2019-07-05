@@ -42,10 +42,10 @@ public class Game {
     private final int maxKills;
     private final int turnTimeout;
     private final int otherTimeout;
+    private final int minPlayers;
     private int remainingKills; // Kills to finish game
     private int currPlayer = -1;
     private int lastPlayer = -1;
-    private final int minPlayers;
     private boolean ended;
 
     private Game(Builder builder) {
@@ -80,7 +80,7 @@ public class Game {
         players.stream().filter(Objects::nonNull).forEach(x -> x.getFigure().getPowerUps().add(powerUpDeck.draw()));
         turnTimeout = builder.turnTimeout;
         otherTimeout = builder.otherTimeout;
-        minPlayers=builder.minPlayers;
+        minPlayers = builder.minPlayers;
     }
 
     public int getMapType() {
@@ -163,7 +163,7 @@ public class Game {
     }
 
     public void endTurn() {
-        if (lastPlayer == currPlayer || players.stream().filter(Player::isActive).count()<minPlayers)
+        if (lastPlayer == currPlayer || players.stream().filter(Player::isActive).count() < minPlayers)
             endGame();
         else if (remainingKills <= 0)
             toggleFrenzy();
@@ -175,7 +175,8 @@ public class Game {
                 x.setKillPoints(frenzyPoints);
                 x.setFirstBlood(false);
             });
-            lastPlayer = currPlayer;
+            if (lastPlayer == -1)
+                lastPlayer = currPlayer;
         } else
             endGame();
     }
@@ -192,7 +193,7 @@ public class Game {
                                 0,
                                 (r, e) -> overkills.size() > e && overkills.get(e) ? 2 : 1)
                 ));
-        board.getFigures().stream().filter(x->!killsMap.keySet().contains(x)).forEach(x->killsMap.put(x,0));
+        board.getFigures().stream().filter(x -> !killsMap.keySet().contains(x)).forEach(x -> killsMap.put(x, 0));
         List<Figure> killsFigures = killsMap.entrySet()
                 .stream()
                 .sorted(Comparator
@@ -243,7 +244,7 @@ public class Game {
                 .mapToInt(Map.Entry::getValue)
                 .toArray();
 
-        players.stream().peek(x->x.sendLeaderBoard(positions)).forEach(x->x.sendNKills(nKills));
+        players.stream().peek(x -> x.sendLeaderBoard(positions)).forEach(x -> x.sendNKills(nKills));
     }
 
     public List<Boolean> getOverkills() {
@@ -536,7 +537,7 @@ public class Game {
         }
 
         public Builder minPlayer(int minPlayers) {
-            this.minPlayers=minPlayers;
+            this.minPlayers = minPlayers;
             return this;
         }
 

@@ -30,7 +30,7 @@ public final class Effects {
         return (shooter, currentTargets, lastTargets) -> currentTargets.forEach(x -> {
             try {
                 ((Figure) x).moveTo((AbstractSquare) lastTargets.get(0));
-            }catch(IndexOutOfBoundsException ignore){
+            } catch (IndexOutOfBoundsException ignore) {
             }
         });
     }
@@ -87,7 +87,7 @@ public final class Effects {
 
     public static Effect addCurrFigureSquareToLast() {
         return (shooter, currentTargets, lastTargets) -> {
-            if(!currentTargets.isEmpty())
+            if (!currentTargets.isEmpty())
                 lastTargets.add(((Figure) currentTargets.iterator().next()).getLocation());
         };
     }

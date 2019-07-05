@@ -295,7 +295,7 @@ public class Figure implements Targettable {
                 ++i;
         }
 
-        if (firstBlood && damages.size()>1)
+        if (firstBlood && damages.size() > 1)
             damages.get(0).addPoints(1); // First blood
 
     }

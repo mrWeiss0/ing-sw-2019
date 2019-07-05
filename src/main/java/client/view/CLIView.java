@@ -213,7 +213,7 @@ public class CLIView implements View, Runnable {
                     + Arrays.stream(square.getCoordinates())
                     .mapToObj(Integer::toString)
                     .collect(Collectors.joining(", "))
-                    + ") contains ammotile: " + (square.getTileId()==-1?"no ammotile":square.getTileId())
+                    + ") contains ammotile: " + (square.getTileId() == -1 ? "no ammotile" : square.getTileId())
             );
     }
 
