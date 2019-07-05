@@ -76,7 +76,6 @@ public class Player {
 
     public void setInactive() {
         active = false;
-        signalDisconnect();
     }
 
     public boolean isOnline() {
@@ -99,7 +98,7 @@ public class Player {
 
     }
 
-    private void signalDisconnect() {
+    public void signalDisconnect() {
         if (game == null) return;
         game.getGame().getPlayers().stream()
                 .filter(Player::isOnline)

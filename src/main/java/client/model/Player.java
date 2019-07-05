@@ -1,5 +1,6 @@
 package client.model;
 
+import client.view.Colors;
 import client.view.View;
 
 public class Player {
@@ -24,7 +25,7 @@ public class Player {
     }
 
     public String toString() {
-        return name + " - " + avatar;
+        return name + " - " + Colors.values()[avatar].toString();
     }
 
     public int[] getDamages() {

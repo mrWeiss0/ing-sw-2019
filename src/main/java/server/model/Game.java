@@ -192,6 +192,7 @@ public class Game {
                                 0,
                                 (r, e) -> overkills.size() > e && overkills.get(e) ? 2 : 1)
                 ));
+        board.getFigures().stream().filter(x->!killsMap.keySet().contains(x)).forEach(x->killsMap.put(x,0));
         List<Figure> killsFigures = killsMap.entrySet()
                 .stream()
                 .sorted(Comparator
