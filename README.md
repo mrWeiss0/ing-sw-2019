@@ -13,6 +13,6 @@ Graphic user interface (non completa)
 Partite multiple
 
 # How-to build .jar
-using maven and the provided pom.xml run 
+Using maven and the provided pom.xml run 
 mvn package
 
