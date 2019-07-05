@@ -77,6 +77,7 @@
                               </children>
                            </HBox>
                            <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <Image url="@../images/characters/pupN.png" />
                               <StackPane.margin>
                                  <Insets bottom="36.0" right="286.0" />
                               </StackPane.margin>
@@ -143,6 +144,7 @@
                               </children>
                            </HBox>
                            <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <Image url="@../images/characters/pupN.png" />
                               <StackPane.margin>
                                  <Insets bottom="36.0" right="286.0" />
                               </StackPane.margin>
@@ -209,6 +211,7 @@
                               </children>
                            </HBox>
                            <ImageView fx:id="pupImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <Image url="@../images/characters/pupN.png" />
                               <StackPane.margin>
                                  <Insets bottom="36.0" right="286.0" />
                               </StackPane.margin>
@@ -275,6 +278,7 @@
                               </children>
                            </HBox>
                            <ImageView fx:id="pupImage3" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                              <Image url="@../images/characters/pupN.png" />
                               <StackPane.margin>
                                  <Insets bottom="36.0" right="286.0" />
                               </StackPane.margin>
@@ -440,7 +444,7 @@
                            <ImageView fx:id="ammoCell_1_2" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         </children>
                      </GridPane>
-                     <GridPane fx:id="gridCell_1_3" layoutX="430.0" layoutY="10.0">
+                     <GridPane fx:id="gridCell_1_3" layoutX="430.0" layoutY="10.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                         <columnConstraints>
                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -457,6 +461,82 @@
                            <ImageView fx:id="player3Cell_1_3" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            <ImageView fx:id="player4Cell_1_3" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
                            <ImageView fx:id="ammoCell_1_3" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                     </GridPane>
+                     <GridPane fx:id="gridCell_2_0" layoutX="10.0" layoutY="150.0" GridPane.rowIndex="2">
+                        <columnConstraints>
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                           <ImageView fx:id="player0Cell_2_0" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="player1Cell_2_0" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                           <ImageView fx:id="player2Cell_2_0" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player3Cell_2_0" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player4Cell_2_0" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                           <ImageView fx:id="ammoCell_2_0" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                     </GridPane>
+                     <GridPane fx:id="gridCell_2_1" layoutX="150.0" layoutY="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <columnConstraints>
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                           <ImageView fx:id="player0Cell_2_1" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="player1Cell_2_1" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                           <ImageView fx:id="player2Cell_2_1" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player3Cell_2_1" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player4Cell_2_1" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                           <ImageView fx:id="ammoCell_2_1" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                     </GridPane>
+                     <GridPane fx:id="gridCell_2_2" layoutX="290.0" layoutY="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <columnConstraints>
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                           <ImageView fx:id="player0Cell_2_2" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="player1Cell_2_2" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                           <ImageView fx:id="player2Cell_2_2" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player3Cell_2_2" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player4Cell_2_2" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                           <ImageView fx:id="ammoCell_2_2" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                     </GridPane>
+                     <GridPane fx:id="gridCell_2_3" layoutX="430.0" layoutY="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                        <columnConstraints>
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                           <ImageView fx:id="player0Cell_2_3" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+                           <ImageView fx:id="player1Cell_2_3" fitHeight="45.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                           <ImageView fx:id="player2Cell_2_3" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player3Cell_2_3" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           <ImageView fx:id="player4Cell_2_3" fitHeight="45.0" fitWidth="70.0" layoutX="80.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                           <ImageView fx:id="ammoCell_2_3" fitHeight="45.0" fitWidth="70.0" layoutX="10.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         </children>
                      </GridPane>
                      <Button fx:id="cell_0_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
@@ -583,9 +663,51 @@
                               <children>
                                  <HBox fx:id="yourWeapons" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="105.0" prefWidth="420.0" StackPane.alignment="TOP_LEFT">
                                     <children>
-                                       <ImageView fx:id="yourWeapon0" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                                       <ImageView fx:id="yourWeapon1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
-                                       <ImageView fx:id="yourWeapon2" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                                       <StackPane prefHeight="105.0" prefWidth="140.0">
+                                          <children>
+                                             <ImageView fx:id="yourWeapon0" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                                             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="140.0" spacing="5.0" StackPane.alignment="BOTTOM_CENTER">
+                                                <children>
+                                                   <Button fx:id="yourWeapon0Fire0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="1" />
+                                                   <Button fx:id="yourWeapon0Fire1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="2" />
+                                                   <Button fx:id="yourWeapon0Fire2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="3" />
+                                                </children>
+                                                <padding>
+                                                   <Insets left="5.0" right="5.0" />
+                                                </padding>
+                                             </HBox>
+                                          </children>
+                                       </StackPane>
+                                       <StackPane>
+                                          <children>
+                                             <ImageView fx:id="yourWeapon1" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                                             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="140.0" spacing="5.0" StackPane.alignment="BOTTOM_CENTER">
+                                                <children>
+                                                   <Button fx:id="yourWeapon1Fire0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="1" />
+                                                   <Button fx:id="yourWeapon1Fire1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="2" />
+                                                   <Button fx:id="yourWeapon1Fire2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="3" />
+                                                </children>
+                                                <padding>
+                                                   <Insets left="5.0" right="5.0" />
+                                                </padding>
+                                             </HBox>
+                                          </children>
+                                       </StackPane>
+                                       <StackPane>
+                                          <children>
+                                             <ImageView fx:id="yourWeapon2" fitHeight="105.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                                             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="20.0" prefWidth="140.0" spacing="5.0" StackPane.alignment="BOTTOM_CENTER">
+                                                <children>
+                                                   <Button fx:id="yourWeapon2Fire0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="1" />
+                                                   <Button fx:id="yourWeapon2Fire1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="2" />
+                                                   <Button fx:id="yourWeapon2Fire2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="40.0" text="3" />
+                                                </children>
+                                                <padding>
+                                                   <Insets left="5.0" right="5.0" />
+                                                </padding>
+                                             </HBox>
+                                          </children>
+                                       </StackPane>
                                     </children>
                                  </HBox>
                                  <StackPane fx:id="yourDamagebar" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="58.0" prefWidth="420.0" StackPane.alignment="BOTTOM_LEFT">
@@ -596,40 +718,28 @@
                                        <HBox fx:id="yourDamages" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" spacing="1.1" StackPane.alignment="CENTER">
                                           <children>
                                              <ImageView fx:id="yourDamage0" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage1" fitHeight="50.0" fitWidth="32.0" layoutX="11.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage2" fitHeight="50.0" fitWidth="32.0" layoutX="44.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage3" fitHeight="50.0" fitWidth="32.0" layoutX="77.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/1_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage4" fitHeight="50.0" fitWidth="32.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/0_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage5" fitHeight="50.0" fitWidth="32.0" layoutX="143.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage6" fitHeight="50.0" fitWidth="32.0" layoutX="176.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage7" fitHeight="50.0" fitWidth="32.0" layoutX="209.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/3_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage8" fitHeight="50.0" fitWidth="32.0" layoutX="242.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/4_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage9" fitHeight="50.0" fitWidth="32.0" layoutX="275.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/4_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage10" fitHeight="50.0" fitWidth="32.0" layoutX="308.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                              <ImageView fx:id="yourDamage11" fitHeight="50.0" fitWidth="32.0" layoutX="341.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                 <Image url="@../images/lifebar/2_1.png" />
                                              </ImageView>
                                           </children>
                                           <padding>
@@ -666,13 +776,10 @@
                            <VBox fx:id="yourVariableActions" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="45.0">
                               <children>
                                  <ImageView fx:id="yourAction0" fitHeight="30.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                  <!--   <Image url="@../images/actions/0.png" /> -->
                                  </ImageView>
                                  <ImageView fx:id="yourAction1" fitHeight="30.0" fitWidth="45.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-                                   <!--  <Image url="@../images/actions/1.png" /> -->
                                  </ImageView>
                                  <ImageView fx:id="yourAction2" fitHeight="30.0" fitWidth="45.0" layoutX="12.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
-                                   <!--  <Image url="@../images/actions/2.png" /> -->
                                  </ImageView>
                               </children>
                            </VBox>
@@ -684,18 +791,14 @@
                      <StackPane>
                         <children>
                            <ImageView fx:id="yourPortrait" fitHeight="145.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                              <!--<Image url="@../images/characters/0.png" />-->
                            </ImageView>
                            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" spacing="2.0" StackPane.alignment="BOTTOM_RIGHT">
                               <children>
                                  <ImageView fx:id="yourRedAmmo" fitHeight="50.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/ammocubes/RED1.png" />
                                  </ImageView>
                                  <ImageView fx:id="yourYellowAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/ammocubes/YELLOW2.png" />
                                  </ImageView>
                                  <ImageView fx:id="yourBlueAmmo" fitHeight="50.0" fitWidth="32.0" layoutX="42.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                     <Image url="@../images/ammocubes/BLUE3.png" />
                                  </ImageView>
                               </children>
                            </HBox>
@@ -740,28 +843,20 @@
                 <HBox fx:id="killcount" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="76.0" prefWidth="432.0" spacing="6.0" StackPane.alignment="CENTER">
                   <children>
                      <ImageView fx:id="kill0" fitHeight="76.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill1" fitHeight="76.0" fitWidth="54.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/4_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill2" fitHeight="76.0" fitWidth="54.0" layoutX="64.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill3" fitHeight="76.0" fitWidth="54.0" layoutX="118.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/0_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill4" fitHeight="76.0" fitWidth="54.0" layoutX="172.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/2_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill5" fitHeight="76.0" fitWidth="54.0" layoutX="226.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill6" fitHeight="76.0" fitWidth="54.0" layoutX="280.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/3_1.png" />
                      </ImageView>
                      <ImageView fx:id="kill7" fitHeight="76.0" fitWidth="54.0" layoutX="334.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../images/lifebar/1_1.png" />
                      </ImageView>
                   </children>
                </HBox>

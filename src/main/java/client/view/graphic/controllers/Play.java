@@ -17,14 +17,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Play implements View {
     private ImageLoader loader = new ImageLoader();
+    /*private Map<GameState, Consumer<int[]> command = Map.ofEntries(
+            Map.entry()
+    )*/
+    private List<Integer> toSend = new ArrayList<Integer>();
 
     private ImageView[] killcountImages = new ImageView[8];
     private ImageView[] playerPortraits = new ImageView[5];
@@ -38,6 +44,7 @@ public class Play implements View {
     private WeaponAggregator[][] weapAggr = new WeaponAggregator[5][3];
     private WeaponAggregator[] pupAggr = new WeaponAggregator[4];
     private ImageView[][] squareContents = new ImageView[12][6];
+    private int[] prevCord = new int[4];
 
     //Killtrack
     @FXML ImageView killtrackImage;
@@ -76,6 +83,17 @@ public class Play implements View {
     @FXML ImageView yourWeapon0;
     @FXML ImageView yourWeapon1;
     @FXML ImageView yourWeapon2;
+
+    //Firemodes
+    @FXML Button yourWeapon0Fire0;
+    @FXML Button yourWeapon0Fire1;
+    @FXML Button yourWeapon0Fire2;
+    @FXML Button yourWeapon1Fire0;
+    @FXML Button yourWeapon1Fire1;
+    @FXML Button yourWeapon1Fire2;
+    @FXML Button yourWeapon2Fire0;
+    @FXML Button yourWeapon2Fire1;
+    @FXML Button yourWeapon2Fire2;
 
     //Other players PowerUps
     @FXML Text player0NPup;
@@ -204,6 +222,82 @@ public class Play implements View {
     @FXML ImageView yourMarks1;
     @FXML ImageView yourMarks2;
     @FXML ImageView yourMarks3;
+
+    //Square
+    @FXML ImageView player0Cell_0_0;
+    @FXML ImageView player0Cell_0_1;
+    @FXML ImageView player0Cell_0_2;
+    @FXML ImageView player0Cell_0_3;
+    @FXML ImageView player0Cell_1_0;
+    @FXML ImageView player0Cell_1_1;
+    @FXML ImageView player0Cell_1_2;
+    @FXML ImageView player0Cell_1_3;
+    @FXML ImageView player0Cell_2_0;
+    @FXML ImageView player0Cell_2_1;
+    @FXML ImageView player0Cell_2_2;
+    @FXML ImageView player0Cell_2_3;
+    @FXML ImageView player1Cell_0_0;
+    @FXML ImageView player1Cell_0_1;
+    @FXML ImageView player1Cell_0_2;
+    @FXML ImageView player1Cell_0_3;
+    @FXML ImageView player1Cell_1_0;
+    @FXML ImageView player1Cell_1_1;
+    @FXML ImageView player1Cell_1_2;
+    @FXML ImageView player1Cell_1_3;
+    @FXML ImageView player1Cell_2_0;
+    @FXML ImageView player1Cell_2_1;
+    @FXML ImageView player1Cell_2_2;
+    @FXML ImageView player1Cell_2_3;
+    @FXML ImageView player2Cell_0_0;
+    @FXML ImageView player2Cell_0_1;
+    @FXML ImageView player2Cell_0_2;
+    @FXML ImageView player2Cell_0_3;
+    @FXML ImageView player2Cell_1_0;
+    @FXML ImageView player2Cell_1_1;
+    @FXML ImageView player2Cell_1_2;
+    @FXML ImageView player2Cell_1_3;
+    @FXML ImageView player2Cell_2_0;
+    @FXML ImageView player2Cell_2_1;
+    @FXML ImageView player2Cell_2_2;
+    @FXML ImageView player2Cell_2_3;
+    @FXML ImageView player3Cell_0_0;
+    @FXML ImageView player3Cell_0_1;
+    @FXML ImageView player3Cell_0_2;
+    @FXML ImageView player3Cell_0_3;
+    @FXML ImageView player3Cell_1_0;
+    @FXML ImageView player3Cell_1_1;
+    @FXML ImageView player3Cell_1_2;
+    @FXML ImageView player3Cell_1_3;
+    @FXML ImageView player3Cell_2_0;
+    @FXML ImageView player3Cell_2_1;
+    @FXML ImageView player3Cell_2_2;
+    @FXML ImageView player3Cell_2_3;
+    @FXML ImageView player4Cell_0_0;
+    @FXML ImageView player4Cell_0_1;
+    @FXML ImageView player4Cell_0_2;
+    @FXML ImageView player4Cell_0_3;
+    @FXML ImageView player4Cell_1_0;
+    @FXML ImageView player4Cell_1_1;
+    @FXML ImageView player4Cell_1_2;
+    @FXML ImageView player4Cell_1_3;
+    @FXML ImageView player4Cell_2_0;
+    @FXML ImageView player4Cell_2_1;
+    @FXML ImageView player4Cell_2_2;
+    @FXML ImageView player4Cell_2_3;
+    @FXML ImageView ammoCell_0_0;
+    @FXML ImageView ammoCell_0_1;
+    @FXML ImageView ammoCell_0_2;
+    @FXML ImageView ammoCell_0_3;
+    @FXML ImageView ammoCell_1_0;
+    @FXML ImageView ammoCell_1_1;
+    @FXML ImageView ammoCell_1_2;
+    @FXML ImageView ammoCell_1_3;
+    @FXML ImageView ammoCell_2_0;
+    @FXML ImageView ammoCell_2_1;
+    @FXML ImageView ammoCell_2_2;
+    @FXML ImageView ammoCell_2_3;
+
+
 
     public void initialize() {
         //Killtrack
@@ -358,7 +452,81 @@ public class Play implements View {
         markImages[4][2] = yourMarks2;
         markImages[4][3] = yourMarks3;
 
+        //Squares
+        squareContents[0][0] = player0Cell_0_0;
+        squareContents[1][0] = player0Cell_0_1;
+        squareContents[2][0] = player0Cell_0_2;
+        squareContents[3][0] = player0Cell_0_3;
+        squareContents[4][0] = player0Cell_1_0;
+        squareContents[5][0] = player0Cell_1_1;
+        squareContents[6][0] = player0Cell_1_2;
+        squareContents[7][0] = player0Cell_1_3;
+        squareContents[8][0] = player0Cell_2_0;
+        squareContents[9][0] = player0Cell_2_1;
+        squareContents[10][0] = player0Cell_2_2;
+        squareContents[11][0] = player0Cell_2_3;
+        squareContents[0][1] = player1Cell_0_0;
+        squareContents[1][1] = player1Cell_0_1;
+        squareContents[2][1] = player1Cell_0_2;
+        squareContents[3][1] = player1Cell_0_3;
+        squareContents[4][1] = player1Cell_1_0;
+        squareContents[5][1] = player1Cell_1_1;
+        squareContents[6][1] = player1Cell_1_2;
+        squareContents[7][1] = player1Cell_1_3;
+        squareContents[8][1] = player1Cell_2_0;
+        squareContents[9][1] = player1Cell_2_1;
+        squareContents[10][1] = player1Cell_2_2;
+        squareContents[11][1] = player1Cell_2_3;
+        squareContents[0][2] = player2Cell_0_0;
+        squareContents[1][2] = player2Cell_0_1;
+        squareContents[2][2] = player2Cell_0_2;
+        squareContents[3][2] = player2Cell_0_3;
+        squareContents[4][2] = player2Cell_1_0;
+        squareContents[5][2] = player2Cell_1_1;
+        squareContents[6][2] = player2Cell_1_2;
+        squareContents[7][2] = player2Cell_1_3;
+        squareContents[8][2] = player2Cell_2_0;
+        squareContents[9][2] = player2Cell_2_1;
+        squareContents[10][2] = player2Cell_2_2;
+        squareContents[11][2] = player2Cell_2_3;
+        squareContents[0][3] = player3Cell_0_0;
+        squareContents[1][3] = player3Cell_0_1;
+        squareContents[2][3] = player3Cell_0_2;
+        squareContents[3][3] = player3Cell_0_3;
+        squareContents[4][3] = player3Cell_1_0;
+        squareContents[5][3] = player3Cell_1_1;
+        squareContents[6][3] = player3Cell_1_2;
+        squareContents[7][3] = player3Cell_1_3;
+        squareContents[8][3] = player3Cell_2_0;
+        squareContents[9][3] = player3Cell_2_1;
+        squareContents[10][3] = player3Cell_2_2;
+        squareContents[11][3] = player3Cell_2_3;
+        squareContents[0][4] = player4Cell_0_0;
+        squareContents[1][4] = player4Cell_0_1;
+        squareContents[2][4] = player4Cell_0_2;
+        squareContents[3][4] = player4Cell_0_3;
+        squareContents[4][4] = player4Cell_1_0;
+        squareContents[5][4] = player4Cell_1_1;
+        squareContents[6][4] = player4Cell_1_2;
+        squareContents[7][4] = player4Cell_1_3;
+        squareContents[8][4] = player4Cell_2_0;
+        squareContents[9][4] = player4Cell_2_1;
+        squareContents[10][4] = player4Cell_2_2;
+        squareContents[11][4] = player4Cell_2_3;
+        squareContents[0][5] = ammoCell_0_0;
+        squareContents[1][5] = ammoCell_0_1;
+        squareContents[2][5] = ammoCell_0_2;
+        squareContents[3][5] = ammoCell_0_3;
+        squareContents[4][5] = ammoCell_1_0;
+        squareContents[5][5] = ammoCell_1_1;
+        squareContents[6][5] = ammoCell_1_2;
+        squareContents[7][5] = ammoCell_1_3;
+        squareContents[8][5] = ammoCell_2_0;
+        squareContents[9][5] = ammoCell_2_1;
+        squareContents[10][5] = ammoCell_2_2;
+        squareContents[11][5] = ammoCell_2_3;
 
+        yourPowerUp0.setOnMouseClicked(pup0 -> );
     }
 
 
@@ -376,8 +544,14 @@ public class Play implements View {
 
     public void displayPowerUps(PowerUp[] powerUps) {
         Platform.runLater( () -> {
-                    for (int i = 0; i < powerUps.length; i++) {
+                    int i = 0;
+                    while(i < powerUps.length){
                         pupAggr[i] = loader.getPowerUpImages(powerUps[i].getType(), powerUps[i].getColor());
+                        yourPupImages[i].setImage(pupAggr[i].getPortrait());
+                        i++;
+                    }
+                    while(i < 4) {
+                        pupAggr[i] = loader.getPowerUpImages();
                         yourPupImages[i].setImage(pupAggr[i].getPortrait());
                     }
         });
@@ -398,16 +572,16 @@ public class Play implements View {
             } else if (actions.length == 2 && Scenes.getClient().getModel().getActionSetID() == 2) {
                 actionImages[4][0].setImage(loader.getAction(8));
                 actionImages[4][1].setImage(loader.getAction(9));
-                actionImages[4][2].setImage(loader.getAction(-1));
+                actionImages[4][2].setImage(null);
             } else {
-                actionImages[4][0].setImage(loader.getAction(-1));
-                actionImages[4][1].setImage(loader.getAction(-1));
-                actionImages[4][2].setImage(loader.getAction(-1));
+                for(int i = 0; i < 3; i++) {
+                    actionImages[4][i].setImage(null);
+                }
             }
         });
     }
 
-    public void displayCurrentPlayer(int currPlayer) {}
+    public void displayCurrentPlayer(int currPlayer) {};
 
     public void displayRemainingActions(int remaining) {};
 
@@ -444,14 +618,20 @@ public class Play implements View {
         int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
         int myID = Scenes.getClient().getModel().getPlayerID();
         int relativeID = getRelativeID(playerID, myID);
-        for (int i = 0; i < 11; i++) {
+        int i = 0;
+        while(i < player.getDamages().length) {
             damageImages[relativeID][i].setImage(loader.getDamage(getRelativeID(player.getDamages()[i] ,myID),1));
+            i++;
         }
+        while(i < 11) {
+            damageImages[relativeID][i].setImage(null);
+        }
+
         if(playerID == myID && player.getDamages().length > 2) {
             actionImages[4][1].setImage(loader.getAction(3));
         }
         if(playerID == myID && player.getDamages().length > 5) {
-            actionImages[4][2].setImage(loader.getAction(5));
+            actionImages[4][2].setImage(loader.getAction(4));
         }
         });
     }
@@ -485,12 +665,14 @@ public class Play implements View {
     }
 
     public void displayPlayerAmmo(Player player) {
-        int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
-        int myID = Scenes.getClient().getModel().getPlayerID();
-        int relativeID = getRelativeID(playerID, myID);
-        for (int i = 0; i < 3; i++) {
-            ammoCubeImages[relativeID][i].setImage(loader.getAmmoCubesImages(player.getAmmo()).getRybImages()[i]);
-        }
+        Platform.runLater( () -> {
+            int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
+            int myID = Scenes.getClient().getModel().getPlayerID();
+            int relativeID = getRelativeID(playerID, myID);
+            for (int i = 0; i < 3; i++) {
+                ammoCubeImages[relativeID][i].setImage(loader.getAmmoCubesImages(player.getAmmo()).getRybImages()[i]);
+            }
+        });
     }
 
     public void displayPlayerNPowerUps(Player player) {
@@ -500,9 +682,25 @@ public class Play implements View {
         pupNumber[relativeID].setText(Integer.toString(player.getnPowerup()));
     }
 
-    public void displayPlayerLocation(Player player) {};
+    public void displayPlayerLocation(Player player) {
+        Platform.runLater( () -> {
+            int playerID = Arrays.asList(Scenes.getClient().getModel().getBoard().getPlayers()).indexOf(player);
+            int squareN = player.getCoordinates()[0]*4 + player.getCoordinates()[1];
+            squareContents[prevCord[playerID]][playerID].setImage(null);
+            prevCord[playerID] = squareN;
+            squareContents[squareN][playerID].setImage(loader.getPlaceholder(playerID));
+        });
+    }
 
-    public void displaySquareContent(Square square) {};
+    public void displaySquareContent(Square square) {
+        Platform.runLater( () -> {
+            if (square.isSpawn()) {
+                // TODO: 7/4/2019 recognise spawn
+            } else {
+                squareContents[square.getCoordinates()[0] * 4 + square.getCoordinates()[1]][6].setImage(loader.getAmmotile(square.getTileId()));
+            }
+        });
+    }
 
     public void displayGameState(GameState state) {};
 

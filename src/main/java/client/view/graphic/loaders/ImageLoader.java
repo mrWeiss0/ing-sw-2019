@@ -3,9 +3,6 @@ package client.view.graphic.loaders;
 import client.view.graphic.aggregators.AmmoAggregator;
 import client.view.graphic.aggregators.WeaponAggregator;
 import javafx.scene.image.Image;
-import server.model.weapon.Weapon;
-
-import java.io.FileInputStream;
 
 public class ImageLoader {
 
@@ -19,7 +16,14 @@ public class ImageLoader {
     public WeaponAggregator getPowerUpImages(int ppID, int color) {
         return new WeaponAggregator(
                 new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/powerups/" + ppID + "_" + color + "_PORTRAIT" + ".png")),
-                new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/powerups/" + ppID + "_" + color + "_PORTRAIT" + ".png"))
+                new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/powerups/" + ppID + "_" + color + "_FULL" + ".png"))
+        );
+    }
+
+    public WeaponAggregator getPowerUpImages() {
+        return new WeaponAggregator(
+                new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/powerups/-1_PORTRAIT.png")),
+                new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/powerups/-1_FULL.png"))
         );
     }
 
@@ -28,7 +32,6 @@ public class ImageLoader {
     }
 
     public Image getAction(int id) {
-        //handle -1
         return new Image(getClass().getResourceAsStream("../../../../client/view/images/actions/"+id+".png"));
     }
 
@@ -50,6 +53,14 @@ public class ImageLoader {
 
     public Image getMap(int mapID) {
         return new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/maps/map" + mapID +".png"));
+    }
+
+    public Image getPlaceholder(int playerID) {
+        return  new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/lifebar/placeholder" + playerID +".png"));
+    }
+
+    public Image getAmmoTile(int ID) {
+        return new Image(getClass().getResourceAsStream());
     }
 
 }
