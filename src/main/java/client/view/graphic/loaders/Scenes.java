@@ -50,49 +50,41 @@ public class Scenes {
 
     public static void initScenes() throws IOException {
 
-        FXMLLoader loginLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/login.fxml"));
         Parent loginRoot = loginLoader.load();
         loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
         loginController = loginLoader.getController();
         loginScreen.setUserData(loginController);
 
-        FXMLLoader settingsLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
+        FXMLLoader settingsLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/settings.fxml"));
         Parent settingsRoot = settingsLoader.load();
         settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
         settingsController = loginLoader.getController();
         loginScreen.setUserData(settingsController);
 
-        FXMLLoader lobbyChoiceLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
+        FXMLLoader lobbyChoiceLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/lobbyChoice.fxml"));
         Parent lobbyChoiceRoot = lobbyChoiceLoader.load();
         lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
         lobbyChoiceController = lobbyChoiceLoader.getController();
         lobbyChoiceScreen.setUserData(lobbyChoiceController);
 
-        FXMLLoader lobbyLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/lobby.fxml"));
+        FXMLLoader lobbyLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/lobby.fxml"));
         Parent lobbyRoot = lobbyLoader.load();
         lobbyScreen = new Scene(lobbyRoot, windowWidth, windowHeight);
         lobbyController = lobbyLoader.getController();
         lobbyScreen.setUserData(lobbyController);
 
-        FXMLLoader playLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
+        FXMLLoader playLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/play.fxml"));
         Parent playRoot = playLoader.load();
         playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);
         playController = playLoader.getController();
         playScreen.setUserData(playController);
 
-        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("../../../../client/view/fxml/confirm.fxml"));
+        FXMLLoader confirmLoader = new FXMLLoader(Scenes.class.getResource("src/main/resources/client/view/fxml/confirm.fxml"));
         Parent confirmRoot = confirmLoader.load();
         confirmController = confirmLoader.getController();
         confirmScreen = new Scene(confirmRoot, 300, 150);
 
-        /*Parent loginRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/login.fxml"));
-        loginScreen = new Scene(loginRoot, windowWidth, windowHeight);
-        Parent settingsRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/settings.fxml"));
-        settingsScreen = new Scene(settingsRoot, windowWidth, windowHeight);
-        Parent lobbyChoiceRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/lobbyChoice.fxml"));
-        lobbyChoiceScreen = new Scene(lobbyChoiceRoot, windowWidth, windowHeight);
-        Parent playRoot = loader.load(Scenes.class.getResource("../../../../client/view/fxml/play.fxml"));
-        playScreen = new Scene(playRoot, playWindowWidth, playWindowHeight);*/
     }
 
     public static Scene getLoginScreen() {
