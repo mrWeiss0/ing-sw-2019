@@ -200,6 +200,7 @@ class SelectReloadState extends State {
         current = player;
         total = player.getFigure().getTotalAmmo();
         current.sendGameState(GameState.SELECT_RELOAD.ordinal());
+        current.sendPlayerWeapons(current);
     }
 
     @Override
@@ -364,7 +365,7 @@ class FireState extends State {
             controller.setState(this);
         else {
             Set<Figure> damaged = controller.getGame().getBoard().getDamaged();
-            if (!damaged.isEmpty()) controller.addState(new ScopeState(controller, player));
+            if (!damaged.isEmpty()) controller.addState(new ScopeState(controller, player, damaged));
             controller.setState(new TagbackState(controller, player, damaged));
             controller.getGame().getBoard().applyMarks();
         }
@@ -459,10 +460,11 @@ class GrabState extends State {
 
 class ScopeState extends State {
     private final Player current;
-
-    public ScopeState(GameController controller, Player player) {
+    private final Set<Figure> damaged;
+    public ScopeState(GameController controller, Player player, Set<Figure> damaged) {
         super(controller);
         current = player;
+        this.damaged=damaged;
     }
 
     @Override
@@ -481,8 +483,17 @@ class ScopeState extends State {
         PowerUpType type = powerUps[0].getType();
         if (type != PowerUpType.SCOPE)
             return;
+        player.getFigure().getPowerUps().remove(powerUps[0]);
+        //TODO CONTROLLARE CHE FUNZIONI!
+        List<FireStep> steps= Collections.singletonList(
+                new FireStep(1, 1,
+                (shooter, gameBoard, last) -> new HashSet<>(damaged),
+                (shooter, curr, last) -> curr.forEach(x -> x.damageFrom(shooter, 1))
+        ));
+
+        powerUps[0].discard();
         controller.addState(this);
-        controller.addState(new FireState(controller, current, type.getStepList()));
+        controller.addState(new FireState(controller, current, steps));
         controller.setState(new PayAnyColorState(controller, current));
     }
 }
@@ -501,6 +512,7 @@ class TagbackState extends State {
         damaged.stream()
                 .map(Figure::getPlayer)
                 .peek(Player::setInactive)
+                .peek(x->x.sendPowerUps(x.getFigure().getPowerUps()))
                 .forEach(x -> x.sendGameState(GameState.TAGBACK.ordinal()));
         tagbackTimer = new TimerTask() {
             private int c = controller.getGame().getOtherTimeout();
