@@ -383,7 +383,6 @@ public class ClientRMI extends VirtualClient implements RemotePlayer {
 
     @Override
     public void close() {
-        player.setOffline();
         try {
             UnicastRemoteObject.unexportObject(this, true);
         } catch (NoSuchObjectException e) {

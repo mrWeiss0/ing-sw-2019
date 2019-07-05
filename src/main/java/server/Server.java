@@ -11,6 +11,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -39,6 +40,7 @@ public class Server implements Closeable, RemoteConnection {
 
     @Override
     public void close() {
+        lobbyList.close();
         // Close Socket
         try {
             serverSocket.close();
@@ -58,15 +60,20 @@ public class Server implements Closeable, RemoteConnection {
 
     private void socketListener() {
         try (serverSocket) {
-            while (!serverSocket.isClosed())
-                threadPool.submit(new ClientSocket(lobbyList, serverSocket.accept()));
+            while (!serverSocket.isClosed()){
+                ClientSocket client = new ClientSocket(lobbyList, serverSocket.accept());
+                lobbyList.addUnregisteredClient(client);
+                threadPool.submit(client);
+            }
         } catch (IOException e) {
             Main.LOGGER.info(e::toString);
         }
     }
 
     public RemotePlayer connectRMI(RemoteClient remoteClient) throws RemoteException {
-        return (RemotePlayer) UnicastRemoteObject.exportObject(new ClientRMI(lobbyList, remoteClient), 0);
+        ClientRMI client = new ClientRMI(lobbyList, remoteClient);
+        lobbyList.addUnregisteredClient(client);
+        return (RemotePlayer) UnicastRemoteObject.exportObject(client, 0);
     }
 
 }

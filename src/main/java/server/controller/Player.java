@@ -95,7 +95,7 @@ public class Player {
         online = false;
         active = false;
         signalDisconnect();
-
+        client.close();
     }
 
     public void signalDisconnect() {

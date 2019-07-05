@@ -5,10 +5,7 @@ import server.Config;
 import server.connection.VirtualClient;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Timer;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,6 +14,7 @@ public class LobbyList {
     private final Timer gameStartTimer = new Timer(true);
     private final Map<String, LobbyEntry> lobbyMap = new HashMap<>();
     private final Config config;
+    private List<VirtualClient> unregistered = new ArrayList<>();
 
     public LobbyList(Config config) {
         this.config = config;
@@ -38,9 +36,14 @@ public class LobbyList {
         } else if (player.isOnline()) {
             client.sendMessage("Username " + username + " already taken");
         } else {
+            unregistered.remove(client);
             client.setPlayer(player);
             player.setOnline();
         }
+    }
+
+    public void addUnregisteredClient(VirtualClient client) {
+        unregistered.add(client);
     }
 
     public void join(Player player, String name) {
@@ -86,5 +89,11 @@ public class LobbyList {
                 .map(y -> y + ":" + lobbyMap.get(y).getOccupancy())
                 .collect(Collectors.toList())
                 .toArray(String[]::new);
+    }
+
+    public void close(){
+        players.values().forEach(Player::setOffline);
+        unregistered.forEach(VirtualClient::close);
+        // TODO Close running game threads
     }
 }
