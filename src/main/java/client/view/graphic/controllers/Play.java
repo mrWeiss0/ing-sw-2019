@@ -5,6 +5,7 @@ import client.model.Player;
 import client.model.PowerUp;
 import client.model.Square;
 import client.view.View;
+import client.view.graphic.ButtonType;
 import client.view.graphic.aggregators.WeaponAggregator;
 import client.view.graphic.loaders.ImageLoader;
 import client.view.graphic.loaders.Scenes;
@@ -16,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import server.model.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,9 +29,8 @@ import java.util.stream.Collectors;
 
 public class Play implements View {
     private ImageLoader loader = new ImageLoader();
-    /*private Map<GameState, Consumer<int[]> command = Map.ofEntries(
-            Map.entry()
-    )*/
+
+    private ButtonType lastType;
     private List<Integer> toSend = new ArrayList<Integer>();
 
     private ImageView[] killcountImages = new ImageView[8];
@@ -56,6 +57,11 @@ public class Play implements View {
     @FXML ImageView kill5;
     @FXML ImageView kill6;
     @FXML ImageView kill7;
+
+    //Control
+    @FXML ImageView cancelButton;
+    @FXML ImageView confirmButton;
+    @FXML ImageView returnButton;
 
     //Map
     @FXML ImageView mapImage;
@@ -107,20 +113,12 @@ public class Play implements View {
     @FXML ImageView yourPowerUp2;
     @FXML ImageView yourPowerUp3;
 
-    @FXML Button yourWeapon2fireMode1;
-    @FXML Button yourWeapon2fireMode2;
-    @FXML Button yourWeapon2fireMode3;
-    @FXML Button yourWeapon0fireMode0;
-    @FXML Button yourWeapon0fireMode1;
-    @FXML Button yourWeapon0fireMode2;
-    @FXML Button yourWeapon1fireMode1;
-    @FXML Button yourWeapon1fireMode2;
-    @FXML Button yourWeapon1fireMode3;
-
     //Actions
     @FXML ImageView yourAction0;
     @FXML ImageView yourAction1;
     @FXML ImageView yourAction2;
+    @FXML ImageView yourReload;
+    @FXML ImageView yourEndTurn;
 
     //AmmoCubes
     @FXML ImageView player0RedAmmo;
@@ -224,6 +222,28 @@ public class Play implements View {
     @FXML ImageView yourMarks3;
 
     //Square
+    @FXML Button cell_0_0;
+    @FXML Button cell_0_1;
+    @FXML Button cell_0_2;
+    @FXML Button cell_0_3;
+    @FXML Button cell_1_0;
+    @FXML Button cell_1_1;
+    @FXML Button cell_1_2;
+    @FXML Button cell_1_3;
+    @FXML Button cell_2_0;
+    @FXML Button cell_2_1;
+    @FXML Button cell_2_2;
+    @FXML Button cell_2_3;
+
+    //Room
+    @FXML ImageView room0;
+    @FXML ImageView room1;
+    @FXML ImageView room2;
+    @FXML ImageView room3;
+    @FXML ImageView room4;
+    @FXML ImageView room5;
+
+    //Square fill
     @FXML ImageView player0Cell_0_0;
     @FXML ImageView player0Cell_0_1;
     @FXML ImageView player0Cell_0_2;
@@ -526,11 +546,452 @@ public class Play implements View {
         squareContents[10][5] = ammoCell_2_2;
         squareContents[11][5] = ammoCell_2_3;
 
-        yourPowerUp0.setOnMouseClicked(pup0 -> );
+        yourWeapon0.setOnMouseClicked( yourWeap0 -> {
+            if (lastType != ButtonType.WEAPON) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType = ButtonType.WEAPON;
+            toSend.add(0);
+        });
+        yourWeapon1.setOnMouseClicked(  yourWeap1 -> {
+            if (lastType != ButtonType.WEAPON) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType = ButtonType.WEAPON;
+            toSend.add(1);
+        });
+        yourWeapon2.setOnMouseClicked( yourWaep2 -> {
+            if (lastType != ButtonType.WEAPON) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType = ButtonType.WEAPON;
+            toSend.add(2);
+        });
+
+        yourPowerUp0.setOnMouseClicked( Pup0 -> {
+            if (lastType != ButtonType.POWERUP) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType =  ButtonType.POWERUP;
+            toSend.add(0);
+        });
+        yourPowerUp1.setOnMouseClicked( Pup1 -> {
+            if (lastType != ButtonType.POWERUP) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType =  ButtonType.POWERUP;
+            toSend.add(1);
+        });
+        yourPowerUp2.setOnMouseClicked( Pup2 -> {
+            if (lastType != ButtonType.POWERUP) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType =  ButtonType.POWERUP;
+            toSend.add(2);
+        });
+        yourPowerUp3.setOnMouseClicked( Pup3 -> {
+            if (lastType != ButtonType.POWERUP) {
+                toSend = new ArrayList<Integer>();
+            }
+            lastType =  ButtonType.POWERUP;
+            toSend.add(3);
+        });
+
+        yourWeapon0Fire0.setOnAction( weap0Fire0 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 0);
+                toSend.add(0);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 0) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 0);
+                toSend.add(0);
+            } else {
+                toSend.add(0);
+            }
+        });
+        yourWeapon0Fire1.setOnAction( weap0Fire1 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 0);
+                toSend.add(1);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 0) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 0);
+                toSend.add(1);
+            } else {
+                toSend.add(1);
+            }
+        });
+        yourWeapon0Fire2.setOnAction( weap0Fire2 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 0);
+                toSend.add(2);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 0) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 0);
+                toSend.add(2);
+            } else {
+                toSend.add(2);
+            }
+        });
+        yourWeapon1Fire0.setOnAction( weap1Fire0 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 1);
+                toSend.add(0);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 1) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 1);
+                toSend.add(0);
+            } else {
+                toSend.add(0);
+            }
+        });
+        yourWeapon1Fire1.setOnAction( weap1Fire1 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 1);
+                toSend.add(1);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 1) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 1);
+                toSend.add(1);
+            } else {
+                toSend.add(1);
+            }
+        });
+        yourWeapon1Fire2.setOnAction( weap1Fire2 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 1);
+                toSend.add(2);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 1) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 1);
+                toSend.add(2);
+            } else {
+                toSend.add(2);
+            }
+        });
+        yourWeapon2Fire0.setOnAction( weap2Fire0 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 2);
+                toSend.add(0);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 2) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 2);
+                toSend.add(0);
+            } else {
+                toSend.add(0);
+            }
+        });
+        yourWeapon2Fire1.setOnAction( weap2Fire1 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 2);
+                toSend.add(1);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 2) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 2);
+                toSend.add(1);
+            } else {
+                toSend.add(1);
+            }
+        });
+        yourWeapon2Fire2.setOnAction( weap1Fire2 -> {
+            if (lastType != ButtonType.FIREMODE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIREMODE;
+                toSend.add(0, 2);
+                toSend.add(2);
+            } else if (!toSend.isEmpty() && toSend.get(0) != 2) {
+                toSend = new ArrayList<Integer>();
+                toSend.add(0, 2);
+                toSend.add(2);
+            } else {
+                toSend.add(2);
+            }
+        });
+        yourAction0.setOnMouseClicked( action0 -> {
+            if (lastType != ButtonType.ACTION) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ACTION;
+            }
+            toSend.add(0);
+        });
+        yourAction1.setOnMouseClicked( action1 -> {
+            if (lastType != ButtonType.ACTION) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ACTION;
+            }
+            toSend.add(1);
+        });
+        yourAction2.setOnMouseClicked( action2 -> {
+            if (lastType != ButtonType.ACTION) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ACTION;
+            }
+            toSend.add(2);
+        });
+        yourRedAmmo.setOnMouseClicked( red -> {
+            if (lastType != ButtonType.COLOR) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.COLOR;
+            }
+            toSend.add(0);
+        });
+        yourYellowAmmo.setOnMouseClicked( yellow -> {
+            if (lastType != ButtonType.COLOR) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.COLOR;
+            }
+            toSend.add(1);
+        });
+        yourBlueAmmo.setOnMouseClicked( blue -> {
+            if (lastType != ButtonType.COLOR) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.COLOR;
+            }
+            toSend.add(2);
+        });
+
+        player0Portrait.setOnMouseClicked( player0 -> {
+           if (lastType != ButtonType.FIGURE) {
+               toSend = new ArrayList<Integer>();
+               lastType = ButtonType.FIGURE;
+           }
+           toSend.add(getAbsoluteIndex(0, Scenes.getClient().getModel().getPlayerID()));
+        });
+        player1Portrait.setOnMouseClicked( player1 -> {
+            if (lastType != ButtonType.FIGURE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIGURE;
+            }
+            toSend.add(getAbsoluteIndex(1, Scenes.getClient().getModel().getPlayerID()));
+        });
+        player2Portrait.setOnMouseClicked( player2 -> {
+            if (lastType != ButtonType.FIGURE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIGURE;
+            }
+            toSend.add(getAbsoluteIndex(2, Scenes.getClient().getModel().getPlayerID()));
+        });
+        player3Portrait.setOnMouseClicked( player2 -> {
+            if (lastType != ButtonType.FIGURE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.FIGURE;
+            }
+            toSend.add(getAbsoluteIndex(3, Scenes.getClient().getModel().getPlayerID()));
+        });
+
+        cell_0_0.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(0);
+        });
+        cell_0_1.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(1);
+        });
+        cell_0_2.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(2);
+        });
+        cell_0_3.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(3);
+        });
+        cell_1_0.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(4);
+        });
+        cell_1_1.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(5);
+        });
+        cell_1_2.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(6);
+        });
+        cell_1_3.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(7);
+        });
+        cell_2_0.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(8);
+        });
+        cell_2_1.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(9);
+        });
+        cell_2_2.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(10);
+        });
+        cell_2_3.setOnAction( cell -> {
+            if (lastType != ButtonType.SQUARE) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.SQUARE;
+            }
+            toSend.add(11);
+        });
+
+        room0.setOnMouseClicked( room0 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(0);
+        });
+        room1.setOnMouseClicked( room1 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(1);
+        });
+        room2.setOnMouseClicked( room2 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(2);
+        });
+        room3.setOnMouseClicked( room3 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(3);
+        });
+        room4.setOnMouseClicked( room4 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(4);
+        });
+        room5.setOnMouseClicked( room5 -> {
+            if (lastType != ButtonType.ROOM) {
+                toSend = new ArrayList<Integer>();
+                lastType = ButtonType.ROOM;
+            }
+            toSend.add(5);
+        });
+        yourEndTurn.setOnMouseClicked( end -> {
+            lastType = ButtonType.END;
+        });
+        cancelButton.setOnMouseClicked( delete -> {
+            toSend = new ArrayList<>();
+        });
+        confirmButton.setOnMouseClicked( send -> {
+            GameState currState = Scenes.getClient().getModel().getState();
+            if (currState == GameState.FIRE_MODE) {
+                if(lastType == ButtonType.WEAPON){
+                    Scenes.getClient().selectFireMode(toSend.remove(0), toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.FIRE) {
+                if(lastType == ButtonType.ROOM) {
+                    Scenes.getClient().selectTargettable(toSend.stream().map( x -> x * 3).mapToInt(Integer::intValue).toArray());
+                } else if (lastType == ButtonType.SQUARE) {
+                    Scenes.getClient().selectTargettable(toSend.stream().map( x -> x * 3 + 1).mapToInt(Integer::intValue).toArray());
+                } else if (lastType == ButtonType.FIGURE) {
+                    Scenes.getClient().selectTargettable(toSend.stream().map( x -> x * 3 + 2).mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.GRAB) {
+                //TODO
+            } else if(currState == GameState.SELECT_RELOAD) {
+                if(lastType == ButtonType.WEAPON){
+                    Scenes.getClient().selectWeapon(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.PAY_ANY) {
+                if(lastType == ButtonType.COLOR) {
+                    Scenes.getClient().selectColor(toSend.get(toSend.size() - 1));
+                }
+            } else if (currState == GameState.PAY) {
+                if (lastType == ButtonType.POWERUP) {
+                    Scenes.getClient().selectPowerUp(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.RELOAD) {
+                if (lastType == ButtonType.WEAPON) {
+                    Scenes.getClient().selectWeapon(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.SCOPE) {
+                if (lastType == ButtonType.WEAPON) {
+                    Scenes.getClient().selectPowerUp(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.SELECT_GRAB) {
+                //TODO
+            } else if (currState == GameState.SELECT_RELOAD) {
+                if (lastType == ButtonType.WEAPON) {
+                    Scenes.getClient().selectWeapon(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.SPAWN) {
+
+            } else if (currState == GameState.TAGBACK) {
+                if (lastType == ButtonType.POWERUP) {
+                    Scenes.getClient().selectPowerUp(toSend.stream().mapToInt(Integer::intValue).toArray());
+                }
+            } else if (currState == GameState.TURN) {
+                if (lastType == ButtonType.ACTION) {
+                    Scenes.getClient().selectAction(toSend.get(toSend.size() - 1));
+                } else if (lastType == ButtonType.POWERUP) {
+                    Scenes.getClient().selectPowerUp(toSend.stream().mapToInt(Integer::intValue).toArray());
+                } else if (lastType == ButtonType.END) {
+                    Scenes.getClient().endTurn();
+                }
+            }
+        });
+        //returnButton.setOnMouseClicked( back -> Scenes.getClient().close());
+
     }
 
 
-    public void displayMessage(String message) {}
+    public void displayMessage(String message) {System.out.println(message);}
 
     public void displayPossibleRoom(int id, Square[] squares) {}
 
@@ -538,9 +999,9 @@ public class Play implements View {
 
     public void displayPossibleSquare(int id, Square square) {}
 
-    public void displayMinToSelect(int min) {}
+    public void displayMinToSelect(int min) {System.out.println(min);}
 
-    public void displayMaxToSelect(int max) {}
+    public void displayMaxToSelect(int max) {System.out.println(max);}
 
     public void displayPowerUps(PowerUp[] powerUps) {
         Platform.runLater( () -> {
@@ -587,6 +1048,26 @@ public class Play implements View {
 
     public void displayMapType(int mapID) {
         Platform.runLater( () -> mapImage.setImage(loader.getMap(mapID)));
+        if(mapID == 3) {
+            room0.setImage(loader.getRoomImage(0));
+            room1.setImage(loader.getRoomImage(5));
+            room2.setImage(loader.getRoomImage(4));
+            room3.setImage(loader.getRoomImage(2));
+        } else if (mapID == 2) {
+            room0.setImage(loader.getRoomImage(0));
+            room1.setImage(loader.getRoomImage(1));
+            room2.setImage(loader.getRoomImage(5));
+            room3.setImage(loader.getRoomImage(4));
+            room4.setImage(loader.getRoomImage(2));
+        }
+        else if(mapID == 3) {
+            room0.setImage(loader.getRoomImage(5));
+            room1.setImage( loader.getRoomImage(0));
+            room2.setImage(loader.getRoomImage(1));
+            room3.setImage(loader.getRoomImage(3));
+            room4.setImage(loader.getRoomImage(4));
+            room5.setImage(loader.getRoomImage(2));
+        }
     }
 
     public void displayMaxKills(int max) {
@@ -697,7 +1178,7 @@ public class Play implements View {
             if (square.isSpawn()) {
                 // TODO: 7/4/2019 recognise spawn
             } else {
-                squareContents[square.getCoordinates()[0] * 4 + square.getCoordinates()[1]][6].setImage(loader.getAmmotile(square.getTileId()));
+                squareContents[square.getCoordinates()[0] * 4 + square.getCoordinates()[1]][5].setImage(loader.getAmmotile(square.getTileId()));
             }
         });
     }

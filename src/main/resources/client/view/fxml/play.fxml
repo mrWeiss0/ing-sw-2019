@@ -541,16 +541,16 @@
                      </GridPane>
                      <Button fx:id="cell_0_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" />
                      <Button fx:id="cell_0_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" />
-                     <Button fx:id="cell0_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
+                     <Button fx:id="cell_0_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" />
                      <Button fx:id="cell_0_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" />
                      <Button fx:id="cell_1_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="1" />
                      <Button fx:id="cell_1_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      <Button fx:id="cell_1_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                      <Button fx:id="cell_1_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                     <Button fx:id="cell_2_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
                      <Button fx:id="cell_2_1" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      <Button fx:id="cell_2_2" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                      <Button fx:id="cell_2_3" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                     <Button fx:id="cell_2_0" mnemonicParsing="false" opacity="0.0" prefHeight="140.0" prefWidth="140.0" text="Button" GridPane.rowIndex="2" />
                   </children>
                </GridPane>
                <VBox fx:id="mapWeapons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="140.0" StackPane.alignment="TOP_RIGHT">
@@ -558,7 +558,7 @@
                      <Insets left="5.0" right="5.0" />
                   </StackPane.margin>
                   <children>
-                     <Accordion fx:id="redWeapons" maxHeight="-Infinity" maxWidth="-Infinity">
+                  <Accordion fx:id="redWeapons" maxHeight="-Infinity" maxWidth="-Infinity">
                        <panes>
                          <TitledPane fx:id="firstRed" text="RED 1">
                               <content>
@@ -783,9 +783,14 @@
                                  </ImageView>
                               </children>
                            </VBox>
-                           <ImageView fx:id="yourReload" fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                               <Image url="@../images/actions/reload.png" />
-                           </ImageView>
+                           <VBox prefHeight="145.0" prefWidth="30.0">
+                              <children>
+                                 <ImageView fx:id="yourReload" fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../images/actions/reload.png" />
+                                 </ImageView>
+                                 <ImageView fx:id="yourEndTurn" fitHeight="45.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </VBox>
                         </children>
                      </HBox>
                      <StackPane>
@@ -861,6 +866,19 @@
                   </children>
                </HBox>
             </children></StackPane>
+         <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="210.0" StackPane.alignment="TOP_LEFT">
+            <StackPane.margin>
+               <Insets left="555.0" />
+            </StackPane.margin>
+            <children>
+               <ImageView fx:id="room0" fitHeight="80.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="room1" fitHeight="80.0" fitWidth="35.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="room2" fitHeight="80.0" fitWidth="35.0" layoutX="45.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="room3" fitHeight="80.0" fitWidth="35.0" layoutX="80.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="room4" fitHeight="80.0" fitWidth="35.0" layoutX="115.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fx:id="room5" fitHeight="80.0" fitWidth="35.0" layoutX="150.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+         </HBox>
       </children>
    </StackPane>
 

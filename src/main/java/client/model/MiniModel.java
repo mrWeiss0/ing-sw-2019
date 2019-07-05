@@ -144,4 +144,6 @@ public class MiniModel {
     public void setPlayerID(int id) {
         this.playerID = id;
     }
+
+    public GameState getState() { return state; }
 }

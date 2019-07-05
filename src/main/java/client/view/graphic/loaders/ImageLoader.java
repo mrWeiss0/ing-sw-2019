@@ -59,8 +59,9 @@ public class ImageLoader {
         return  new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/lifebar/placeholder" + playerID +".png"));
     }
 
-    public Image getAmmoTile(int ID) {
-        return new Image(getClass().getResourceAsStream());
+    public Image getAmmotile(int tileID) {
+        return new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/ammotiles/" + tileID + ".png"));
     }
 
+    public Image getRoomImage(int roomID) { return new Image(getClass().getResourceAsStream("src/main/resources/client/view/images/maps/room" + roomID +".png"));    }
 }
