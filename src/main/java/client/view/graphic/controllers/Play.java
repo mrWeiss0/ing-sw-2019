@@ -1006,7 +1006,7 @@ public class Play implements View {
     public void displayPowerUps(PowerUp[] powerUps) {
         Platform.runLater( () -> {
                     int i = 0;
-                    while(i < powerUps.length){
+                    while(i <= powerUps.length){
                         pupAggr[i] = loader.getPowerUpImages(powerUps[i].getType(), powerUps[i].getColor());
                         yourPupImages[i].setImage(pupAggr[i].getPortrait());
                         i++;

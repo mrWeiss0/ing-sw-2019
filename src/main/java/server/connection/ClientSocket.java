@@ -1,5 +1,6 @@
 package server.connection;
 
+import client.model.GameState;
 import server.Main;
 import server.controller.LobbyList;
 import server.controller.Player;
@@ -51,7 +52,7 @@ public class ClientSocket extends VirtualClient implements Runnable {
         super(lobbyList);
         this.socket = socket;
         ostream = new PrintStream(socket.getOutputStream());
-        sendMessage("Connected");
+        sendGameState(GameState.NOT_LOGGED_IN.ordinal());
     }
 
     @Override
